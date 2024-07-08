@@ -12,9 +12,9 @@ const NavBar = () => {
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <button className="btn btn-outline-primary mr-2">
+              <Link to="/login" className="btn btn-outline-primary mr-2">
                 Iniciar sesión
-              </button>
+              </Link>
             </li>
             <li className="nav-item">
               <button className="btn btn-primary">
