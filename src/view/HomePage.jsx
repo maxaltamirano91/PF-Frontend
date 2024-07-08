@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../components/Cards';
 import NavBar from '../components/NavBar';
+import SearchBar from '../components/SearchBar';
 
 const HomePage = () => {
   const cardsData = [
@@ -85,7 +86,7 @@ const HomePage = () => {
       <div className="row">
         {cardsData.map((card, index) => (
           <div key={index} className="col-md-4">
-            <NavBar></NavBar> 
+            <NavBar>  </NavBar> 
             <Card image={card.image} title={card.title} />
           </div>
         ))}

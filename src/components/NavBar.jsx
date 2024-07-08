@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 const NavBar = () => {
   return (
@@ -9,6 +10,8 @@ const NavBar = () => {
           ForDevs
         </Link>
 
+        <SearchBar ></SearchBar>
+
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -16,6 +19,7 @@ const NavBar = () => {
                 Iniciar sesión
               </Link>
             </li>
+            &nbsp;
             <li className="nav-item">
               <button className="btn btn-primary">
                 Registrarse
