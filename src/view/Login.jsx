@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Login = () => {
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
@@ -28,7 +30,7 @@ const Login = () => {
         <button type="button" className="btn btn-primary btn-block mb-4">Sign in</button>
 
         <div className="text-center">
-          <p>Not a member? <a href="#!" className="text-decoration-none">Register</a></p>
+          <p>Not a member? <Link to="/register" href="#!" className="text-decoration-none">Register</Link></p>
           <p>or sign up with:</p>
           <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-facebook-f"></i>
