@@ -1,52 +1,64 @@
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+
 const Login = () => {
+  // Definir el esquema de validación con Yup
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Invalid email address')
+      .required('Email is required'),
+    password: Yup.string()
+      .required('Password is required'),
+  });
+
+  // Función para manejar el envío del formulario
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log('Submitting:', values);
+    setSubmitting(false);
+  };
+
   return (
     <div className="container-fluid d-flex justify-content-center align-items-center vh-100">
-      <form className="p-5 border rounded shadow-sm bg-light">
-        <div className="form-outline mb-4">
-          <input type="email" id="form2Example1" className="form-control" />
-          <label className="form-label" htmlFor="form2Example1">Email address</label>
-        </div>
-
-        <div className="form-outline mb-4">
-          <input type="password" id="form2Example2" className="form-control" />
-          <label className="form-label" htmlFor="form2Example2">Password</label>
-        </div>
-
-        <div className="row mb-4">
-          <div className="col d-flex align-items-center">
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-              <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
+      <Formik
+        initialValues={{ email: '', password: '', rememberMe: true }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form className="p-5 border rounded shadow-sm bg-light" style={{ maxWidth: '400px' }}>
+            <div className="form-outline mb-4">
+              <Field type="email" id="email" name="email" className="form-control" placeholder="Email address" />
+              <ErrorMessage name="email" component="div" className="text-danger" />
             </div>
-          </div>
 
-          <div className="col text-end">
-            <a href="/forgotPassword" className="text-decoration-none">Forgot password?</a>
-          </div>
-        </div>
+            <div className="form-outline mb-4">
+              <Field type="password" id="password" name="password" className="form-control" placeholder="Password" />
+              <ErrorMessage name="password" component="div" className="text-danger" />
+            </div>
 
-        <button type="button" className="btn btn-primary btn-block mb-4">Sign in</button>
+            <div className="row mb-4">
+              <div className="col d-flex align-items-center">
+                <Field type="checkbox" id="rememberMe" name="rememberMe" className="form-check-input" />
+                <label className="form-check-label" htmlFor="rememberMe"> Remember me </label>
+              </div>
 
-        <div className="text-center">
-          <p>Not a member? <a href="/register" className="text-decoration-none">Register</a></p>
-          <p>or sign up with:</p>
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-facebook-f"></i>
-          </button>
+              <div className="col text-end">
+                <a href="/forgotPassword" className="text-decoration-none">Forgot password?</a>
+              </div>
+            </div>
 
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-google"></i>
-          </button>
+            <button type="submit" className="btn btn-primary btn-block mb-4" disabled={isSubmitting}>
+              {isSubmitting ? 'Signing in...' : 'Sign in'}
+            </button>
 
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-twitter"></i>
-          </button>
+            <div className="text-center">
+              <p>Not a member? <a href="/register" className="text-decoration-none">Register</a></p>
 
-          <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-github"></i>
-          </button>
-        </div>
-      </form>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
