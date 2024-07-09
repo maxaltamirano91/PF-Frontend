@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
-import styles from '../utils/stylos/LandingPage.module.css';
+import styles from '../utils/styles/LandingPage.module.css';
 
 function LandingPage() {
   const [navbar, setNavbar] = useState(false);
