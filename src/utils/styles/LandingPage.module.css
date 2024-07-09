@@ -1,0 +1,24 @@
+.heroSection {
+    background-image: url("../../assets/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: white;
+  }
+  
+  .navbar.bg-white {
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar.bg-transparent {
+    transition: background-color 0.3s ease;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .text-white {
+    color: white;
+  }
+  
