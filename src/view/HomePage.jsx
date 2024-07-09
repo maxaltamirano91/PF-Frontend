@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../components/Cards';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   const cardsData = [
@@ -81,15 +82,18 @@ const HomePage = () => {
 
   return (
     
-    <div className="container">
+    <div className="d-flex flex-column min-vh-100">
+      <NavBar />  
+      <div className="container flex-grow-1">
       <div className="row">
         {cardsData.map((card, index) => (
           <div key={index} className="col-md-4">
-            <NavBar>  </NavBar> 
             <Card image={card.image} title={card.title} />
           </div>
         ))}
       </div>
+      </div>
+      <Footer />
     </div>
   );
 };
