@@ -21,9 +21,9 @@ const NavBar = () => {
             </li>
             &nbsp;
             <li className="nav-item">
-              <button className="btn btn-primary">
+              <Link to="/register" className="btn btn-primary">
                 Registrarse
-              </button>
+              </Link>
             </li>
           </ul>
         </div>
