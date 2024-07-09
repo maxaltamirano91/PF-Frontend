@@ -4,6 +4,7 @@ import './App.css';
 import HomePage from './view/HomePage';
 import Login from './view/Login';
 import Register from './view/Register';
+import ForgotPassword from './view/ForgotPassword';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>
