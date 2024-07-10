@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 
 const Card = ({ id, image, title }) => {
 	return (
-		<div className="card " style={{ width: '18rem', height: '24rem' }}>
+		// <div className="card " style={{ width: '18rem', height: '24rem', margin:"10px", display:"flex", flexWrap:"wrap", backgroundColor:"white" }}>
+		<div className="card " style={{ width: '300px', height: '500px', margin:"10px", display:"inline-block", flexWrap:"wrap", overflow:"hidden" }}>
 			<img src={image} className="card-img-top" alt={title} />
 			<div className="card-body">
 				<h5 className="card-title">{title}</h5>

@@ -36,9 +36,10 @@ const NavBar = () => {
 	}, [])
 
 	return (
-		<nav className={`navbar navbar-expand-lg ${navbar ? 'bg-black' : 'bg-transparent'} fixed-top`}>
+
+    <nav className={`navbar navbar-expand-lg ${navbar ? '' : 'bg-transparent'} fixed-top`} style={{position:"relative"}}>
 			<div className="container-fluid">
-					<a className="navbar-brand text-white " href="/">
+					<a className="navbar-brand  " href="/" >
 						ForDevs
 					</a>
 					<button onClick={changeTheme} className='btn rounded-fill'><i id="dl-icon" className="bi bi-moon-fill"></i></button>
@@ -56,22 +57,22 @@ const NavBar = () => {
 				<div className="collapse navbar-collapse" id="navbarNav">
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item ">
-								<a className="nav-link active text-white" aria-current="page" href="/home">
+								<a className="nav-link active " aria-current="page" href="/home">
 									Home
 								</a>
 						</li>
 						<li className="nav-item ">
-							<a className="nav-link text-white" href="#">
+							<a className="nav-link" href="#">
 								Proyectos
 							</a>
 						</li>
 						<li className="nav-item">							
-								<a className="nav-link text-white" href="/login">
+								<a className="nav-link " href="/login">
 									Ingresar
 								</a>							
 						</li>
 						<li className="nav-item">
-							<a className="nav-link text-white" href="/register">
+							<a className="nav-link" href="/register">
 								Regístrate
 							</a>
 						</li>

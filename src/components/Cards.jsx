@@ -45,7 +45,7 @@ const Cards = () => {
 	]
 
 	return (
-		<CardsDiv>
+		<CardsDiv  style={{backgroundColor:"white", display:"flex", flexWrap:"wrap"}}>
 			{cardsData.map((data) => (
 				<Card
 					key={data.id}

@@ -87,8 +87,8 @@ const ForgotPassword = () => {
             <input type="mail" key="mail" name="mail" id="mail" value={input_mail} onChange={change_mail} className="form-control my-3" required/>
           </div>
           <a href="#" data-mdb-ripple-init className="btn btn-primary w-100" onClick={put_code}>Reset password</a>
-          {code_input ? <input type="code" key="code" name="code" id="code" value={input_code} onChange={change_code} placeholder="Code on your mail" className="form-control my-3" required/> : null}
-          {code_input ? <a href="#" data-mdb-ripple-init className="btn btn-primary w-100" onClick={newPass}>Create new password</a> : null}
+          {/* {code_input ? <input type="email" key="code" name="code" id="code" value={input_code} onChange={change_code} placeholder="Code on your mail" className="form-control my-3" required/> : null}
+          {code_input ? <a href="#" data-mdb-ripple-init className="btn btn-primary w-100" onClick={newPass}>Create new password</a> : null} */}
           <Formik
             initialValues={{ email: '' }}
             validationSchema={validationSchema}
