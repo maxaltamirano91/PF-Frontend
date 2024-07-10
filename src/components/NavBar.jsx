@@ -1,5 +1,4 @@
 // import React from 'react';
-import { Link } from 'react-router-dom'
 // import SearchBar from './SearchBar';
 import { useState, useEffect } from 'react'
 
@@ -24,11 +23,9 @@ const NavBar = () => {
 	return (
 		<nav className={`navbar navbar-expand-lg ${navbar ? 'bg-black' : 'bg-transparent'} fixed-top`}>
 			<div className="container-fluid">
-				<Link to={'/'}>
-					<a className="navbar-brand text-white " href="#">
+					<a className="navbar-brand text-white " href="/">
 						ForDevs
 					</a>
-				</Link>
 
 				<button
 					className="navbar-toggler"
@@ -44,26 +41,22 @@ const NavBar = () => {
 				<div className="collapse navbar-collapse" id="navbarNav">
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item ">
-							<Link to={'/home'}>
-								<a className="nav-link active text-white" aria-current="page" href="#">
+								<a className="nav-link active text-white" aria-current="page" href="/home">
 									Home
 								</a>
-							</Link>
 						</li>
 						<li className="nav-item ">
 							<a className="nav-link text-white" href="#">
 								Proyectos
 							</a>
 						</li>
-						<li className="nav-item">
-							<Link to={'/login'}>
-								<a className="nav-link text-white" href="#">
-									Log In
-								</a>
-							</Link>
+						<li className="nav-item">							
+								<a className="nav-link text-white" href="/login">
+									Ingresar
+								</a>							
 						</li>
 						<li className="nav-item">
-							<a className="nav-link text-white" href="#">
+							<a className="nav-link text-white" href="/register">
 								Regístrate
 							</a>
 						</li>
