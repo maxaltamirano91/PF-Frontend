@@ -24,7 +24,7 @@ function App() {
 
 	return (
 		<>
-			<div>
+			<div style={{position:"relative", minHeight:"100vh"}}>
 				{showNavBarAndFooter && <NavBar />}
 
 				<Routes className="App">

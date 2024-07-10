@@ -12,7 +12,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-dark text-white py-1 ">
+    <footer className="bg-dark text-white py-1 " style={{position:"absolute", width:"100%", bottom:"0"}}>
       <div className="container">
         <div className="row">
           <div className="col-md-12  text-center">

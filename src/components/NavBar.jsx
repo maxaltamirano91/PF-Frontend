@@ -22,9 +22,9 @@ const NavBar = () => {
 
 	return (
 
-    <nav className={`navbar navbar-expand-lg ${navbar ? 'bg-black' : 'bg-transparent'} fixed-top`}>
+    <nav className={`navbar navbar-expand-lg ${navbar ? 'bg-black' : 'bg-transparent'} fixed-top`} style={{position:"relative"}}>
 			<div className="container-fluid">
-					<a className="navbar-brand text-white " href="/">
+					<a className="navbar-brand text-black " href="/" >
 						ForDevs
 					</a>
 
