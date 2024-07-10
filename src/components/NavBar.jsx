@@ -2,6 +2,21 @@
 // import SearchBar from './SearchBar';
 import { useState, useEffect } from 'react'
 
+const darkMode = () => {
+	document.querySelector("body").setAttribute("data-bs-theme", "dark");
+	document.querySelector("#dl-icon").className = "bi bi-sun-fill";
+}
+
+const lightMode = () => {
+	document.querySelector("body").setAttribute("data-bs-theme", "light");
+	document.querySelector("#dl-icon").className = "bi bi-moon-fill";
+}
+
+const changeTheme = () => {
+	document.querySelector("body").getAttribute("data-bs-theme") === "light" ? darkMode() : lightMode();
+}
+
+
 const NavBar = () => {
 	const [navbar, setNavbar] = useState(false)
 
@@ -26,7 +41,7 @@ const NavBar = () => {
 					<a className="navbar-brand text-white " href="/">
 						ForDevs
 					</a>
-
+					<button onClick={changeTheme} className='btn rounded-fill'><i id="dl-icon" className="bi bi-moon-fill"></i></button>
 				<button
 					className="navbar-toggler"
 					type="button"
