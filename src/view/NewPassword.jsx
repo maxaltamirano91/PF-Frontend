@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const ForgotPassword = () => {
+const NewPassword = () => {
   // Definir el esquema de validación con Yup
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -51,4 +51,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default NewPassword;

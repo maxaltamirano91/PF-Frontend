@@ -17,7 +17,7 @@ const Login = () => {
 	}
 
 	return (
-		<div className="container-fluid d-flex justify-content-center align-items-center vh-100 bg-secondary bg-gradient">
+		<div className="container-fluid d-flex justify-content-center align-items-center vh-100">
 			<Formik
 				initialValues={{ email: '', password: '', rememberMe: true }}
 				validationSchema={validationSchema}
@@ -25,7 +25,7 @@ const Login = () => {
 			>
 				{({ isSubmitting }) => (
 					<Form
-						className="p-5 border rounded shadow-sm bg-light"
+						className="p-5 border rounded shadow-sm "
 						style={{ maxWidth: '400px' }}
 					>
 						<div className="form-outline mb-4">
