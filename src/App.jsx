@@ -20,7 +20,7 @@ function App() {
 		'/login',
 		'/register',
 		'/forgotPassword',
-	].includes(pathname)
+	].includes(pathname)    
 
 	return (
 		<>
