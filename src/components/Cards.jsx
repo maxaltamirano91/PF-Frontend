@@ -1,23 +1,73 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// cards.jsx
+import styled from 'styled-components'
 
-const Card = ({ image, title }) => {
-  return (
-    <div className="container mt-5 pt-3">
-      <div className="container-fluid">
-          <div className="row">
-            <div className="col">
-              <div className="card border-0">
-                <img src={image} className="card-img-top" alt={title} />
-                <div className="card-body">
-                <h5 className="card-title">{title}</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+// ? components
+import Card from './Card'
 
-export default Card;
+const Cards = () => {
+	const cardsData = [
+		{
+			id: 1,
+			image:
+				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
+			title: 'Proyecto-Individual Drivers Henry',
+		},
+		{
+			id: 2,
+			image:
+				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
+			title: 'PI DOGS Henry',
+		},
+		{
+			id: 3,
+			image:
+				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
+			title: 'PI Pokemon Henry',
+		},
+		{
+			id: 4,
+			image:
+				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
+			title: 'PI Pokemon Henry',
+		},
+		{
+			id: 5,
+			image:
+				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
+			title: 'PI Pokemon Henry',
+		},
+		{
+			id: 6,
+			image:
+				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
+			title: 'PI Pokemon Henry',
+		},
+	]
+
+	return (
+		<CardsDiv>
+			{cardsData.map((data) => (
+				<Card
+					key={data.id}
+					id={data.id}
+					image={data.image}
+					title={data.title}
+				/>
+			))}
+		</CardsDiv>
+	)
+}
+
+export default Cards
+
+// ? Styles
+const CardsDiv = styled.section`
+	display: flex;
+	justify-content: center;
+	/* align-items: start; */
+	/* flex-wrap: wrap; */
+	background-color: black;
+	background-image: url('/assets/images/background.jpg'); // Asegúrate de que la ruta sea correcta
+	background-size: cover;
+	background-position: center;
+`

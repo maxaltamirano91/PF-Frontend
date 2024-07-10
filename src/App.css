@@ -3,6 +3,11 @@ header{
   justify-content: space-evenly;
   align-items: center;
 }
+header .search-box{
+  flex: 1;
+  position:relative;
+  width: 100%;
+}
 
 .search-box input{
   width: 100%;
@@ -29,10 +34,4 @@ header{
   right: 0;
   transform: scale(0.9);
   background-color: aquamarine;
-}
-
-header .search-box{
-  flex: 1;
-  position:relative;
-  width: 100%;
 }
