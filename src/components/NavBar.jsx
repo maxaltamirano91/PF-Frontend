@@ -36,8 +36,7 @@ const NavBar = () => {
 	}, [])
 
 	return (
-
-    <nav className={`navbar navbar-expand-lg ${navbar ? 'bg-black' : 'bg-transparent'} fixed-top`}>
+		<nav className={`navbar navbar-expand-lg ${navbar ? 'bg-black' : 'bg-transparent'} fixed-top`}>
 			<div className="container-fluid">
 					<a className="navbar-brand text-white " href="/">
 						ForDevs
