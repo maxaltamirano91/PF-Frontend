@@ -5,9 +5,9 @@ const Login = () => {
 	// Definir el esquema de validación con Yup
 	const validationSchema = Yup.object().shape({
 		email: Yup.string()
-			.email('Invalid email address')
-			.required('Email is required'),
-		password: Yup.string().required('Password is required'),
+			.email('Email invalido')
+			.required('Se requiere un Email'),
+		password: Yup.string().required('Se requiere una contraseña'),
 	})
 
 	// Función para manejar el envío del formulario
@@ -34,7 +34,7 @@ const Login = () => {
 								id="email"
 								name="email"
 								className="form-control"
-								placeholder="Email address"
+								placeholder="Email"
 							/>
 							<ErrorMessage
 								name="email"
@@ -49,7 +49,7 @@ const Login = () => {
 								id="password"
 								name="password"
 								className="form-control"
-								placeholder="Password"
+								placeholder="Contraseña"
 							/>
 							<ErrorMessage
 								name="password"
@@ -68,13 +68,13 @@ const Login = () => {
 								/>
 								<label className="form-check-label" htmlFor="rememberMe">
 									{' '}
-									Remember me{' '}
+									Recordarme{' '}
 								</label>
 							</div>
 
 							<div className="col text-end">
 								<a href="/forgotPassword" className="text-decoration-none">
-									Forgot password?
+									Olvidaste la contraseña?
 								</a>
 							</div>
 						</div>
@@ -84,14 +84,14 @@ const Login = () => {
 							className="btn btn-primary btn-block mb-4"
 							disabled={isSubmitting}
 						>
-							{isSubmitting ? 'Signing in...' : 'Sign in'}
+							{isSubmitting ? 'Ingrensando...' : 'Ingresar'}
 						</button>
 
 						<div className="text-center">
 							<p>
-								Not a member?{' '}
+								No eres miembro?{' '}
 								<a href="/register" className="text-decoration-none">
-									Register
+									Registrarse
 								</a>
 							</p>
 						</div>

@@ -7,22 +7,22 @@ const Register = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(/^[A-Za-z\s]+$/, 'Name must contain only letters')
-      .min(2, 'Name is too short')
-      .max(50, 'Name is too long')
-      .required('Name is required'),
+      .min(2, 'El nombre es muy corto')
+      .max(50, 'El nombre es muy largo')
+      .required('El nombre es requerido'),
     email: Yup.string()
-      .email('Invalid email address')
-      .required('Email is required'),
+      .email('Email invalido')
+      .required('El email es requerido'),
     password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .required('Password is required'),
+      .min(6, 'La contraseña debe contener al menos 6 caracteres')
+      .matches(/[A-Z]/, 'La contraseña debe contener al menos una mayuscula')
+      .required('La contraseña es requerida'),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm your password'),
+      .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
+      .required('Confirma tu contraseña'),
     terms: Yup.boolean()
-      .required('You must accept the terms and conditions')
-      .oneOf([true], 'You must accept the terms and conditions'),
+      .required('Debes aceptar todas las declaraciones de los Términos de servicio')
+      .oneOf([true], 'Debes aceptar todas las declaraciones de los Términos de servicio'),
   });
 
   // Función para manejar el envío del formulario
@@ -53,7 +53,7 @@ const Register = () => {
                             <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                             <div data-mdb-input-init className="form-outline flex-fill mb-0">
                               <Field type="text" name="name" id="form3Example1c" className="form-control" />
-                              <label className="form-label" htmlFor="form3Example1c">Your Name</label>
+                              <label className="form-label" htmlFor="form3Example1c">Nombre</label>
                               <ErrorMessage name="name" component="div" className="text-danger" />
                             </div>
                           </div>
@@ -62,7 +62,7 @@ const Register = () => {
                             <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                             <div data-mdb-input-init className="form-outline flex-fill mb-0">
                               <Field type="email" name="email" id="form3Example3c" className="form-control" />
-                              <label className="form-label" htmlFor="form3Example3c">Your Email</label>
+                              <label className="form-label" htmlFor="form3Example3c">Email</label>
                               <ErrorMessage name="email" component="div" className="text-danger" />
                             </div>
                           </div>
@@ -71,7 +71,7 @@ const Register = () => {
                             <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                             <div data-mdb-input-init className="form-outline flex-fill mb-0">
                               <Field type="password" name="password" id="form3Example4c" className="form-control" />
-                              <label className="form-label" htmlFor="form3Example4c">Password</label>
+                              <label className="form-label" htmlFor="form3Example4c">Contraseña</label>
                               <ErrorMessage name="password" component="div" className="text-danger" />
                             </div>
                           </div>
@@ -80,7 +80,7 @@ const Register = () => {
                             <i className="fas fa-key fa-lg me-3 fa-fw"></i>
                             <div data-mdb-input-init className="form-outline flex-fill mb-0">
                               <Field type="password" name="confirmPassword" id="form3Example4cd" className="form-control" />
-                              <label className="form-label" htmlFor="form3Example4cd">Repeat your password</label>
+                              <label className="form-label" htmlFor="form3Example4cd">Repite la contraseña</label>
                               <ErrorMessage name="confirmPassword" component="div" className="text-danger" />
                             </div>
                           </div>
@@ -88,14 +88,14 @@ const Register = () => {
                           <div className="form-check d-flex justify-content-center mb-5">
                             <Field type="checkbox" name="terms" id="form2Example3c" className="form-check-input me-2" />
                             <label className="form-check-label" htmlFor="form2Example3c">
-                              I agree to all statements in <a href="#!">Terms of service</a>
+                            Estoy de acuerdo con todas las declaraciones en <a href="#!">Términos de servicios</a>
                             </label>
                             <ErrorMessage name="terms" component="div" className="text-danger" />
                           </div>
 
                           <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                             <button type="submit" className="btn btn-primary btn-lg" disabled={isSubmitting}>
-                              {isSubmitting ? 'Registering...' : 'Register'}
+                              {isSubmitting ? 'Registrando...' : 'Registrar'}
                             </button>
                           </div>
                         </Form>
