@@ -5,7 +5,9 @@ import styles from '../utils/styles/LandingPage.module.css'
 function LandingPage() {
 	return (
 		<div>
-			<header className={`${styles.heroSection} d-flex align-items-center justify-content-center`}>
+			<header
+				className={`${styles.heroSection} d-flex align-items-center justify-content-center`}
+			>
 				<div className="container text-center text-white">
 					<div className="row align-items-center">
 						<div className="col-md-6">
@@ -69,7 +71,10 @@ function LandingPage() {
 									data-bs-target="#carouselExampleIndicators"
 									data-bs-slide="prev"
 								>
-									<span className="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span
+										className="carousel-control-prev-icon"
+										aria-hidden="true"
+									></span>
 									<span className="visually-hidden">Previous</span>
 								</button>
 								<button
@@ -78,7 +83,10 @@ function LandingPage() {
 									data-bs-target="#carouselExampleIndicators"
 									data-bs-slide="next"
 								>
-									<span className="carousel-control-next-icon" aria-hidden="true"></span>
+									<span
+										className="carousel-control-next-icon"
+										aria-hidden="true"
+									></span>
 									<span className="visually-hidden">Next</span>
 								</button>
 							</div>
@@ -86,9 +94,11 @@ function LandingPage() {
 					</div>
 				</div>
 			</header>
-			<div className="text-center">
+			<div className="text-center mt-5 mb-5">
 				<h1 className="display-4">Empezá la prueba gratuita de 7 días </h1>
-				<p className="lead">Lleva tus proyectos al siguiente nivel con ForDevs Pro. </p>
+				<p className="lead">
+					Lleva tus proyectos al siguiente nivel con ForDevs Pro.{' '}
+				</p>
 				<section className="cards-section py-5">
 					<div className="container">
 						<div className="row">
@@ -97,8 +107,8 @@ function LandingPage() {
 									<div className="card-body">
 										<h5 className="card-title">ForDevs</h5>
 										<p className="card-text">
-											Some quick example text to build on the card title and make up the bulk of the
-											card's content.
+											Some quick example text to build on the card title and
+											make up the bulk of the card's content.
 										</p>
 									</div>
 								</div>
@@ -108,8 +118,8 @@ function LandingPage() {
 									<div className="card-body">
 										<h5 className="card-title">ForDevs Pro</h5>
 										<p className="card-text">
-											Some quick example text to build on the card title and make up the bulk of the
-											card's content.
+											Some quick example text to build on the card title and
+											make up the bulk of the card's content.
 										</p>
 										<a href="#" className="btn btn-primary">
 											Probar versión Pro

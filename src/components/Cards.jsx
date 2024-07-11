@@ -45,7 +45,7 @@ const Cards = () => {
 	]
 
 	return (
-		<CardsDiv  style={{backgroundColor:"white", display:"flex", flexWrap:"wrap"}}>
+		<CardsDiv className="container-fluid ">
 			{cardsData.map((data) => (
 				<Card
 					key={data.id}
@@ -62,12 +62,12 @@ export default Cards
 
 // ? Styles
 const CardsDiv = styled.section`
-	display: flex;
-	justify-content: center;
-	/* align-items: start; */
-	/* flex-wrap: wrap; */
-	background-color: black;
-	background-image: url('/assets/images/background.jpg'); // Asegúrate de que la ruta sea correcta
-	background-size: cover;
-	background-position: center;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	gap: 20px;
+	margin: 50px 0;
+	padding: 10px;
+	@media (max-width: 992px) {
+		grid-template-columns: 1fr; /* Una columna por fila para pantallas menores a 992px */
+	}
 `
