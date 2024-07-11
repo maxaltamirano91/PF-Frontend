@@ -1,4 +1,3 @@
-// card.jsx
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
