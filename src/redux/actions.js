@@ -1,5 +1,23 @@
 import axios from 'axios';
-import { SET_DARK_MODE, SET_LIGHT_MODE, SET_AUTH_TOKEN, LOGOUT, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REGISTER_USER_REQUEST, GET_USERS, GET_BY_NAME, GET_DETAIL, CLEAR_DETAIL  } from './actions-types';
+import {
+     SET_DARK_MODE, 
+    SET_LIGHT_MODE, 
+    SET_AUTH_TOKEN, 
+    LOGOUT, 
+    REGISTER_USER_FAILURE, 
+    REGISTER_USER_SUCCESS, 
+    REGISTER_USER_REQUEST,
+     GET_USERS, 
+     GET_BY_NAME,
+      GET_DETAIL, 
+      CLEAR_DETAIL,  
+      GET_ALL_TECHS_REQUEST, 
+      GET_ALL_TECHS_SUCCESS, 
+      GET_ALL_TECHS_FAILURE,
+      ADD_PROJECT_REQUEST, 
+      ADD_PROJECT_SUCCESS, 
+      ADD_PROJECT_FAILURE } from './actions-types';
+
 
 export const setAuthToken = (token) => ({
     type: SET_AUTH_TOKEN,
@@ -119,3 +137,26 @@ export function getProjects() {
       }
   };
 }
+
+  export const getAllTechs = () => async (dispatch) => {
+    dispatch({ type: GET_ALL_TECHS_REQUEST });
+    try {
+        const response = await axios.get('http://localhost:3001/technologies');
+        dispatch({ type: GET_ALL_TECHS_SUCCESS, payload: response.data });
+    } catch (error) {
+        dispatch({ type: GET_ALL_TECHS_FAILURE, payload: error.message });
+    }
+};
+
+export const addProject = (projectData) => async (dispatch, getState) => {
+    dispatch({ type: ADD_PROJECT_REQUEST });
+    const { auth: { authToken } } = getState();
+    try {
+        const response = await axios.post('http://localhost:3001/projects', projectData, {
+            headers: { Authorization: `Bearer ${authToken}` }
+        });
+        dispatch({ type: ADD_PROJECT_SUCCESS, payload: response.data });
+    } catch (error) {
+        dispatch({ type: ADD_PROJECT_FAILURE, payload: error.message });
+    }
+};
