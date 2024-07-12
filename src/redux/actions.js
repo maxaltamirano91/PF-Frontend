@@ -1,22 +1,28 @@
 import axios from 'axios';
 import {
-     SET_DARK_MODE, 
+    SET_DARK_MODE, 
     SET_LIGHT_MODE, 
     SET_AUTH_TOKEN, 
     LOGOUT, 
     REGISTER_USER_FAILURE, 
     REGISTER_USER_SUCCESS, 
     REGISTER_USER_REQUEST,
-     GET_USERS, 
-     GET_BY_NAME,
-      GET_DETAIL, 
-      CLEAR_DETAIL,  
-      GET_ALL_TECHS_REQUEST, 
-      GET_ALL_TECHS_SUCCESS, 
-      GET_ALL_TECHS_FAILURE,
-      ADD_PROJECT_REQUEST, 
-      ADD_PROJECT_SUCCESS, 
-      ADD_PROJECT_FAILURE } from './actions-types';
+
+    GET_ALL_PROJECTS,
+
+    GET_USERS, 
+    GET_BY_NAME,
+    GET_DETAIL, 
+    CLEAR_DETAIL,  
+
+    GET_ALL_TECHS_REQUEST, 
+    GET_ALL_TECHS_SUCCESS, 
+    GET_ALL_TECHS_FAILURE,
+    ADD_PROJECT_REQUEST, 
+    ADD_PROJECT_SUCCESS, 
+    ADD_PROJECT_FAILURE     
+    
+    } from './actions-types';
 
 
 export const setAuthToken = (token) => ({
@@ -48,6 +54,23 @@ export const setLightMode = () => ({
     type: SET_LIGHT_MODE
 });
 
+export const getAllProjects = () => {
+    return async(dispatch) => {
+        try{
+            const response = await axios.get('http://localhost:3001/projects');
+            return dispatch({
+                type: GET_ALL_PROJECTS,
+                payload: response
+            });
+        } catch(error){
+            console.log("AAAAAA NOOOOO");
+            return dispatch({
+                type: Error,
+                payload: error.message
+            })
+        }
+    }
+};
   export const registerUser = (userData) => async (dispatch) => {
     dispatch(registerUserRequest());
     try {

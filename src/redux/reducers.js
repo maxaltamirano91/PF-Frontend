@@ -4,22 +4,25 @@ import {
     SET_LIGHT_MODE, 
     SET_AUTH_TOKEN, 
     LOGOUT,
-     REGISTER_USER_FAILURE, 
-     REGISTER_USER_SUCCESS, 
-     REGISTER_USER_REQUEST , 
 
-     GET_PROJECTS, 
-     GET_BY_NAME, 
-     GET_DETAIL,
-      GET_USERS,
-       CLEAR_DETAIL,
+    GET_ALL_PROJECTS, 
 
-       GET_ALL_TECHS_REQUEST, 
-       GET_ALL_TECHS_SUCCESS, 
-       GET_ALL_TECHS_FAILURE,
-       ADD_PROJECT_REQUEST,
-        ADD_PROJECT_SUCCESS,
-         ADD_PROJECT_FAILURE
+    REGISTER_USER_FAILURE, 
+    REGISTER_USER_SUCCESS, 
+    REGISTER_USER_REQUEST , 
+
+    GET_PROJECTS, 
+    GET_BY_NAME, 
+    GET_DETAIL,
+    GET_USERS,
+    CLEAR_DETAIL,
+    
+    GET_ALL_TECHS_REQUEST, 
+    GET_ALL_TECHS_SUCCESS, 
+    GET_ALL_TECHS_FAILURE,
+    ADD_PROJECT_REQUEST,
+    ADD_PROJECT_SUCCESS,
+    ADD_PROJECT_FAILURE
 
     } from './actions-types';
 
@@ -57,6 +60,19 @@ const authReducer = (state = authInitialState, action) => {
             return state;
     }
 };
+
+const projectsInitialState = {
+    getAllProjects: [],
+}
+
+const projects = (state = projectsInitialState, action) => {
+    switch(action.type){
+        case GET_ALL_PROJECTS:
+            return {...state, getAllProjects: action.payload}
+        default:
+            return state;
+    }
+}
 
 const initialRegisterState = {
     loading: false,
@@ -157,6 +173,7 @@ const projectReducer = (state = projectInitialState, action) => {
 export default combineReducers({
     auth: authReducer,
     theme: themeReducer,
+    project: projects,
     register: registerReducer,
     techs: techsReducer,
     project: projectReducer
