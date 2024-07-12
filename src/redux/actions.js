@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_DARK_MODE, SET_LIGHT_MODE, SET_AUTH_TOKEN, LOGOUT, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REGISTER_USER_REQUEST } from './actions-types';
+import { SET_DARK_MODE, SET_LIGHT_MODE, SET_AUTH_TOKEN, LOGOUT, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REGISTER_USER_REQUEST, GET_USERS, GET_BY_NAME, GET_DETAIL, CLEAR_DETAIL  } from './actions-types';
 
 export const setAuthToken = (token) => ({
     type: SET_AUTH_TOKEN,
@@ -53,3 +53,69 @@ export const setLightMode = () => ({
     type: REGISTER_USER_FAILURE,
     payload: error,
   });
+  export function getUsers(){
+    return async function(dispatch){
+        try {
+            const response = await axios.get(`http://localhost:3001/users/`);
+            
+            dispatch({
+                type: GET_USERS,
+                payload: response.data
+            });
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    }
+};
+
+export function getByName(name){
+    return async function(dispatch){
+        try {
+            const response = await axios.get(`http://localhost:3001/users/?name=${name}`);
+            
+            dispatch({
+                type: GET_BY_NAME,
+                payload: response.data
+            });
+        } catch (error) {
+            console.error("Error fetching users by name:", error);
+            alert(`Error: ${error.message}`);
+        }
+    }
+}
+
+export function getDetail(id){
+    return async function(dispatch){
+        try {
+            const response = await axios.get(`http://localhost:3001/users/${id}`);
+            
+            dispatch({
+                type: GET_DETAIL,
+                payload: response.data
+            });
+        } catch (error) {
+            console.error(`Error fetching users details for ID ${id}:`, error);
+        }
+    }
+};
+
+export function clearDetail(){
+    return{
+        type: CLEAR_DETAIL
+    }
+};
+
+export function getProjects() {
+  return async function (dispatch) {
+      try {
+          const response = await axios.get(`http://localhost:3001/projects`);
+          
+          dispatch({
+              type: GET_PROJECTS,
+              payload: response.data
+          });
+      } catch (error) {
+          console.error("Error fetching projects:", error);
+      }
+  };
+}
