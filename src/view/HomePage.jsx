@@ -1,10 +1,13 @@
 import Cards from '../components/Cards'
+import React from 'react';
 // import NavBar from '../components/NavBar'
 
 const HomePage = () => {
+
 	return (
 		<div>
-			<Cards></Cards>
+      <select name="" id=""></select>
+			<Cards ></Cards>
 		</div>
 
 		// <div className="d-flex flex-column min-vh-100 bg-secondary bg-gradient">
