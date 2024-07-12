@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { SET_DARK_MODE, SET_LIGHT_MODE, SET_AUTH_TOKEN, LOGOUT, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REGISTER_USER_REQUEST , GET_PROJECTS, GET_BY_NAME, GET_DETAIL, GET_USERS, CLEAR_DETAIL} from './actions-types';
+import { SET_DARK_MODE, SET_LIGHT_MODE, SET_AUTH_TOKEN, LOGOUT, GET_ALL_PROJECTS, REGISTER_USER_FAILURE, REGISTER_USER_SUCCESS, REGISTER_USER_REQUEST , GET_PROJECTS, GET_BY_NAME, GET_DETAIL, GET_USERS, CLEAR_DETAIL} from './actions-types';
 
 const initialThemeState = {
     theme: localStorage.getItem('theme') || 'light'
@@ -34,6 +34,19 @@ const authReducer = (state = authInitialState, action) => {
             return state;
     }
 };
+
+const projectsInitialState = {
+    getAllProjects: [],
+}
+
+const projects = (state = projectsInitialState, action) => {
+    switch(action.type){
+        case GET_ALL_PROJECTS:
+            return {...state, getAllProjects: action.payload}
+        default:
+            return state;
+    }
+}
 
 const initialRegisterState = {
     loading: false,
@@ -96,6 +109,7 @@ const rootReducer = (state = initialState, action) => {
 export default combineReducers({
     auth: authReducer,
     theme: themeReducer,
+    project: projects,
     register: registerReducer,
 });
 

@@ -1,10 +1,25 @@
 // cards.jsx
 import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllProjects } from '../redux/actions';
+import React, { useEffect, useState } from 'react';
 
 // ? components
 import Card from './Card'
 
 const Cards = () => {
+
+	const dispatch = useDispatch();
+
+	useEffect(()=>{
+		dispatch(getAllProjects());
+	}, [])
+	const allP = useSelector(state => state.project.getAllProjects.data)
+	// // const allP = useSelector(state => state.project.getAllProjects.data)
+	var non = false
+  	Array.isArray(allP) ? non = true : null
+	console.log("LOOOOOS PROYECTOOOOS", allP)
+
 	const cardsData = [
 		{
 			id: 1,
@@ -46,14 +61,15 @@ const Cards = () => {
 
 	return (
 		<CardsDiv className="container-fluid ">
-			{cardsData.map((data) => (
+			{non ? allP.map((data) => (
 				<Card
 					key={data.id}
 					id={data.id}
 					image={data.image}
 					title={data.title}
+					description={data.description}
 				/>
-			))}
+			)) : null}
 		</CardsDiv>
 	)
 }
