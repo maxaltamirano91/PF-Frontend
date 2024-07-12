@@ -9,6 +9,8 @@ import LandingPage from './view/LandingPage'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import TestComponent from './components/TestComponent'
+import Page404 from './view/Page404'
+// import ProfileUser from './view/dashboard_User/ProfileUser/profileUser';
 
 function App() {
 	return (
@@ -23,6 +25,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/forgotPassword" element={<ForgotPassword />} />
+					<Route path="/*" element={<Page404 />} />
 				</Routes>
 
 				<Footer />

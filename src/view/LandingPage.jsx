@@ -1,25 +1,25 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-// import { useState, useEffect } from 'react';
-import styles from '../utils/styles/LandingPage.module.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from '../utils/styles/LandingPage.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 function LandingPage() {
 	return (
 		<div>
-			<header
-				className={`${styles.heroSection} d-flex align-items-center justify-content-center`}
-			>
+			<header className={`${styles.heroSection} d-flex align-items-center justify-content-center`}>
 				<div className="container text-center text-white">
 					<div className="row align-items-center">
 						<div className="col-md-6">
-							<h1 className="display-4">Potencia tu carrera con ForDevs Pro</h1>
-							<p className="lead">Dale más visibilidad a tus proyectos.</p>
+							<h1 className="display-3">Potencia tu carrera con ForDevs Pro</h1>
+							<p className="lead">
+								0 % de tarifas de la plataforma, más funciones para que tu carrera creativa crezca y dar más visibilidad a tus proyectos.
+							</p>
+							<a href="#" className="btn btn-primary">
+								Probar versión gratuita
+							</a>
 						</div>
 						<div className="col-md-6">
-							<div
-								id="carouselExampleIndicators"
-								className="carousel slide"
-								data-bs-ride="carousel"
-							>
+							<div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
 								<div className="carousel-indicators">
 									<button
 										type="button"
@@ -58,11 +58,7 @@ function LandingPage() {
 										/>
 									</div>
 									<div className="carousel-item">
-										<img
-											src="https://via.placeholder.com/600x400"
-											className="d-block w-100"
-											alt="..."
-										/>
+										<img src="https://via.placeholder.com/600x400" className="d-block w-100" alt="..." />
 									</div>
 								</div>
 								<button
@@ -71,10 +67,7 @@ function LandingPage() {
 									data-bs-target="#carouselExampleIndicators"
 									data-bs-slide="prev"
 								>
-									<span
-										className="carousel-control-prev-icon"
-										aria-hidden="true"
-									></span>
+									<span className="carousel-control-prev-icon" aria-hidden="true"></span>
 									<span className="visually-hidden">Previous</span>
 								</button>
 								<button
@@ -83,10 +76,7 @@ function LandingPage() {
 									data-bs-target="#carouselExampleIndicators"
 									data-bs-slide="next"
 								>
-									<span
-										className="carousel-control-next-icon"
-										aria-hidden="true"
-									></span>
+									<span className="carousel-control-next-icon" aria-hidden="true"></span>
 									<span className="visually-hidden">Next</span>
 								</button>
 							</div>
@@ -95,20 +85,25 @@ function LandingPage() {
 				</div>
 			</header>
 			<div className="text-center mt-5 mb-5">
-				<h1 className="display-4">Empezá la prueba gratuita de 7 días </h1>
-				<p className="lead">
-					Lleva tus proyectos al siguiente nivel con ForDevs Pro.{' '}
-				</p>
+				<h1 className="display-4">Empezá la prueba gratuita de 7 días</h1>
+				<p className="lead">Lleva tus proyectos al siguiente nivel con ForDevs Pro.</p>
 				<section className="cards-section py-5">
 					<div className="container">
 						<div className="row">
 							<div className="col-md-6">
 								<div className="card">
 									<div className="card-body">
-										<h5 className="card-title">ForDevs</h5>
+										<h5 className="card-title">
+											ForDevs
+										</h5>
 										<p className="card-text">
-											Some quick example text to build on the card title and
-											make up the bulk of the card's content.
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Publica tus proyectos<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Ofrece servicios autónomos<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Envía  propuestas a clientes<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Vende tus recursos<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Márcate como disponible para trabajar<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Accede a nuestra bolsa de trabajo autónomo y a tiempo completo<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Realiza transacciones en Behance con tarifas de plataforma del 15 al 30 %<br />
 										</p>
 									</div>
 								</div>
@@ -116,10 +111,20 @@ function LandingPage() {
 							<div className="col-md-6">
 								<div className="card">
 									<div className="card-body">
-										<h5 className="card-title">ForDevs Pro</h5>
+										<h5 className="card-title">
+											ForDevs Pro
+										</h5>
 										<p className="card-text">
-											Some quick example text to build on the card title and
-											make up the bulk of the card's content.
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Publica tus proyectos<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Ofrece servicios como freelance<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Envía propuestas a clientes<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Vende tus recursos<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Marca tu disponibilidad para trabajar<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> 0% de tarifa de la plataforma ForDevs<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Proyectos protegidos con contraseña<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Proyectos solo con enlace<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Insignia profesional<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Secciones de perfil<br />
 										</p>
 										<a href="#" className="btn btn-primary">
 											Probar versión Pro
@@ -135,4 +140,4 @@ function LandingPage() {
 	)
 }
 
-export default LandingPage
+export default LandingPage;
