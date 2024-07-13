@@ -120,6 +120,7 @@ const registerReducer = (state = initialRegisterState, action) => {
 			return state
 	}
 }
+
 // const initialState = {
 //     allUsers: [],
 //     users: [],
@@ -202,5 +203,6 @@ export default combineReducers({
 	auth: authReducer,
 	theme: themeReducer,
 	project: projectsReducer,
-	technologies: technologiesReducer
+	technologies: technologiesReducer,
+	register: registerReducer
 })
