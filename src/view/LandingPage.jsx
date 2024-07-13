@@ -103,7 +103,7 @@ function LandingPage() {
 											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Vende tus recursos<br />
 											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Márcate como disponible para trabajar<br />
 											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Accede a nuestra bolsa de trabajo autónomo y a tiempo completo<br />
-											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Realiza transacciones en Behance con tarifas de plataforma del 15 al 30 %<br />
+											<FontAwesomeIcon icon={faCheck} style={{ color: "#63E6BE" }} /> Realiza transacciones en ForDevs con tarifas de plataforma del 15 al 30 %<br />
 										</p>
 									</div>
 								</div>

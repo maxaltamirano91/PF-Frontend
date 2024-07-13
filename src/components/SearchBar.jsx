@@ -1,6 +1,39 @@
 import '../App.css'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getAllProjects } from '../redux/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SearchBar = () => {
+	const dispatch = useDispatch()
+	const { filteredTechnologies } = useSelector((state) => state)
+	const navigate = useNavigate()
+	const [search, setSearch] = useState('')
+	const [isActive, setIsActive] = useState(false)
+
+	const toggleSearchInput = () => {
+		setIsActive(!isActive)
+	}
+
+	const handleChange = (e) => {
+		setSearch(e.target.value)
+	}
+
+	const handleSearch = () => {
+		if (search === '') setIsActive(false)
+		else {
+			dispatch(getAllProjects(search, filteredTechnologies))
+			navigate('/home')
+		}
+	}
+
+	const handleEnter = (e) => {
+		if (e.keyCode == 13) {
+			dispatch(getAllProjects(search, filteredTechnologies))
+			navigate('/home')
+		}
+	}
+
 	return (
 		<div>
 			<link
@@ -13,12 +46,15 @@ const SearchBar = () => {
 
 			<header>
 				<div className="search-box" style={{ width: '400px' }}>
-					<form action="">
-						<input type="text" name="search" id="srch" placeholder="Buscar" />
-						<button type="submit">
-							<i className="fa fa-search"></i>
-						</button>
-					</form>
+					<input
+						type="search"
+						onChange={handleChange}
+						onKeyDown={handleEnter}
+						placeholder="Search..."
+					/>
+					<button onClick={isActive ? handleSearch : toggleSearchInput}>
+						<i className="fa fa-search"></i>
+					</button>
 				</div>
 			</header>
 		</div>

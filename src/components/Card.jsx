@@ -2,19 +2,20 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Card = ({ id, image, title }) => {
+// eslint-disable-next-line react/prop-types
+const Card = ({ id, title, technologies, image, tags }) => {
 	return (
 		// <div className="card " style={{ width: '18rem', height: '24rem', margin:"10px", display:"flex", flexWrap:"wrap", backgroundColor:"white" }}>
-		<CardDiv className="card ">
+		<CardDiv className="card">
 			<img src={image} className="card-img-top" alt={title} />
 			<div className="card-body">
-				<h5 className="card-title">{title}</h5>
+				<h3 className="card-title">{title}</h3>
 				<p className="card-text">
-					Some quick example text to build on the card title and make up the
-					bulk of the card's content.
+					{technologies.map(tech => tech.name).join(' ')}
 				</p>
+				<p>{tags.join(' ')}</p>
 				<Link to={`/project/detail/${id}`} className="btn btn-primary">
-					Go somewhere
+					View Detail
 				</Link>
 			</div>
 		</CardDiv>

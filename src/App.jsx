@@ -8,9 +8,10 @@ import ForgotPassword from './view/ForgotPassword'
 import LandingPage from './view/LandingPage'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
-import TestComponent from './components/TestComponent'
+// import TestComponent from './components/TestComponent'
 import Page404 from './view/Page404'
 // import ProfileUser from './view/dashboard_User/ProfileUser/profileUser';
+import NewProject from './components/NewProject'
 
 function App() {
 	return (
@@ -21,7 +22,7 @@ function App() {
 				<Routes className="App">
 					<Route path="/" element={<LandingPage />} />
 					<Route path="/home" element={<HomePage />} />
-					<Route path="/proyectos" element={<TestComponent />} />
+					<Route path="/newproject" element={<NewProject />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/forgotPassword" element={<ForgotPassword />} />
