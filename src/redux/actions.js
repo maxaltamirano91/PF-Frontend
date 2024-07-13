@@ -88,7 +88,7 @@ export const logout = () => ({
 
 export const loginUser = (email, password) => async (dispatch) => {
 	try {
-		const response = await axios.post('http://localhost:3001/', {
+		const response = await axios.post('http://localhost:3001/login', {
 			email,
 			password,
 		})
