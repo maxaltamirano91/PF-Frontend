@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { combineReducers } from 'redux'
 import {
 	GET_ALL_PROJECTS,
@@ -12,6 +13,36 @@ import {
 	FETCH_TECHNOLOGIES,
 	FILTER_TECHNOLOGIES,
 } from './actions-types'
+=======
+import { combineReducers } from 'redux';
+import { 
+    SET_DARK_MODE, 
+    SET_LIGHT_MODE, 
+    SET_AUTH_TOKEN, 
+    LOGOUT,
+
+    GET_ALL_PROJECTS, 
+
+    REGISTER_USER_FAILURE, 
+    REGISTER_USER_SUCCESS, 
+    REGISTER_USER_REQUEST , 
+
+    GET_PROJECTS, 
+    GET_BY_NAME, 
+    GET_DETAIL,
+    GET_USERS,
+    CLEAR_DETAIL,
+    
+    GET_ALL_TECHS_REQUEST, 
+    GET_ALL_TECHS_SUCCESS, 
+    GET_ALL_TECHS_FAILURE,
+    ADD_PROJECT_REQUEST,
+    ADD_PROJECT_SUCCESS,
+    ADD_PROJECT_FAILURE
+
+    } from './actions-types';
+
+>>>>>>> 20ef790d29500dae449c7aecc7b836f946718051
 
 const technologiesInitialState = {
 	technologies: [],
@@ -160,9 +191,57 @@ const registerReducer = (state = initialRegisterState, action) => {
 //     }
 // };
 
+const techsInitialState = {
+    loading: false,
+    techs: [],
+    error: null,
+};
+
+const techsReducer = (state = techsInitialState, action) => {
+    switch (action.type) {
+        case GET_ALL_TECHS_REQUEST:
+            return { ...state, loading: true };
+        case GET_ALL_TECHS_SUCCESS:
+            return { ...state, loading: false, techs: action.payload };
+        case GET_ALL_TECHS_FAILURE:
+            return { ...state, loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
+const projectInitialState = {
+    loading: false,
+    project: null,
+    error: null,
+};
+
+const projectReducer = (state = projectInitialState, action) => {
+    switch (action.type) {
+        case ADD_PROJECT_REQUEST:
+            return { ...state, loading: true };
+        case ADD_PROJECT_SUCCESS:
+            return { ...state, loading: false, project: action.payload };
+        case ADD_PROJECT_FAILURE:
+            return { ...state, loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
+
 export default combineReducers({
+<<<<<<< HEAD
 	auth: authReducer,
 	theme: themeReducer,
 	project: projectsReducer,
 	technologies: technologiesReducer
 })
+=======
+    auth: authReducer,
+    theme: themeReducer,
+    project: projects,
+    register: registerReducer,
+    techs: techsReducer,
+    project: projectReducer
+});
+>>>>>>> 20ef790d29500dae449c7aecc7b836f946718051
