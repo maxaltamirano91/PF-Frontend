@@ -25,10 +25,10 @@ import {
     } from './actions-types';
 
 
-export const setAuthToken = (token) => ({
-    type: SET_AUTH_TOKEN,
-    payload: token
-});
+// const AUTH_URL = "http://localhost:3001/";
+// const USERS_URL = "http://localhost:3001/users";
+const PROJECTS_URL = 'http://localhost:3001/projects'
+const URL_TECHNOLOGIES = 'http://localhost:3001/technologies'
 
 export const logout = () => ({
     type: LOGOUT
@@ -125,26 +125,43 @@ export function getByName(name){
     }
 }
 
-export function getDetail(id){
-    return async function(dispatch){
-        try {
-            const response = await axios.get(`http://localhost:3001/users/${id}`);
-            
-            dispatch({
-                type: GET_DETAIL,
-                payload: response.data
-            });
-        } catch (error) {
-            console.error(`Error fetching users details for ID ${id}:`, error);
-        }
-    }
-};
+export const filterTechnologies = (filteredTechnologies) => {
+	return (dispatch) => {
+		dispatch({
+			type: FILTER_TECHNOLOGIES,
+			payload: filteredTechnologies,
+		})
+	}
+}
 
-export function clearDetail(){
-    return{
-        type: CLEAR_DETAIL
-    }
-};
+export const getAllProjects = (search, technologies) => {
+	return async (dispatch) => {
+		try {
+			let projects
+			if (!search && !technologies) projects = await axios.get(`${PROJECTS_URL}`)
+			if (search && !technologies)
+				projects = await axios.get(`${PROJECTS_URL}?search=${search}`)
+			if (!search && technologies)
+				projects = await axios.get(`
+					${PROJECTS_URL}?technologies=${technologies}`
+				)
+			if (search && technologies)
+				projects = await axios.get(
+					`${PROJECTS_URL}?search=${search}&technologies=${technologies}`
+				)
+			dispatch({
+				type: GET_ALL_PROJECTS,
+				payload: projects.data,
+			})
+			dispatch({
+				type: FILTER_TECHNOLOGIES,
+				payload: technologies,
+			})
+		} catch (error) {
+			throw error.message
+		}
+	}
+}
 
 export function getProjects() {
   return async function (dispatch) {

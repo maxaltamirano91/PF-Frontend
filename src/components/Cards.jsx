@@ -1,74 +1,32 @@
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllProjects } from '../redux/actions';
-import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllProjects } from '../redux/actions'
+import { useEffect } from 'react'
 
-// ? components
 import Card from './Card'
 
 const Cards = () => {
+	const { allProjects } = useSelector((state) => state.project)
+	const dispatch = useDispatch()
 
-	const dispatch = useDispatch();
-
-	useEffect(()=>{
-		dispatch(getAllProjects());
-	}, [dispatch])
-	const allP = useSelector(state => state.project.getAllProjects?.data)
-	// // const allP = useSelector(state => state.project.getAllProjects.data)
-	var non = false
-  	Array.isArray(allP) ? non = true : null
-	console.log("LOOOOOS PROYECTOOOOS", allP)
-
-	const cardsData = [
-		{
-			id: 1,
-			image:
-				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
-			title: 'Proyecto-Individual Drivers Henry',
-		},
-		{
-			id: 2,
-			image:
-				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
-			title: 'PI DOGS Henry',
-		},
-		{
-			id: 3,
-			image:
-				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
-			title: 'PI Pokemon Henry',
-		},
-		{
-			id: 4,
-			image:
-				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
-			title: 'PI Pokemon Henry',
-		},
-		{
-			id: 5,
-			image:
-				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
-			title: 'PI Pokemon Henry',
-		},
-		{
-			id: 6,
-			image:
-				'https://th.bing.com/th/id/OIP.qrxHxEMtpnEStOjhlGNSxAHaD4?rs=1&pid=ImgDetMain',
-			title: 'PI Pokemon Henry',
-		},
-	]
+	useEffect(() => {
+		dispatch(getAllProjects())
+	}, [])
 
 	return (
 		<CardsDiv className="container-fluid ">
-			{non ? allP.map((data) => (
-				<Card
-					key={data.id}
-					id={data.id}
-					image={data.image}
-					title={data.title}
-					description={data.description}
-				/>
-			)) : null}
+			{allProjects &&
+				allProjects.map((project) => (
+					<Card
+						key={project.id}
+						id={project.id}
+						title={project.title}
+						description={project.description}
+						technologies={project.technologies}
+						tags={project.tags}
+						image={project.image}
+					/>
+				))}
 		</CardsDiv>
 	)
 }
