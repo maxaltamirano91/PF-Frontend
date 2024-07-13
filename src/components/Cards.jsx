@@ -1,4 +1,3 @@
-// cards.jsx
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProjects } from '../redux/actions';
@@ -13,8 +12,8 @@ const Cards = () => {
 
 	useEffect(()=>{
 		dispatch(getAllProjects());
-	}, [])
-	const allP = useSelector(state => state.project.getAllProjects.data)
+	}, [dispatch])
+	const allP = useSelector(state => state.project.getAllProjects?.data)
 	// // const allP = useSelector(state => state.project.getAllProjects.data)
 	var non = false
   	Array.isArray(allP) ? non = true : null
