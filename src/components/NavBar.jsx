@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDarkMode, setLightMode } from '../redux/actions'
 import { useAuth0 } from '@auth0/auth0-react'
-import LoginButton from './loginButton'
 import LogoutButton from './logoutButton'
 import SearchBar from './SearchBar'
+import Filter from './Filter'
 import styles from '../utils/styles/LandingPage.module.css'
 
 const NavBar = () => {
@@ -88,12 +88,13 @@ const NavBar = () => {
 							</a>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link " href="newproject">
-								Agregar Proyecto
+							<a className="nav-link disabled" href="#">
+								Mis Proyectos
 							</a>
 						</li>
 					</ul>
 					<SearchBar />
+					<Filter />
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item">
 							{isAuthenticated ? (

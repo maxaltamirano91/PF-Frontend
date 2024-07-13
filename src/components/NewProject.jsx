@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllTechs, addProject } from '../redux/actions'
+import {  } from '../redux/actions'
 
 const AddProjectForm = () => {
 	const dispatch = useDispatch()
