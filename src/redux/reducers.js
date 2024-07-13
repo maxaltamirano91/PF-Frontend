@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { combineReducers } from 'redux'
 import {
 	GET_ALL_PROJECTS,
@@ -13,36 +12,6 @@ import {
 	FETCH_TECHNOLOGIES,
 	FILTER_TECHNOLOGIES,
 } from './actions-types'
-=======
-import { combineReducers } from 'redux';
-import { 
-    SET_DARK_MODE, 
-    SET_LIGHT_MODE, 
-    SET_AUTH_TOKEN, 
-    LOGOUT,
-
-    GET_ALL_PROJECTS, 
-
-    REGISTER_USER_FAILURE, 
-    REGISTER_USER_SUCCESS, 
-    REGISTER_USER_REQUEST , 
-
-    GET_PROJECTS, 
-    GET_BY_NAME, 
-    GET_DETAIL,
-    GET_USERS,
-    CLEAR_DETAIL,
-    
-    GET_ALL_TECHS_REQUEST, 
-    GET_ALL_TECHS_SUCCESS, 
-    GET_ALL_TECHS_FAILURE,
-    ADD_PROJECT_REQUEST,
-    ADD_PROJECT_SUCCESS,
-    ADD_PROJECT_FAILURE
-
-    } from './actions-types';
-
->>>>>>> 20ef790d29500dae449c7aecc7b836f946718051
 
 const technologiesInitialState = {
 	technologies: [],
@@ -230,18 +199,8 @@ const projectReducer = (state = projectInitialState, action) => {
 };
 
 export default combineReducers({
-<<<<<<< HEAD
 	auth: authReducer,
 	theme: themeReducer,
 	project: projectsReducer,
 	technologies: technologiesReducer
 })
-=======
-    auth: authReducer,
-    theme: themeReducer,
-    project: projects,
-    register: registerReducer,
-    techs: techsReducer,
-    project: projectReducer
-});
->>>>>>> 20ef790d29500dae449c7aecc7b836f946718051
