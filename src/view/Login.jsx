@@ -95,7 +95,7 @@ const Login = () => {
             </button>
 
             <div className="text-center">
-              <p>O ingresa con Auth0:</p>
+              <p>O ingresa con otro metodo:</p>
               <LoginButton />
             </div>
 

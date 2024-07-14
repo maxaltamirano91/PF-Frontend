@@ -18,7 +18,7 @@ const onRedirectCallback = (appState) => {
   );
 };
 
-const ngrokUrl = 'https://24cc-2802-8010-8b3c-e400-6981-85e9-bec1-5f92.ngrok-free.app';
+const ngrokUrl = 'https://27e1-2802-8010-8b3c-e400-f98c-3ec6-5a51-3e3a.ngrok-free.app';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Auth0Provider
