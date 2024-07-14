@@ -12,6 +12,7 @@ import Footer from './components/Footer'
 import Page404 from './view/Page404'
 // import ProfileUser from './view/dashboard_User/ProfileUser/profileUser';
 import NewProject from './components/NewProject'
+import ModProject from './view/ModProject'
 
 function App() {
 	return (
@@ -26,6 +27,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/forgotPassword" element={<ForgotPassword />} />
+					<Route path="/modProject" element={<ModProject />} />
 					<Route path="/*" element={<Page404 />} />
 				</Routes>
 
