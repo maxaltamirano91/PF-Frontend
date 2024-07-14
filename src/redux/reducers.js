@@ -11,30 +11,14 @@ import {
 	REGISTER_USER_REQUEST,
 	FETCH_TECHNOLOGIES,
 	FILTER_TECHNOLOGIES,
+	FETCH_ERROR,
+	HANDLE_ERROR,
 } from './actions-types'
 
 const technologiesInitialState = {
 	technologies: [],
-	filteredTechnologies: []
-}
-
-const technologiesReducer = (state = technologiesInitialState, action) => {
-	switch (action.type) {
-		case FETCH_TECHNOLOGIES:
-			return {
-				...state,
-				technologies: action.payload,
-			}
-		case FILTER_TECHNOLOGIES:
-			console.log(action.payload)
-			return {
-				...state,
-				filteredTechnologies: action.payload
-			}
-        
-		default:
-			return state
-	}
+	filteredTechnologies: [],
+	fetchError: null,
 }
 
 const initialRegisterState = {
@@ -57,6 +41,10 @@ const projectsInitialState = {
 	project: {},
 }
 
+const errorsInitialState = {
+	fetchError: null,
+}
+
 const themeReducer = (state = initialThemeState, action) => {
 	switch (action.type) {
 		case SET_DARK_MODE:
@@ -65,6 +53,25 @@ const themeReducer = (state = initialThemeState, action) => {
 		case SET_LIGHT_MODE:
 			localStorage.setItem('theme', 'light')
 			return { ...state, theme: 'light' }
+		default:
+			return state
+	}
+}
+
+const technologiesReducer = (state = technologiesInitialState, action) => {
+	switch (action.type) {
+		case FETCH_TECHNOLOGIES:
+			return {
+				...state,
+				technologies: action.payload,
+			}
+		case FILTER_TECHNOLOGIES:
+			console.log(action.payload)
+			return {
+				...state,
+				filteredTechnologies: action.payload,
+			}
+
 		default:
 			return state
 	}
@@ -94,9 +101,9 @@ const projectsReducer = (state = projectsInitialState, action) => {
 		case FILTER_TECHNOLOGIES:
 			return {
 				...state,
-				filteredTechnologies: action.payload
+				filteredTechnologies: action.payload,
 			}
-		
+
 		case GET_PROJECT_BY_ID:
 			return {
 				...state,
@@ -121,88 +128,30 @@ const registerReducer = (state = initialRegisterState, action) => {
 	}
 }
 
-// const initialState = {
-//     allUsers: [],
-//     users: [],
-//     userProjects: [],
-//     userDetails: {},
-// };
+const errorReducer = (state = errorsInitialState, action) => {
+	switch (action.type) {
+		case FETCH_ERROR:
+			return {
+				...state,
+				fetchError: [action.payload],
+			}
 
-// const rootReducer = (state = initialState, action) => {
-//     switch (action.type) {
-//         case GET_USERS:
-//             return {
-//                 ...state,
-//                 users: action.payload,
-//                 allUsers: action.payload
-//             };
-//         case GET_BY_NAME:
-//             return {
-//                 ...state,
-//                 users: action.payload,
-//             };
-//         case GET_DETAIL:
-//             return {
-//                 ...state,
-//                 userDetails: action.payload,
-//             };
-//         case CLEAR_DETAIL:
-//             return {
-//                 ...state,
-//                 userDetails: {},
-//             };
-//         case GET_PROJECTS:
-//             return {
-//                 ...state,
-//                 userProjects: action.payload,
-//             };
-//         default:
-//             return state;
-//     }
-// };
+		case HANDLE_ERROR:
+			return {
+				...state,
+				fetchError: state.fetchError.slice(1),
+			}
 
-const techsInitialState = {
-    loading: false,
-    techs: [],
-    error: null,
-};
-
-const techsReducer = (state = techsInitialState, action) => {
-    switch (action.type) {
-        case GET_ALL_TECHS_REQUEST:
-            return { ...state, loading: true };
-        case GET_ALL_TECHS_SUCCESS:
-            return { ...state, loading: false, techs: action.payload };
-        case GET_ALL_TECHS_FAILURE:
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
-};
-
-const projectInitialState = {
-    loading: false,
-    project: null,
-    error: null,
-};
-
-const projectReducer = (state = projectInitialState, action) => {
-    switch (action.type) {
-        case ADD_PROJECT_REQUEST:
-            return { ...state, loading: true };
-        case ADD_PROJECT_SUCCESS:
-            return { ...state, loading: false, project: action.payload };
-        case ADD_PROJECT_FAILURE:
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
-};
+		default:
+			return { ...state }
+	}
+}
 
 export default combineReducers({
 	auth: authReducer,
 	theme: themeReducer,
+	errors: errorReducer,
 	project: projectsReducer,
+	register: registerReducer,
 	technologies: technologiesReducer,
-	register: registerReducer
 })
