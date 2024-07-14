@@ -1,6 +1,9 @@
 // import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useSelector } from "react-redux";
 import './App.css'
+
+import Error from "./components/Error";
 import HomePage from './view/HomePage'
 import Login from './view/Login'
 import Register from './view/Register'
@@ -14,9 +17,11 @@ import Page404 from './view/Page404'
 import NewProject from './components/NewProject'
 
 function App() {
+	const { fetchError } = useSelector((state) => state.errors);
 	return (
 		<>
 			<div>
+				{fetchError && <Error error={fetchError} />}
 				<NavBar />
 
 				<Routes className="App">

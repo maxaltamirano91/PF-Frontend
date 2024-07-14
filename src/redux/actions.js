@@ -14,6 +14,8 @@ import {
 	CLEAR_DETAIL,
 	FETCH_TECHNOLOGIES,
 	FILTER_TECHNOLOGIES,
+	FETCH_ERROR,
+	HANDLE_ERROR
 } from './actions-types'
 
 // const AUTH_URL = "http://localhost:3001/";
@@ -34,8 +36,10 @@ export const fetchTechnologies = (token) => {
 				payload: data,
 			})
 		} catch (error) {
-			console.error('Error fetching technologies:', error)
-		}
+			dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			});		}
 	}
 }
 
@@ -72,7 +76,10 @@ export const getAllProjects = (search, technologies) => {
 				payload: technologies,
 			})
 		} catch (error) {
-			throw error.message
+			dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			});
 		}
 	}
 }
@@ -96,7 +103,10 @@ export const loginUser = (email, password) => async (dispatch) => {
 		dispatch(setAuthToken(token))
 		return { success: true }
 	} catch (error) {
-		console.error('Error during login:', error.response?.data || error.message)
+		dispatch({
+			type: FETCH_ERROR,
+			payload: error.message,
+		});
 		return { success: false, message: 'Credenciales inválidas' }
 	}
 }
@@ -116,6 +126,10 @@ export const registerUser = (userData) => async (dispatch) => {
 		dispatch(registerUserSuccess(response.data))
 	} catch (error) {
 		dispatch(registerUserFailure(error.message))
+		dispatch({
+			type: FETCH_ERROR,
+			payload: error.message,
+		});
 	}
 }
 
@@ -142,7 +156,10 @@ export function getUsers() {
 				payload: response.data,
 			})
 		} catch (error) {
-			console.error('Error fetching users:', error)
+			dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			});
 		}
 	}
 }
@@ -159,8 +176,10 @@ export function getByName(name) {
 				payload: response.data,
 			})
 		} catch (error) {
-			console.error('Error fetching users by name:', error)
-			alert(`Error: ${error.message}`)
+			dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			});
 		}
 	}
 }
@@ -175,7 +194,10 @@ export function getDetail(id) {
 				payload: response.data,
 			})
 		} catch (error) {
-			console.error(`Error fetching users details for ID ${id}:`, error)
+			dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			});
 		}
 	}
 }
@@ -185,3 +207,7 @@ export function clearDetail() {
 		type: CLEAR_DETAIL,
 	}
 }
+
+export const handleError = () => ({
+	type: HANDLE_ERROR,
+  });
