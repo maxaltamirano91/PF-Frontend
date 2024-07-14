@@ -59,6 +59,7 @@ const NavBar = () => {
 			className={`navbar navbar-expand-lg fixed-top ${
 				navbar ? styles.bgDark : styles.bgTransparent
 			}`}
+			style={{position:"relative"}}
 		>
 			<div className="container-fluid">
 				<a className="navbar-brand" href="/">

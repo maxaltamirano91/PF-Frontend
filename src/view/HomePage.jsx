@@ -6,8 +6,7 @@ const HomePage = () => {
 
 	return (
 		<div>
-      <select name="" id=""></select>
-			<Cards ></Cards>
+		<Cards ></Cards>
 		</div>
 
 		// <div className="d-flex flex-column min-vh-100 bg-secondary bg-gradient">
