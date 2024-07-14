@@ -16,6 +16,7 @@ import Page404 from './view/Page404'
 // import ProfileUser from './view/dashboard_User/ProfileUser/profileUser';
 import NewProject from './components/NewProject'
 import ModProject from './view/ModProject'
+import Profile from './view/Profile'
 
 function App() {
 	const { fetchError } = useSelector((state) => state.errors);
@@ -27,6 +28,7 @@ function App() {
 
 				<Routes className="App">
 					<Route path="/" element={<LandingPage />} />
+					<Route path="/profile" element={<Profile />} />
 					<Route path="/home" element={<HomePage />} />
 					<Route path="/newproject" element={<NewProject />} />
 					<Route path="/login" element={<Login />} />
