@@ -20,7 +20,12 @@ Backend del proyecto final Henry
 
 ## Dependencies
 
+!important
+
+- instalar la siguiente dependencia manualmente
+
 ```js
+npm install --save @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/free-brands-svg-icons
 ```
 
 ## Git
