@@ -30,14 +30,24 @@ npm install --save @fortawesome/react-fontawesome @fortawesome/free-solid-svg-ic
 
 ## Git
 
-### Ramas
-
-- main
-- development
-- luis
-- faltan las demás
-
 ### Manejo de ramas
+
+1. Subiendo la rama development o cualquier otra rama
+
+- git checkout development
+- git status
+- git push origin development
+
+2. Trayendo la rama development
+
+- git fetch
+  - Obtener las actualizaciones del repositorio remoto
+- git branch -r
+  - Listar todas las ramas remotas
+- git checkout -b development origin/development
+  - y quedas parado en development. luego crear tu rama de trabajo
+
+3. Creando ramas
 
 - git branch
   - para ver todas las ramas y saber en cual estoy
