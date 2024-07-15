@@ -1,26 +1,35 @@
+import { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Cards from '../components/Cards'
-import React from 'react';
-// import NavBar from '../components/NavBar'
+import { getAllProjects } from '../redux/actions'
 
 const HomePage = () => {
+	const dispatch = useDispatch()
+	const { allProjects } = useSelector((state) => state.project)
+	const [renderingCards, setRenderingCards] = useState(5)
+	const [displayPagination, setDisplayPagination] = useState(true)
+	const handlePagination = () => {
+		if (allProjects.length >= renderingCards) {
+			setRenderingCards((prevCount) => prevCount + 5)
+			dispatch(getAllProjects(renderingCards))
+		} else setDisplayPagination(false)
+	}
+	useEffect(() => {
+		dispatch(getAllProjects(renderingCards))
+	}, [dispatch, renderingCards])
 
 	return (
 		<div>
+
+			<Cards paginationData={renderingCards} />
+			{displayPagination ? (
+				<button onClick={handlePagination}>Ver más</button>
+			) : (
+				<p>Estos son todos los proyectos</p>
+			)}
+
 		<Cards ></Cards>
 		</div>
-
-		// <div className="d-flex flex-column min-vh-100 bg-secondary bg-gradient">
-		// 	{/* <NavBar /> */}
-		// 	<div className="container flex-grow-1">
-		// 		<div className="row">
-		// 			{cardsData.map((card, index) => (
-		// 				<div key={index} className="col-md-4">
-		// 					<Card image={card.image} title={card.title} />
-		// 				</div>
-		// 			))}
-		// 		</div>
-		// 	</div>
-		// </div>
 	)
 }
 
