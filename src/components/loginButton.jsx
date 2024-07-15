@@ -6,7 +6,7 @@ const LoginButton = () => {
 
   return (
     <button onClick={() => loginWithRedirect()} className="btn btn-primary">
-      Ingresar con Auth0
+      Ingresar con otro metodo
     </button>
   );
 };
