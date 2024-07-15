@@ -13,6 +13,22 @@ import {
 	FILTER_TECHNOLOGIES,
 	FETCH_ERROR,
 	HANDLE_ERROR,
+	FETCH_USERS_SUCCESS,
+    FETCH_USERS_FAILURE,
+    FETCH_USER_BY_ID_SUCCESS,
+    FETCH_USER_BY_ID_FAILURE,
+    FETCH_USER_PROFILE_SUCCESS,
+    FETCH_USER_PROFILE_FAILURE,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILURE,
+    DELETE_USER_BY_ID_SUCCESS,
+    DELETE_USER_BY_ID_FAILURE,
+    DELETE_USER_PROFILE_SUCCESS,
+    DELETE_USER_PROFILE_FAILURE,
+	FETCH_USERS_REQUEST,
+	FETCH_USER_BY_ID_REQUEST,
+	FETCH_USER_PROFILE_REQUEST,
+	
 } from './actions-types'
 
 const technologiesInitialState = {
@@ -147,6 +163,129 @@ const errorReducer = (state = errorsInitialState, action) => {
 	}
 }
 
+const initialState = {
+	users: [],
+	user: null,
+	allUsers: [],
+	userById: null,
+	userProfile: null,
+	loading: false,
+	error: null,
+	token: null,
+};
+
+const userReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case FETCH_USERS_SUCCESS:
+			return {
+				...state,
+				users: action.payload,
+				loading: false,
+				error: null,
+			};
+		case FETCH_USERS_FAILURE:
+			return {
+				...state,
+				users: [],
+				loading: false,
+				error: action.payload,
+			};
+
+// const initialState = {
+// 	users: [],
+// 	loading: false,
+// 	error: null,
+// 	token: null,
+//   };
+//   const userReducer = (state = initialState, action) => {
+// 	switch (action.type) {
+// 	  case FETCH_USERS_REQUEST:
+// 	  case FETCH_USER_BY_ID_REQUEST:
+// 	  case FETCH_USER_PROFILE_REQUEST:
+// 		return {
+// 		  ...state,
+// 		  loading: true,
+// 		  error: null,
+// 		};
+// 	  case FETCH_USERS_SUCCESS:
+// 		return {
+// 		  ...state,
+// 		  loading: false,
+// 		  allUsers: action.payload, 
+// 		  error: null
+// 		};
+		case FETCH_USER_BY_ID_SUCCESS:
+			return {
+				...state,
+				userById: action.payload,
+				loading: false,
+				error: null,
+			};
+		case FETCH_USER_BY_ID_FAILURE:
+			return {
+				...state,
+				userById: null,
+				loading: false,
+				error: action.payload,
+			};
+		case FETCH_USER_PROFILE_SUCCESS:
+			return {
+				...state,
+				userProfile: action.payload,
+				loading: false,
+				error: null,
+			};
+		case FETCH_USER_PROFILE_FAILURE:
+			return {
+				...state,
+				userProfile: null,
+				loading: false,
+				error: action.payload,
+			};
+		case UPDATE_USER_SUCCESS:
+			return {
+				...state,
+				userById: action.payload,
+				loading: false,
+				error: null,
+			};
+		case UPDATE_USER_FAILURE:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case DELETE_USER_BY_ID_SUCCESS:
+			return {
+				...state,
+				userById: null, // Clear userById after deletion
+				loading: false,
+				error: null,
+			};
+		case DELETE_USER_BY_ID_FAILURE:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		case DELETE_USER_PROFILE_SUCCESS:
+			return {
+				...state,
+				userProfile: null, // Clear userProfile after deletion
+				loading: false,
+				error: null,
+			};
+		case DELETE_USER_PROFILE_FAILURE:
+			return {
+				...state,
+				loading: false,
+				error: action.payload,
+			};
+		default:
+			return state;
+	}
+};
+
 export default combineReducers({
 	auth: authReducer,
 	theme: themeReducer,
@@ -154,4 +293,5 @@ export default combineReducers({
 	project: projectsReducer,
 	register: registerReducer,
 	technologies: technologiesReducer,
+	user: userReducer,
 })
