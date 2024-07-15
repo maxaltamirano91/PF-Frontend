@@ -20,15 +20,12 @@ const HomePage = () => {
 
 	return (
 		<div>
-
 			<Cards paginationData={renderingCards} />
 			{displayPagination ? (
 				<button onClick={handlePagination}>Ver más</button>
 			) : (
 				<p>Estos son todos los proyectos</p>
 			)}
-
-		<Cards ></Cards>
 		</div>
 	)
 }

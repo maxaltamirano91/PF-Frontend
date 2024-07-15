@@ -26,7 +26,7 @@ import {
 	DELETE_USER_PROFILE_FAILURE,
 } from './actions-types';
 
-const AUTH_URL = "http://localhost:3001/";
+const AUTH_URL = "http://localhost:3001";
 const USERS_URL = "http://localhost:3001/users";
 const PROJECTS_URL = 'http://localhost:3001/projects';
 const URL_TECHNOLOGIES = 'http://localhost:3001/technologies';
@@ -158,23 +158,24 @@ const registerUserFailure = (error) => ({
 	payload: error,
 });
 
-export const getUsers = () => {
+export const getAllUsers = (token) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.get(USERS_URL);
+			if (!token) {
+				throw new Error('Token is undefined or null')
+			}
 
-			dispatch({
-				type: FETCH_USERS_SUCCESS,
-				payload: response.data,
-			});
+			const response = await axios.get(USERS_URL, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: FETCH_USERS_SUCCESS, payload: response.data })
 		} catch (error) {
-			dispatch({
-				type: FETCH_ERROR,
-				payload: error.message,
-			});
+			dispatch({ type: FETCH_USERS_FAILURE, payload: error.message })
 		}
-	};
-};
+	}
+}
 
 export const getByName = (name) => {
 	return async (dispatch) => {
