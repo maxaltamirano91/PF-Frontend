@@ -1,59 +1,58 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setDarkMode, setLightMode } from '../redux/actions'
-import { useAuth0 } from '@auth0/auth0-react'
-import LogoutButton from './logoutButton'
-import SearchBar from './SearchBar'
-import Filter from './Filter'
-import styles from '../utils/styles/LandingPage.module.css'
+// components/NavBar.js
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setDarkMode, setLightMode } from '../redux/actions';
+import LogoutButton from '../components/logoutButton';
+import SearchBar from './SearchBar';
+import Filter from './Filter';
+import styles from '../utils/styles/LandingPage.module.css';
 
 const NavBar = () => {
-  const dispatch = useDispatch()
-  const theme = useSelector((state) => state.theme.theme)
-  const authToken = useSelector((state) => state.auth.authToken)
-  const [navbar, setNavbar] = useState(false)
-  const { isAuthenticated } = useAuth0()
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.theme);
+  const authToken = useSelector((state) => state.auth.authToken);
+  const [navbar, setNavbar] = useState(false);
 
   const darkMode = () => {
-    document.querySelector('html').setAttribute('data-bs-theme', 'dark')
-    document.querySelector('#dl-icon').className = 'bi bi-sun-fill'
-  }
+    document.querySelector('html').setAttribute('data-bs-theme', 'dark');
+    document.querySelector('#dl-icon').className = 'bi bi-sun-fill';
+  };
 
   const lightMode = () => {
-    document.querySelector('html').setAttribute('data-bs-theme', 'light')
-    document.querySelector('#dl-icon').className = 'bi bi-moon-fill'
-  }
+    document.querySelector('html').setAttribute('data-bs-theme', 'light');
+    document.querySelector('#dl-icon').className = 'bi bi-moon-fill';
+  };
 
   const changeTheme = () => {
     if (theme === 'light') {
-      dispatch(setDarkMode())
+      dispatch(setDarkMode());
     } else {
-      dispatch(setLightMode())
+      dispatch(setLightMode());
     }
-  }
+  };
 
   useEffect(() => {
     if (theme === 'dark') {
-      darkMode()
+      darkMode();
     } else {
-      lightMode()
+      lightMode();
     }
-  }, [theme])
+  }, [theme]);
 
   const changeBackground = () => {
     if (window.scrollY >= 80) {
-      setNavbar(true)
+      setNavbar(true);
     } else {
-      setNavbar(false)
+      setNavbar(false);
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener('scroll', changeBackground)
+    window.addEventListener('scroll', changeBackground);
     return () => {
-      window.removeEventListener('scroll', changeBackground)
-    }
-  }, [])
+      window.removeEventListener('scroll', changeBackground);
+    };
+  }, []);
 
   return (
     <nav
@@ -99,7 +98,7 @@ const NavBar = () => {
           <Filter />
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              {isAuthenticated || authToken ? (
+              {authToken ? (
                 <LogoutButton />
               ) : (
                 <a className="nav-link" href="/login">
@@ -107,7 +106,7 @@ const NavBar = () => {
                 </a>
               )}
             </li>
-            {!isAuthenticated && !authToken && (
+            {!authToken && (
               <li className="nav-item">
                 <a className="nav-link" href="/register">
                   Regístrate
@@ -128,7 +127,7 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

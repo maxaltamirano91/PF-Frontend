@@ -24,12 +24,41 @@ import {
 	DELETE_USER_BY_ID_FAILURE,
 	DELETE_USER_PROFILE_SUCCESS,
 	DELETE_USER_PROFILE_FAILURE,
+	GET_PROJECT_BY_ID_REQUEST,
+  	GET_PROJECT_BY_ID_SUCCESS,
+ 	GET_PROJECT_BY_ID_FAILURE,
 } from './actions-types';
 
 const AUTH_URL = "http://localhost:3001";
 const USERS_URL = "http://localhost:3001/users";
 const PROJECTS_URL = 'http://localhost:3001/projects';
 const URL_TECHNOLOGIES = 'http://localhost:3001/technologies';
+
+export const getProjectByIdRequest = () => ({
+	type: GET_PROJECT_BY_ID_REQUEST,
+  });
+  
+  export const getProjectByIdSuccess = (project) => ({
+	type: GET_PROJECT_BY_ID_SUCCESS,
+	payload: project,
+  });
+  
+  export const getProjectByIdFailure = (error) => ({
+	type: GET_PROJECT_BY_ID_FAILURE,
+	payload: error,
+  });
+  
+  export const getProjectById = (projectId) => async (dispatch) => {
+	dispatch(getProjectByIdRequest());
+	try {
+	  const response = await axios.get(`${PROJECTS_URL}/${projectId}`);
+	  dispatch(getProjectByIdSuccess(response.data));
+	} catch (error) {
+	  dispatch(getProjectByIdFailure(error.message));
+	}
+  };
+  
+
 
 export const fetchTechnologies = (token) => {
 	return async (dispatch) => {
@@ -97,11 +126,16 @@ export const getAllProjects = (pagination, search, technologies) => {
 export const setAuthToken = (token) => ({
 	type: SET_AUTH_TOKEN,
 	payload: token,
-});
-
-export const logout = () => ({
+  });
+  
+  export const logout = () => ({
 	type: LOGOUT,
-});
+  });
+  
+  export const fetchError = (error) => ({
+	type: FETCH_ERROR,
+	payload: error,
+  });
 
 export const loginUser = (email, password) => async (dispatch) => {
 	try {
