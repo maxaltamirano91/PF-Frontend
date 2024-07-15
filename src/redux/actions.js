@@ -133,10 +133,11 @@ export const registerUser = (userData) => async (dispatch) => {
 		const response = await axios.post('http://localhost:3001/signup', userData)
 		dispatch(registerUserSuccess(response.data))
 	} catch (error) {
+		console.log(error)
 		dispatch(registerUserFailure(error.message))
 		dispatch({
 			type: FETCH_ERROR,
-			payload: error.message,
+			payload: "error en la creacion de usuario",
 		});
 	}
 }

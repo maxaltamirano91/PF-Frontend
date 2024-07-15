@@ -13,10 +13,9 @@ import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 // import TestComponent from './components/TestComponent'
 import Page404 from './view/Page404'
-import NewProject from './components/NewProject'
 import ModProject from './view/ModProject'
 import Users from './components/User/Users'
-
+import AddProjectForm from './view/createForm'
 
 
 
@@ -30,8 +29,8 @@ function App() {
 
 				<Routes className="App">
 					<Route path="/" element={<LandingPage />} />
+					<Route path="/create" element={<AddProjectForm />} />
 					<Route path="/home" element={<HomePage />} />
-					<Route path="/newproject" element={<NewProject />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/forgotPassword" element={<ForgotPassword />} />

@@ -1,11 +1,19 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useDispatch } from 'react-redux';
+import { logout as reduxLogout } from '../redux/actions';
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(reduxLogout());
+    logout({ returnTo: window.location.origin });
+  };
 
   return (
-    <button onClick={() => logout({ returnTo: window.location.origin })} className="btn btn-secondary">
+    <button onClick={handleLogout} className="btn btn-secondary">
       Salir
     </button>
   );
