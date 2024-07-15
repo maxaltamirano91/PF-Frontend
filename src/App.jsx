@@ -13,10 +13,11 @@ import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 // import TestComponent from './components/TestComponent'
 import Page404 from './view/Page404'
-// import ProfileUser from './view/dashboard_User/ProfileUser/profileUser';
-import NewProject from './components/NewProject'
 import ModProject from './view/ModProject'
-import Profile from './view/Profile'
+import Users from './components/User/Users'
+import AddProjectForm from './view/createForm'
+
+
 
 function App() {
 	const { fetchError } = useSelector((state) => state.errors);
@@ -28,14 +29,15 @@ function App() {
 
 				<Routes className="App">
 					<Route path="/" element={<LandingPage />} />
-					<Route path="/profile" element={<Profile />} />
+					<Route path="/create" element={<AddProjectForm />} />
 					<Route path="/home" element={<HomePage />} />
-					<Route path="/newproject" element={<NewProject />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/forgotPassword" element={<ForgotPassword />} />
 					<Route path="/modProject" element={<ModProject />} />
 					<Route path="/*" element={<Page404 />} />
+					<Route path="/users" element={<Users />} />
+
 				</Routes>
 
 				<Footer />

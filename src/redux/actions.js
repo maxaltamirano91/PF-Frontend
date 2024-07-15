@@ -8,18 +8,26 @@ import {
 	REGISTER_USER_FAILURE,
 	REGISTER_USER_SUCCESS,
 	REGISTER_USER_REQUEST,
-	GET_USERS,
-	GET_BY_NAME,
-	GET_DETAIL,
-	CLEAR_DETAIL,
 	FETCH_TECHNOLOGIES,
 	FILTER_TECHNOLOGIES,
 	FETCH_ERROR,
-	HANDLE_ERROR
+	HANDLE_ERROR,
+	FETCH_USERS_SUCCESS,
+    FETCH_USERS_FAILURE,
+    FETCH_USER_BY_ID_SUCCESS,
+    FETCH_USER_BY_ID_FAILURE,
+    FETCH_USER_PROFILE_SUCCESS,
+    FETCH_USER_PROFILE_FAILURE,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILURE,
+    DELETE_USER_BY_ID_SUCCESS,
+    DELETE_USER_BY_ID_FAILURE,
+    DELETE_USER_PROFILE_SUCCESS,
+    DELETE_USER_PROFILE_FAILURE,
 } from './actions-types'
 
 // const AUTH_URL = "http://localhost:3001/";
-// const USERS_URL = "http://localhost:3001/users";
+const USERS_URL = "http://localhost:3001/users";
 const PROJECTS_URL = 'http://localhost:3001/projects'
 const URL_TECHNOLOGIES = 'http://localhost:3001/technologies'
 
@@ -125,10 +133,11 @@ export const registerUser = (userData) => async (dispatch) => {
 		const response = await axios.post('http://localhost:3001/signup', userData)
 		dispatch(registerUserSuccess(response.data))
 	} catch (error) {
+		console.log(error)
 		dispatch(registerUserFailure(error.message))
 		dispatch({
 			type: FETCH_ERROR,
-			payload: error.message,
+			payload: "error en la creacion de usuario",
 		});
 	}
 }
@@ -146,68 +155,115 @@ const registerUserFailure = (error) => ({
 	type: REGISTER_USER_FAILURE,
 	payload: error,
 })
-export function getUsers() {
-	return async function (dispatch) {
-		try {
-			const response = await axios.get(`http://localhost:3001/users/`)
-
-			dispatch({
-				type: GET_USERS,
-				payload: response.data,
-			})
-		} catch (error) {
-			dispatch({
-				type: FETCH_ERROR,
-				payload: error.message,
-			});
-		}
-	}
-}
-
-export function getByName(name) {
-	return async function (dispatch) {
-		try {
-			const response = await axios.get(
-				`http://localhost:3001/users/?name=${name}`
-			)
-
-			dispatch({
-				type: GET_BY_NAME,
-				payload: response.data,
-			})
-		} catch (error) {
-			dispatch({
-				type: FETCH_ERROR,
-				payload: error.message,
-			});
-		}
-	}
-}
-
-export function getDetail(id) {
-	return async function (dispatch) {
-		try {
-			const response = await axios.get(`http://localhost:3001/users/${id}`)
-
-			dispatch({
-				type: GET_DETAIL,
-				payload: response.data,
-			})
-		} catch (error) {
-			dispatch({
-				type: FETCH_ERROR,
-				payload: error.message,
-			});
-		}
-	}
-}
-
-export function clearDetail() {
-	return {
-		type: CLEAR_DETAIL,
-	}
-}
 
 export const handleError = () => ({
 	type: HANDLE_ERROR,
-  });
+});
+
+
+// USERS 
+export const getAllUsers = (token) => {
+	return async (dispatch) => {
+		try {
+			if (!token) {
+				throw new Error('Token is undefined or null');
+			}
+
+			const response = await axios.get(USERS_URL, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			dispatch({ type: FETCH_USERS_SUCCESS, payload: response.data });
+		} catch (error) {
+			dispatch({ type: FETCH_USERS_FAILURE, payload: error.message });
+		}
+	};
+};
+
+export const getUserById = (userId, token) => {
+	return async (dispatch) => {
+	try {
+		console.log('Fetching user by ID:', userId);
+		const response = await axios.get(`${USERS_URL}/${userId}`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		});
+		console.log('User data received:', response.data.user);
+		dispatch({ type: FETCH_USER_BY_ID_SUCCESS, payload: response.data.user });
+	} catch (error) {
+		console.error('Error fetching user by ID:', error.message);
+		dispatch({ type: FETCH_USER_BY_ID_FAILURE, payload: error.message });
+	}
+	};
+};
+
+export const getUserProfile = (token) => {
+	return async (dispatch) => {
+	try {
+		const response = await axios.get(`${USERS_URL}/profile`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		});
+		console.log('User profile data received:', response.data.profile);
+		dispatch({ type: FETCH_USER_PROFILE_SUCCESS, payload: response.data.profile });
+	} catch (error) {
+		console.error('Error fetching user profile:', error.message);
+		dispatch({ type: FETCH_USER_PROFILE_FAILURE, payload: error.message });
+	}
+	};
+};
+
+export const updateUser = (userId, userData, token) => {
+	return async (dispatch) => {
+	try {
+		console.log('Updating user:', userId, userData);
+		const response = await axios.put(`${USERS_URL}/${userId}`, userData, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		});
+		console.log('User updated:', response.data.updatedUser);
+		dispatch({ type: UPDATE_USER_SUCCESS, payload: response.data.updatedUser });
+	} catch (error) {
+		console.error('Error updating user:', error.message);
+		dispatch({ type: UPDATE_USER_FAILURE, payload: error.message });
+	}
+	};
+};
+export const deleteUserById = (userId, token) => {
+	return async (dispatch) => {
+	try {
+		console.log('Deleting user by ID:', userId);
+		await axios.delete(`${USERS_URL}/${userId}`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		});
+		console.log('User deleted:', userId);
+		dispatch({ type: DELETE_USER_BY_ID_SUCCESS, payload: userId });
+	} catch (error) {
+		console.error('Error deleting user by ID:', error.message);
+		dispatch({ type: DELETE_USER_BY_ID_FAILURE, payload: error.message });
+	}
+	};
+};
+export const deleteUserProfile = (token) => {
+	return async (dispatch) => {
+	try {
+		console.log('Deleting user profile');
+		await axios.delete(`${USERS_URL}/profile`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+		});
+		console.log('User profile deleted');
+		dispatch({ type: DELETE_USER_PROFILE_SUCCESS });
+	} catch (error) {
+		console.error('Error deleting user profile:', error.message);
+		dispatch({ type: DELETE_USER_PROFILE_FAILURE, payload: error.message });
+	}
+	};
+};
