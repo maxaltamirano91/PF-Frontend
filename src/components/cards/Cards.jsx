@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import Card from '../cards/Cards'
+import { useSelector } from 'react-redux'
+import Card from '../card/Card'
 
 const Cards = () => {
 	const { allProjects } = useSelector((state) => state.project)
 
 	return (
-		<CardsDiv className="container-fluid ">
+		<CardsDiv className="container-fluid">
 			{allProjects.length ? (
 				allProjects.map((project) => (
 					<Card
@@ -28,13 +28,13 @@ const Cards = () => {
 
 export default Cards
 
-// ? Styles
+// Styles
 const CardsDiv = styled.section`
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 	gap: 20px;
 	margin: 50px 0;
-	padding: 10px;
+	padding: 10px 30px;
 	@media (max-width: 992px) {
 		grid-template-columns: 1fr;
 	}
