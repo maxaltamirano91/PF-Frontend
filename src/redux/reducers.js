@@ -82,7 +82,6 @@ const technologiesReducer = (state = technologiesInitialState, action) => {
 				technologies: action.payload,
 			}
 		case FILTER_TECHNOLOGIES:
-			console.log(action.payload)
 			return {
 				...state,
 				filteredTechnologies: action.payload,

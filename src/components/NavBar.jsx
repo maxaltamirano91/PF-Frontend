@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setDarkMode, setLightMode } from '../redux/actions'
 import { useAuth0 } from '@auth0/auth0-react'
 import LogoutButton from './logoutButton'
-import SearchBar from './SearchBar'
+// import SearchBar from './SearchBar'
 import Filter from './Filter'
 import styles from '../utils/styles/LandingPage.module.css'
 
@@ -95,7 +95,7 @@ const NavBar = () => {
               </a>
             </li>
           </ul>
-          <SearchBar />
+          {/* <SearchBar /> */}
           <Filter />
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">

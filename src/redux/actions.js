@@ -64,19 +64,38 @@ export const filterTechnologies = (filteredTechnologies) => {
 export const getAllProjects = (pagination, search, technologies) => {
 	return async (dispatch) => {
 		try {
-			let projects;
-			if (!search && !technologies) {
-				projects = await axios.get(`${PROJECTS_URL}?pageSize=${pagination}`);
+			const techResponse = await axios.get(`${URL_TECHNOLOGIES}`);
+			const techData = techResponse.data
+
+			const params = new URLSearchParams()
+
+			if (pagination) {
+				params.append('pageSize', pagination)
 			}
-			if (search && !technologies) {
-				projects = await axios.get(`${PROJECTS_URL}?search=${search}&pageSize=${pagination}`);
+			if (search) {
+				params.append('search', search)
 			}
-			if (!search && technologies) {
-				projects = await axios.get(`${PROJECTS_URL}?technologies=${technologies}&pageSize=${pagination}`);
+			if (technologies) {
+				params.append('technologies', technologies)
+			} else {
+				params.append('technologies', techData.map(tech => tech.name).join(','))
 			}
-			if (search && technologies) {
-				projects = await axios.get(`${PROJECTS_URL}?search=${search}&technologies=${technologies}&pageSize=${pagination}`);
-			}
+
+			const projects = await axios.get(`${PROJECTS_URL}?${params.toString()}`)
+
+			// let projects;
+			// if (!search && !technologies) {
+			// 	projects = await axios.get(`${PROJECTS_URL}?pageSize=${pagination}`);
+			// }
+			// if (search && !technologies) {
+			// 	projects = await axios.get(`${PROJECTS_URL}?search=${search}&pageSize=${pagination}`);
+			// }
+			// if (!search && technologies) {
+			// 	projects = await axios.get(`${PROJECTS_URL}?technologies=${technologies}&pageSize=${pagination}`);
+			// }
+			// if (search && technologies) {
+			// 	projects = await axios.get(`${PROJECTS_URL}?search=${search}&technologies=${technologies}&pageSize=${pagination}`);
+			// }
 			dispatch({
 				type: GET_ALL_PROJECTS,
 				payload: projects.data,
