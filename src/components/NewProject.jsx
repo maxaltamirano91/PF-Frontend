@@ -1,27 +1,33 @@
-import axios from 'axios'
 import styled from 'styled-components'
-
+import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {  } from '../redux/actions'
+import { fetchTechnologies } from '../redux/actions'
 
 const AddProjectForm = () => {
 	const dispatch = useDispatch()
-	const allTechs = useSelector((state) => state.techs.techs)
-	const [selectedTechs, setSelectedTechs] = useState([])
-	const [isOtherTech, setIsOtherTech] = useState(false)
+	const { technologies } = useSelector((state) => state.technologies)
+
+	const getToken = () => {
+		return localStorage.getItem('authToken')
+	}
+
+	// console.log(technologies)
+
+	useEffect(() => {
+		dispatch(fetchTechnologies(localStorage))
+	}, [dispatch])
+
 	const [formData, setFormData] = useState({
 		title: '',
 		description: '',
 		image: '',
-		tags: '',
+		tags: [],
 		technologies: [],
-		newTech: '',
 	})
 
-	useEffect(() => {
-		dispatch(getAllTechs())
-	}, [dispatch])
+	const [selectedTechs, setSelectedTechs] = useState([])
+	const [newTag, setNewTag] = useState('')
 
 	const handleChange = (event) => {
 		const { name, value } = event.target
@@ -31,15 +37,10 @@ const AddProjectForm = () => {
 		})
 	}
 
-	const handleSelectTech = (event) => {
+	const handleTechChange = (event) => {
 		const { value } = event.target
-		if (value === 'other') {
-			setIsOtherTech(true)
-		} else {
-			setIsOtherTech(false)
-			if (!selectedTechs.includes(value)) {
-				setSelectedTechs([...selectedTechs, value])
-			}
+		if (!selectedTechs.includes(value)) {
+			setSelectedTechs([...selectedTechs, value])
 		}
 	}
 
@@ -47,110 +48,175 @@ const AddProjectForm = () => {
 		setSelectedTechs(selectedTechs.filter((value) => value !== tech))
 	}
 
-	const handleSubmit = (event) => {
+	const handleTagChange = (event) => {
+		setNewTag(event.target.value)
+	}
+
+	const handleAddTag = () => {
+		if (
+			formData.tags.length < 5 &&
+			newTag.trim() !== '' &&
+			!formData.tags.includes(newTag.trim())
+		) {
+			setFormData({
+				...formData,
+				tags: [...formData.tags, newTag.trim()],
+			})
+			setNewTag('')
+		}
+	}
+
+	const handleRemoveTag = (tag) => {
+		setFormData({
+			...formData,
+			tags: formData.tags.filter((t) => t !== tag),
+		})
+	}
+
+	const handleSubmit = async (event) => {
 		event.preventDefault()
+
+		if (!formData.title) {
+			alert('El título es obligatorio')
+			return
+		}
+
+		if (
+			formData.description === '' ||
+			formData.image === '' ||
+			formData.tags.length === 0 ||
+			selectedTechs.length === 0
+		) {
+			if (!window.confirm('Algunos campos están vacíos. ¿Desea continuar?')) {
+				return
+			}
+		}
+
 		const dataToSubmit = {
 			...formData,
 			technologies: selectedTechs,
 		}
+		console.log(dataToSubmit)
 
-		if (isOtherTech && formData.newTech) {
-			dataToSubmit.technologies.push(formData.newTech)
+		try {
+			const response = await axios.post(
+				'http://localhost:3001/projects',
+				dataToSubmit,
+				{
+					headers: {
+						Authorization: `Bearer ${getToken()}`,
+					},
+				}
+			)
+			console.log('Se agregó el proyecto:', response.data)
+			window.alert(`${formData.title} agregado a la Base de Datos`)
+
+			setFormData({
+				title: '',
+				description: '',
+				image: '',
+				tags: [],
+				technologies: [],
+			})
+			setSelectedTechs([])
+		} catch (error) {
+			console.error('Error al agregar el proyecto:', error)
+			window.alert(`error al agregar`)
 		}
-
-		dispatch(addProject(dataToSubmit))
 	}
 
 	return (
 		<FormStyled onSubmit={handleSubmit}>
-			<div>
-				<h2>Agregar Nuevo Proyecto</h2>
+			<div className="form-header">
+				<span>Añadir proyecto</span>
 			</div>
-			<div>
-				<label>Título</label>
-				<input
-					type="text"
-					name="title"
-					value={formData.title}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label>Descripción</label>
-				<textarea
-					name="description"
-					value={formData.description}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label>Imagen</label>
-				<input
-					type="text"
-					name="image"
-					value={formData.image}
-					onChange={handleChange}
-				/>
-			</div>
-			<div>
-				<label>Etiquetas</label>
-				<input
-					type="text"
-					name="tags"
-					value={formData.tags}
-					onChange={handleChange}
-				/>
-			</div>
-			<div className="tipos">
-				<label>Tecnologías</label>
-				<select onChange={handleSelectTech}>
-					<option value="">Seleccionar...</option>
-					{allTechs.map((tech) => (
-						<option key={tech.id} value={tech.name}>
-							{tech.name}
-						</option>
+
+			<div className="form-body">
+				<div className="form-field">
+					<label>Nombre del Proyecto</label>
+					<input
+						type="text"
+						name="title"
+						value={formData.title}
+						onChange={handleChange}
+						required
+					/>
+				</div>
+				<div className="form-field mt-2">
+					<label>Descripción</label>
+					<textarea
+						name="description"
+						value={formData.description}
+						onChange={handleChange}
+					/>
+				</div>
+				<div className="form-field mt-2">
+					<label>Contenido multimedia</label>
+					<input
+						type="text"
+						name="image"
+						value={formData.image}
+						onChange={handleChange}
+						placeholder="URL de la imagen"
+					/>
+				</div>
+
+				<div className="form-field mt-2">
+					<label>Tecnologías</label>
+					<select name="technologies" onChange={handleTechChange}>
+						<option value="default">Seleccione una tecnología</option>
+						{technologies.map((tech) => (
+							<option key={tech.id} value={tech.name}>
+								{tech.name}
+							</option>
+						))}
+					</select>
+
+					{selectedTechs.map((tech) => (
+						<div key={tech} className="techList my-1">
+							<span className="itemTech">{tech}</span>
+							<button
+								className="btn btn-outline-danger remove mx-2"
+								type="button"
+								onClick={() => handleRemoveTech(tech)}
+							>
+								X
+							</button>
+						</div>
 					))}
-					<option value="other">Otra...</option>
-				</select>
-				{isOtherTech && (
-					<div className="newType">
-						<label>Nueva Tecnología</label>
+				</div>
+
+				<div className="form-field mt-2">
+					<label>Etiquetas</label>
+					<div className="tag-input">
 						<input
 							type="text"
-							name="newTech"
-							placeholder="Nueva tecnología"
-							value={formData.newTech}
-							onChange={handleChange}
+							value={newTag}
+							onChange={handleTagChange}
+							placeholder="Agregar etiqueta"
 						/>
-						<button
-							type="button"
-							onClick={() => {
-								if (formData.newTech && !allTechs.includes(formData.newTech)) {
-									setSelectedTechs([...selectedTechs, formData.newTech])
-									setFormData({ ...formData, newTech: '' })
-								}
-							}}
-						>
-							Agregar Tecnología
+						<button type="button" onClick={handleAddTag}>
+							Agregar
 						</button>
 					</div>
-				)}
-				{selectedTechs.map((tech) => (
-					<div key={tech}>
-						<span className="itemType">{tech}</span>
-						<button
-							className="remove"
-							type="button"
-							onClick={() => handleRemoveTech(tech)}
-						>
-							❌
-						</button>
+					<div className="tag-list">
+						{formData.tags.map((tag) => (
+							<div key={tag} className="tag-item">
+								<span>{tag}</span>
+								<button type="button" onClick={() => handleRemoveTag(tag)}>
+									X
+								</button>
+							</div>
+						))}
 					</div>
-				))}
+				</div>
 			</div>
-			<button className="submit" type="submit">
-				Agregar Proyecto
-			</button>
+
+			<div className="form-footer">
+				<button className="submit" type="submit">
+					Guardar
+				</button>
+			</div>
 		</FormStyled>
 	)
 }
@@ -158,228 +224,56 @@ const AddProjectForm = () => {
 export default AddProjectForm
 
 const FormStyled = styled.form`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 600px;
+	max-width: 350px;
 	margin: auto;
 	margin-top: 56px;
-	border: 1px solid #fafafa48;
-	background-color: #b0b5ff;
+	border: 1px solid #0000004d;
 	border-radius: 20px;
-	text-align: left;
-	div h2 {
-		text-align: center;
+	button {
+		border-radius: 12px;
 	}
 
-	div {
-		width: 360px;
+	.form-header {
+		font-weight: 600;
+		border-bottom: 1px solid #0000004d;
+		padding: 12px;
 	}
-	label {
-		display: block;
-		margin-top: 24px;
+
+	.form-body {
+		padding: 12px;
 	}
-	input {
-		display: inline-flex;
-		background-color: transparent;
-		padding: 5px;
-		width: 70%;
-		border: none;
-		outline: none;
-		border-bottom: 2px solid #fafafa48;
-		&:focus {
-			border-bottom-color: black;
-		}
-	}
-	textarea {
-		display: inline-flex;
-		background-color: transparent;
-		padding: 5px;
-		width: 70%;
-		border: none;
-		outline: none;
-		border-bottom: 2px solid #fafafa48;
-		&:focus {
-			border-bottom-color: black;
-		}
-	}
-	.tipos {
+	.form-field {
 		display: flex;
 		flex-direction: column;
-		text-align: left;
-		label {
-			padding-bottom: 12px;
-		}
-		select {
-			height: 2em;
-			margin-bottom: 1em;
+	}
+	.form-field-image {
+		display: inline-flex;
+		flex-direction: column;
+		span {
+			font-weight: 600;
 		}
 	}
-	.newType {
+	.form-footer {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		justify-content: end;
+		border-top: 1px solid #0000004d;
+		padding: 12px;
+	}
+	.tag-input {
+		display: flex;
+		gap: 8px;
+	}
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 8px;
+	}
+	.tag-item {
+		display: flex;
 		align-items: center;
-		padding-bottom: 24px;
-	}
-	.remove {
-		padding: 0;
-		border-radius: 50%;
-		margin-left: 12px;
-		background-color: transparent;
-		border: none;
-		transition: transform 0.3s ease;
-		&:hover {
-			transform: scale(1.1);
-			border: 1px solid #fafafa48;
-		}
-	}
-	.submit {
-		margin: 24px 0;
-	}
-	.itemType {
-		padding: 24px 0;
-		margin: 24px 0;
-	}
-	.error {
-		border: 1px solid #ff0000a9;
+		background-color: #e0e0e0;
+		padding: 4px 8px;
+		border-radius: 16px;
 	}
 `
-
-// import React, { useState, useEffect } from 'react'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { getAllTechs, addProject } from '../redux/actions'
-
-// const AddProjectForm = () => {
-// 	const dispatch = useDispatch()
-// 	const allTechs = useSelector((state) => state.techs.techs)
-// 	const [selectedTechs, setSelectedTechs] = useState([])
-// 	const [isOtherTech, setIsOtherTech] = useState(false)
-// 	const [formData, setFormData] = useState({
-// 		title: '',
-// 		description: '',
-// 		image: '',
-// 		tags: '',
-// 		technologies: [],
-// 		newTech: '',
-// 	})
-
-// 	useEffect(() => {
-// 		dispatch(getAllTechs())
-// 	}, [dispatch])
-
-// 	const handleChange = (event) => {
-// 		const { name, value } = event.target
-// 		setFormData({
-// 			...formData,
-// 			[name]: value,
-// 		})
-// 	}
-
-// 	const handleSelectTech = (event) => {
-// 		const { value } = event.target
-// 		if (value === 'other') {
-// 			setIsOtherTech(true)
-// 		} else {
-// 			setIsOtherTech(false)
-// 			if (!selectedTechs.includes(value)) {
-// 				setSelectedTechs([...selectedTechs, value])
-// 			}
-// 		}
-// 	}
-
-// 	const handleRemoveTech = (tech) => {
-// 		setSelectedTechs(selectedTechs.filter((value) => value !== tech))
-// 	}
-
-// 	const handleSubmit = (event) => {
-// 		event.preventDefault()
-// 		const dataToSubmit = {
-// 			...formData,
-// 			technologies: selectedTechs,
-// 		}
-
-// 		if (isOtherTech && formData.newTech) {
-// 			dataToSubmit.technologies.push(formData.newTech)
-// 		}
-
-// 		dispatch(addProject(dataToSubmit))
-// 	}
-
-// 	return (
-// 		<form onSubmit={handleSubmit}>
-// 			<div>
-// 				<h2>Agregar Nuevo Proyecto</h2>
-// 			</div>
-// 			<div>
-// 				<label>Título</label>
-// 				<input
-// 					type="text"
-// 					name="title"
-// 					value={formData.title}
-// 					onChange={handleChange}
-// 				/>
-// 			</div>
-// 			<div>
-// 				<label>Descripción</label>
-// 				<textarea
-// 					name="description"
-// 					value={formData.description}
-// 					onChange={handleChange}
-// 				/>
-// 			</div>
-// 			<div>
-// 				<label>Imagen</label>
-// 				<input
-// 					type="text"
-// 					name="image"
-// 					value={formData.image}
-// 					onChange={handleChange}
-// 				/>
-// 			</div>
-// 			<div>
-// 				<label>Etiquetas</label>
-// 				<input
-// 					type="text"
-// 					name="tags"
-// 					value={formData.tags}
-// 					onChange={handleChange}
-// 				/>
-// 			</div>
-// 			<div>
-// 				<label>Tecnologías</label>
-// 				<select onChange={handleSelectTech}>
-// 					<option value="">Seleccionar...</option>
-// 					{allTechs.map((tech) => (
-// 						<option key={tech.id} value={tech.name}>
-// 							{tech.name}
-// 						</option>
-// 					))}
-// 					<option value="other">Otra...</option>
-// 				</select>
-// 				{isOtherTech && (
-// 					<input
-// 						type="text"
-// 						name="newTech"
-// 						placeholder="Nueva tecnología"
-// 						value={formData.newTech}
-// 						onChange={handleChange}
-// 					/>
-// 				)}
-// 			</div>
-// 			<div>
-// 				{selectedTechs.map((tech, index) => (
-// 					<span key={index}>
-// 						{tech}{' '}
-// 						<button type="button" onClick={() => handleRemoveTech(tech)}>
-// 							X
-// 						</button>
-// 					</span>
-// 				))}
-// 			</div>
-// 			<button type="submit">Agregar Proyecto</button>
-// 		</form>
-// 	)
-// }
-
-// export default AddProjectForm

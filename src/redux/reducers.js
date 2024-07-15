@@ -167,18 +167,18 @@ const techsInitialState = {
     error: null,
 };
 
-const techsReducer = (state = techsInitialState, action) => {
-    switch (action.type) {
-        case GET_ALL_TECHS_REQUEST:
-            return { ...state, loading: true };
-        case GET_ALL_TECHS_SUCCESS:
-            return { ...state, loading: false, techs: action.payload };
-        case GET_ALL_TECHS_FAILURE:
-            return { ...state, loading: false, error: action.payload };
-        default:
-            return state;
-    }
-};
+// const techsReducer = (state = techsInitialState, action) => {
+//     switch (action.type) {
+//         case GET_ALL_TECHS_REQUEST:
+//             return { ...state, loading: true };
+//         case GET_ALL_TECHS_SUCCESS:
+//             return { ...state, loading: false, techs: action.payload };
+//         case GET_ALL_TECHS_FAILURE:
+//             return { ...state, loading: false, error: action.payload };
+//         default:
+//             return state;
+//     }
+// };
 
 const projectInitialState = {
     loading: false,
