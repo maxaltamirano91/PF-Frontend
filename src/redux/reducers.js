@@ -26,16 +26,9 @@ import {
     DELETE_USER_PROFILE_SUCCESS,
     DELETE_USER_PROFILE_FAILURE,
 	GET_PROJECT_BY_ID_REQUEST,
-  	GET_PROJECT_BY_ID_SUCCESS,
-  	GET_PROJECT_BY_ID_FAILURE,
-	FETCH_USERS_REQUEST,
-	FETCH_USER_BY_ID_REQUEST,
-	FETCH_USER_PROFILE_REQUEST,
-	
+	GET_PROJECT_BY_ID_SUCCESS,
+	GET_PROJECT_BY_ID_FAILURE,
 } from './actions-types'
-import Detail from '../view/Detail'
-
-
 
 const technologiesInitialState = {
 	technologies: [],
