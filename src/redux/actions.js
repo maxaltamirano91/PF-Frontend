@@ -15,11 +15,11 @@ import {
 	FETCH_TECHNOLOGIES,
 	FILTER_TECHNOLOGIES,
 	FETCH_ERROR,
-	HANDLE_ERROR
+	HANDLE_ERROR,
 } from './actions-types'
 
-// const AUTH_URL = "http://localhost:3001/";
-// const USERS_URL = "http://localhost:3001/users";
+const AUTH_URL = "http://localhost:3001/";
+const USERS_URL = "http://localhost:3001/users";
 const PROJECTS_URL = 'http://localhost:3001/projects'
 const URL_TECHNOLOGIES = 'http://localhost:3001/technologies'
 
@@ -39,7 +39,8 @@ export const fetchTechnologies = (token) => {
 			dispatch({
 				type: FETCH_ERROR,
 				payload: error.message,
-			});		}
+			})
+		}
 	}
 }
 
@@ -52,20 +53,20 @@ export const filterTechnologies = (filteredTechnologies) => {
 	}
 }
 
-export const getAllProjects = (search, technologies) => {
+export const getAllProjects = (pagination, search, technologies) => {
 	return async (dispatch) => {
 		try {
 			let projects
-			if (!search && !technologies) projects = await axios.get(`${PROJECTS_URL}`)
+			if (!search && !technologies)
+				projects = await axios.get(`${PROJECTS_URL}?pageSize=${pagination}`)
 			if (search && !technologies)
-				projects = await axios.get(`${PROJECTS_URL}?search=${search}`)
+				projects = await axios.get(`${PROJECTS_URL}?search=${search}&pageSize=${pagination}`)
 			if (!search && technologies)
 				projects = await axios.get(`
-					${PROJECTS_URL}?technologies=${technologies}`
-				)
+					${PROJECTS_URL}?technologies=${technologies}&pageSize=${pagination}`)
 			if (search && technologies)
 				projects = await axios.get(
-					`${PROJECTS_URL}?search=${search}&technologies=${technologies}`
+					`${PROJECTS_URL}?search=${search}&technologies=${technologies}&pageSize=${pagination}`
 				)
 			dispatch({
 				type: GET_ALL_PROJECTS,
@@ -79,7 +80,7 @@ export const getAllProjects = (search, technologies) => {
 			dispatch({
 				type: FETCH_ERROR,
 				payload: error.message,
-			});
+			})
 		}
 	}
 }
@@ -95,7 +96,7 @@ export const logout = () => ({
 
 export const loginUser = (email, password) => async (dispatch) => {
 	try {
-		const response = await axios.post('http://localhost:3001/login', {
+		const response = await axios.post(`${AUTH_URL}/login`, {
 			email,
 			password,
 		})
@@ -106,7 +107,7 @@ export const loginUser = (email, password) => async (dispatch) => {
 		dispatch({
 			type: FETCH_ERROR,
 			payload: error.message,
-		});
+		})
 		return { success: false, message: 'Credenciales inválidas' }
 	}
 }
@@ -122,14 +123,14 @@ export const setLightMode = () => ({
 export const registerUser = (userData) => async (dispatch) => {
 	dispatch(registerUserRequest())
 	try {
-		const response = await axios.post('http://localhost:3001/signup', userData)
+		const response = await axios.post(`${AUTH_URL}/signup`, userData)
 		dispatch(registerUserSuccess(response.data))
 	} catch (error) {
 		dispatch(registerUserFailure(error.message))
 		dispatch({
 			type: FETCH_ERROR,
 			payload: error.message,
-		});
+		})
 	}
 }
 
@@ -149,7 +150,7 @@ const registerUserFailure = (error) => ({
 export function getUsers() {
 	return async function (dispatch) {
 		try {
-			const response = await axios.get(`http://localhost:3001/users/`)
+			const response = await axios.get(USERS_URL)
 
 			dispatch({
 				type: GET_USERS,
@@ -159,7 +160,7 @@ export function getUsers() {
 			dispatch({
 				type: FETCH_ERROR,
 				payload: error.message,
-			});
+			})
 		}
 	}
 }
@@ -167,10 +168,7 @@ export function getUsers() {
 export function getByName(name) {
 	return async function (dispatch) {
 		try {
-			const response = await axios.get(
-				`http://localhost:3001/users/?name=${name}`
-			)
-
+			const response = await axios.get(`${AUTH_URL}/?name=${name}`)
 			dispatch({
 				type: GET_BY_NAME,
 				payload: response.data,
@@ -179,7 +177,7 @@ export function getByName(name) {
 			dispatch({
 				type: FETCH_ERROR,
 				payload: error.message,
-			});
+			})
 		}
 	}
 }
@@ -187,7 +185,7 @@ export function getByName(name) {
 export function getDetail(id) {
 	return async function (dispatch) {
 		try {
-			const response = await axios.get(`http://localhost:3001/users/${id}`)
+			const response = await axios.get(`${AUTH_URL}/${id}`)
 
 			dispatch({
 				type: GET_DETAIL,
@@ -197,7 +195,7 @@ export function getDetail(id) {
 			dispatch({
 				type: FETCH_ERROR,
 				payload: error.message,
-			});
+			})
 		}
 	}
 }
@@ -210,4 +208,4 @@ export function clearDetail() {
 
 export const handleError = () => ({
 	type: HANDLE_ERROR,
-  });
+})
