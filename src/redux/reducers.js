@@ -28,6 +28,7 @@ import {
 	GET_PROJECT_BY_ID_REQUEST,
 	GET_PROJECT_BY_ID_SUCCESS,
 	GET_PROJECT_BY_ID_FAILURE,
+	MODIFY_PROJECT
 } from './actions-types'
 
 const technologiesInitialState = {
@@ -122,6 +123,11 @@ const projectsReducer = (state = projectsInitialState, action) => {
 			return {
 				...state,
 				project: action.payload,
+			}
+		case MODIFY_PROJECT:
+			return {
+				...state,
+				payload:action.payload
 			}
 
 		default:

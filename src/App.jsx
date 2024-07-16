@@ -36,7 +36,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-          <Route path="/modProject" element={<UpdateProjectPage />} />
+          <Route path="/modProject/:id" element={<UpdateProjectPage />} />
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/project/:id" element={<ProjectDetailPage />} />
