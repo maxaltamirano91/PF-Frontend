@@ -18,8 +18,7 @@ import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage';
 
 function App() {
   const { isLoading } = useAuth0();
-
-  // Asegúrate de que este hook se llame siempre en cada renderizado
+  
   useAuth0TokenHandler();
 
   if (isLoading) return <div>Loading...</div>;

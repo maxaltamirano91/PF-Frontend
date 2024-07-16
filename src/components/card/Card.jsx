@@ -36,7 +36,7 @@ return (
         </div>
     </div>
     <div className="text-center mb-3"> 
-        <Link to={`/project/detail/${id}`} className="btn btn-primary">
+        <Link to={`/project/${id}`} className="btn btn-primary">
         View Detail
         </Link>
     </div>
