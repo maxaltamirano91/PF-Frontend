@@ -28,7 +28,8 @@ import {
 	GET_PROJECT_BY_ID_SUCCESS,
 	GET_PROJECT_BY_ID_FAILURE,
 	GET_BY_NAME,
-	MODIFY_PROJECT
+	MODIFY_PROJECT,
+	MODIFY_PROJECT_ERROR
 } from './actions-types';
 
 const AUTH_URL = "http://localhost:3001";
@@ -349,19 +350,19 @@ export const modifyProject = ({ input, id, authToken }) => {
                     Authorization: `Bearer ${authToken}`
                 }
             });
-
             dispatch({
                 type: MODIFY_PROJECT,
                 payload: response.data
             });
-
             console.log("Modification successful:", response.data);
         } catch (error) {
-            console.error("Modification error:", error.message);
-            return dispatch({
-                type: "ERROR",
+            console.error("Error modifying project:", error);
+            dispatch({
+                type: MODIFY_PROJECT_ERROR, // Asegúrate de que MODIFY_PROJECT_ERROR esté definido en actionTypes.js
                 payload: error.message
             });
         }
     };
 };
+
+
