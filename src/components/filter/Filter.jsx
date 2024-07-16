@@ -5,7 +5,7 @@ import {
 	fetchTechnologies,
 	filterTechnologies,
 	getAllProjects,
-} from '../redux/actions'
+} from '../../redux/actions'
 
 const Filter = () => {
 	const dispatch = useDispatch()
