@@ -25,10 +25,9 @@ import {
     DELETE_USER_BY_ID_FAILURE,
     DELETE_USER_PROFILE_SUCCESS,
     DELETE_USER_PROFILE_FAILURE,
-	FETCH_USERS_REQUEST,
-	FETCH_USER_BY_ID_REQUEST,
-	FETCH_USER_PROFILE_REQUEST,
-	
+	GET_PROJECT_BY_ID_REQUEST,
+	GET_PROJECT_BY_ID_SUCCESS,
+	GET_PROJECT_BY_ID_FAILURE,
 } from './actions-types'
 
 const technologiesInitialState = {
@@ -94,16 +93,18 @@ const technologiesReducer = (state = technologiesInitialState, action) => {
 
 const authReducer = (state = authInitialState, action) => {
 	switch (action.type) {
-		case SET_AUTH_TOKEN:
-			localStorage.setItem('authToken', action.payload)
-			return { ...state, authToken: action.payload }
-		case LOGOUT:
-			localStorage.removeItem('authToken')
-			return { ...state, authToken: null }
-		default:
-			return state
+	  case SET_AUTH_TOKEN:
+		localStorage.setItem('authToken', action.payload);
+		return { ...state, authToken: action.payload };
+	  case LOGOUT:
+		localStorage.removeItem('authToken');
+		return { ...state, authToken: null };
+	  default:
+		return state;
 	}
-}
+  };
+  
+
 
 const projectsReducer = (state = projectsInitialState, action) => {
 	switch (action.type) {
@@ -284,6 +285,30 @@ const userReducer = (state = initialState, action) => {
 			return state;
 	}
 };
+const projectDetailReducer = (state = initialState, action) => {
+	switch (action.type) {
+	  case GET_PROJECT_BY_ID_REQUEST:
+		return {
+		  ...state,
+		  loading: true,
+		  error: null,
+		};
+	  case GET_PROJECT_BY_ID_SUCCESS:
+		return {
+		  ...state,
+		  loading: false,
+		  project: action.payload,
+		};
+	  case GET_PROJECT_BY_ID_FAILURE:
+		return {
+		  ...state,
+		  loading: false,
+		  error: action.payload,
+		};
+	  default:
+		return state;
+	}
+  };
 
 export default combineReducers({
 	auth: authReducer,
@@ -293,4 +318,5 @@ export default combineReducers({
 	register: registerReducer,
 	technologies: technologiesReducer,
 	user: userReducer,
+	detail: projectDetailReducer
 })

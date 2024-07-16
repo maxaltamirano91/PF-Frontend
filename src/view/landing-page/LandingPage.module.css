@@ -1,0 +1,28 @@
+.heroSection {
+    margin-top: 56px;
+    background-image: url("../../assets/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+        
+  }
+  
+  .bgDark {
+    /* background-color: rgb(255, 255, 255) !important; */
+    /* transition: background-color 0.3s ease; */
+    
+
+  }
+  
+  .bgTransparent {    
+    /* background-color: transparent !important; */
+    /* transition: background-color 0.3s ease; */
+  }
+  
+  .text-center {
+    /* text-align: center; */
+  }
+  
+  .text-white {
+    /* color: white; */
+  }
