@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDarkMode, setLightMode } from '../../redux/actions'
 import LogoutButton from '../logout-button/LogoutButton'
-import SearchBar from '../searchbar/Searchbar'
+// import SearchBar from '../searchbar/Searchbar'
 import Filter from '../filter/Filter'
 import styles from './NavBar.module.css'
 
@@ -93,7 +93,7 @@ const NavBar = () => {
 							</a>
 						</li>
 					</ul>
-					<SearchBar />
+					{/* <SearchBar /> */}
 					<Filter />
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item">
