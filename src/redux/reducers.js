@@ -127,7 +127,7 @@ const projectsReducer = (state = projectsInitialState, action) => {
 		case MODIFY_PROJECT:
 			return {
 				...state,
-				payload:action.payload
+				project: action.payload
 			}
 
 		default:

@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getProjectById } from '../../redux/actions'; 
+import { useParams, useNavigate } from 'react-router-dom';
+import { getProjectById } from '../../redux/actions';
 
 const Detail = () => {
   const { id } = useParams(); 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const project = useSelector((state) => state.detail.project); 
   const loading = useSelector((state) => state.detail.loading); 
   const error = useSelector((state) => state.detail.error);     
@@ -13,6 +14,10 @@ const Detail = () => {
   useEffect(() => {
     dispatch(getProjectById(id)); 
   }, [dispatch, id]);
+
+  const handleEdit = () => {
+    navigate(`/modProject/${id}`);
+  };
 
   if (loading) return <p className="text-center mt-5">Loading...</p>;
   if (error) return <p className="text-center mt-5">Error: {error}</p>;
@@ -41,6 +46,12 @@ const Detail = () => {
                   ))}
                 </ul>
               )}
+              <button 
+                className="btn btn-primary mt-3"
+                onClick={handleEdit}
+              >
+                Edit Project
+              </button>
             </div>
           </div>
         </div>

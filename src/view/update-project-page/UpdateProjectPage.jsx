@@ -1,172 +1,116 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import './UpdateProjectPage.module.css';
-import { fetchTechnologies, modifyProject } from '../../redux/actions'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTechnologies, getProjectById, modifyProject } from '../../redux/actions';
 import { useParams, useNavigate } from 'react-router-dom';
 
-
 const UpdateProjectPage = () => {
-
     const { id } = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch()
-    const { technologies } = useSelector((state) => state.technologies)
-    const authToken = useSelector((state) => state.auth.authToken)
-    
+    const dispatch = useDispatch();
+    const { technologies } = useSelector((state) => state.technologies);
+    const project = useSelector((state) => state.detail.project); 
+    const authToken = useSelector((state) => state.auth.authToken);
+
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        image: '',
+        tags: '',
+        technologies: [],
+    });
+
     useEffect(() => {
-        dispatch(fetchTechnologies(localStorage))
-    }, [])
+        dispatch(fetchTechnologies());
+        dispatch(getProjectById(id));
+    }, [dispatch, id]);
 
-    const [input, setInput] = useState({
-        title: "\n",
-        description: "\n",
-        technology: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        tags: "\n",
-        image: "\n"
-    })
+    useEffect(() => {
+        if (project) {
+            setFormData({
+                title: project.title || '',
+                description: project.description || '',
+                image: project.image || '',
+                tags: project.tags ? project.tags.join(', ') : '',
+                technologies: project.technologies ? project.technologies.map(tech => tech.name) : [],
+            });
+        }
+    }, [project]);
 
-    const change = event => {
-        const {name, value} = event.target;
-        setInput({
-            ...input,
-            [name] : value
-        })
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleTechChange = (event) => {
+        const { value, checked } = event.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            technologies: checked
+                ? [...prevState.technologies, value]
+                : prevState.technologies.filter((tech) => tech !== value),
+        }));
+    };
+
+    const handleTagChange = (event) => {
+        setFormData({
+            ...formData,
+            tags: event.target.value,
+        });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            await dispatch(modifyProject({ ...formData, id, authToken }));
+            alert("Proyecto alterado exitosamente");
+            navigate(`/home`);
+        } catch (error) {
+            console.error('Error modifying project:', error);
+            // Manejar el error de manera apropiada
+        }
+    };
+
+    if (!project) {
+        return <div>Loading...</div>;
     }
 
-    const change2 = event => {
-        const {name, value, checked} = event.target;
-        checked ? input.technology[name] = value : input.technology[name] = ""
-        console.log(name, value)
-        console.log(input.technology[name])
-    }
-    console.log(input)
-
-    const modProject = () => {
-        dispatch(modifyProject( {input, id, authToken} ))
-        alert("Proyecto alterado exitosamente")
-        navigate(`/home`)
-    }
-
-    return(
-    <div style={{width:"50%"}} className="mx-auto mt-5">
-        <form action="">
-            <div className="align-items-center">
-                <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Título:</label><br />
-                <input type="text" key="title" id='title' name='title' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.title} required/> <br />
-            </div>
-            <div>
-                <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Descripción de proyecto:</label><br />            
-                <input type="text" key="description" id='description' name='description' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.description} required/> <br />
-            </div>
-            <div>
-                <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Tecnologías:</label><br />
-                <ul>
-                    {technologies.map((value, index)=>(
-                        <li key={index} style={{display:"inline-block", margin:"9px"}}>
-                            <input key={value} id={value} name={index} type="checkbox" value={value.name} onChange={change2}/>
-                            <label style={{fontSize:"20px", fontWeight:"bold"}} className='.custom-checkbox'>{value.name}</label>
-                        </li>
-                    ))}
-                </ul>            
-            </div>
-            <div>
-                <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Tags:</label><br />
-                <input type="text" key="tags" id='tags' name='tags' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.tags} required/> <br />
-            </div>
-            <div>
-                <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Imagen representativa:</label><br />            
-                <input type="text" key="image" id='image' name='image' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.image} required/> 
-            </div>
-        </form><br />
-        <button className='palabra' type='submit' onClick={modProject} style={{cursor:"pointer", border:"0px", borderRadius:"10px", padding:"5px 10px", fontWeight:"bold", fontSize:"20px"}}>Modificar Proyecto</button>
-    </div>
-    )
-}
+    return (
+        <div style={{ width: "50%" }} className="mx-auto mt-5">
+            <form onSubmit={handleSubmit}>
+                <div className="align-items-center">
+                    <label htmlFor="title" style={{ color: "white", fontSize: "20px" }}>Título:</label><br />
+                    <input type="text" id="title" name="title" style={{ backgroundColor: "#212529", border: "1pt solid #656768", width: "100%", fontSize: "21px" }} className='mb-3' onChange={handleChange} value={formData.title} required /> <br />
+                </div>
+                <div>
+                    <label htmlFor="description" style={{ color: "white", fontSize: "20px" }}>Descripción de proyecto:</label><br />
+                    <textarea id="description" name="description" style={{ backgroundColor: "#212529", border: "1pt solid #656768", width: "100%", fontSize: "21px" }} className='mb-3' onChange={handleChange} value={formData.description} required /> <br />
+                </div>
+                <div>
+                    <label htmlFor="technologies" style={{ color: "white", fontSize: "20px" }}>Tecnologías:</label><br />
+                    <ul>
+                        {technologies.map((tech) => (
+                            <li key={tech.id} style={{ display: "inline-block", margin: "9px" }}>
+                                <input id={tech.name} name="technologies" type="checkbox" value={tech.name} onChange={handleTechChange} checked={formData.technologies.includes(tech.name)} />
+                                <label htmlFor={tech.name} style={{ fontSize: "20px", fontWeight: "bold" }}>{tech.name}</label>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div>
+                    <label htmlFor="tags" style={{ color: "white", fontSize: "20px" }}>Tags:</label><br />
+                    <input type="text" id="tags" name="tags" style={{ backgroundColor: "#212529", border: "1pt solid #656768", width: "100%", fontSize: "21px" }} className='mb-3' onChange={handleTagChange} value={formData.tags} required /> <br />
+                </div>
+                <div>
+                    <label htmlFor="image" style={{ color: "white", fontSize: "20px" }}>Imagen representativa:</label><br />
+                    <input type="text" id="image" name="image" style={{ backgroundColor: "#212529", border: "1pt solid #656768", width: "100%", fontSize: "21px" }} className='mb-3' onChange={handleChange} value={formData.image} required />
+                </div>
+                <button type="submit" className='palabra' style={{ cursor: "pointer", border: "0px", borderRadius: "10px", padding: "5px 10px", fontWeight: "bold", fontSize: "20px" }}>Modificar Proyecto</button>
+            </form>
+        </div>
+    );
+};
 
 export default UpdateProjectPage;
-
-
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux'
-// import './UpdateProjectPage.module.css';
-// import { fetchTechnologies, modifyProject } from '../redux/actions'
-// import { useParams, useNavigate } from 'react-router-dom';
-
-
-// const UpdateProjectPage = () => {
-
-    // const { id } = useParams();
-    // const navigate = useNavigate();
-//     const dispatch = useDispatch()
-//     const { technologies } = useSelector((state) => state.technologies)
-    // const authToken = useSelector((state) => state.auth.authToken)
-    
-//     useEffect(() => {
-//         dispatch(fetchTechnologies(localStorage))
-//     }, [])
-
-//     const [input, setInput] = useState({
-//         title: "\n",
-//         description: "\n",
-//         technology: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-//         tags: "\n",
-//         image: "\n"
-//     })
-
-//     const change = event => {
-//         const {name, value} = event.target;
-//         setInput({
-//             ...input,
-//             [name] : value
-//         })
-//     }
-
-//     const change2 = event => {
-//         const {name, value, checked} = event.target;
-//         checked ? input.technology[name] = value : input.technology[name] = ""
-//         console.log(name, value)
-//         console.log(input.technology[name])
-//     }
-    
-    // const modProject = () => {
-    //     dispatch(modifyProject( {input, id, authToken} ))
-    //     navigate(`/home`)
-    // }
-
-//     return(
-//     <div style={{width:"50%"}} className="mx-auto mt-5">
-//         <form action="">
-//             <div className="align-items-center">
-//                 <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Título:</label><br />
-//                 <input type="text" key="title" id='title' name='title' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.title} required/> <br />
-//             </div>
-//             <div>
-//                 <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Descripción de proyecto:</label><br />            
-//                 <input type="text" key="description" id='description' name='description' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.description} required/> <br />
-//             </div>
-//             <div>
-//                 <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Tecnologías:</label><br />
-//                 <ul>
-//                     {technologies.map((value, index)=>(
-//                         <li key={index} style={{display:"inline-block", margin:"9px"}}>
-//                             <input key={value} id={value} name={index} type="checkbox" value={value.name} onChange={change2}/>
-//                             <label style={{fontSize:"20px", fontWeight:"bold"}} className='.custom-checkbox'>{value.name}</label>
-//                         </li>
-//                     ))}
-//                 </ul>            
-//             </div>
-//             <div>
-//                 <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Tags:</label><br />
-//                 <input type="text" key="tags" id='tags' name='tags' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.tags} required/> <br />
-//             </div>
-//             <div>
-//                 <label htmlFor="" style={{color:"white", fontSize:"20px"}}>Imagen representativa:</label><br />            
-//                 <input type="text" key="image" id='image' name='image' style={{backgroundColor:"#212529", border:"1pt solid #656768", width:"100%", fontSize:"21px"}} className='mb-3' onChange={change} value={input.image} required/> 
-//             </div>
-//         </form><br />
-//         <button className='palabra' type='submit' onClick={modProject} style={{cursor:"pointer", border:"0px", borderRadius:"10px", padding:"5px 10px", fontWeight:"bold", fontSize:"20px"}}>Modificar Proyecto</button>
-//     </div>
-//     )
-// }
-
-// export default UpdateProjectPage;

@@ -341,24 +341,25 @@ export const handleError = () => ({
 	type: HANDLE_ERROR,
 });
 
-export const modifyProject = ({ input, id, authToken} ) => {
+export const modifyProject = ({ input, id, authToken }) => {
     return async function(dispatch) {
         try {
-            const response = await axios.put(`http://localhost:3001/projects/${id}`, {input}, {
+            const response = await axios.put(`http://localhost:3001/projects/${id}`, input, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
             });
-			console.log("A")
+
             dispatch({
                 type: MODIFY_PROJECT,
                 payload: response.data
             });
-			console.log(response.data)
-			console.log("type", type, "payload", payload)
+
+            console.log("Modification successful:", response.data);
         } catch (error) {
+            console.error("Modification error:", error.message);
             return dispatch({
-                type: Error,
+                type: "ERROR",
                 payload: error.message
             });
         }
