@@ -1,14 +1,11 @@
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 import Card from '../card/Card'
 
-const Cards = () => {
-	const { allProjects } = useSelector((state) => state.project)
-
+const Cards = ({ projects }) => {
 	return (
 		<CardsDiv className="container-fluid">
-			{allProjects.length ? (
-				allProjects.map((project) => (
+			{projects.length ? (
+				projects.map((project) => (
 					<Card
 						key={project.id}
 						id={project.id}

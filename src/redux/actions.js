@@ -25,8 +25,9 @@ import {
 	DELETE_USER_PROFILE_SUCCESS,
 	DELETE_USER_PROFILE_FAILURE,
 	GET_PROJECT_BY_ID_REQUEST,
-  	GET_PROJECT_BY_ID_SUCCESS,
- 	GET_PROJECT_BY_ID_FAILURE,
+	GET_PROJECT_BY_ID_SUCCESS,
+	GET_PROJECT_BY_ID_FAILURE,
+	GET_BY_NAME
 } from './actions-types';
 
 const AUTH_URL = "http://localhost:3001";
@@ -51,10 +52,10 @@ export const getProjectByIdRequest = () => ({
   export const getProjectById = (projectId) => async (dispatch) => {
 	dispatch(getProjectByIdRequest());
 	try {
-	  const response = await axios.get(`${PROJECTS_URL}/${projectId}`);
-	  dispatch(getProjectByIdSuccess(response.data));
+		const response = await axios.get(`${PROJECTS_URL}/${projectId}`);
+		dispatch(getProjectByIdSuccess(response.data));
 	} catch (error) {
-	  dispatch(getProjectByIdFailure(error.message));
+		dispatch(getProjectByIdFailure(error.message));
 	}
   };
   
@@ -273,8 +274,7 @@ export const getUserProfile = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			});
-			console.log('User profile data received:', response.data.profile);
-			dispatch({ type: FETCH_USER_PROFILE_SUCCESS, payload: response.data.profile });
+			dispatch({ type: FETCH_USER_PROFILE_SUCCESS, payload: response.data });
 		} catch (error) {
 			console.error('Error fetching user profile:', error.message);
 			dispatch({ type: FETCH_USER_PROFILE_FAILURE, payload: error.message });

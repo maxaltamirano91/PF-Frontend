@@ -5,6 +5,7 @@ import Error from "./components/error/Error"
 import Footer from './components/footer/Footer';
 import NavBar from './components/nav-bar/NavBar';
 import HomePage from './view/home-page/HomePage';
+import ProfilePage from './view/profile-page/ProfilePage';
 import LoginPage from './view/login-page/LoginPage';
 import RegisterPage from './view/register-page/RegisterPage';
 import ForgotPasswordPage from './view/forgot-password-page/ForgotPasswordPage';
@@ -39,6 +40,7 @@ function App() {
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/project/:id" element={<ProjectDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
         <Footer />
       </div>
