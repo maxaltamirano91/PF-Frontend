@@ -1,7 +1,6 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 const CardDiv = styled.div`
   .card {

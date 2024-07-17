@@ -14,21 +14,9 @@ const LoginPage = () => {
     password: Yup.string().required('Se requiere una contraseña'),
   });
 
-  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
-    try {
-      const { success, message } = await dispatch(loginUser(values.email, values.password));
-      if (!success) {
-        setErrors({ submit: message });
-      } else {
-        // Redirigir al usuario a la página de proyectos por ahora home
-        window.location.href = '/home';
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-      setErrors({ submit: 'Error de servidor' });
-    } finally {
-      setSubmitting(false);
-    }
+  const handleSubmit = async (userData) => {
+    const logged = dispatch(loginUser(userData, 'local'))  
+    if (logged) window.location.href = '/home';
   };
 
   return (

@@ -7,3 +7,5 @@ export const AUTH0_DOMAIN = 'dev-bd0lpc8g2yokggoq.us.auth0.com'
 export const AUTH0_CLIENT_ID = 'bIAB5ZIDrbrj4bTnT8cXwPD1x2rgQiou'
 export const UTH0_CLIENT_SECRET = 'xxpuBjlhiu_Jp7rsxOaDlb3QXroe69VXjA0nYyO4TVYWaD8fqaMFCmqdbnY7nJFX'
 export const AUTH0_AUDIENCE = 'https://dev-bd0lpc8g2yokggoq.us.auth0.com/api/v2/'
+
+// export const PORT = process.env.PORT || '5173'

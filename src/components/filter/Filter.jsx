@@ -10,7 +10,7 @@ import {
 const Filter = () => {
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
-	const localStorage = useSelector((state) => state.auth)
+	const { token } = useSelector((state) => state.auth)
 	const [selectedOptions, setSelectedOptions] = useState([])
 	const [search, setSearch] = useState('')
 	const pagination = 5
@@ -32,8 +32,8 @@ const Filter = () => {
 	}
 
 	useEffect(() => {
-		dispatch(fetchTechnologies(localStorage))
-	}, [dispatch, localStorage])
+		dispatch(fetchTechnologies(token))
+	}, [dispatch, token])
 	return (
 		<div>
 			<link

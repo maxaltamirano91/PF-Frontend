@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import Card from '../card/Card'
 
-const Cards = ({ projects }) => {
+const Cards = (projects) => {
 	return (
 		<CardsDiv className="container-fluid">
-			{projects.length ? (
-				projects.map((project) => (
+			{projects.projects?.length ? (
+				projects.projects.map((project) => (
 					<Card
 						key={project.id}
 						id={project.id}

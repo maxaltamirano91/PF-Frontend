@@ -4,10 +4,10 @@ import { getAllProjects } from '../../redux/actions';
 import Cards from '../../components/cards/Cards';
 
 const HomePage = () => {
-	const dispatch = useDispatch();
-	const { allProjects } = useSelector((state) => state.project);
-	const [renderingCards, setRenderingCards] = useState(5);
-	const [displayPagination, setDisplayPagination] = useState(true);
+	const dispatch = useDispatch()
+	const { allProjects } = useSelector((state) => state.projects)
+	const [renderingCards, setRenderingCards] = useState(5)
+	const [displayPagination, setDisplayPagination] = useState(true)
 
 	const handlePagination = () => {
 		if (allProjects.length >= renderingCards) {

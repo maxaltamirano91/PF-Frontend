@@ -7,21 +7,17 @@ import Cards from '../../components/cards/Cards'
 const ProfilePage = () => {
 	const dispatch = useDispatch()
 	const { user, isAuthenticated, isLoading } = useAuth0()
-	const { userProfile } = useSelector((state) => state.user)
-	const { authToken } = useSelector((state) => state.auth)
+	const { token, loggedUser } = useSelector((state) => state.auth)
 
 	useEffect(() => {
-		dispatch(getUserProfile(authToken))
+		dispatch(getUserProfile(token))
 	}, [])
 
-	if (isLoading & !userProfile) return <div>Loading ...</div>
+	if (isLoading && !loggedUser) return <div>Loading ...</div>
 
-	console.log(userProfile)
 	if (isAuthenticated)
 		return (
 			<div>
-				<h2>Hello, User!</h2>
-
 				<img src={user.picture} alt={user.name} />
 				<h2>{user.name}</h2>
 				<p>{user.email}</p>
@@ -29,14 +25,14 @@ const ProfilePage = () => {
 			</div>
 		)
 
-	if (userProfile)
+	if (loggedUser)
 		return (
 			<div>
-				<img src={userProfile.image} alt={userProfile.userName} />
-				<h2>{userProfile.userName}</h2>
-				<p>{userProfile.email}</p>
+				<img src={loggedUser.image} alt={loggedUser.userName} />
+				<h2>{loggedUser.userName}</h2>
+				<p>{loggedUser.email}</p>
 				<hr />
-				<Cards projects={userProfile.projects} />
+				<Cards projects={loggedUser.projects} displayButtons={true} />
 			</div>
 		)
 }

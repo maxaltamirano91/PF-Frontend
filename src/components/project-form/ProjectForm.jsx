@@ -1,23 +1,13 @@
 import styled from 'styled-components'
-import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllTechs, addProject } from '../redux/actions'
+import { createProject } from '../../redux/actions'
 
 const ProjectForm = () => {
 	const dispatch = useDispatch()
+	const { token } = useSelector((state) => state.auth)
 	const { technologies } = useSelector((state) => state.technologies)
-
-	const getToken = () => {
-		return localStorage.getItem('authToken')
-	}
-
-	// console.log(technologies)
-
-	useEffect(() => {
-		dispatch(fetchTechnologies(localStorage))
-	}, [dispatch])
-
+	const [selectedTechs, setSelectedTechs] = useState([])
 	const [formData, setFormData] = useState({
 		title: '',
 		description: '',
@@ -25,8 +15,8 @@ const ProjectForm = () => {
 		tags: [],
 		technologies: [],
 	})
+	const isOtherTech = false;
 
-	const [selectedTechs, setSelectedTechs] = useState([])
 	const [newTag, setNewTag] = useState('')
 
 	const handleChange = (event) => {
@@ -96,33 +86,12 @@ const ProjectForm = () => {
 			...formData,
 			technologies: selectedTechs,
 		}
-		console.log(dataToSubmit)
 
-		try {
-			const response = await axios.post(
-				'http://localhost:3001/projects',
-				dataToSubmit,
-				{
-					headers: {
-						Authorization: `Bearer ${getToken()}`,
-					},
-				}
-			)
-			console.log('Se agregó el proyecto:', response.data)
-			window.alert(`${formData.title} agregado a la Base de Datos`)
-
-			setFormData({
-				title: '',
-				description: '',
-				image: '',
-				tags: [],
-				technologies: [],
-			})
-			setSelectedTechs([])
-		} catch (error) {
-			console.error('Error al agregar el proyecto:', error)
-			window.alert(`error al agregar`)
+		if (isOtherTech && formData.newTech) {
+			dataToSubmit.technologies.push(formData.newTech)
 		}
+
+		dispatch(createProject(dataToSubmit, token))
 	}
 
 	return (

@@ -6,7 +6,7 @@ import styles from './LandingPage.module.css';
 
 const LandingPage = () => {
     const dispatch = useDispatch();
-    const { allProjects } = useSelector((state) => state.project);
+    const { allProjects } = useSelector((state) => state.projects);
     const [renderingCards, setRenderingCards] = useState(5);
     const [displayPagination, setDisplayPagination] = useState(true);
     const projectsSectionRef = useRef(null);
@@ -48,7 +48,7 @@ const LandingPage = () => {
             <div className={styles['hero-section']}>
                 <img src="https://i.ibb.co/z2Pg2h5/modern-gradient-background-picjumbo-com.jpg" alt="Hero" className={styles['hero-image']} />
                 <div className={styles['hero-text']}>
-                    <h1>The World's best Devs</h1>
+                    <h1>{"The World's best Devs"}</h1>
                     <h1>are on ForDevs</h1>
                     <button className="btn btn-primary" onClick={handleScrollToProjects}>Descubre más</button>
                 </div>

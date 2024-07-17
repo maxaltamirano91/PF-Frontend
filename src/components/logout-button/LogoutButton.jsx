@@ -1,13 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useDispatch } from 'react-redux';
-import { logout as reduxLogout } from '../../redux/actions';
+import { logoutUser } from '../../redux/actions';
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch(reduxLogout());
+    dispatch(logoutUser());
     logout({ returnTo: window.location.origin });
   };
 

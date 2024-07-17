@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDarkMode, setLightMode } from '../../redux/actions'
 import LogoutButton from '../logout-button/LogoutButton'
-// import SearchBar from '../searchbar/Searchbar'
 import Filter from '../filter/Filter'
 import styles from './NavBar.module.css'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
 	const dispatch = useDispatch()
-	const theme = useSelector((state) => state.theme.theme)
-	const authToken = useSelector((state) => state.auth.authToken)
+	const { theme } = useSelector((state) => state.themes)
+	const { token } = useSelector((state) => state.auth)
 	const [navbar, setNavbar] = useState(false)
 
 	const darkMode = () => {
@@ -61,7 +61,7 @@ const NavBar = () => {
 			style={{ position: 'relative' }}
 		>
 			<div className="container-fluid">
-				<a className="navbar-brand" href="/">
+				<a className="navbar-brand" to="/">
 					ForDevs
 				</a>
 				<button
@@ -78,36 +78,40 @@ const NavBar = () => {
 				<div className="collapse navbar-collapse" id="navbarNav">
 					<ul className="navbar-nav">
 						<li className="nav-item">
-							<a className="nav-link active" aria-current="page" href="/home">
+							<Link className="nav-link active" aria-current="page" to="/home">
 								Explorar
-							</a>
+							</Link>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link" href="/users">
+							<Link className="nav-link" to="/users">
 								Users
-							</a>
+							</Link>
 						</li>
 						<li className="nav-item">
-							<a className="nav-link disabled" href="#">
+							<Link className="nav-link disabled" to="#">
 								Mis Proyectos
-							</a>
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link className="nav-link" to="/profile">
+								Perfil
+							</Link>
 						</li>
 					</ul>
-					{/* <SearchBar /> */}
 					<Filter />
 					<ul className="navbar-nav ms-auto">
 						<li className="nav-item">
-							{authToken ? (
+							{token ? (
 								<LogoutButton />
 							) : (
-								<a className="nav-link" href="/login">
+								<Link className="nav-link" to="/login">
 									Ingresar
-								</a>
+								</Link>
 							)}
 						</li>
-						{!authToken && (
+						{!token && (
 							<li className="nav-item">
-								<a className="nav-link" href="/register">
+								<a className="nav-link" to="/register">
 									Regístrate
 								</a>
 							</li>

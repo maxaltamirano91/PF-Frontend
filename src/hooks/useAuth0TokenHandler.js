@@ -1,43 +1,31 @@
-import { useEffect } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useDispatch } from 'react-redux';
-import { setAuthToken, fetchError } from '../redux/actions';
+import { useEffect } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../redux/actions'
+import { FETCH_ERROR } from '../redux/types'
+import { AUTH0_AUDIENCE } from '../../auth0-config'
 
 const useAuth0TokenHandler = () => {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const dispatch = useDispatch();
+	const dispatch = useDispatch()
+	const { getAccessTokenSilently, isAuthenticated } = useAuth0()
 
-  useEffect(() => {
-    const getToken = async () => {
-      if (isAuthenticated) {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: 'tu_audience_de_auth0', // Reemplaza con tu audiencia de Auth0
-          });
+	useEffect(() => {
+		const getToken = async () => {
+			if (isAuthenticated) {
+				try {
+					const token = await getAccessTokenSilently({
+						audience: AUTH0_AUDIENCE,
+					})
+					localStorage.setItem('authToken', token)
+					dispatch(loginUser(token, 'auth0'))
+				} catch (error) {
+					dispatch({ type: FETCH_ERROR, payload: error.message })
+				}
+			}
+		}
 
-          // Verifica que el token sea un JWT
-          const decodedToken = parseJwt(token);
-          console.log(decodedToken); // Muestra el payload decodificado del JWT
+		getToken()
+	}, [isAuthenticated, getAccessTokenSilently, dispatch])
+}
 
-          dispatch(setAuthToken(token));
-        } catch (error) {
-          dispatch(fetchError(error.message));
-        }
-      }
-    };
-
-    getToken();
-  }, [isAuthenticated, getAccessTokenSilently, dispatch]);
-
-  // Función para decodificar un JWT (puedes usar una biblioteca como jwt-decode)
-  const parseJwt = (token) => {
-    try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      return null;
-    }
-  };
-
-};
-
-export default useAuth0TokenHandler;
+export default useAuth0TokenHandler
