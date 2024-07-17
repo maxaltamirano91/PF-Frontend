@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 import { Auth0Provider } from '@auth0/auth0-react'
-import { auth0Domain, auth0ClientId } from '../auth0-config.js'
+import { AUTH0_DOMAIN, AUTH0_CLIENT_ID } from '../auth0-config.js'
 
 import App from './App.jsx'
 import './index.css'
@@ -20,8 +20,8 @@ const onRedirectCallback = (appState) => {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<Auth0Provider
-		domain={auth0Domain}
-		clientId={auth0ClientId}
+		domain={AUTH0_DOMAIN}
+		clientId={AUTH0_CLIENT_ID}
 		redirectUri={`http://localhost:5173/home`}
 		onRedirectCallback={onRedirectCallback}
 	>

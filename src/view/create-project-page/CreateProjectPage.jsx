@@ -1,16 +1,16 @@
 import styled from 'styled-components'
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchTechnologies } from '../redux/actions'
+import { fetchTechnologies, createProject, uploadImage } from '../../redux/actions'
 
-const AddProjectForm = () => {
+const CreateProjectPage = () => {
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
-	console.log(technologies)
+	const { imageUrl } = useSelector((state) => state.projects)
+	const { token } = useSelector((state) => state.auth)
 
 	useEffect(() => {
-		dispatch(fetchTechnologies(localStorage))
+		dispatch(fetchTechnologies())
 	}, [dispatch])
 
 	const [formData, setFormData] = useState({
@@ -22,7 +22,7 @@ const AddProjectForm = () => {
 	})
 
 	const [selectedTechs, setSelectedTechs] = useState([])
-	const [isOtherTech, setIsOtherTech] = useState(false)
+	const [newTag, setNewTag] = useState('')
 
 	const handleChange = (event) => {
 		const { name, value } = event.target
@@ -34,13 +34,8 @@ const AddProjectForm = () => {
 
 	const handleTechChange = (event) => {
 		const { value } = event.target
-		if (value === 'other') {
-			setIsOtherTech(true)
-		} else {
-			setIsOtherTech(false)
-			if (!selectedTechs.includes(value)) {
-				setSelectedTechs([...selectedTechs, value])
-			}
+		if (!selectedTechs.includes(value)) {
+			setSelectedTechs([...selectedTechs, value])
 		}
 	}
 
@@ -49,62 +44,43 @@ const AddProjectForm = () => {
 	}
 
 	const handleTagChange = (event) => {
-		const { value } = event.target
-		const tagsArray = value
-			.split(',')
-			.map((tag) => tag.trim())
-			.slice(0, 5)
+		setNewTag(event.target.value)
+	}
+
+	const handleUploadImagen = async (e) => {
+		const imageUpload = e.target.files[0]
+		dispatch(uploadImage(imageUpload))
+	}
+
+	const handleAddTag = () => {
+		if (
+			formData.tags.length < 5 &&
+			newTag.trim() !== '' &&
+			!formData.tags.includes(newTag.trim())
+		) {
+			setFormData({
+				...formData,
+				tags: [...formData.tags, newTag.trim()],
+			})
+			setNewTag('')
+		}
+	}
+
+	const handleRemoveTag = (tag) => {
 		setFormData({
 			...formData,
-			tags: tagsArray,
+			tags: formData.tags.filter((t) => t !== tag),
 		})
 	}
 
-	const handleSubmit = async (event) => {
-		event.preventDefault()
-
-		if (!formData.title) {
-			alert('El título es obligatorio')
-			return
-		}
-
-		if (
-			formData.description === '' ||
-			formData.image === '' ||
-			formData.tags.length === 0 ||
-			selectedTechs.length === 0
-		) {
-			if (!window.confirm('Algunos campos están vacíos. ¿Desea continuar?')) {
-				return
-			}
-		}
-
-		const dataToSubmit = {
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		dispatch(createProject({
 			...formData,
 			technologies: selectedTechs,
-		}
-		console.log(dataToSubmit)
-
-		try {
-			const response = await axios.post(
-				'http://localhost:3001/projects',
-				dataToSubmit
-			)
-			console.log('Se agregó el proyecto:', response.data)
-			window.alert(`${formData.title} agregado a la Base de Datos`)
-
-			setFormData({
-				title: '',
-				description: '',
-				image: '',
-				tags: [],
-				technologies: [],
-			})
-			setSelectedTechs([])
-		} catch (error) {
-			console.error('Error al agregar el proyecto:', error)
-			window.alert(`error al agregar`)
-		}
+			image: imageUrl,
+		}, token))
+		window.location.href = '/home';
 	}
 
 	return (
@@ -135,13 +111,11 @@ const AddProjectForm = () => {
 				<div className="form-field mt-2">
 					<label>Contenido multimedia</label>
 					<input
-						type="text"
+						type="file"
 						name="image"
-						value={formData.image}
-						onChange={handleChange}
-						placeholder="URL de la imagen"
+						onChange={handleUploadImagen}
+						placeholder="subir imagen"
 					/>
-					{/* <input type="file" name="image" onChange={handleChange} /> */}
 				</div>
 
 				<div className="form-field mt-2">
@@ -153,37 +127,11 @@ const AddProjectForm = () => {
 								{tech.name}
 							</option>
 						))}
-						<option value="other">Otra</option>
 					</select>
-					{isOtherTech && (
-						<div className="newTech">
-							<label>Nueva Tecnología</label>
-							<input
-								type="text"
-								name="newTech"
-								placeholder="Nueva Tecnología"
-								value={formData.newTech}
-								onChange={handleChange}
-							/>
-							<button
-								type="button"
-								onClick={() => {
-									if (
-										formData.newTech &&
-										!technologies.includes(formData.newTech)
-									) {
-										setSelectedTechs([...selectedTechs, formData.newTech])
-										setFormData({ ...formData, newTech: '' })
-									}
-								}}
-							>
-								Agregar Tecnología
-							</button>
-						</div>
-					)}
+
 					{selectedTechs.map((tech) => (
 						<div key={tech} className="techList my-1">
-							<span className="itemTech ">{tech}</span>
+							<span className="itemTech">{tech}</span>
 							<button
 								className="btn btn-outline-danger remove mx-2"
 								type="button"
@@ -197,13 +145,27 @@ const AddProjectForm = () => {
 
 				<div className="form-field mt-2">
 					<label>Etiquetas</label>
-					<input
-						type="text"
-						name="tags"
-						value={formData.tags.join(', ')}
-						onChange={handleTagChange}
-						placeholder="Máximo 5 etiquetas separadas por comas"
-					/>
+					<div className="tag-input">
+						<input
+							type="text"
+							value={newTag}
+							onChange={handleTagChange}
+							placeholder="Agregar etiqueta"
+						/>
+						<button type="button" onClick={handleAddTag}>
+							Agregar
+						</button>
+					</div>
+					<div className="tag-list">
+						{formData.tags.map((tag) => (
+							<div key={tag} className="tag-item">
+								<span>{tag}</span>
+								<button type="button" onClick={() => handleRemoveTag(tag)}>
+									X
+								</button>
+							</div>
+						))}
+					</div>
 				</div>
 			</div>
 
@@ -216,7 +178,7 @@ const AddProjectForm = () => {
 	)
 }
 
-export default AddProjectForm
+export default CreateProjectPage
 
 const FormStyled = styled.form`
 	max-width: 350px;
@@ -253,5 +215,22 @@ const FormStyled = styled.form`
 		justify-content: end;
 		border-top: 1px solid #0000004d;
 		padding: 12px;
+	}
+	.tag-input {
+		display: flex;
+		gap: 8px;
+	}
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 8px;
+	}
+	.tag-item {
+		display: flex;
+		align-items: center;
+		background-color: #e0e0e0;
+		padding: 4px 8px;
+		border-radius: 16px;
 	}
 `

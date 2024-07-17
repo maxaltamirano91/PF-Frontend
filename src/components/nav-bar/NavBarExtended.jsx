@@ -1,18 +1,16 @@
-// import SearchBar from './SearchBar'
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 
-import { logout } from '../../redux/actions.js'
+import { logout } from '../redux/actions.js'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { setDarkMode, setLightMode } from '../../redux/actions'
+import { setDarkMode, setLightMode } from '../redux/actions'
 
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
 	const theme = useSelector((state) => state.theme.theme)
-	const [navbar, setNavbar] = useState(false)
 	const authToken = useSelector((state) => state.auth.authToken)
 
 	const darkMode = () => {
@@ -49,11 +47,11 @@ const NavBarExtended = () => {
 		<div className="">
 			<nav className="navbar navbar-expand-lg bg-body-tertiary">
 				<div className="container-fluid">
-					<Link to={'/home'}>
+					<Link to={'/'}>
 						<span className="navbar-brand">ForDevs</span>
 					</Link>
 					{/* ----------------------SearchBar  Movil ----------------- */}
-					{/* <form className="d-flex me-auto d-sm-none " role="search">
+					<form className="d-flex me-auto d-sm-none " role="search">
 						<input
 							className="form-control me-2"
 							type="search"
@@ -63,7 +61,7 @@ const NavBarExtended = () => {
 						<button className="btn btn-outline-success" type="submit">
 							Search
 						</button>
-					</form> */}
+					</form>
 					{/* ----------------------end ----------------- */}
 					<button
 						className="navbar-toggler"
@@ -79,61 +77,25 @@ const NavBarExtended = () => {
 					<div className="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 							<li className="nav-item">
-								{/* --------------------------------- Explorer----------------------- */}
-								{/* <Link to={'/home'}>
+								<Link to={'/home'}>
 									<span className="nav-link active">Explorar</span>
-								</Link> */}
-								<div className="dropdown">
-									<a
-										className="btn btn-light dropdown-toggle"
-										href="#"
-										role="button"
-										data-bs-toggle="dropdown"
-										aria-expanded="false"
-									>
-										Explorar
-									</a>
-
-									<ul className="dropdown-menu">
-										<li>
-											<Link to={'/users'}>
-												<span className="dropdown-item">Usuarios</span>
-											</Link>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Tecnologías
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Something else here
-											</a>
-										</li>
-									</ul>
-								</div>
-
-								{/* --------------------------------- end Explorer ----------------------- */}
-							</li>
-							<li className="nav-item">
-								<Link to={'/'}>
-									<span className="nav-link">ForDevPro</span>
 								</Link>
 							</li>
 							<li className="nav-item">
-								<Link to={'/myprofile'}>
+								<Link to={'/planes'}>
+									<span className="nav-link">Planes</span>
+								</Link>
+							</li>
+
+							<li className="nav-item">
+								<Link to={'/newproject'}>
 									<span className="nav-link ">Mis Proyectos</span>
-								</Link>
-							</li>{' '}
-							<li className="nav-item">
-								<Link to={'/admindashboad'}>
-									<span className="nav-link ">Admin-Console</span>
 								</Link>
 							</li>
 						</ul>
 
 						{/* ----------------------SearchBar  Desktop ----------------- */}
-						{/* <form className="d-flex me-auto " role="search">
+						<form className="d-flex me-auto " role="search">
 							<input
 								className="form-control me-2"
 								type="search"
@@ -143,7 +105,7 @@ const NavBarExtended = () => {
 							<button className="btn btn-outline-success" type="submit">
 								Search
 							</button>
-						</form> */}
+						</form>
 						{/* ----------------------end ----------------- */}
 
 						{authToken ? (
@@ -162,7 +124,7 @@ const NavBarExtended = () => {
 									<ul className="dropdown-menu">
 										<li>
 											<a className="dropdown-item" href="#">
-												Ajustes
+												Action
 											</a>
 										</li>
 										<li>
