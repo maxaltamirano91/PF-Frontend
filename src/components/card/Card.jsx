@@ -5,8 +5,8 @@ import styled from 'styled-components';
 
 const CardDiv = styled.div`
   .card {
-    width: 339.33px;
-    height: 265.42px;
+    width: 379.33px;
+    height: 285.42px;
     position: relative;
   }
   .card-img {

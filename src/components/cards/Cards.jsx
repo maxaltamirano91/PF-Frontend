@@ -29,7 +29,7 @@ export default Cards
 const CardsDiv = styled.section`
     display: grid;
 	grid-template-columns: repeat(4, 1fr);
-    grid-gap: 29px;
+    grid-gap: 20px;
     margin: 0 auto;
     width: 100%;
 
