@@ -29,7 +29,7 @@ import {
 	GET_PROJECT_BY_ID_FAILURE,
 	GET_BY_NAME,
 	MODIFY_PROJECT,
-	MODIFY_PROJECT_ERROR
+	MODIFY_PROJECT_ERROR,
 } from './actions-types';
 
 const AUTH_URL = "http://localhost:3001";
@@ -358,7 +358,7 @@ export const modifyProject = ({ input, id, authToken }) => {
         } catch (error) {
             console.error("Error modifying project:", error);
             dispatch({
-                type: MODIFY_PROJECT_ERROR, // Asegúrate de que MODIFY_PROJECT_ERROR esté definido en actionTypes.js
+                type: MODIFY_PROJECT_ERROR, 
                 payload: error.message
             });
         }
