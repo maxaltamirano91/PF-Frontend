@@ -18,6 +18,7 @@ import useAuth0TokenHandler from './hooks/useAuth0TokenHandler';
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage';
 import AdminBar from './components/admin-bar/AdminBar';
 import AdminView from './components/admin-view/AdminView';
+import SubscriptionPage from './view/subscription-page/subscriptionPage';
 
 function App() {
   const { isLoading } = useAuth0();
@@ -45,6 +46,7 @@ function App() {
           <Route path="/users" element={<UsersPage />} />
           <Route path="/project/:id" element={<ProjectDetailPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/subscription" element={<SubscriptionPage />} />
         </Routes>
         <Footer />
       </div>

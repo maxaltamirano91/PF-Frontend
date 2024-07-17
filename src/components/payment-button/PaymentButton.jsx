@@ -1,36 +1,21 @@
 import React, { useEffect } from 'react';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 
 const PaymentButton = ({ preferenceId }) => {
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://sdk.mercadopago.com/js/v2';
-    script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      const mp = new window.MercadoPago("TEST-bfb5f681-fd31-4952-899b-11754a619f1c", {
-        locale: 'es-AR' 
-      });
-
-      mp.checkout({
-        preference: {
-          id: preferenceId
-        },
-        autoOpen: true 
-      });
-    };
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, [preferenceId]);
+    initMercadoPago('TEST-bfb5f681-fd31-4952-899b-11754a619f1c', {
+      locale: 'es-AR',
+    });
+  }, []);
 
   return (
     <div>
-      <button id="checkout-btn">Pagar</button>
+      <Wallet 
+        initialization={{ preferenceId: preferenceId }} 
+        customization={{ texts: { valueProp: 'smart_option' }}} 
+      />
     </div>
   );
 };
-
 
 export default PaymentButton;
