@@ -28,7 +28,8 @@ import {
 	GET_PROJECT_BY_ID_REQUEST,
 	GET_PROJECT_BY_ID_SUCCESS,
 	GET_PROJECT_BY_ID_FAILURE,
-	MODIFY_PROJECT
+	MODIFY_PROJECT,
+
 } from './actions-types'
 
 const technologiesInitialState = {
@@ -195,29 +196,6 @@ const userReducer = (state = initialState, action) => {
 				error: action.payload,
 			}
 
-		// const initialState = {
-		// 	users: [],
-		// 	loading: false,
-		// 	error: null,
-		// 	token: null,
-		//   };
-		//   const userReducer = (state = initialState, action) => {
-		// 	switch (action.type) {
-		// 	  case FETCH_USERS_REQUEST:
-		// 	  case FETCH_USER_BY_ID_REQUEST:
-		// 	  case FETCH_USER_PROFILE_REQUEST:
-		// 		return {
-		// 		  ...state,
-		// 		  loading: true,
-		// 		  error: null,
-		// 		};
-		// 	  case FETCH_USERS_SUCCESS:
-		// 		return {
-		// 		  ...state,
-		// 		  loading: false,
-		// 		  allUsers: action.payload,
-		// 		  error: null
-		// 		};
 		case FETCH_USER_BY_ID_SUCCESS:
 			return {
 				...state,
@@ -313,6 +291,7 @@ const projectDetailReducer = (state = initialState, action) => {
 			return state
 	}
 }
+
 
 export default combineReducers({
 	auth: authReducer,
