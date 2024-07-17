@@ -1,7 +1,8 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { getAllUsers, fetchTechnologies, getAllProjects } from "../../redux/actions";
+import { getAllUsers, fetchTechnologies, getAllProjects} from "../../redux/actions";
+
 
 const AdminView = () =>{
 
@@ -9,15 +10,27 @@ const AdminView = () =>{
     const { data } = useParams();
     const authToken = useSelector((state) => state.auth.authToken)
     
+    const [displayPagination, setDisplayPagination] = useState(true)
+
+    const [renderingCards, setRenderingCards] = useState(15)
+	const handlePagination = () => {
+		if (projects.length >= renderingCards) {
+			setRenderingCards((prevCount) => prevCount + 15)
+		} else {
+			setDisplayPagination(false)
+		}
+	}
+    
     useEffect(() => {
         dispatch(getAllUsers(authToken))
         dispatch(fetchTechnologies(authToken))
-        dispatch(getAllProjects())
-    }, [dispatch, authToken])
+        dispatch(getAllProjects(renderingCards))
+    }, [dispatch, authToken, renderingCards])
     
     const users = useSelector(state => state.user.users)
     const techs = useSelector(state => state.technologies.technologies)
     const projects = useSelector(state => state.project.allProjects)
+    console.log(projects)
     
     return(
         <div>
@@ -163,6 +176,15 @@ const AdminView = () =>{
                     </table>
                 </div>
                 </div>
+                {displayPagination ? (
+                    <div className="text-center mt-3">
+                        <button className="btn btn-secondary" onClick={handlePagination}>
+                            Ver más
+                        </button>
+                    </div>
+                ) : (
+                    <p className="text-center mt-3">Estos son todos los proyectos</p>
+                )}
             </div>
             :null}
         

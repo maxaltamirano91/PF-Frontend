@@ -39,7 +39,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-          <Route path="/adminView/:data" element={<AdminView />} />
+          <Route path="/adminView/:data" element={<AdminView  />} />
           <Route path="/modProject/:id" element={<UpdateProjectPage />} />
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/users" element={<UsersPage />} />
