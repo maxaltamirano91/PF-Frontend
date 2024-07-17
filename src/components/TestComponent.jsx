@@ -2,17 +2,12 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllTechs, addProject } from '../redux/actions'
+import { fetchTechnologies } from '../redux/actions'
 
-const ProjectForm = () => {
+const AddProjectForm = () => {
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
-
-	const getToken = () => {
-		return localStorage.getItem('authToken')
-	}
-
-	// console.log(technologies)
+	console.log(technologies)
 
 	useEffect(() => {
 		dispatch(fetchTechnologies(localStorage))
@@ -27,7 +22,7 @@ const ProjectForm = () => {
 	})
 
 	const [selectedTechs, setSelectedTechs] = useState([])
-	const [newTag, setNewTag] = useState('')
+	const [isOtherTech, setIsOtherTech] = useState(false)
 
 	const handleChange = (event) => {
 		const { name, value } = event.target
@@ -39,8 +34,13 @@ const ProjectForm = () => {
 
 	const handleTechChange = (event) => {
 		const { value } = event.target
-		if (!selectedTechs.includes(value)) {
-			setSelectedTechs([...selectedTechs, value])
+		if (value === 'other') {
+			setIsOtherTech(true)
+		} else {
+			setIsOtherTech(false)
+			if (!selectedTechs.includes(value)) {
+				setSelectedTechs([...selectedTechs, value])
+			}
 		}
 	}
 
@@ -49,27 +49,14 @@ const ProjectForm = () => {
 	}
 
 	const handleTagChange = (event) => {
-		setNewTag(event.target.value)
-	}
-
-	const handleAddTag = () => {
-		if (
-			formData.tags.length < 5 &&
-			newTag.trim() !== '' &&
-			!formData.tags.includes(newTag.trim())
-		) {
-			setFormData({
-				...formData,
-				tags: [...formData.tags, newTag.trim()],
-			})
-			setNewTag('')
-		}
-	}
-
-	const handleRemoveTag = (tag) => {
+		const { value } = event.target
+		const tagsArray = value
+			.split(',')
+			.map((tag) => tag.trim())
+			.slice(0, 5)
 		setFormData({
 			...formData,
-			tags: formData.tags.filter((t) => t !== tag),
+			tags: tagsArray,
 		})
 	}
 
@@ -101,12 +88,7 @@ const ProjectForm = () => {
 		try {
 			const response = await axios.post(
 				'http://localhost:3001/projects',
-				dataToSubmit,
-				{
-					headers: {
-						Authorization: `Bearer ${getToken()}`,
-					},
-				}
+				dataToSubmit
 			)
 			console.log('Se agregó el proyecto:', response.data)
 			window.alert(`${formData.title} agregado a la Base de Datos`)
@@ -159,6 +141,7 @@ const ProjectForm = () => {
 						onChange={handleChange}
 						placeholder="URL de la imagen"
 					/>
+					{/* <input type="file" name="image" onChange={handleChange} /> */}
 				</div>
 
 				<div className="form-field mt-2">
@@ -170,11 +153,37 @@ const ProjectForm = () => {
 								{tech.name}
 							</option>
 						))}
+						<option value="other">Otra</option>
 					</select>
-
+					{isOtherTech && (
+						<div className="newTech">
+							<label>Nueva Tecnología</label>
+							<input
+								type="text"
+								name="newTech"
+								placeholder="Nueva Tecnología"
+								value={formData.newTech}
+								onChange={handleChange}
+							/>
+							<button
+								type="button"
+								onClick={() => {
+									if (
+										formData.newTech &&
+										!technologies.includes(formData.newTech)
+									) {
+										setSelectedTechs([...selectedTechs, formData.newTech])
+										setFormData({ ...formData, newTech: '' })
+									}
+								}}
+							>
+								Agregar Tecnología
+							</button>
+						</div>
+					)}
 					{selectedTechs.map((tech) => (
 						<div key={tech} className="techList my-1">
-							<span className="itemTech">{tech}</span>
+							<span className="itemTech ">{tech}</span>
 							<button
 								className="btn btn-outline-danger remove mx-2"
 								type="button"
@@ -188,27 +197,13 @@ const ProjectForm = () => {
 
 				<div className="form-field mt-2">
 					<label>Etiquetas</label>
-					<div className="tag-input">
-						<input
-							type="text"
-							value={newTag}
-							onChange={handleTagChange}
-							placeholder="Agregar etiqueta"
-						/>
-						<button type="button" onClick={handleAddTag}>
-							Agregar
-						</button>
-					</div>
-					<div className="tag-list">
-						{formData.tags.map((tag) => (
-							<div key={tag} className="tag-item">
-								<span>{tag}</span>
-								<button type="button" onClick={() => handleRemoveTag(tag)}>
-									X
-								</button>
-							</div>
-						))}
-					</div>
+					<input
+						type="text"
+						name="tags"
+						value={formData.tags.join(', ')}
+						onChange={handleTagChange}
+						placeholder="Máximo 5 etiquetas separadas por comas"
+					/>
 				</div>
 			</div>
 
@@ -221,7 +216,7 @@ const ProjectForm = () => {
 	)
 }
 
-export default ProjectForm
+export default AddProjectForm
 
 const FormStyled = styled.form`
 	max-width: 350px;
@@ -258,22 +253,5 @@ const FormStyled = styled.form`
 		justify-content: end;
 		border-top: 1px solid #0000004d;
 		padding: 12px;
-	}
-	.tag-input {
-		display: flex;
-		gap: 8px;
-	}
-	.tag-list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin-top: 8px;
-	}
-	.tag-item {
-		display: flex;
-		align-items: center;
-		background-color: #e0e0e0;
-		padding: 4px 8px;
-		border-radius: 16px;
 	}
 `
