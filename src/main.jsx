@@ -18,13 +18,10 @@ const onRedirectCallback = (appState) => {
 	)
 }
 
-// const ngrokUrl = 'https://24cc-2802-8010-8b3c-e400-6981-85e9-bec1-5f92.ngrok-free.app';
-
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<Auth0Provider
 		domain={auth0Domain}
 		clientId={auth0ClientId}
-		// redirectUri={`${ngrokUrl}/home`}
 		redirectUri={`http://localhost:5173/home`}
 		onRedirectCallback={onRedirectCallback}
 	>

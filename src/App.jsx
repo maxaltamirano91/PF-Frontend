@@ -1,36 +1,51 @@
-// import React from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import './App.css'
-import HomePage from './view/HomePage'
-import Login from './view/Login'
-import Register from './view/Register'
-import ForgotPassword from './view/ForgotPassword'
-import LandingPage from './view/LandingPage'
-// import NavBar from './components/NavBar'
-import Footer from './components/Footer'
-// import TestComponent from './components/TestComponent'
-import Page404 from './view/Page404'
-// import ProfileUser from './view/dashboard_User/ProfileUser/profileUser';
-import NewProject from './components/NewProject'
-import NavBarExtended from './components/NavBarExtended'
+import { Routes, Route } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
+
+import Error from './components/error/Error'
+import Footer from './components/footer/Footer'
+import NavBar from './components/nav-bar/NavBar'
+import HomePage from './view/home-page/HomePage'
+import ProfilePage from './view/profile-page/ProfilePage'
+import LoginPage from './view/login-page/LoginPage'
+import RegisterPage from './view/register-page/RegisterPage'
+import ForgotPasswordPage from './view/forgot-password-page/ForgotPasswordPage'
+import LandingPage from './view/landing-page/LandingPage'
+import NotFoundPage from './view/not-found-page/NotFoundPage'
+import UpdateProjectPage from './view/update-project-page/UpdateProjectPage'
+import UsersPage from './view/users-page/UsersPage'
+import CreateProjectPage from './view/create-project-page/CreateFormPage'
+import useAuth0TokenHandler from './hooks/useAuth0TokenHandler'
+import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage'
+import AdminBar from './components/admin-bar/AdminBar'
+import AdminView from './components/admin-view/AdminView'
 
 function App() {
+	const { isLoading } = useAuth0()
+
+	useAuth0TokenHandler()
+
+	if (isLoading) return <div>Loading...</div>
+
 	return (
 		<>
 			<div>
-				<NavBarExtended />
-
+				<Error />
+				<NavBar />
+				<AdminBar />
 				<Routes className="App">
 					<Route path="/" element={<LandingPage />} />
+					<Route path="/create" element={<CreateProjectPage />} />
 					<Route path="/home" element={<HomePage />} />
-					<Route path="/newproject" element={<NewProject />} />
-
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-					<Route path="/forgotPassword" element={<ForgotPassword />} />
-					<Route path="/*" element={<Page404 />} />
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/register" element={<RegisterPage />} />
+					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+					<Route path="/adminView/:data" element={<AdminView />} />
+					<Route path="/modProject/:id" element={<UpdateProjectPage />} />
+					<Route path="/*" element={<NotFoundPage />} />
+					<Route path="/users" element={<UsersPage />} />
+					<Route path="/project/:id" element={<ProjectDetailPage />} />
+					<Route path="/profile" element={<ProfilePage />} />
 				</Routes>
-
 				<Footer />
 			</div>
 		</>
