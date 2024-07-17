@@ -17,7 +17,7 @@ import CreateProjectPage from './view/create-project-page/CreateFormPage';
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler';
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage';
 import AdminBar from './components/admin-bar/AdminBar';
-import AdminView from './components/admin-view/AdminView';
+import AdminView from './view/admin-view/AdminView';
 
 function App() {
   const { isLoading } = useAuth0();
