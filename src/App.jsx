@@ -16,6 +16,8 @@ import UsersPage from './view/users-page/UsersPage';
 import CreateProjectPage from './view/create-project-page/CreateFormPage';
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler';
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage';
+import AdminBar from './components/admin-bar/AdminBar';
+import AdminView from './components/admin-view/AdminView';
 
 function App() {
   const { isLoading } = useAuth0();
@@ -29,6 +31,7 @@ function App() {
       <div>
         <Error />
         <NavBar />
+        <AdminBar/>
         <Routes className="App">
           <Route path="/" element={<LandingPage />} />
           <Route path="/create" element={<CreateProjectPage />} />
@@ -36,6 +39,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+          <Route path="/adminView/:data" element={<AdminView />} />
           <Route path="/modProject/:id" element={<UpdateProjectPage />} />
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/users" element={<UsersPage />} />
