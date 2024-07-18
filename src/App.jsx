@@ -18,9 +18,11 @@ import useAuth0TokenHandler from './hooks/useAuth0TokenHandler';
 import AdminBar from './components/admin-bar/AdminBar';
 import AdminView from './components/admin-view/AdminView';
 import SubscriptionPage from './view/subscription-page/subscriptionPage';
+import { PORT } from '../auth0-config';
 
 function App() {
   useAuth0TokenHandler();
+  console.log(typeof PORT);
   return (
     <>
       <div>
