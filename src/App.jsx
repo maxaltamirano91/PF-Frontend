@@ -18,6 +18,10 @@ import useAuth0TokenHandler from './hooks/useAuth0TokenHandler'
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage'
 import AdminBar from './components/admin-bar/AdminBar'
 import AdminView from './view/admin-view/AdminView'
+import SubscriptionPage from './view/subscription-page/subscriptionPage'
+import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage';
+import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage';
+import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage';
 
 import Filter from './components/filter/Filter'
 
@@ -56,6 +60,11 @@ function App() {
 					<Route path="/register" element={<RegisterPage />} />
 
 					<Route path="/*" element={<NotFoundPage />} />
+					
+					<Route path="/subscription" element={<SubscriptionPage />} />
+					<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
+					<Route path="/paymentFailure" element={<PaymentFailurePage />} />
+					<Route path="/paymentPending" element={<PaymentPendingPage />} />
 				</Routes>
 				<Footer />
 			</div>
