@@ -1,12 +1,14 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { getProjectById } from '../../redux/actions'
+import { getProjectById, getUserProfile } from '../../redux/actions'
 
 const ProjectDetailPage = () => {
 	const { id } = useParams()
 	const { project } = useSelector((state) => state.projects)
 	const dispatch = useDispatch()
+	const authToken = useSelector((state) => state.auth.token)
+	
 
 	useEffect(() => {
 		dispatch(getProjectById(id))
@@ -44,6 +46,9 @@ const ProjectDetailPage = () => {
 										))}
 									</ul>
 								)}
+							{/* {
+								decodedtoken === 
+							} */}
 							</div>
 						</div>
 					</div>

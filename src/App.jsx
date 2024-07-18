@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Error from "./components/error/Error"
 import Footer from './components/footer/Footer';
-import NavBar from './components/nav-bar/NavBar';
+import NavBarExtended from './components/nav-bar/NavBarExtended';
 import HomePage from './view/home-page/HomePage';
 import ProfilePage from './view/profile-page/ProfilePage';
 import LoginPage from './view/login-page/LoginPage';
@@ -25,7 +25,7 @@ function App() {
     <>
       <div>
         <Error />
-        <NavBar />
+        <NavBarExtended />
         <AdminBar/>
         <Routes className="App">
           <Route path="/" element={<LandingPage />} />
