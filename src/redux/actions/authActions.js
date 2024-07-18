@@ -13,15 +13,10 @@ const USERS_URL = 'http://localhost:3001/users'
 export const loginUser = (userData, loginType) => {
 	return async (dispatch) => {
 		try {
-			console.log(userData);
 			const { data } =
 				loginType === 'local'
 					? await axios.post(`${URL}/login`, userData)
-					: await axios.post(`${URL}/auth0`, {}, {
-						headers: {
-							Authorization: `Bearer ${userData}`,
-						},
-					})
+					: await axios.post(`${URL}/auth0`, userData)
 			dispatch({
 				type: LOGIN_USER,
 				payload: data,

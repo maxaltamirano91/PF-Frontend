@@ -17,11 +17,8 @@ const LoginPage = () => {
 
 	const navigate = useNavigate()
 	const handleSubmit = async (userData) => {
-		// const logged = dispatch(loginUser(userData, 'local'))
 		dispatch(loginUser(userData, 'local'))
 		navigate('/home')
-
-		// if (logged) window.location.href = '/home';
 	}
 
 	return (

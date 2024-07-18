@@ -1,31 +1,48 @@
 import { useEffect } from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../redux/actions'
 import { FETCH_ERROR } from '../redux/types'
-import { AUTH0_AUDIENCE } from '../../auth0-config'
+import { useAuth0 } from '@auth0/auth0-react'
+
+const generatePassword = (length) => {
+	const charset =
+		'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&?/-='
+	let password = ''
+	for (let i = 0; i < length; i++) {
+		const randomIndex = Math.floor(Math.random() * charset.length)
+		password += charset[randomIndex]
+	}
+	return password
+}
 
 const useAuth0TokenHandler = () => {
 	const dispatch = useDispatch()
-	const { getAccessTokenSilently, isAuthenticated } = useAuth0()
+	const { user, isAuthenticated, error, isLoading } = useAuth0()
+
+	const userData = {
+		userName: user?.nickname.split(' ').join('_'),
+		email: `${user?.nickname.toLowerCase().split(' ').join('')}@fordevs.com`,
+		password: generatePassword(12),
+		image: user?.picture,
+	}
 
 	useEffect(() => {
-		const getToken = async () => {
-			if (isAuthenticated) {
-				try {
-					const token = await getAccessTokenSilently({
-						audience: AUTH0_AUDIENCE,
-					})
-					localStorage.setItem('authToken', token)
-					dispatch(loginUser(token, 'auth0'))
-				} catch (error) {
-					dispatch({ type: FETCH_ERROR, payload: error.message })
-				}
-			}
+		if (error) {
+			dispatch({
+				type: FETCH_ERROR,
+				payload: `Error en la autenticación: ${error.message}`,
+			})
+			return
 		}
-
-		getToken()
-	}, [isAuthenticated, getAccessTokenSilently, dispatch])
+		if (isLoading) return
+		if (isAuthenticated) dispatch(loginUser(userData, 'auth0'))
+		else
+			dispatch({
+				type: FETCH_ERROR,
+				payload: 'No se pudo autentificar el usuario',
+			})
+	}, [isAuthenticated, dispatch, error, isLoading])
+	return null
 }
 
 export default useAuth0TokenHandler

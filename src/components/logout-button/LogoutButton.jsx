@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/actions';
 
 const LogoutButton = () => {
-  const { logout } = useAuth0();
+  const { logout, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logoutUser());
-    logout({ returnTo: window.location.origin });
+    if (isAuthenticated) logout({ returnTo: window.location.origin });
   };
 
   return (
