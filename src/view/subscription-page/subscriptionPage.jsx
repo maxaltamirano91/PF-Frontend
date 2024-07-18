@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProduct, createPreference } from '../../redux/actions/subscriptionActions';
 import MembershipProduct from '../../components/membership-product/MembershipProduct';
@@ -6,7 +6,7 @@ import PaymentButton from '../../components/payment-button/PaymentButton';
 
 const SubscriptionPage = () => {
   const dispatch = useDispatch();
-  const { product, preferenceId, loading, error } = useSelector((state) => state.subscription);
+  const { product, preferenceId, error } = useSelector((state) => state.subscription);
 
   useEffect(() => {
     dispatch(fetchProduct());

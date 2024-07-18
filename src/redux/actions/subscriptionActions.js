@@ -2,13 +2,12 @@ import axios from 'axios';
 import {
     FETCH_PRODUCT_REQUEST,
     FETCH_PRODUCT_SUCCESS,
-    FETCH_PRODUCT_FAILURE,
     CREATE_PREFERENCE_REQUEST,
     CREATE_PREFERENCE_SUCCESS,
-    CREATE_PREFERENCE_FAILURE,
+    FETCH_ERROR,
+} from "../types";
 
-} from "../types/subscriptionTypes";
-
+const URL = 'http://localhost:3001/payment'
 
 export const fetchProduct = () => async (dispatch) => {
   dispatch({ type: FETCH_PRODUCT_REQUEST });
@@ -20,16 +19,16 @@ export const fetchProduct = () => async (dispatch) => {
     };
     dispatch({ type: FETCH_PRODUCT_SUCCESS, payload: product });
   } catch (error) {
-    dispatch({ type: FETCH_PRODUCT_FAILURE, error: error.message });
+    dispatch({ type: FETCH_ERROR, error: error.message });
   }
 };
 
 export const createPreference = (formData) => async (dispatch) => {
   dispatch({ type: CREATE_PREFERENCE_REQUEST });
   try {
-    const response = await axios.post('http://localhost:3001/payment', formData);
+    const response = await axios.post(`${URL}/preference`, formData);
     dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data.preferenceId });
   } catch (error) {
-    dispatch({ type: CREATE_PREFERENCE_FAILURE, error: error.message });
+    dispatch({ type: FETCH_ERROR, error: error.message });
   }
 };

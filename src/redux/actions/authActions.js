@@ -55,7 +55,6 @@ export const registerUser = (userData) => {
 
 export const getUserProfile = (token) => {
 	return async (dispatch) => {
-		const a = "a";
 		try {
 			const { data } = await axios.get(`${USERS_URL}/profile`, {
 				headers: {
