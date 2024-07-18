@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Error from "./components/error/Error"
 import Footer from './components/footer/Footer';
-import NavBar from './components/nav-bar/NavBar';
+import NavBarExtended from './components/nav-bar/NavBarExtended';
 import HomePage from './view/home-page/HomePage';
 import ProfilePage from './view/profile-page/ProfilePage';
 import LoginPage from './view/login-page/LoginPage';
@@ -16,7 +16,7 @@ import CreateProjectPage from './view/create-project-page/CreateProjectPage';
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage';
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler';
 import AdminBar from './components/admin-bar/AdminBar';
-import AdminView from './components/admin-view/AdminView';
+import AdminView from './view/admin-view/AdminView';
 import SubscriptionPage from './view/subscription-page/subscriptionPage';
 import { PORT } from '../auth0-config';
 
@@ -27,7 +27,7 @@ function App() {
     <>
       <div>
         <Error />
-        <NavBar />
+        <NavBarExtended />
         <AdminBar/>
         <Routes className="App">
           <Route path="/" element={<LandingPage />} />

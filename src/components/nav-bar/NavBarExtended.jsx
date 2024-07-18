@@ -1,17 +1,15 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 
-import { logout } from '../redux/actions.js'
+import { logoutUser, setDarkMode, setLightMode } from '../../redux/actions'
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { setDarkMode, setLightMode } from '../redux/actions'
-
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
-	const theme = useSelector((state) => state.theme.theme)
-	const authToken = useSelector((state) => state.auth.authToken)
+	const theme = useSelector((state) => state.themes.theme)
+	const token = useSelector((state) => state.auth.token)
 
 	const darkMode = () => {
 		document.querySelector('html').setAttribute('data-bs-theme', 'dark')
@@ -40,7 +38,7 @@ const NavBarExtended = () => {
 	}, [theme])
 
 	const handleLogout = () => {
-		dispatch(logout())
+		dispatch(logoutUser())
 	}
 
 	return (
@@ -108,7 +106,7 @@ const NavBarExtended = () => {
 						</form>
 						{/* ----------------------end ----------------- */}
 
-						{authToken ? (
+						{token ? (
 							//? -------------------- login ----------------
 							<ul className="navbar-nav mb-2 mb-lg-0">
 								<li className="nav-item dropdown">

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {
@@ -10,17 +10,30 @@ import {
 const AdminView = () => {
 	const dispatch = useDispatch()
 	const { data } = useParams()
-	const authToken = useSelector((state) => state.auth.authToken)
+	const token = useSelector((state) => state.auth.token)
+
+	const [displayPagination, setDisplayPagination] = useState(true)
+
+	const [renderingCards, setRenderingCards] = useState(15)
+	const handlePagination = () => {
+		if (projects.length >= renderingCards) {
+			setRenderingCards((prevCount) => prevCount + 15)
+		} else {
+			setDisplayPagination(false)
+		}
+	}
 
 	useEffect(() => {
-		dispatch(getAllUsers(authToken))
-		dispatch(fetchTechnologies(authToken))
-		dispatch(getAllProjects())
-	}, [dispatch, authToken])
+		dispatch(getAllUsers(token))
+		dispatch(fetchTechnologies(token))
+		dispatch(getAllProjects(renderingCards))
+	}, [dispatch, token, renderingCards])
 
-	const users = useSelector((state) => state.user.users)
+	const users = useSelector((state) => state.users.allUsers)
 	const techs = useSelector((state) => state.technologies.technologies)
-	const projects = useSelector((state) => state.project.allProjects)
+	const projects = useSelector((state) => state.projects.allProjects)
+	console.log(users)
+	console.log(token)
 
 	return (
 		<div>
@@ -45,8 +58,8 @@ const AdminView = () => {
 							</thead>
 							<tbody>
 								{users.length !== 0
-									? users.map((key) => (
-											<tr key={key.id}>
+									? users.map((key, index) => (
+											<tr key={index}>
 												<td>{key.id}</td>
 												<td>{key.userName}</td>
 												<td>{key.email}</td>
@@ -89,8 +102,11 @@ const AdminView = () => {
 								</thead>
 								<tbody>
 									{projects.length !== 0
-										? projects.map((key) => (
-												<tr key={key.id}>
+										? projects.map((key, index) => (
+												<tr key={index}>
+													<td>{key.id}</td>
+													<td>{key.title}</td>
+													<td>{key.description}</td>
 													<td>
 														{key.tags.map((tag, index) => (
 															<ul key={index}>
@@ -118,6 +134,15 @@ const AdminView = () => {
 							</table>
 						</div>
 					</div>
+					{displayPagination ? (
+						<div className="text-center mt-3">
+							<button className="btn btn-secondary" onClick={handlePagination}>
+								Ver más
+							</button>
+						</div>
+					) : (
+						<p className="text-center mt-3">Estos son todos los proyectos</p>
+					)}
 				</div>
 			) : null}
 
@@ -129,8 +154,8 @@ const AdminView = () => {
 								<thead>
 									<tr>
 										{techs.length !== 0
-											? Object.keys(techs[0]).map((key, index) => (
-													<th key={index} scope="col">
+											? Object.keys(techs[0]).map((key) => (
+													<th key={key} scope="col">
 														{key}
 													</th>
 											))
@@ -141,8 +166,8 @@ const AdminView = () => {
 								</thead>
 								<tbody>
 									{techs.length !== 0
-										? techs.map((key) => (
-												<tr key={key.id}>
+										? techs.map((key, index) => (
+												<tr key={index}>
 													<td key={key.id}>{key.id}</td>
 													<td key={key.name}>{key.name}</td>
 													<td style={{ fontWeight: 'bolder' }}>Editar</td>
