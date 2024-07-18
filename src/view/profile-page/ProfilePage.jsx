@@ -8,6 +8,7 @@ const ProfilePage = () => {
 	const dispatch = useDispatch()
 	const { user, isAuthenticated, isLoading } = useAuth0()
 	const { token, loggedUser } = useSelector((state) => state.auth)
+	console.log(loggedUser.userName)
 
 	useEffect(() => {
 		dispatch(getUserProfile(token))
@@ -28,6 +29,8 @@ const ProfilePage = () => {
 	if (loggedUser)
 		return (
 			<div>
+				<h2>hola User</h2>
+
 				<img src={loggedUser.image} alt={loggedUser.userName} />
 				<h2>{loggedUser.userName}</h2>
 				<p>{loggedUser.email}</p>

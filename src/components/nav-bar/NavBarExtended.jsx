@@ -4,12 +4,14 @@ import { logoutUser, setDarkMode, setLightMode } from '../../redux/actions'
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
 	const theme = useSelector((state) => state.themes.theme)
-	const token = useSelector((state) => state.auth.token)
+	// const token = useSelector((state) => state.auth.token)
+	const { token, loggedUser } = useSelector((state) => state.auth)
+	// console.log(loggedUser.userName)
 
 	const darkMode = () => {
 		document.querySelector('html').setAttribute('data-bs-theme', 'dark')
@@ -37,20 +39,22 @@ const NavBarExtended = () => {
 		}
 	}, [theme])
 
+	const navigate = useNavigate()
+
 	const handleLogout = () => {
 		dispatch(logoutUser())
-		dispatch(logoutUser())
+		navigate('/home')
 	}
 
 	return (
 		<div className="">
 			<nav className="navbar navbar-expand-lg bg-body-tertiary">
 				<div className="container-fluid">
-					<Link to={'/'}>
+					<Link to={'/home'}>
 						<span className="navbar-brand">ForDevs</span>
 					</Link>
 					{/* ----------------------SearchBar  Movil ----------------- */}
-					<form className="d-flex me-auto d-sm-none " role="search">
+					{/* <form className="d-flex me-auto d-sm-none " role="search">
 						<input
 							className="form-control me-2"
 							type="search"
@@ -60,7 +64,7 @@ const NavBarExtended = () => {
 						<button className="btn btn-outline-success" type="submit">
 							Search
 						</button>
-					</form>
+					</form> */}
 					{/* ----------------------end ----------------- */}
 					<button
 						className="navbar-toggler"
@@ -76,25 +80,61 @@ const NavBarExtended = () => {
 					<div className="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 							<li className="nav-item">
-								<Link to={'/home'}>
+								{/* --------------------------------- Explorer----------------------- */}
+								{/* <Link to={'/home'}>
 									<span className="nav-link active">Explorar</span>
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link to={'/planes'}>
-									<span className="nav-link">Planes</span>
-								</Link>
-							</li>
+								</Link> */}
+								<div className="dropdown">
+									<a
+										className="btn btn-light dropdown-toggle"
+										href="#"
+										role="button"
+										data-bs-toggle="dropdown"
+										aria-expanded="false"
+									>
+										Explorar
+									</a>
 
+									<ul className="dropdown-menu">
+										<li>
+											<Link to={'/explorer/users'}>
+												<span className="dropdown-item">Usuarios</span>
+											</Link>
+										</li>
+										<li>
+											<a className="dropdown-item" href="#">
+												Tecnologías
+											</a>
+										</li>
+										<li>
+											<a className="dropdown-item" href="#">
+												Something else here
+											</a>
+										</li>
+									</ul>
+								</div>
+
+								{/* --------------------------------- end Explorer ----------------------- */}
+							</li>
 							<li className="nav-item">
-								<Link to={'/newproject'}>
+								<Link to={'/'}>
+									<span className="nav-link">ForDevPro</span>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to={'/myprofile'}>
 									<span className="nav-link ">Mis Proyectos</span>
+								</Link>
+							</li>{' '}
+							<li className="nav-item">
+								<Link to={'/admindashboad'}>
+									<span className="nav-link ">Admin-Console</span>
 								</Link>
 							</li>
 						</ul>
 
 						{/* ----------------------SearchBar  Desktop ----------------- */}
-						<form className="d-flex me-auto " role="search">
+						{/* <form className="d-flex me-auto " role="search">
 							<input
 								className="form-control me-2"
 								type="search"
@@ -104,7 +144,7 @@ const NavBarExtended = () => {
 							<button className="btn btn-outline-success" type="submit">
 								Search
 							</button>
-						</form>
+						</form> */}
 						{/* ----------------------end ----------------- */}
 
 						{token ? (

@@ -28,11 +28,14 @@ const LandingPage = () => {
 
 	useEffect(() => {
 		dispatch(getAllProjects(renderingCards))
+	}, [dispatch, renderingCards])
+
+	useEffect(() => {
 		window.addEventListener('scroll', handleScroll)
 		return () => {
 			window.removeEventListener('scroll', handleScroll)
 		}
-	}, [dispatch, renderingCards, handleScroll])
+	}, [])
 
 	const handleScrollToProjects = () => {
 		if (projectsSectionRef.current) {
