@@ -6,6 +6,7 @@ import projectsReducer from "./projectsReducer"
 import technologiesReducer from "./technologiesReducer"
 import themesReducer from "./themesReducer"
 import usersReducer from "./usersReducer"
+import subscriptionReducer from './subscriptionReducer'; 
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     projects: projectsReducer,
     technologies: technologiesReducer,
     themes: themesReducer,
-    users: usersReducer
+    users: usersReducer,
+    subscription: subscriptionReducer 
 })
 
 export default rootReducer

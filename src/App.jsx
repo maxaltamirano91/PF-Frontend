@@ -18,6 +18,7 @@ import useAuth0TokenHandler from './hooks/useAuth0TokenHandler'
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage'
 import AdminBar from './components/admin-bar/AdminBar'
 import AdminView from './view/admin-view/AdminView'
+import SubscriptionPage from './view/subscription-page/subscriptionPage'
 
 import Filter from './components/filter/Filter'
 
@@ -56,6 +57,7 @@ function App() {
 					<Route path="/register" element={<RegisterPage />} />
 
 					<Route path="/*" element={<NotFoundPage />} />
+					<Route path="/subscription" element={<SubscriptionPage />} />
 				</Routes>
 				<Footer />
 			</div>
