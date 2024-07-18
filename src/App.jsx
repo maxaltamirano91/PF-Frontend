@@ -17,6 +17,7 @@ import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage';
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler';
 import AdminBar from './components/admin-bar/AdminBar';
 import AdminView from './view/admin-view/AdminView';
+import SubscriptionPage from './view/subscription-page/subscriptionPage'
 
 function App() {
   useAuth0TokenHandler();
