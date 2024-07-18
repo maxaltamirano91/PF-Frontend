@@ -1,16 +1,13 @@
-import axios from 'axios'
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchTechnologies } from '../../redux/actions'
+import { fetchTechnologies, createProject, uploadImage } from '../../redux/actions'
 
 const CreateProjectPage = () => {
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
-
-	const getToken = () => {
-		return localStorage.getItem('authToken')
-	}
+	const { imageUrl } = useSelector((state) => state.projects)
+	const { token } = useSelector((state) => state.auth)
 
 	useEffect(() => {
 		dispatch(fetchTechnologies())
@@ -26,8 +23,6 @@ const CreateProjectPage = () => {
 
 	const [selectedTechs, setSelectedTechs] = useState([])
 	const [newTag, setNewTag] = useState('')
-
-	const [imagenAddHosting, setImagenAddHosting] = useState('')
 
 	const handleChange = (event) => {
 		const { name, value } = event.target
@@ -54,23 +49,7 @@ const CreateProjectPage = () => {
 
 	const handleUploadImagen = async (e) => {
 		const imageUpload = e.target.files[0]
-		const url = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
-		let urlImagen = null
-
-		try {
-			const formData = new FormData()
-			formData.append('image', imageUpload)
-
-			const result = await axios.post(url, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			})
-			urlImagen = await result.data.data.url
-		} catch (error) {
-			console.log(error)
-		}
-		setImagenAddHosting(urlImagen)
+		dispatch(uploadImage(imageUpload))
 	}
 
 	const handleAddTag = () => {
@@ -94,50 +73,14 @@ const CreateProjectPage = () => {
 		})
 	}
 
-	const handleSubmit = async (event) => {
-		event.preventDefault()
-
-		if (!formData.title) {
-			alert('El título es obligatorio')
-			return
-		}
-
-		if (
-			formData.description === '' ||
-			formData.image === '' ||
-			formData.tags.length === 0 ||
-			selectedTechs.length === 0
-		) {
-			if (!window.confirm('Algunos campos están vacíos. ¿Desea continuar?')) {
-				return
-			}
-		}
-
-		const dataToSubmit = {
+	const handleSubmit = (e) => {
+		e.preventDefault()
+		dispatch(createProject({
 			...formData,
 			technologies: selectedTechs,
-			image: imagenAddHosting,
-		}
-		console.log(dataToSubmit)
-
-		try {
-			const response = await axios.post(
-				'http://localhost:3001/projects',
-				dataToSubmit,
-				{
-					headers: {
-						Authorization: `Bearer ${getToken()}`,
-					},
-				}
-			)
-			console.log('Se agregó el proyecto:', response.data)
-			window.alert(`${formData.title} agregado a la Base de Datos`)
-
-			setSelectedTechs([])
-		} catch (error) {
-			console.error('Error al agregar el proyecto:', error)
-			window.alert('Error al agregar')
-		}
+			image: imageUrl,
+		}, token))
+		window.location.href = '/home';
 	}
 
 	return (
@@ -170,7 +113,6 @@ const CreateProjectPage = () => {
 					<input
 						type="file"
 						name="image"
-						// value={formData.image}
 						onChange={handleUploadImagen}
 						placeholder="subir imagen"
 					/>

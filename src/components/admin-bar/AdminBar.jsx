@@ -26,9 +26,9 @@ const AdminBar = () =>{
 
     return(
         <div style={{padding:"5px 20px"}}>
-            <button class='text-body' style={{margin:"0px 5px", textDecoration:"none"}} onClick={adminViewU}>Usuarios</button>
-            <button class='text-body' style={{margin:"0px 5px", textDecoration:"none"}} onClick={adminViewP}>Proyectos</button>
-            <button class='text-body' style={{margin:"0px 5px", textDecoration:"none"}} onClick={adminViewT}>Tecnologías</button>
+            <button className='text-body' style={{margin:"0px 5px", textDecoration:"none"}} onClick={adminViewU}>Usuarios</button>
+            <button className='text-body' style={{margin:"0px 5px", textDecoration:"none"}} onClick={adminViewP}>Proyectos</button>
+            <button className='text-body' style={{margin:"0px 5px", textDecoration:"none"}} onClick={adminViewT}>Tecnologías</button>
         </div>
     )
 }

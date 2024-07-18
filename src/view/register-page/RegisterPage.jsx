@@ -1,13 +1,12 @@
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { registerUser } from '../../redux/actions';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
-  const { loading, error } = useSelector((state) => state.register);
 
   const validationSchema = Yup.object().shape({
     userName: Yup.string()
@@ -102,12 +101,9 @@ const RegisterPage = () => {
                             </label>
                             <ErrorMessage name="terms" component="div" className="text-danger" />
                           </div>
-
-                          {error && <div className="text-danger text-center mb-3">{error}</div>}
-
                           <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                            <button type="submit" className="btn btn-primary btn-lg" disabled={isSubmitting || loading}>
-                              {isSubmitting || loading ? 'Registrando...' : 'Registrar'}
+                            <button type="submit" className="btn btn-primary btn-lg" disabled={isSubmitting}>
+                              {isSubmitting ? 'Registrando...' : 'Registrar'}
                             </button>
                           </div>
                         </Form>

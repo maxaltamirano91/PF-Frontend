@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import Card from '../card/Card'
 
-const Cards = ({ projects }) => {
+const Cards = (projects) => {
 	return (
 		<CardsDiv className="container-fluid">
-			{projects.length ? (
-				projects.map((project) => (
+			{projects.projects?.length ? (
+				projects.projects.map((project) => (
 					<Card
 						key={project.id}
 						id={project.id}
@@ -25,14 +25,17 @@ const Cards = ({ projects }) => {
 
 export default Cards
 
-// Styles
+
 const CardsDiv = styled.section`
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-	gap: 20px;
-	margin: 50px 0;
-	padding: 10px 30px;
-	@media (max-width: 992px) {
-		grid-template-columns: 1fr;
-	}
+    display: grid;
+	grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    margin: 0 auto;
+    width: 100%;
+
+    @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+}
 `
+
+
