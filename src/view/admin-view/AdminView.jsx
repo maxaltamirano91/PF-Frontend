@@ -32,8 +32,6 @@ const AdminView = () => {
 	const users = useSelector((state) => state.users.allUsers)
 	const techs = useSelector((state) => state.technologies.technologies)
 	const projects = useSelector((state) => state.projects.allProjects)
-	console.log(users)
-	console.log(token)
 
 	return (
 		<div>

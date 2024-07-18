@@ -8,10 +8,14 @@ const ProjectDetailPage = () => {
 	const { project } = useSelector((state) => state.projects)
 	const dispatch = useDispatch()
 	const authToken = useSelector((state) => state.auth.token)
+	console.log("authToken: ", authToken)
+	const lal = useSelector((state)=>state.auth.loggedUser.id)
+	console.log(lal === project.userId)
 	
-
+	
 	useEffect(() => {
 		dispatch(getProjectById(id))
+		dispatch(getUserProfile(authToken))
 	}, [dispatch, id])
 
 	if (!project) return null
@@ -46,9 +50,17 @@ const ProjectDetailPage = () => {
 										))}
 									</ul>
 								)}
-							{/* {
-								decodedtoken === 
-							} */}
+							{
+								lal === project.userId ?
+								<div>
+									<button className="btn btn-custom border-white" style={{textDecoration:"none", margin:"10px"}}>
+										Modificar
+									</button>
+									<button className="btn btn-custom border-white" style={{textDecoration:"none", margin:"10px"}}>
+										Eliminar
+									</button>
+								</div> : null
+							}
 							</div>
 						</div>
 					</div>
