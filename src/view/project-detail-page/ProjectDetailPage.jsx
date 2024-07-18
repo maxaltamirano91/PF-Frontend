@@ -8,9 +8,7 @@ const ProjectDetailPage = () => {
 	const { project } = useSelector((state) => state.projects)
 	const dispatch = useDispatch()
 	const authToken = useSelector((state) => state.auth.token)
-	console.log("authToken: ", authToken)
 	const lal = useSelector((state)=>state.auth.loggedUser.id)
-	console.log(lal === project.userId)
 	
 	
 	useEffect(() => {
@@ -53,10 +51,10 @@ const ProjectDetailPage = () => {
 							{
 								lal === project.userId ?
 								<div>
-									<button className="btn btn-custom border-white" style={{textDecoration:"none", margin:"10px"}}>
+									<button className="btn btn-custom border" style={{textDecoration:"none", margin:"10px"}}>
 										Modificar
 									</button>
-									<button className="btn btn-custom border-white" style={{textDecoration:"none", margin:"10px"}}>
+									<button className="btn btn-custom border" style={{textDecoration:"none", margin:"10px"}}>
 										Eliminar
 									</button>
 								</div> : null
