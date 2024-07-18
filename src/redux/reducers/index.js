@@ -7,6 +7,7 @@ import technologiesReducer from "./technologiesReducer"
 import themesReducer from "./themesReducer"
 import usersReducer from "./usersReducer"
 import subscriptionReducer from './subscriptionReducer'; 
+import paymentReducer from './paymentReducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     technologies: technologiesReducer,
     themes: themesReducer,
     users: usersReducer,
-    subscription: subscriptionReducer 
+    subscription: subscriptionReducer,
+    payment: paymentReducer, 
 })
 
 export default rootReducer
