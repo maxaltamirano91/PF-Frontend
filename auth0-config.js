@@ -4,6 +4,6 @@ export const AUTH0_CLIENT_ID = import.meta.env.VITE_AUTH0_CLIENT_ID || 'bIAB5ZID
 export const AUTH0_CLIENT_SECRET = import.meta.env.VITE_AUTH0_CLIENT_SECRET || 'xxpuBjlhiu_Jp7rsxOaDlb3QXroe69VXjA0nYyO4TVYWaD8fqaMFCmqdbnY7nJFX'
 export const AUTH0_AUDIENCE = import.meta.VITE_AUTH0_AUDIENCE || 'https://dev-bd0lpc8g2yokggoq.us.auth0.com/api/v2/'
 
-export const PORT = import.meta.VITE_PORT || '5173'
+export const PORT = import.meta.VITE_PORT || '6000'
 export const URL_BASE = import.meta.URL_BASE || 'http://localhost'
-export const URL_BASE_FULL = `${URL_BASE}:${PORT}` || 'http://localhost:5173'
+export const URL_BASE_FULL = `${URL_BASE}:${PORT}` || 'http://localhost:6000'
