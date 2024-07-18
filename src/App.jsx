@@ -21,6 +21,7 @@ import SubscriptionPage from './view/subscription-page/subscriptionPage'
 
 function App() {
   useAuth0TokenHandler();
+  console.log(typeof PORT);
   return (
     <>
       <div>

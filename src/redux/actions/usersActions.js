@@ -9,11 +9,16 @@ import {
 
 const URL = 'http://localhost:3001/users'
 
-export const getAllUsers = () => {
+export const getAllUsers = (token) => {
 	return async (dispatch) => {
 		try {
-			const response = await axios.get(URL)
-			dispatch({ type: FETCH_USERS, payload: response.data })
+			console.log(token);
+			const { data } = await axios.get(URL, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: FETCH_USERS, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
 		}
