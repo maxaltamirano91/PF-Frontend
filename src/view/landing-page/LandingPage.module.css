@@ -1,0 +1,67 @@
+.hero-section {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.hero-text h1 {
+    font-size: 4.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-text button {
+    padding: 0.5rem 1rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.middle-section {
+    position: relative;
+    height: 50vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+} 
+
+.middle-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.middle-text {
+    text-align: center;
+}
+
+.projects-section {
+    padding: 2rem;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}

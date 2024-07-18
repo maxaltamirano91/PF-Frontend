@@ -35,3 +35,9 @@ header .search-box{
   transform: scale(0.9);
   background-color: aquamarine;
 }
+
+a{
+  text-decoration: none;
+  
+
+}
