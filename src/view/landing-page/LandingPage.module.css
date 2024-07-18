@@ -35,38 +35,33 @@
     cursor: pointer;
 }
 
-.image-container {
+.middle-section {
+    position: relative;
+    height: 50vh; 
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 287,95 ;/* Altura fija de la imagen */
-    overflow: hidden;
-    margin-bottom: 20px;
-}
+    color: white;
+} 
 
-.image-between {
-    width: 100%; /* Ancho fijo  */
-    height: 100%; /* Altura fija  */
-    object-fit: cover; 
-}
-
-.image-overlay {
+.middle-image {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.middle-text {
+    text-align: center;
+}
+
+.projects-section {
+    padding: 2rem;
+}
+
+.pagination-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  } 
-  
-  .overlay-text {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-};
-
+    margin-top: 2rem;
+}
