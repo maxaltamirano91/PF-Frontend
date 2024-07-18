@@ -106,7 +106,7 @@ export const updateProject = ({ input, id, token }) => {
 	}
 }
 
-export const deleteProject = ({ id, token }) => {
+export const deleteProject = ( id, token ) => {
 	return async function (dispatch) {
 		try {
 			await axios.delete(`http://localhost:3001/projects/${id}`, {
