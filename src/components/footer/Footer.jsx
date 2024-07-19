@@ -1,7 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
-
-
 const Footer = () => {
   const githubLinks = [
     { name: 'Aldana Delgado', url: 'https://github.com/AldanaDelgado' },
@@ -23,9 +19,7 @@ return (
             <ul className="list-inline">
             {githubLinks.sort((a, b) => a.name.localeCompare(b.name)).map((link) => (
                 <li key={link.name} className="list-inline-item mx-2">
-                <a href={link.url} className="text-white" target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon icon={faGithub} size="1x" className="me-2" /> {link.name}
-                </a>
+                    {link.name}
                 </li>
             ))}
             </ul>
