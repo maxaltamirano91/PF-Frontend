@@ -34,7 +34,7 @@ export const createPreference = (product) => async (dispatch, getState) => {
       },
     });
     console.log(response);
-    dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data.preferenceId });
+    dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_ERROR, error: error.message });
   }
