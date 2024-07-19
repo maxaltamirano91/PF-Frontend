@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react';
+import { Link } from "react-router-dom"
 import styles from './PremiumPage.module.css';
 
 const image1Url = 'https://i.ibb.co/tYfrgKG/portfolio.png';
@@ -24,9 +25,9 @@ const PremiumPage = () => {
               <p className="lead">
                 0 % de tarifas de la plataforma, más funciones para que tu carrera creativa crezca y dar más visibilidad a tus proyectos.
               </p>
-              <a href="register" className="btn btn-primary">
+              <Link to="/register" className="btn btn-primary">
                 Probar versión gratuita
-              </a>
+              </Link>
             </div>
             <div className="col-md-6">
               <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
@@ -92,9 +93,6 @@ const PremiumPage = () => {
             <h2>Muestra tu trabajo en tu propio sitio web</h2>
             <p>Publica hasta 5 sitios.</p>
             <p>Importa tu trabajo desde ForDevs al instante</p>
-            <a href="register" className="btn btn-primary">
-              Probar versión gratuita
-            </a>
           </div>
           <div className="col-md-6">
             <img src={image1Url} className="img-fluid" alt="Imagen adicional 1" />
@@ -108,9 +106,6 @@ const PremiumPage = () => {
             <p>0 % de tarifas de plataforma en ForDevs para ventas de recursos</p>
             <p>0 % de tarifa de la plataforma ForDevs para autónomos y sus clientes</p>
             <p>0 % de tarifas de plataforma en ForDevs para suscripciones</p>
-            <a href="register" className="btn btn-primary">
-              Probar versión gratuita
-            </a>
           </div>
           <div className="col-md-6">
             <img src={image2Url} className="img-fluid" alt="Imagen adicional 2" />
@@ -123,9 +118,6 @@ const PremiumPage = () => {
             <h2>Testimonios</h2>
             <p>Descubre cómo nuestros servicios han transformado la experiencia de nuestros usuarios.
             Sus testimonios reflejan el impacto positivo que hemos logrado juntos.</p>
-            <a href="register" className="btn btn-primary">
-              Probar versión gratuita
-            </a>
           </div>
           <div className="col-md-6">
             <img src={image3Url} className="img-fluid" alt="Imagen adicional 3" />
@@ -172,7 +164,7 @@ const PremiumPage = () => {
                       <p>Accede a la bolsa de trabajo de tiempo completo</p>
                       <p>Realiza transacciones en ForDevs</p>
                     </div>
-                    <a href="plan-premium" className="btn btn-primary">Probar versión Pro</a>
+                    <Link to="/premium" className="btn btn-primary">Probar versión Pro</Link>
                   </div>
                 </div>
               </div>
