@@ -5,10 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 5175",
-    "build": "vite build",
+    "build": "npm install --omit=dev && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "postinstall": "npm install --omit=dev && npm run build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
