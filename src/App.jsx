@@ -1,6 +1,7 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
+import Success from './components/success/Success'
 import Error from './components/error/Error'
 import Footer from './components/footer/Footer'
 import NavBarExtended from './components/nav-bar/NavBarExtended'
@@ -16,7 +17,6 @@ import UsersPage from './view/users-page/UsersPage'
 import CreateProjectPage from './view/create-project-page/CreateProjectPage'
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler'
 import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage'
-import AdminBar from './components/admin-bar/AdminBar'
 import AdminView from './view/admin-view/AdminView'
 import SubscriptionPage from './view/subscription-page/subscriptionPage'
 import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage'
@@ -37,6 +37,7 @@ function App() {
 	return (
 		<>
 			<div>
+				<Success />
 				<Error />
 				<NavBarExtended />
 				{showFilter && <Filter />}
@@ -48,11 +49,10 @@ function App() {
 					<Route path="/explorer/users" element={<UsersPage />} />
 					{/* --- ---- */}
 					<Route path="/myprofile" element={<ProfilePage />} />
-					<Route path="/admindashboad" element={<AdminBar />} />
 
 					<Route path="/create" element={<CreateProjectPage />} />
 					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-					<Route path="/adminView/:data" element={<AdminView />} />
+					<Route path="/dashboard/:data" element={<AdminView />} />
 					<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 					<Route path="/project/:id" element={<ProjectDetailPage />} />
 
@@ -101,7 +101,6 @@ export default App
 
 // function App() {
 // 	useAuth0TokenHandler()
-// 	console.log(typeof PORT)
 // 	return (
 // 		<>
 // 			<div>

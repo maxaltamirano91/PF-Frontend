@@ -11,7 +11,6 @@ import {
 export const getAllUsers = (token) => {
 	return async (dispatch) => {
 		try {
-			console.log(token);
 			const { data } = await axios.get('/users', {
 				headers: {
 					Authorization: `Bearer ${token}`,

@@ -1,17 +1,15 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 
-import { logoutUser, setDarkMode, setLightMode } from '../../redux/actions'
+import { setDarkMode, setLightMode } from '../../redux/actions'
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
 	const theme = useSelector((state) => state.themes.theme)
-	// const token = useSelector((state) => state.auth.token)
-	const { token, loggedUser } = useSelector((state) => state.auth)
-	// console.log(loggedUser.userName)
+	const { loggedUser } = useSelector((state) => state.auth)
 
 	const darkMode = () => {
 		document.querySelector('html').setAttribute('data-bs-theme', 'dark')
@@ -32,19 +30,8 @@ const NavBarExtended = () => {
 	}
 
 	useEffect(() => {
-		if (theme === 'dark') {
-			darkMode()
-		} else {
-			lightMode()
-		}
+		theme === 'dark' ? darkMode() : lightMode()
 	}, [theme])
-
-	const navigate = useNavigate()
-
-	const handleLogout = () => {
-		dispatch(logoutUser())
-		navigate('/home')
-	}
 
 	return (
 		<div className="">
@@ -126,11 +113,13 @@ const NavBarExtended = () => {
 									<span className="nav-link ">Mis Proyectos</span>
 								</Link>
 							</li>{' '}
-							<li className="nav-item">
-								<Link to={'/admindashboad'}>
-									<span className="nav-link ">Admin-Console</span>
-								</Link>
-							</li>
+							{loggedUser && loggedUser.role === 'admin' && (
+								<li className="nav-item">
+									<Link to={'/dashboard/User'}>
+										<span className="nav-link ">Admin-Console</span>
+									</Link>
+								</li>
+							)}
 						</ul>
 
 						{/* ----------------------SearchBar  Desktop ----------------- */}
@@ -147,7 +136,7 @@ const NavBarExtended = () => {
 						</form> */}
 						{/* ----------------------end ----------------- */}
 
-						{token ? (
+						{loggedUser ? (
 							//? -------------------- login ----------------
 							<ul className="navbar-nav mb-2 mb-lg-0">
 								<li className="nav-item dropdown">
@@ -158,7 +147,7 @@ const NavBarExtended = () => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										Hola, User
+										Hola {loggedUser.userName}
 									</a>
 									<ul className="dropdown-menu">
 										<li>
@@ -175,14 +164,6 @@ const NavBarExtended = () => {
 											<hr className="dropdown-divider" />
 										</li>
 										<li className="">
-											<a
-												onClick={handleLogout}
-												className="dropdown-item"
-												href=""
-											>
-												salir
-											</a>
-											<hr className="dropdown-divider" />
 											<LogoutButton className="dropdown-item " />
 										</li>
 									</ul>

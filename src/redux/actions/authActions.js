@@ -4,6 +4,7 @@ import {
 	LOGOUT_USER,
 	REGISTER_USER,
 	FETCH_ERROR,
+	HANDLE_ERROR,
 } from '../types'
 
 export const loginUser = (userData, loginType) => {
@@ -17,18 +18,20 @@ export const loginUser = (userData, loginType) => {
 				type: LOGIN_USER,
 				payload: data,
 			})
+			dispatch({type: HANDLE_ERROR})
 		} catch (error) {
 			dispatch({
 				type: FETCH_ERROR,
-				payload: error.message,
+				payload: 'Credenciales inválidas',
 			})
 		}
 	}
 }
 
 export const logoutUser = () => {
-	return {
-		type: LOGOUT_USER,
+	return (dispatch) => {
+		dispatch({type: LOGOUT_USER})
+		dispatch({type: HANDLE_ERROR})
 	}
 }
 
@@ -43,7 +46,7 @@ export const registerUser = (userData) => {
 		} catch (error) {
 			dispatch({
 				type: FETCH_ERROR,
-				payload: error.message,
+				payload: 'Error al registrar el usuario',
 			})
 		}
 	}

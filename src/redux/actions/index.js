@@ -1,5 +1,5 @@
 export * from "./authActions"
-export * from "./errorsActions"
+export * from "./requestsActions"
 export * from "./projectsActions"
 export * from "./technologiesActions"
 export * from "./themesActions"
