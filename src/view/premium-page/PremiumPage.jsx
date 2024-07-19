@@ -164,7 +164,7 @@ const PremiumPage = () => {
                       <p>Accede a la bolsa de trabajo de tiempo completo</p>
                       <p>Realiza transacciones en ForDevs</p>
                     </div>
-                    <Link to="/premium" className="btn btn-primary">Probar versión Pro</Link>
+                    <Link to="/subscription" className="btn btn-primary">Probar versión Pro</Link>
                   </div>
                 </div>
               </div>

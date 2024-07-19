@@ -63,7 +63,7 @@ function App() {
 
 					<Route path="/*" element={<NotFoundPage />} />
 
-					<Route path="/premium" element={<SubscriptionPage />} />
+					<Route path="/subscription" element={<SubscriptionPage />} />
 					<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
 					<Route path="/paymentFailure" element={<PaymentFailurePage />} />
 					<Route path="/paymentPending" element={<PaymentPendingPage />} />
