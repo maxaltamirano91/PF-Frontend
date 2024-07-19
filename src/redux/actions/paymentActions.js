@@ -23,7 +23,7 @@ const paymentNotificationFailure = (error) => ({
 export const sendPaymentNotification = (paymentData) => async (dispatch) => {
   dispatch(paymentNotificationRequest());
   try {
-    const response = await axios.post('http://localhost:3001/payment/notification', {
+    const response = await axios.post('/payment/notification', {
       type: 'payment',
       data: paymentData,
     });

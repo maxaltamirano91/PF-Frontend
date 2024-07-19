@@ -7,8 +7,6 @@ import {
     FETCH_ERROR,
 } from "../types";
 
-const URL = 'http://localhost:3001/payment'
-
 export const fetchProduct = () => async (dispatch) => {
   dispatch({ type: FETCH_PRODUCT_REQUEST });
   try {
@@ -26,7 +24,7 @@ export const fetchProduct = () => async (dispatch) => {
 export const createPreference = (formData) => async (dispatch) => {
   dispatch({ type: CREATE_PREFERENCE_REQUEST });
   try {
-    const response = await axios.post(`${URL}/preference`, formData);
+    const response = await axios.post('payment/preference', formData);
     dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data.preferenceId });
   } catch (error) {
     dispatch({ type: FETCH_ERROR, error: error.message });

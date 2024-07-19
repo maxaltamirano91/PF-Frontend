@@ -1,6 +1,6 @@
 import { useNavigate} from "react-router-dom"
 import "./Admin-bar.module.css"
-import { URL_BASE_FULL } from "../../../auth0-config";
+import { FRONT_URL_BASE_FULL } from "../../../auth0-config";
 
 
 const AdminBar = () =>{
@@ -10,17 +10,17 @@ const AdminBar = () =>{
     const adminViewU = () => {
         const currentUrl = window.location.href;
         data = "Users"
-        currentUrl === `${URL_BASE_FULL}/adminView/Users` ? null : navigate(`/adminView/${data}`)
+        currentUrl === `${FRONT_URL_BASE_FULL}/adminView/Users` ? null : navigate(`/adminView/${data}`)
     }
     const adminViewP = () => {
         const currentUrl = window.location.href;
         data = "Projects"
-        currentUrl === `${URL_BASE_FULL}/adminView/Projects` ? null : navigate(`/adminView/${data}`)
+        currentUrl === `${FRONT_URL_BASE_FULL}/adminView/Projects` ? null : navigate(`/adminView/${data}`)
     }
     const adminViewT = () => {
         const currentUrl = window.location.href;
         data = "Technologies"
-        currentUrl === `${URL_BASE_FULL}/adminView/Technologies` ? null : navigate(`/adminView/${data}`)
+        currentUrl === `${FRONT_URL_BASE_FULL}/adminView/Technologies` ? null : navigate(`/adminView/${data}`)
     }
     
 

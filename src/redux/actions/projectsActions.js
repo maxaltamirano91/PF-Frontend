@@ -10,15 +10,12 @@ import {
 	FETCH_ERROR,
 } from '../types'
 
-const URL = 'http://localhost:3001/projects'
-const URL_TECHNOLOGIES = 'http://localhost:3001/technologies'
 const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
-
 
 export const getAllProjects = (pagination, search, technologies) => {
 	return async (dispatch) => {
 		try {
-			const techData = (await axios.get(`${URL_TECHNOLOGIES}`)).data
+			const techData = (await axios.get('/technologies')).data
 			const params = new URLSearchParams()
 
 			if (pagination) params.append('pageSize', pagination)
@@ -26,7 +23,7 @@ export const getAllProjects = (pagination, search, technologies) => {
 			if (technologies) params.append('technologies', technologies)
 			else params.append('technologies', techData.map((t) => t.name).join(','))
 
-			const projects = await axios.get(`${URL}?${params.toString()}`)
+			const projects = await axios.get(`/projects?${params.toString()}`)
 
 			dispatch({
 				type: FETCH_PROJECTS,
@@ -47,7 +44,7 @@ export const getAllProjects = (pagination, search, technologies) => {
 
 export const getProjectById = (id) => async (dispatch) => {
 	try {
-		const { data } = await axios.get(`${URL}/${id}`)
+		const { data } = await axios.get(`/${id}`)
 		dispatch({
 			type: FETCH_PROJECT,
 			payload: data,
@@ -63,7 +60,7 @@ export const getProjectById = (id) => async (dispatch) => {
 export const createProject = (projectData, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post(URL, projectData, {
+			const { data } = await axios.post('/', projectData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -85,7 +82,7 @@ export const updateProject = ({ input, id, token }) => {
 	return async function (dispatch) {
 		try {
 			const { data } = await axios.put(
-				`http://localhost:3001/projects/${id}`,
+				`/${id}`,
 				{ input },
 				{
 					headers: {
@@ -106,10 +103,10 @@ export const updateProject = ({ input, id, token }) => {
 	}
 }
 
-export const deleteProject = ( id, token ) => {
+export const deleteProject = (id, token) => {
 	return async function (dispatch) {
 		try {
-			await axios.delete(`http://localhost:3001/projects/${id}`, {
+			await axios.delete(`/${id}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -129,11 +126,13 @@ export const uploadImage = (image) => {
 		try {
 			const formData = new FormData()
 			formData.append('image', image)
-			const { data } = (await axios.post(IMAGE_URL, formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			})).data
+			const { data } = (
+				await axios.post(IMAGE_URL, formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+			).data
 			return dispatch({
 				type: IMAGE_UPLOAD,
 				payload: data.url,

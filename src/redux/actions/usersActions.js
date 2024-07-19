@@ -7,13 +7,11 @@ import {
 	FETCH_ERROR,
 } from '../types'
 
-const URL = 'http://localhost:3001/users'
-
 export const getAllUsers = (token) => {
 	return async (dispatch) => {
 		try {
 			console.log(token);
-			const { data } = await axios.get(URL, {
+			const { data } = await axios.get('/users', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -28,7 +26,7 @@ export const getAllUsers = (token) => {
 export const getUserById = (id) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get(`${URL}/${id}`)
+			const { data } = await axios.get(`users/${id}`)
 			dispatch({ type: FETCH_USER, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
@@ -39,7 +37,7 @@ export const getUserById = (id) => {
 export const updateUser = (id, userData, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(`${URL}/${id}`, userData, {
+			const { data } = await axios.put(`users/${id}`, userData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -54,7 +52,7 @@ export const updateUser = (id, userData, token) => {
 export const deleteUserById = (id, token) => {
 	return async (dispatch) => {
 		try {
-			await axios.delete(`${URL}/${id}`, {
+			await axios.delete(`users/${id}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

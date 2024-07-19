@@ -4,6 +4,12 @@ export const AUTH0_CLIENT_ID = import.meta.env.VITE_AUTH0_CLIENT_ID || 'bIAB5ZID
 export const AUTH0_CLIENT_SECRET = import.meta.env.VITE_AUTH0_CLIENT_SECRET || 'xxpuBjlhiu_Jp7rsxOaDlb3QXroe69VXjA0nYyO4TVYWaD8fqaMFCmqdbnY7nJFX'
 export const AUTH0_AUDIENCE = import.meta.VITE_AUTH0_AUDIENCE || 'https://dev-bd0lpc8g2yokggoq.us.auth0.com/api/v2/'
 
-export const PORT = import.meta.VITE_PORT || '5175'
-export const URL_BASE = import.meta.URL_BASE || 'http://localhost'
-export const URL_BASE_FULL = `${URL_BASE}:${PORT}` || 'http://localhost:5175'
+export const FRONT_PORT = import.meta.VITE_FRONTPORT || '5175'
+export const FRONT_URL_BASE = import.meta.FRONT_URL_BASE || 'http://localhost'
+export const FRONT_URL_BASE_FULL = `${FRONT_URL_BASE}:${FRONT_PORT}` || 'http://localhost:5175'
+
+export const BACK_PORT = import.meta.VITE_BACK_PORT || '3001'
+export const BACK_URL_BASE = import.meta.URL_BASE || 'http://localhost'
+export const BACK_URL_BASE_FULL = `${BACK_URL_BASE}:${BACK_PORT}` || 'http://localhost:3001'
+
+export const DEPLOY_URL_BASE_FULL = 'https://pf-backend-production-a774.up.railway.app'

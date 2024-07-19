@@ -7,16 +7,13 @@ import {
 	FETCH_ERROR,
 } from '../types'
 
-const URL = 'http://localhost:3001'
-const USERS_URL = 'http://localhost:3001/users'
-
 export const loginUser = (userData, loginType) => {
 	return async (dispatch) => {
 		try {
 			const { data } =
 				loginType === 'local'
-					? await axios.post(`${URL}/login`, userData)
-					: await axios.post(`${URL}/auth0`, userData)
+					? await axios.post('/login', userData)
+					: await axios.post('/auth0', userData)
 			dispatch({
 				type: LOGIN_USER,
 				payload: data,
@@ -39,7 +36,7 @@ export const logoutUser = () => {
 export const registerUser = (userData) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post(`${URL}/signup`, userData)
+			const { data } = await axios.post('/signup', userData)
 			dispatch({
 				type: REGISTER_USER,
 				payload: data,
@@ -56,7 +53,7 @@ export const registerUser = (userData) => {
 export const getUserProfile = (token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get(`${USERS_URL}/profile`, {
+			const { data } = await axios.get('users/profile', {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

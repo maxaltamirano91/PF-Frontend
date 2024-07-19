@@ -5,12 +5,10 @@ import {
     FETCH_ERROR
 } from "../types"
 
-const URL = 'http://localhost:3001/technologies';
-
 export const fetchTechnologies = () => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get(URL);
+			const { data } = await axios.get('/technologies');
 			dispatch({
 				type: FETCH_TECHNOLOGIES,
 				payload: data,
