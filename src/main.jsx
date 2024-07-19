@@ -8,8 +8,8 @@ import {
 	AUTH0_DOMAIN,
 	AUTH0_CLIENT_ID,
 	FRONT_URL_BASE_FULL,
-	// BACK_URL_BASE_FULL,
-	DEPLOY_URL_BASE_FULL,
+	BACK_URL_BASE_FULL,
+	// DEPLOY_URL_BASE_FULL,
 } from '../auth0-config.js'
 
 import App from './App.jsx'
@@ -17,8 +17,8 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
-// axios.defaults.baseURL = BACK_URL_BASE_FULL
-axios.defaults.baseURL = DEPLOY_URL_BASE_FULL
+axios.defaults.baseURL = BACK_URL_BASE_FULL
+// axios.defaults.baseURL = DEPLOY_URL_BASE_FULL
 
 const onRedirectCallback = (appState) => {
 	window.history.replaceState(

@@ -9,7 +9,7 @@ import ProfilePage from './view/profile-page/ProfilePage'
 import LoginPage from './view/login-page/LoginPage'
 import RegisterPage from './view/register-page/RegisterPage'
 import ForgotPasswordPage from './view/forgot-password-page/ForgotPasswordPage'
-import LandingPage from './view/landing-page/LandingPage'
+import PremiumPage from './view/premium-page/PremiumPage'
 import NotFoundPage from './view/not-found-page/NotFoundPage'
 import UpdateProjectPage from './view/update-project-page/UpdateProjectPage'
 import UsersPage from './view/users-page/UsersPage'
@@ -19,9 +19,9 @@ import ProjectDetailPage from './view/project-detail-page/ProjectDetailPage'
 import AdminBar from './components/admin-bar/AdminBar'
 import AdminView from './view/admin-view/AdminView'
 import SubscriptionPage from './view/subscription-page/subscriptionPage'
-import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage';
-import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage';
-import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage';
+import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage'
+import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage'
+import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
 
 import Filter from './components/filter/Filter'
 
@@ -42,7 +42,7 @@ function App() {
 				{showFilter && <Filter />}
 
 				<Routes className="App">
-					<Route path="/" element={<LandingPage />} />
+					<Route path="/" element={<PremiumPage />} />
 					<Route path="/home" element={<HomePage />} />
 					{/* // ? Explorer -- */}
 					<Route path="/explorer/users" element={<UsersPage />} />
@@ -56,11 +56,13 @@ function App() {
 					<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 					<Route path="/project/:id" element={<ProjectDetailPage />} />
 
+					<Route path="/premium" element={<PremiumPage />} />
+
 					<Route path="/login" element={<LoginPage />} />
 					<Route path="/register" element={<RegisterPage />} />
 
 					<Route path="/*" element={<NotFoundPage />} />
-					
+
 					<Route path="/subscription" element={<SubscriptionPage />} />
 					<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
 					<Route path="/paymentFailure" element={<PaymentFailurePage />} />

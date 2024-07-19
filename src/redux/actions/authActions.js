@@ -3,7 +3,6 @@ import {
 	LOGIN_USER,
 	LOGOUT_USER,
 	REGISTER_USER,
-	GET_PROFILE,
 	FETCH_ERROR,
 } from '../types'
 
@@ -46,21 +45,6 @@ export const registerUser = (userData) => {
 				type: FETCH_ERROR,
 				payload: error.message,
 			})
-		}
-	}
-}
-
-export const getUserProfile = (token) => {
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.get('users/profile', {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			dispatch({ type: GET_PROFILE, payload: data })
-		} catch (error) {
-			dispatch({ type: FETCH_ERROR, payload: error.message })
 		}
 	}
 }
