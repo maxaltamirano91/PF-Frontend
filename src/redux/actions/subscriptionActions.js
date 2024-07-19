@@ -24,7 +24,7 @@ export const fetchProduct = () => async (dispatch) => {
 export const createPreference = (formData) => async (dispatch) => {
   dispatch({ type: CREATE_PREFERENCE_REQUEST });
   try {
-    const response = await axios.post('payment/preference', formData);
+    const response = await axios.post('/payment/preference', formData);
     dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data.preferenceId });
   } catch (error) {
     dispatch({ type: FETCH_ERROR, error: error.message });
