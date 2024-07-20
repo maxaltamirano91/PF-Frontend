@@ -10,7 +10,7 @@ const Footer = () => {
 ];
 
 return (
-  <div style={{position:"relative", minHeight:"100vh"}}>
+  <div style={{position:"relative", minHeight: "25vh"}}>
     <footer className="bg-dark text-white pt-1 w-100 mt-auto" style={{position:"absolute", bottom:"0"}}>
     <div className="container">
         <div className="row">

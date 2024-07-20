@@ -1,51 +1,57 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct, createPreference } from '../../redux/actions/subscriptionActions';
-import MembershipProduct from '../../components/membership-product/MembershipProduct';
-import PaymentButton from '../../components/payment-button/PaymentButton';
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserProfile, createPreference } from '../../redux/actions'
+import MembershipProduct from '../../components/membership-product/MembershipProduct'
+import PaymentButton from '../../components/payment-button/PaymentButton'
 
 const SubscriptionPage = () => {
-  const dispatch = useDispatch();
-  const { product, preferenceId } = useSelector((state) => state.subscription);
-  const { error } = useSelector((state) => state.requests);
+	const dispatch = useDispatch()
+	const { loggedUser, token } = useSelector((state) => state.auth)
+	const { preferenceId } = useSelector((state) => state.subscription)
+	const { error } = useSelector((state) => state.requests)
 
-  useEffect(() => {
-    dispatch(fetchProduct());
-  }, [dispatch]);
+	const product = {
+		title: 'Premium',
+		quantity: 1,
+		unit_price: 1,
+		id: loggedUser?.id,
+	}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    dispatch(createPreference(product));
-  };
+	useEffect(() => {
+		dispatch(getUserProfile(token))
+	}, [dispatch, token])
 
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+	useEffect(() => {
+		if (loggedUser) {
+			dispatch(createPreference(product))
+		}
+	}, [dispatch, loggedUser])
 
-  return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title text-center">Compra Membresía Premium</h5>
-              <form onSubmit={handleSubmit}>
-                {product && <MembershipProduct product={product} />}
-                <button type="submit" className="btn btn-primary btn-block mt-3">
-                  Pagar
-                </button>
-              </form>
-              {preferenceId && (
-                <div className="mt-3">
-                  <PaymentButton preferenceId={preferenceId} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+	if (error) {
+		return <p>Error: {error}</p>
+	}
 
-export default SubscriptionPage;
+	return (
+		<div className="container mt-5">
+			<div className="row justify-content-center">
+				<div className="col-md-6">
+					<div className="card">
+						<div className="card-body">
+							<h5 className="card-title text-center">
+								Compra Membresía Premium
+							</h5>
+							<form>{product && <MembershipProduct product={product} />}</form>
+							{preferenceId && (
+								<div className="mt-3">
+									<PaymentButton preferenceId={preferenceId} />
+								</div>
+							)}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+export default SubscriptionPage
