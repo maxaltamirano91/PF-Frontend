@@ -11,6 +11,10 @@ const ProjectDetailPage = () => {
 	const dispatch = useDispatch()
 	const authToken = useSelector((state) => state.auth.token)
 	const lal = useSelector((state)=>state.auth.loggedUser)
+
+	const handleEdit = () => {
+		navigate(`/modProject/${id}`);
+	  };
 	
 	useEffect(() => {
 		dispatch(getProjectById(id))
@@ -60,9 +64,12 @@ const ProjectDetailPage = () => {
 								lal.id !== undefined ?
 								lal.id === project.userId ?
 								<div>
-									<button className="btn btn-custom border" style={{textDecoration:"none", margin:"10px"}}>
-										Modificar
-									</button>
+									<button 
+                					className="btn btn-primary mt-3"
+                					onClick={handleEdit}
+              						>
+                					Edit Project
+              						</button>
 									<button className="btn btn-custom border" onClick={DeleteProject} style={{textDecoration:"none", margin:"10px"}}>
 										Eliminar
 									</button>
