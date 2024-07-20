@@ -78,30 +78,32 @@ export const createProject = (projectData, token) => {
 	}
 }
 
-export const updateProject = ({ input, id, token }) => {
-	return async function (dispatch) {
-		try {
-			const { data } = await axios.put(
-				`/projects/${id}`,
-				{ input },
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
-			dispatch({
-				type: UPDATE_PROJECT,
-				payload: data,
-			})
-		} catch (error) {
-			return dispatch({
-				type: FETCH_ERROR,
-				payload: error.message,
-			})
-		}
-	}
-}
+export const updateProject = (dataToSubmit, token) => {
+    return async function (dispatch) {
+        try {
+            console.log("Token being used:", token); // Log the token
+            const { data } = await axios.put(
+                `/projects/${dataToSubmit.id}`,
+                dataToSubmit,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            dispatch({
+                type: UPDATE_PROJECT,
+                payload: data,
+            });
+        } catch (error) {
+            console.error("Update project error:", error.response || error.message); // Log the error response
+            return dispatch({
+                type: FETCH_ERROR,
+                payload: error.response ? error.response.data : error.message,
+            });
+        }
+    };
+};
 
 export const deleteProject = (id, token) => {
 	return async function (dispatch) {

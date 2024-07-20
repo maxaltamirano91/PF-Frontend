@@ -1,8 +1,8 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
-import Success from './components/success/Success'
-import Error from './components/error/Error'
+// import Success from './components/success/Success'
+// import Error from './components/error/Error'
 import Footer from './components/footer/Footer'
 import NavBarExtended from './components/nav-bar/NavBarExtended'
 import HomePage from './view/home-page/HomePage'
@@ -37,8 +37,8 @@ function App() {
 	return (
 		<>
 			<div>
-				<Success />
-				<Error />
+				{/* <Success />
+				<Error /> */}
 				<NavBarExtended />
 				{showFilter && <Filter />}
 
