@@ -48,14 +48,12 @@ const CardDiv = styled.div`
   .project-title {
     p {
       margin: 0;
-      color: black; 
       text-decoration: none;
       font-weight: bold;
     }
   }
   .technologies {
     font-size: 18px;
-    color: black; 
   }
 `;
 
