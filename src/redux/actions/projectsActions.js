@@ -60,7 +60,7 @@ export const getProjectById = (id) => async (dispatch) => {
 export const createProject = (projectData, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post('/projects/', projectData, {
+			const { data } = await axios.post('/projects', projectData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
