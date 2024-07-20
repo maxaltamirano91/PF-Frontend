@@ -24,7 +24,7 @@ export const fetchProduct = () => async (dispatch) => {
 export const createPreference = (product) => async (dispatch, getState) => {
   dispatch({ type: CREATE_PREFERENCE_REQUEST });
   const state = getState();
-  const userId = state.auth.loggedUser.id;
+  const userId = state.auth.loggedUser?.id;
   const token = state.auth.token;
 
   try {
