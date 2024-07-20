@@ -34,8 +34,8 @@ const NavBarExtended = () => {
 	}, [theme])
 
 	return (
-		<div className="">
-			<nav className="navbar navbar-expand-lg bg-body-tertiary">
+		<div>
+			<nav className="navbar navbar-expand-lg p-3 bg-body-tertiary">
 				<div className="container-fluid">
 					<Link to={'/home'}>
 						<span className="navbar-brand">ForDevs</span>
@@ -103,16 +103,20 @@ const NavBarExtended = () => {
 
 								{/* --------------------------------- end Explorer ----------------------- */}
 							</li>
-							<li className="nav-item">
-								<Link to={'/'}>
-									<span className="nav-link">ForDevPro</span>
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link to={'/myprofile'}>
-									<span className="nav-link ">Mis Proyectos</span>
-								</Link>
-							</li>{' '}
+							{loggedUser?.plan !== 'Premium' && (
+								<li className="nav-item">
+									<Link to={'/'}>
+										<span className="nav-link">ForDevPro</span>
+									</Link>
+								</li>
+							)}
+							{loggedUser && (
+								<li className="nav-item">
+									<Link to={'/myprofile'}>
+										<span className="nav-link ">Mis Proyectos</span>
+									</Link>
+								</li>
+							)}
 							{loggedUser && loggedUser.role === 'admin' && (
 								<li className="nav-item">
 									<Link to={'/dashboard/User'}>
@@ -174,7 +178,7 @@ const NavBarExtended = () => {
 							// securePassword!
 
 							//? ----------------Sign in / Sign Up -------------------*/
-							<ul className="navbar-nav   ">
+							<ul className="navbar-nav px-3">
 								<li className="nav-item">
 									<Link to={'/login'}>
 										<span className="nav-link">Ingresar</span>
@@ -190,9 +194,13 @@ const NavBarExtended = () => {
 						)}
 
 						{/*--------- Theme------------------- */}
-						<ul className="navbar-nav  ">
+						<ul className="navbar-nav">
 							<li className="nav-item">
-								<button onClick={changeTheme} className="btn rounded-fill">
+								<button
+									onClick={changeTheme}
+									className="btn rounded-fill"
+									style={{ margin: 0, padding: 0 }}
+								>
 									<i
 										id="dl-icon"
 										className={

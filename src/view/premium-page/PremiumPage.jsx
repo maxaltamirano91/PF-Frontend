@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import styles from './PremiumPage.module.css'
+import PlanComparison from "../../components/plan-comparison/PlanComparison"
 
 const image1Url = 'https://i.ibb.co/tYfrgKG/portfolio.png'
 const image2Url = 'https://i.ibb.co/s51rcjF/Proyect-Proposal.png'
@@ -177,69 +178,7 @@ const PremiumPage = () => {
 				<p className="lead">
 					Lleva tus proyectos al siguiente nivel con ForDevs Pro.
 				</p>
-				<div className="cards-section py-5">
-					<div className="container">
-						<div className="row">
-							<div className="col-md-6">
-								<div className="card">
-									<div className="card-body">
-										<h5 className="card-title">ForDevs</h5>
-										<div className="card-text">
-											<p>Publica tus proyectos</p>
-											<p>Ofrece servicios autónomos</p>
-											<p>Envía propuestas a clientes</p>
-											<p>Vende tus recursos</p>
-											<p>Márcate como disponible para trabajar</p>
-											<p>
-												Accede a nuestra bolsa de trabajo autónomo y a tiempo
-												completo
-											</p>
-											<p>
-												Realiza transacciones en ForDevs con tarifas de
-												plataforma del 15 al 30 %
-											</p>
-											<Link to="/register" className="btn btn-primary">
-												Probar versión gratuita
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="col-md-6">
-								<div className="card">
-									<div className="card-body">
-										<h5 className="card-title">ForDevs Pro</h5>
-										<div className="card-text">
-											<p>Publica tus proyectos</p>
-											<p>Ofrece servicios como freelance</p>
-											<p>Envía propuestas a clientes</p>
-											<p>Vende tus recursos</p>
-											<p>Marca tu disponibilidad para trabajar</p>
-											<p>0% de tarifa de la plataforma ForDevs</p>
-											<p>
-												Proyectos protegidos por el seguro de calidad ForDevs
-											</p>
-											<p>Ganancias transferidas automáticamente</p>
-											<p>Cuota de inscripción 20% más barata</p>
-											<p>Tienes acceso a la bolsa de trabajo freelance</p>
-											<p>Accede a la bolsa de trabajo de tiempo completo</p>
-											<p>Realiza transacciones en ForDevs</p>
-										</div>
-										{loggedUser ? (
-											<Link to="/subscription" className="btn btn-primary">
-												Probar versión Pro
-											</Link>
-										) : (
-											<Link to="/register" className="btn btn-primary">
-												Probar versión Pro
-											</Link>
-										)}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<PlanComparison loggedUser={loggedUser} />
 			</section>
 		</div>
 	)
