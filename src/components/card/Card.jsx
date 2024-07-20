@@ -23,13 +23,11 @@ const CardDiv = styled.div`
     align-items: flex-end;
   }
   .card-text {
-    margin: 0px 0px -2px;
-    a {
+    p {
       color: #FFFFFF;
       text-decoration: none;
       display: block;
       width: 294.33px;
-      height: 43px;
       padding: 0px 0px 2px;
       opacity: 0;
       transition: opacity 0.3s ease-in-out;
@@ -40,48 +38,44 @@ const CardDiv = styled.div`
   }
   .info-bar {
     width: 339.33px;
-    height: 45px;
     background-color: transparent; 
     padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    margin-top: 1px;
+    align-items: flex-start;  
   }
   .project-title {
-    margin: 0;
-    a {
-      color: inherit; 
+    p {
+      margin: 0;
+      color: black; 
       text-decoration: none;
       font-weight: bold;
     }
   }
   .technologies {
-    margin: 0px 0 2;
     font-size: 18px;
-    color: inherit; 
-    margin-top: -5px;
-    
+    color: black; 
   }
 `;
 
 const Card = ({ id, title, technologies, image }) => {
   return (
     <CardDiv>
+      <Link to={`/project/${id}`}>
       <div className="card text-bg-dark">
         <img src={image} className="card-img" alt="..." />
         <div className="card-img-overlay">
           <p className="card-text">
             <small>
-              <Link to={`/project/${id}`}>{title}</Link>
+              <p>{title}</p>
             </small>
           </p>
         </div>
       </div>
       <div className="info-bar">
         <div className="project-title">
-          <Link to={`/project/${id}`}>{title}</Link>
+          <p>{title}</p>
         </div>
         <div className="technologies">
           {technologies.map((tech, index) => (
@@ -89,6 +83,7 @@ const Card = ({ id, title, technologies, image }) => {
           ))}
         </div>
       </div>
+      </Link>
     </CardDiv>
   );
 };

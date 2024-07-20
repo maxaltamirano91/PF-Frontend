@@ -1,4 +1,6 @@
-const MembershipProduct = (product) => {
+import React from 'react';
+
+const MembershipProduct = ({ product }) => {
   return (
     <div>
       <div className="form-group">

@@ -44,7 +44,7 @@ export const getAllProjects = (pagination, search, technologies) => {
 
 export const getProjectById = (id) => async (dispatch) => {
 	try {
-		const { data } = await axios.get(`/${id}`)
+		const { data } = await axios.get(`/projects/${id}`)
 		dispatch({
 			type: FETCH_PROJECT,
 			payload: data,
@@ -60,7 +60,7 @@ export const getProjectById = (id) => async (dispatch) => {
 export const createProject = (projectData, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post('/', projectData, {
+			const { data } = await axios.post('/projects', projectData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -82,7 +82,7 @@ export const updateProject = ({ input, id, token }) => {
 	return async function (dispatch) {
 		try {
 			const { data } = await axios.put(
-				`/${id}`,
+				`/projects/${id}`,
 				{ input },
 				{
 					headers: {
@@ -106,7 +106,7 @@ export const updateProject = ({ input, id, token }) => {
 export const deleteProject = (id, token) => {
 	return async function (dispatch) {
 		try {
-			await axios.delete(`/${id}`, {
+			await axios.delete(`/projects/${id}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

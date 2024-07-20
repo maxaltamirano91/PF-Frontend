@@ -1,5 +1,5 @@
 export * from './authTypes'
-export * from './errorsTypes'
+export * from './requestsTypes'
 export * from './projectsTypes'
 export * from './techonologiesTypes'
 export * from './themesTypes'

@@ -21,11 +21,20 @@ export const fetchProduct = () => async (dispatch) => {
   }
 };
 
-export const createPreference = (formData) => async (dispatch) => {
+export const createPreference = (product) => async (dispatch, getState) => {
   dispatch({ type: CREATE_PREFERENCE_REQUEST });
+  const state = getState();
+  const userId = state.auth.loggedUser?.id;
+  const token = state.auth.token;
+
   try {
-    const response = await axios.post('/payment/preference', formData);
-    dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data.preferenceId });
+    const response = await axios.post('/payment/preference', { ...product, id: userId }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response);
+    dispatch({ type: CREATE_PREFERENCE_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_ERROR, error: error.message });
   }
