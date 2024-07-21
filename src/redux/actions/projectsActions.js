@@ -171,11 +171,15 @@ export const getDeletedProjectById = (id, token) => {
 export const restoreDeletedProject = (id, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post(`/projects/restore/${id}`, {}, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
+			const { data } = await axios.post(
+				`/projects/restore/${id}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
 			return dispatch({
 				type: RESTORE_PROJECT,
 				payload: data,
