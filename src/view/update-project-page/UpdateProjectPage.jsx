@@ -126,7 +126,7 @@ const UpdateProjectPage = () => {
         };
         console.log("Submitting data:", dataToSubmit);
         dispatch(updateProject(dataToSubmit, token));
-        navigate('/home');
+        navigate('/myprofile');
     };
 
     if (!project) {
@@ -231,7 +231,7 @@ const UpdateProjectPage = () => {
                 </div>
             </div>
             <div className="d-flex justify-content-end">
-                <button type="submit" className="btn btn-success">
+                <button type="submit" className="btn btn-success" onClick={()=> alert('Proyecto actualizado')}>
                     Guardar Cambios
                 </button>
             </div>

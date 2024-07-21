@@ -24,8 +24,7 @@ const HomePage = () => {
 	}, [dispatch, renderingCards]);
 
 	return (
-		<div>
-			{loggedUser && <Link to='/create'><button>New Project</button></Link>}
+		<div>			
 			<Cards projects={allProjects} />
 			{displayPagination ? (
 				<div>

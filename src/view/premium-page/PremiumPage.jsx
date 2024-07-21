@@ -1,18 +1,21 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from './PremiumPage.module.css'
 import PlanComparison from "../../components/plan-comparison/PlanComparison"
+import { getUserProfile } from '../../redux/actions'
 
 const image1Url = 'https://i.ibb.co/tYfrgKG/portfolio.png'
 const image2Url = 'https://i.ibb.co/s51rcjF/Proyect-Proposal.png'
 const image3Url = 'https://i.ibb.co/k265XpZ/imagen3.png'
 
 const PremiumPage = () => {
-	const { loggedUser } = useSelector((state) => state.auth)
+	const dispatch = useDispatch()
+	const { loggedUser, token } = useSelector((state) => state.auth)
 
 	useEffect(() => {
+		dispatch(getUserProfile(token))
 		const carousel = document.querySelector('#carouselExampleIndicators')
 		if (carousel) {
 			carousel.setAttribute('data-bs-interval', '5000')

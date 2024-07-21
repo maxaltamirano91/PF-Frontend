@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import {
 	getAllUsers,
 	fetchTechnologies,
@@ -35,9 +35,13 @@ const AdminView = () => {
 
 	return (
 		<div>
-			<br />
-			<br />
-			{data === 'Users' ? (
+			<hr />
+			<h1>Administrador</h1>
+			<hr />
+			<button>Usuarios</button>			
+			<button onClick={()=>alert('Redirecciona')}>Proyectos</button>			
+			<button onClick={()=>alert('Redirecciona')}>Tecnologías</button>			
+			{data === 'User' ? (
 				<div className="align-items-center">
 					<div className="table-responsive">
 						<table className="table table-bordered">
@@ -65,12 +69,12 @@ const AdminView = () => {
 												<td>{key.bio}</td>
 												<td>{key.image}</td>
 												<td>{key.role}</td>
-												<td>{key.isPremium === true ? 'true' : 'false'}</td>
+												<td>{key.planName}</td>
 												<td>{key.createdAt}</td>
 												<td>{key.updatedAt}</td>
-												<td>
+												{/* <td>
 													{key.deletedAt === null ? 'null' : key.deletedAt}
-												</td>
+												</td> */}
 												<td style={{ fontWeight: 'bolder' }}>Editar</td>
 												<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
 											</tr>

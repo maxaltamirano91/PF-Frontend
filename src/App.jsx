@@ -24,6 +24,7 @@ import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage'
 import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
 
 import Filter from './components/filter/Filter'
+import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
 
 function App() {
 	const { isLoading } = useAuth0()
@@ -55,6 +56,7 @@ function App() {
 					<Route path="/dashboard/:data" element={<AdminView />} />
 					<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 					<Route path="/project/:id" element={<ProjectDetailPage />} />
+					<Route path="/myprofile/myfiledproj" element={<ProjectFiledPage/>} />
 
 					<Route path="/premium" element={<PremiumPage />} />
 

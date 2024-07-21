@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { sendPaymentNotification } from '../../redux/actions/paymentActions';
+import { getUserProfile } from '../../redux/actions';
 
 const PaymentSuccessPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const authToken = useSelector(state => state.auth.token)
 
   useEffect(() => {
+    dispatch(getUserProfile(authToken))
     const query = new URLSearchParams(location.search);
     const paymentData = {
         external_reference: query.get('external_reference'),
