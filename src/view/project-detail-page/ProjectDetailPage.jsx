@@ -30,7 +30,7 @@ const ProjectDetailPage = () => {
 
 	const handleClose = () => setShow(false)
 	const handleShow = () => setShow(true)
-	
+
 	const handleDelete = () => {
 		console.log(id, authToken)
 		dispatch(deleteProject(id, authToken))
@@ -82,7 +82,7 @@ const ProjectDetailPage = () => {
 										<div>
 											<button
 												className="btn btn-primary mt-3"
-												onClick={handleEdit}												
+												onClick={handleEdit}
 											>
 												Edit Project
 											</button>
