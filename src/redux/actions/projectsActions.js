@@ -8,6 +8,9 @@ import {
 	IMAGE_UPLOAD,
 	FILTER_TECHNOLOGIES,
 	FETCH_ERROR,
+	GET_DELETED_PROJ,
+	GET_DELETED_PROJECTS,
+	RESTORE_PROJECT,
 } from '../types'
 
 const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
@@ -79,31 +82,31 @@ export const createProject = (projectData, token) => {
 }
 
 export const updateProject = (dataToSubmit, token) => {
-    return async function (dispatch) {
-        try {
-            console.log("Token being used:", token); // Log the token
-            const { data } = await axios.put(
-                `/projects/${dataToSubmit.id}`,
-                dataToSubmit,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            dispatch({
-                type: UPDATE_PROJECT,
-                payload: data,
-            });
-        } catch (error) {
-            console.error("Update project error:", error.response || error.message); // Log the error response
-            return dispatch({
-                type: FETCH_ERROR,
-                payload: error.response ? error.response.data : error.message,
-            });
-        }
-    };
-};
+	return async function (dispatch) {
+		try {
+			console.log('Token being used:', token) // Log the token
+			const { data } = await axios.put(
+				`/projects/${dataToSubmit.id}`,
+				dataToSubmit,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			dispatch({
+				type: UPDATE_PROJECT,
+				payload: data,
+			})
+		} catch (error) {
+			console.error('Update project error:', error.response || error.message) // Log the error response
+			return dispatch({
+				type: FETCH_ERROR,
+				payload: error.response ? error.response.data : error.message,
+			})
+		}
+	}
+}
 
 export const deleteProject = (id, token) => {
 	return async function (dispatch) {
@@ -114,6 +117,69 @@ export const deleteProject = (id, token) => {
 				},
 			})
 			dispatch({ type: DELETE_PROJECT })
+		} catch (error) {
+			return dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			})
+		}
+	}
+}
+
+export const getDeletedProjects = (token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get(`/projects/deleted`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			return dispatch({
+				type: GET_DELETED_PROJECTS,
+				payload: data,
+			})
+		} catch (error) {
+			return dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			})
+		}
+	}
+}
+
+export const getDeletedProjectById = (id, token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get(`/projects/deleted/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			return dispatch({
+				type: GET_DELETED_PROJ,
+				payload: data,
+			})
+		} catch (error) {
+			return dispatch({
+				type: FETCH_ERROR,
+				payload: error.message,
+			})
+		}
+	}
+}
+
+export const restoreDeletedProject = (id, token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.post(`/projects/restore/${id}`, {}, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			return dispatch({
+				type: RESTORE_PROJECT,
+				payload: data,
+			})
 		} catch (error) {
 			return dispatch({
 				type: FETCH_ERROR,

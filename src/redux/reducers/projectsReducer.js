@@ -4,13 +4,17 @@ import {
 	CREATE_PROJECT,
 	UPDATE_PROJECT,
 	DELETE_PROJECT,
-	IMAGE_UPLOAD
+	IMAGE_UPLOAD,
+	GET_DELETED_PROJ,
+	GET_DELETED_PROJECTS,
+	RESTORE_PROJECT,
 } from '../types'
 
 const initialState = {
 	allProjects: [],
 	project: null,
-	imageUrl: null
+	imageUrl: null,
+	deletedProjects: [],
 }
 
 const projectsReducer = (state = initialState, action) => {
@@ -49,6 +53,26 @@ const projectsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				imageUrl: null,
+			}
+
+		case GET_DELETED_PROJ:
+			return {
+				...state,
+				project: action.payload,
+			}
+
+		case GET_DELETED_PROJECTS:
+			return {
+				...state,
+				deletedProjects: action.payload,
+			}
+
+		case RESTORE_PROJECT:
+			return {
+				...state,
+				project: state.deletedProjects.filter(
+					(p) => p.id !== action.payload.id
+				),
 			}
 
 		default:
