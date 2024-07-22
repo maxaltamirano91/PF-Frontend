@@ -125,8 +125,7 @@ const UpdateProjectPage = () => {
 		})
 	}
 
-	const handleSubmit = async (event) => {
-		event.preventDefault()
+	const handleSubmit = async () => {
 		const dataToSubmit = {
 			...formData,
 			technologies: selectedTechs,
@@ -202,7 +201,7 @@ const UpdateProjectPage = () => {
 				</select>
 				<div className="mt-2">
 					{selectedTechs.map((tech) => (
-						<span key={tech} className="badge bg-secondary me-2">
+						<span key={tech} className="badge me-2">
 							{tech}
 							<button
 								type="button"
@@ -237,7 +236,7 @@ const UpdateProjectPage = () => {
 				</div>
 				<div className="mt-2">
 					{formData.tags.map((tag) => (
-						<span key={tag} className="badge bg-info text-dark me-2">
+						<span key={tag} className="badge me-2">
 							{tag}
 							<button
 								type="button"
@@ -265,7 +264,6 @@ const UpdateProjectPage = () => {
 export default UpdateProjectPage
 
 const FormStyled = styled.form`
-	background-color: #fff;
 	padding: 1.5rem;
 	border-radius: 0.375rem;
 	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.1);

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllProjects } from '../../redux/actions'
 import Cards from '../../components/cards/Cards'
@@ -7,8 +6,7 @@ import Cards from '../../components/cards/Cards'
 const HomePage = () => {
 	const dispatch = useDispatch()
 	const { allProjects } = useSelector((state) => state.projects)
-	const { loggedUser } = useSelector((state) => state.auth)
-	const [renderingCards, setRenderingCards] = useState(5)
+	const [renderingCards, setRenderingCards] = useState(10)
 	const [displayPagination, setDisplayPagination] = useState(true)
 
 	const handlePagination = () => {
@@ -26,13 +24,14 @@ const HomePage = () => {
 	return (
 		<div>
 			<Cards projects={allProjects} />
-			{displayPagination ? (
-				<div>
-					<button onClick={handlePagination}>Ver más</button>
-				</div>
-			) : (
-				<p>Estos son todos los proyectos</p>
-			)}
+			<div className="mb-5 text-center">
+				{allProjects &&
+					(displayPagination ? (
+						<button onClick={handlePagination}>Ver más</button>
+					) : (
+						<p>Estos son todos los proyectos</p>
+					))}
+			</div>
 		</div>
 	)
 }

@@ -3,7 +3,7 @@ import Card from '../card/Card'
 
 const Cards = ({ projects, onRestore }) => {
 	return (
-		<CardsDiv className="container-fluid">
+		<CardsDiv className="container-fluid my-5">
 			{projects?.length ? (
 				projects.map((project) => (
 					<div key={project.id}>
@@ -37,10 +37,9 @@ export default Cards
 
 const CardsDiv = styled.section`
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-gap: 20px;
-	margin: 0 auto;
-	width: 100%;
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	justify-items: center;
+	grid-gap: 0.8rem;
 
 	@media (max-width: 992px) {
 		grid-template-columns: 1fr;
