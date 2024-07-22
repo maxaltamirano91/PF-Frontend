@@ -54,7 +54,7 @@ const ProjectDetailPage = () => {
 						alt={project?.title}
 					/>
 				</div>
-				<div className={styles.cardxsxDetail}>
+				<div className={styles.cardDetail}>
 					<p className={styles.cardDetailCaption}>PROJECT</p>
 					<h1 className={styles.cardDetailTitle}>{project?.title}</h1>
 					<p className={styles.cardDetailDesc}>{project?.description}</p>
