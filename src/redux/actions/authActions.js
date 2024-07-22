@@ -4,28 +4,35 @@ import {
 	LOGOUT_USER,
 	FETCH_ERROR,
 	HANDLE_ERROR,
+	LOGIN_REQUEST
 } from '../types'
 
 export const loginUser = (userData, loginType) => {
 	return async (dispatch) => {
+		dispatch({ type: LOGIN_REQUEST }); 
 		try {
 			const { data } =
 				loginType === 'local'
 					? await axios.post('/login', userData)
-					: await axios.post('/auth0', userData)
+					: await axios.post('/auth0', userData);
 			dispatch({
 				type: LOGIN_USER,
 				payload: data,
-			})
-			dispatch({type: HANDLE_ERROR})
+			});
+			dispatch({ type: HANDLE_ERROR });
 		} catch (error) {
 			dispatch({
 				type: FETCH_ERROR,
 				payload: 'Credenciales inválidas',
-			})
+			});
 		}
-	}
-}
+	};
+};
+
+export const resetFetchError = () => ({
+	type: HANDLE_ERROR,
+});
+
 
 export const logoutUser = () => {
 	return (dispatch) => {

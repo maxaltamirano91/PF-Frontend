@@ -1,0 +1,17 @@
+.button-like {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .button-like:hover {
+    background-color: #5a6268;
+  }
+  
