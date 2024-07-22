@@ -54,13 +54,7 @@ const ProjectDetailPage = () => {
 						alt={project?.title}
 					/>
 				</div>
-				<div className={styles.cardDetail}>
-					<button
-						type="button"
-						className={`btn-close ${styles.closeButton}`}
-						aria-label="Close"
-						onClick={() => navigate('/myprofile')}
-					></button>
+				<div className={styles.cardxsxDetail}>
 					<p className={styles.cardDetailCaption}>PROJECT</p>
 					<h1 className={styles.cardDetailTitle}>{project?.title}</h1>
 					<p className={styles.cardDetailDesc}>{project?.description}</p>
