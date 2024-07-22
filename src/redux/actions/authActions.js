@@ -2,7 +2,6 @@ import axios from 'axios'
 import {
 	LOGIN_USER,
 	LOGOUT_USER,
-	REGISTER_USER,
 	FETCH_ERROR,
 	HANDLE_ERROR,
 } from '../types'
@@ -38,11 +37,7 @@ export const logoutUser = () => {
 export const registerUser = (userData) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.post('/signup', userData)
-			dispatch({
-				type: REGISTER_USER,
-				payload: data,
-			})
+			await axios.post('/signup', userData)
 		} catch (error) {
 			dispatch({
 				type: FETCH_ERROR,

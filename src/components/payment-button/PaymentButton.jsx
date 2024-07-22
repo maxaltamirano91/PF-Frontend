@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import { MP_TEST_PUBLIC_KEY } from '../../../auth0-config'
 
 const PaymentButton = ({ preferenceId }) => {
 	useEffect(() => {
-		initMercadoPago('APP_USR-ed20d86e-e8ef-46b4-b53e-fa62adae6bc1', {
+		initMercadoPago(MP_TEST_PUBLIC_KEY, {
 			locale: 'es-AR',
 		})
 	}, [])
