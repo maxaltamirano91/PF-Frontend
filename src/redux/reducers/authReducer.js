@@ -1,4 +1,4 @@
-import { LOGIN_USER, LOGOUT_USER, REGISTER_USER, GET_PROFILE } from '../types'
+import { LOGIN_USER, LOGOUT_USER, GET_PROFILE } from '../types'
 
 const initialState = {
 	loggedUser: null,
@@ -18,9 +18,6 @@ const authReducer = (state = initialState, action) => {
 		case LOGOUT_USER:
 			localStorage.removeItem('authToken')
 			return { ...state, loggedUser: null, token: null }
-
-		case REGISTER_USER:
-			return { ...state, loggedUser: action.payload }
 
 		case GET_PROFILE:
 			return {
