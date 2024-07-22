@@ -25,7 +25,7 @@ const AdminBar = () => {
 	const adminViewT = () => {
 		const currentUrl = window.location.href
 		data = 'Technologies'
-		currentUrl === `${DFRONT_URL_BASE_FULL}/adminView/Technologies`
+		currentUrl === `${FRONT_URL_BASE_FULL}/adminView/Technologies`
 			? null
 			: navigate(`/adminView/${data}`)
 	}
