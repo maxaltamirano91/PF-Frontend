@@ -14,7 +14,7 @@ const Filter = () => {
 	const { token } = useSelector((state) => state.auth)
 	const [selectedOptions, setSelectedOptions] = useState([])
 	const [search, setSearch] = useState('')
-	const pagination = 5
+	const pagination = 10
 
 	const options = technologies.map((tech) => ({
 		value: tech.name,

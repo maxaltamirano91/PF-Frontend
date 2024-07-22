@@ -12,7 +12,7 @@ const image3Url = 'https://i.ibb.co/k265XpZ/imagen3.png'
 
 const PremiumPage = () => {
 	const dispatch = useDispatch()
-	const { loggedUser, token } = useSelector((state) => state.auth)
+	const { token } = useSelector((state) => state.auth)
 
 	useEffect(() => {
 		dispatch(getUserProfile(token))
