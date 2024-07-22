@@ -12,5 +12,5 @@ export const BACK_PORT = import.meta.VITE_BACK_PORT || '3001'
 export const BACK_URL_BASE = import.meta.URL_BASE || 'http://localhost'
 export const BACK_URL_BASE_FULL = `${BACK_URL_BASE}:${BACK_PORT}` || 'http://localhost:3001'
 
-export const DEPLOY_FRONT_URL_BASE_FULL = 'https://pf-fordevs.vercel.app'
-export const DEPLOY_BACK_URL_BASE_FULL = 'https://pf-backend-production-a774.up.railway.app'
+// export const DEPLOY_FRONT_URL_BASE_FULL = 'https://pf-fordevs.vercel.app'
+// export const DEPLOY_BACK_URL_BASE_FULL = 'https://pf-backend-production-a774.up.railway.app'

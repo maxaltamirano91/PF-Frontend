@@ -1,2 +1,0 @@
-export const FETCH_ERROR = 'FETCH_ERROR'
-export const HANDLE_ERROR = 'HANDLE_ERROR'

@@ -14,7 +14,7 @@ const Filter = () => {
 	const { token } = useSelector((state) => state.auth)
 	const [selectedOptions, setSelectedOptions] = useState([])
 	const [search, setSearch] = useState('')
-	const pagination = 5
+	const pagination = 10
 
 	const options = technologies.map((tech) => ({
 		value: tech.name,
@@ -36,43 +36,39 @@ const Filter = () => {
 		dispatch(fetchTechnologies(token))
 	}, [dispatch, token])
 	return (
-		<SectionStyled className="var">
-			<link
-				rel="stylesheet"
-				href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-				integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-				crossOrigin="anonymous"
-				referrerPolicy="no-referrer"
-			/>
-
-			<header className="header">
-				<section
-					className="search-box"
-					// style={{ width: '450px' }}
-				>
-					<div className="search">
-						<input
-							type="search"
-							value={search}
-							onChange={(e) => setSearch(e.target.value)}
-							placeholder="Search..."
-						/>
-					</div>
-					<div className="selects">
-						<Select
-							options={options}
-							onChange={handleInputChange}
-							value={selectedOptions}
-							isMulti={true}
-						/>
-					</div>
-					<div className="btn">
-						<button className="btn btn-light" onClick={handleSubmit}>
-							Apply
-						</button>
-					</div>
-				</section>
-			</header>
+		<SectionStyled className="">
+			<div className="">
+				<link
+					rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+					integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+					crossOrigin="anonymous"
+					referrerPolicy="no-referrer"
+				/>
+			</div>
+			<div className="selects-container ">
+				<Select
+					options={options}
+					onChange={handleInputChange}
+					value={selectedOptions}
+					isMulti={true}
+					placeholder="Selecciona tecnología"
+					styles={customStylesSelectReact}
+				/>
+			</div>
+			<div className="search-container ">
+				<input
+					type="search"
+					value={search}
+					onChange={(e) => setSearch(e.target.value)}
+					placeholder="Nombre del proyecto"
+				/>
+			</div>
+			<div className="btn-container ">
+				<button className="btn btn-light" onClick={handleSubmit}>
+					Filtrar
+				</button>
+			</div>
 		</SectionStyled>
 	)
 }
@@ -82,36 +78,70 @@ export default Filter
 // ? Styles
 const SectionStyled = styled.section`
 	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+
+	justify-content: center;
 	align-items: center;
-	justify-content: space-around;
 
-	border-bottom: 1px solid #fafafa48;
-	border-radius: 20px;
-	margin: 12px auto;
-	/* height: 58px; */
-	font-weight: 600;
-
-	.search-box {
-		display: flex;
-		/* justify-content: space-around; */
-
-		/* width: 50%; */
-		/* justify-content: center; */
-		align-items: center;
-
-		/* align-items: center; */
+	.selects-container {
+		color-scheme: light;
 	}
 
-	.header {
-		/* justify-content: space-around; */
-
-		/* background-color: wheat; */
+	.search-container {
+		input {
+			height: 39px;
+			border-radius: 6px;
+			border-color: #a8a8a88e;
+			color-scheme: light;
+			padding: 0 12px;
+			font-weight: 600;
+		}
+		:focus {
+			border-color: #0099ff; /* Cambia el color del borde cuando el input está enfocado */
+			outline: none; /* Opcional: elimina el borde de enfoque predeterminado del navegador */
+			border-width: 3px;
+		}
+		::placeholder {
+			color: #a8a8a8; /* Cambia esto al color que prefieras */
+			color: grey; /* Cambia esto al color que prefieras */
+			font-weight: 400;
+		}
 	}
-	.selects {
-		/* border: 1px solid red; */
-	}
-
-	.type-list {
-		margin-top: 10px;
+	.btn-container {
+		button {
+			margin: 0;
+			border-color: #a8a8a88e;
+			color: gray;
+		}
+		&:hover {
+			text-decoration: none;
+		}
 	}
 `
+const customStylesSelectReact = {
+	control: (provided, state) => ({
+		...provided,
+		backgroundColor: '#fff',
+		color: '#333',
+		borderColor: state.isFocused ? '#aaa' : '#a8a8a88e',
+	}),
+	menu: (provided) => ({
+		...provided,
+		backgroundColor: '#333',
+		color: '#fff',
+	}),
+	option: (provided, state) => ({
+		...provided,
+		backgroundColor: state.isFocused
+			? '#757575'
+			: state.isSelected
+			? '#555'
+			: '#333',
+		color: '#fff',
+	}),
+	singleValue: (provided) => ({
+		...provided,
+		color: '#fff',
+	}),
+}

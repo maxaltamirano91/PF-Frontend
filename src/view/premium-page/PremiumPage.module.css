@@ -1,37 +1,44 @@
+.heroSection {
+	background-image: url('https://i.ibb.co/thGGVFt/background.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+	color: white;
+	text-align: center;
+	padding: 60px 20px;
+}
 
-body {
-    background-image: url('https://i.ibb.co/5FXNnCM/background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-  }
-  
-  .heroSection {
-    padding: 20px;
-  }
-  
-  .carousel-container {
-    padding: 20px;
-  }
-  
-  .image-large {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-  }
-  
-  .image-medium {
-    width: 100%;
-    max-width: 350px;
-    height: auto;
-  }
-  
-  .image-small {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-  }
-  
+.heroSection h1 {
+	font-size: 3.4rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.heroSection p {
+	font-size: 1.2rem;
+	margin-bottom: 20px;
+}
+
+.heroSection .btn-primary {
+	font-size: 1.2rem;
+}
+
+.carousel-inner img {
+	max-height: 500px;
+	object-fit: cover;
+}
+
+.section {
+	margin: 50px 0;
+}
+
+.section h2 {
+	font-size: 2.5rem;
+	margin-bottom: 20px;
+}
+
+.section img {
+	max-width: 100%;
+	height: auto;
+}

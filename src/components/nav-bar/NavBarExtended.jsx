@@ -1,17 +1,17 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
+import Filter from '../filter/Filter.jsx'
+import { Gem } from 'lucide-react'
 
-import { logoutUser, setDarkMode, setLightMode } from '../../redux/actions'
+import { setDarkMode, setLightMode } from '../../redux/actions'
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
 	const theme = useSelector((state) => state.themes.theme)
-	// const token = useSelector((state) => state.auth.token)
-	const { token, loggedUser } = useSelector((state) => state.auth)
-	// console.log(loggedUser.userName)
+	const { loggedUser } = useSelector((state) => state.auth)
 
 	const darkMode = () => {
 		document.querySelector('html').setAttribute('data-bs-theme', 'dark')
@@ -32,39 +32,23 @@ const NavBarExtended = () => {
 	}
 
 	useEffect(() => {
-		if (theme === 'dark') {
-			darkMode()
-		} else {
-			lightMode()
-		}
+		theme === 'dark' ? darkMode() : lightMode()
 	}, [theme])
 
-	const navigate = useNavigate()
-
-	const handleLogout = () => {
-		dispatch(logoutUser())
-		navigate('/home')
-	}
+	const location = useLocation()
+	const showFilter = ['/home', '/users'].includes(location.pathname)
 
 	return (
-		<div className="">
-			<nav className="navbar navbar-expand-lg bg-body-tertiary">
+		<div>
+			<nav className="navbar navbar-expand-lg p-3 bg-body-tertiary">
 				<div className="container-fluid">
-					<Link to={'/home'}>
+					<Link to={'/'}>
 						<span className="navbar-brand">ForDevs</span>
 					</Link>
 					{/* ----------------------SearchBar  Movil ----------------- */}
-					{/* <form className="d-flex me-auto d-sm-none " role="search">
-						<input
-							className="form-control me-2"
-							type="search"
-							placeholder="Search"
-							aria-label="Search"
-						/>
-						<button className="btn btn-outline-success" type="submit">
-							Search
-						</button>
-					</form> */}
+
+					{/* <div className="d-flex me-auto d-sm-none "></div> */}
+
 					{/* ----------------------end ----------------- */}
 					<button
 						className="navbar-toggler"
@@ -97,6 +81,11 @@ const NavBarExtended = () => {
 
 									<ul className="dropdown-menu">
 										<li>
+											<Link to={'/home'}>
+												<span className="dropdown-item">Proyectos</span>
+											</Link>
+										</li>
+										<li>
 											<Link to={'/explorer/users'}>
 												<span className="dropdown-item">Usuarios</span>
 											</Link>
@@ -106,48 +95,47 @@ const NavBarExtended = () => {
 												Tecnologías
 											</a>
 										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Something else here
-											</a>
-										</li>
 									</ul>
 								</div>
 
 								{/* --------------------------------- end Explorer ----------------------- */}
 							</li>
-							<li className="nav-item">
-								<Link to={'/'}>
-									<span className="nav-link">ForDevPro</span>
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link to={'/myprofile'}>
-									<span className="nav-link ">Mis Proyectos</span>
-								</Link>
-							</li>{' '}
-							<li className="nav-item">
-								<Link to={'/admindashboad'}>
-									<span className="nav-link ">Admin-Console</span>
-								</Link>
-							</li>
+							{loggedUser?.planName !== 'Premium' && (
+								<li className="nav-item">
+									<Link to={'/'}>
+										<span className="nav-link">ForDevPro</span>
+									</Link>
+								</li>
+							)}
+							{loggedUser && (
+								<li className="nav-item">
+									<Link to={'/myprofile'}>
+										<span className="nav-link ">
+											Perfil{loggedUser.planName === 'Premium' && <Gem />}
+										</span>
+									</Link>
+								</li>
+							)}
+							{loggedUser && loggedUser.role === 'admin' && (
+								<li className="nav-item">
+									<Link to={'/dashboard/User'}>
+										<span className="nav-link ">Admin-Console</span>
+									</Link>
+								</li>
+							)}
 						</ul>
 
 						{/* ----------------------SearchBar  Desktop ----------------- */}
-						{/* <form className="d-flex me-auto " role="search">
-							<input
-								className="form-control me-2"
-								type="search"
-								placeholder="Search"
-								aria-label="Search"
-							/>
-							<button className="btn btn-outline-success" type="submit">
-								Search
-							</button>
-						</form> */}
+
+						<div className="d-flex me-auto ">
+							{showFilter && <Filter />}
+
+							{/* <Filter /> */}
+						</div>
+
 						{/* ----------------------end ----------------- */}
 
-						{token ? (
+						{loggedUser ? (
 							//? -------------------- login ----------------
 							<ul className="navbar-nav mb-2 mb-lg-0">
 								<li className="nav-item dropdown">
@@ -158,7 +146,7 @@ const NavBarExtended = () => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										Hola, User
+										Hola {loggedUser.userName}
 									</a>
 									<ul className="dropdown-menu">
 										<li>
@@ -175,14 +163,6 @@ const NavBarExtended = () => {
 											<hr className="dropdown-divider" />
 										</li>
 										<li className="">
-											<a
-												onClick={handleLogout}
-												className="dropdown-item"
-												href=""
-											>
-												salir
-											</a>
-											<hr className="dropdown-divider" />
 											<LogoutButton className="dropdown-item " />
 										</li>
 									</ul>
@@ -193,7 +173,7 @@ const NavBarExtended = () => {
 							// securePassword!
 
 							//? ----------------Sign in / Sign Up -------------------*/
-							<ul className="navbar-nav   ">
+							<ul className="navbar-nav px-3">
 								<li className="nav-item">
 									<Link to={'/login'}>
 										<span className="nav-link">Ingresar</span>
@@ -209,9 +189,13 @@ const NavBarExtended = () => {
 						)}
 
 						{/*--------- Theme------------------- */}
-						<ul className="navbar-nav  ">
+						<ul className="navbar-nav">
 							<li className="nav-item">
-								<button onClick={changeTheme} className="btn rounded-fill">
+								<button
+									onClick={changeTheme}
+									className="btn rounded-fill"
+									style={{ margin: 0, padding: 0 }}
+								>
 									<i
 										id="dl-icon"
 										className={

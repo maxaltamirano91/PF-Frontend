@@ -29,7 +29,7 @@ const AdminBar = () => {
 			? null
 			: navigate(`/adminView/${data}`)
 	}
-
+	
 	return (
 		<div style={{ padding: '5px 20px' }}>
 			<button

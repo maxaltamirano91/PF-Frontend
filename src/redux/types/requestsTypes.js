@@ -1,0 +1,4 @@
+export const FETCH_SUCCESS = 'FETCH_SUCCESS'
+export const HANDLE_SUCCESS = 'HANDLE_SUCCESS'
+export const FETCH_ERROR = 'FETCH_ERROR'
+export const HANDLE_ERROR = 'HANDLE_ERROR'

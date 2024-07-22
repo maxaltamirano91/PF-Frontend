@@ -1,12 +1,16 @@
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../../redux/actions'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import LoginButton from '../../components/loggin-button/LoginButton'
-import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const { loggedUser } = useSelector((state) => state.auth)
+	const { fetchError } = useSelector((state) => state.requests)
 
 	const validationSchema = Yup.object().shape({
 		email: Yup.string()
@@ -15,11 +19,13 @@ const LoginPage = () => {
 		password: Yup.string().required('Se requiere una contraseña'),
 	})
 
-	const navigate = useNavigate()
 	const handleSubmit = async (userData) => {
 		dispatch(loginUser(userData, 'local'))
-		navigate('/home')
 	}
+
+	useEffect(() => {
+		if (loggedUser) navigate('/home')
+	}, [loggedUser])
 
 	return (
 		<div className="container-fluid d-flex justify-content-center align-items-center vh-100">
@@ -87,11 +93,14 @@ const LoginPage = () => {
 						{errors.submit && (
 							<div className="text-danger mb-4">{errors.submit}</div>
 						)}
-
+						{fetchError && fetchError.includes('Credenciales inválidas') && (
+							<div className="text-danger mb-4">{fetchError}</div>
+						)}
 						<button
 							type="submit"
 							className="btn btn-primary btn-block mb-4"
 							disabled={isSubmitting}
+							onClick={handleSubmit}
 						>
 							{isSubmitting ? 'Ingresando...' : 'Ingresar'}
 						</button>

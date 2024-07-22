@@ -1,16 +1,20 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchTechnologies, getProjectById } from '../../redux/actions'
+import axios from 'axios'
+import {
+	fetchTechnologies,
+	getProjectById,
+	updateProject,
+} from '../../redux/actions'
 import { useParams, useNavigate } from 'react-router-dom'
-import { updateProject, uploadImage } from '../../redux/actions/projectsActions'
 
 const UpdateProjectPage = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
-	const { project, imageUrl } = useSelector((state) => state.projects)
+	const { project } = useSelector((state) => state.projects)
 	const { token } = useSelector((state) => state.auth)
 
 	useEffect(() => {
@@ -28,7 +32,6 @@ const UpdateProjectPage = () => {
 
 	const [selectedTechs, setSelectedTechs] = useState([])
 	const [newTag, setNewTag] = useState('')
-
 	const [imagenAddHosting, setImagenAddHosting] = useState('')
 
 	useEffect(() => {
@@ -75,9 +78,30 @@ const UpdateProjectPage = () => {
 	}
 
 	const handleUploadImagen = async (e) => {
-		const image = e.target.files[0]
-		dispatch(uploadImage(image))
-		setImagenAddHosting(imageUrl)
+		const imageUpload = e.target.files[0]
+		const url =
+			'https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3'
+
+		if (!imageUpload) {
+			console.log('No file selected.')
+			return
+		}
+
+		const formData = new FormData()
+		formData.append('image', imageUpload)
+
+		try {
+			const result = await axios.post(url, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			})
+			const urlImagen = result.data.data.url
+			setImagenAddHosting(urlImagen)
+			console.log('Image uploaded successfully:', urlImagen)
+		} catch (error) {
+			console.error('Error uploading image:', error)
+		}
 	}
 
 	const handleAddTag = () => {
@@ -101,15 +125,16 @@ const UpdateProjectPage = () => {
 		})
 	}
 
-	const handleSubmit = async (event) => {
-		event.preventDefault()
+	const handleSubmit = async () => {
 		const dataToSubmit = {
 			...formData,
 			technologies: selectedTechs,
 			image: imagenAddHosting,
+			id,
 		}
+		console.log('Submitting data:', dataToSubmit)
 		dispatch(updateProject(dataToSubmit, token))
-		navigate(`/home`)
+		navigate('/myprofile')
 	}
 
 	if (!project) {
@@ -117,94 +142,119 @@ const UpdateProjectPage = () => {
 	}
 
 	return (
-		<FormStyled onSubmit={handleSubmit}>
-			<div className="form-header">
-				<span>Editar proyecto</span>
+		<FormStyled onSubmit={handleSubmit} className="container mt-5">
+			<h2 className="mb-4">Editar Proyecto</h2>
+			<div className="mb-3">
+				<label htmlFor="title" className="form-label">
+					Nombre del Proyecto
+				</label>
+				<input
+					type="text"
+					id="title"
+					name="title"
+					className="form-control"
+					value={formData.title}
+					onChange={handleChange}
+					required
+				/>
 			</div>
-
-			<div className="form-body">
-				<div className="form-field">
-					<label>Nombre del Proyecto</label>
-					<input
-						type="text"
-						name="title"
-						value={formData.title}
-						onChange={handleChange}
-						required
-					/>
-				</div>
-				<div className="form-field mt-2">
-					<label>Descripción</label>
-					<textarea
-						name="description"
-						value={formData.description}
-						onChange={handleChange}
-					/>
-				</div>
-				<div className="form-field mt-2">
-					<label>Contenido multimedia</label>
-					<input
-						type="file"
-						name="image"
-						onChange={handleUploadImagen}
-						placeholder="subir imagen"
-					/>
-				</div>
-
-				<div className="form-field mt-2">
-					<label>Tecnologías</label>
-					<select name="technologies" onChange={handleTechChange}>
-						<option value="default">Seleccione una tecnología</option>
-						{technologies.map((tech) => (
-							<option key={tech.id} value={tech.name}>
-								{tech.name}
-							</option>
-						))}
-					</select>
-
+			<div className="mb-3">
+				<label htmlFor="description" className="form-label">
+					Descripción
+				</label>
+				<textarea
+					id="description"
+					name="description"
+					className="form-control"
+					value={formData.description}
+					onChange={handleChange}
+				/>
+			</div>
+			<div className="mb-3">
+				<label htmlFor="image" className="form-label">
+					Contenido Multimedia
+				</label>
+				<input
+					type="file"
+					id="image"
+					name="image"
+					className="form-control"
+					onChange={handleUploadImagen}
+				/>
+			</div>
+			<div className="mb-3">
+				<label htmlFor="technologies" className="form-label">
+					Tecnologías
+				</label>
+				<select
+					id="technologies"
+					name="technologies"
+					className="form-select"
+					onChange={handleTechChange}
+				>
+					<option value="">Seleccione una tecnología</option>
+					{technologies.map((tech) => (
+						<option key={tech.id} value={tech.name}>
+							{tech.name}
+						</option>
+					))}
+				</select>
+				<div className="mt-2">
 					{selectedTechs.map((tech) => (
-						<div key={tech} className="techList my-1">
-							<span className="itemTech">{tech}</span>
+						<span key={tech} className="badge me-2">
+							{tech}
 							<button
-								className="btn btn-outline-danger remove mx-2"
 								type="button"
+								className="btn-close btn-close-white ms-2"
+								aria-label="Remove"
 								onClick={() => handleRemoveTech(tech)}
-							>
-								X
-							</button>
-						</div>
+							></button>
+						</span>
 					))}
 				</div>
-
-				<div className="form-field mt-2">
-					<label>Etiquetas</label>
-					<div className="tag-input">
-						<input
-							type="text"
-							value={newTag}
-							onChange={handleTagChange}
-							placeholder="Agregar etiqueta"
-						/>
-						<button type="button" onClick={handleAddTag}>
-							Agregar
-						</button>
-					</div>
-					<div className="tag-list">
-						{formData.tags.map((tag) => (
-							<div key={tag} className="tag-item">
-								<span>{tag}</span>
-								<button type="button" onClick={() => handleRemoveTag(tag)}>
-									X
-								</button>
-							</div>
-						))}
-					</div>
+			</div>
+			<div className="mb-3">
+				<label htmlFor="tags" className="form-label">
+					Etiquetas
+				</label>
+				<div className="d-flex">
+					<input
+						type="text"
+						id="tags"
+						value={newTag}
+						onChange={handleTagChange}
+						className="form-control me-2"
+						placeholder="Agregar etiqueta"
+					/>
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={handleAddTag}
+					>
+						Agregar
+					</button>
+				</div>
+				<div className="mt-2">
+					{formData.tags.map((tag) => (
+						<span key={tag} className="badge me-2">
+							{tag}
+							<button
+								type="button"
+								className="btn-close btn-close-dark ms-2"
+								aria-label="Remove"
+								onClick={() => handleRemoveTag(tag)}
+							></button>
+						</span>
+					))}
 				</div>
 			</div>
-
-			<div className="form-footer">
-				<button className="submit" type="submit">
-					Guardar cambios
+			<div className="d-flex justify-content-end">
+				<button
+					type="submit"
+					className="btn btn-success"
+					onClick={() => alert('Proyecto actualizado')}
+				>
+					Guardar Cambios
 				</button>
 			</div>
 		</FormStyled>
@@ -214,56 +264,7 @@ const UpdateProjectPage = () => {
 export default UpdateProjectPage
 
 const FormStyled = styled.form`
-	max-width: 350px;
-	margin: auto;
-	margin-top: 56px;
-	border: 1px solid #0000004d;
-	border-radius: 20px;
-	button {
-		border-radius: 12px;
-	}
-
-	.form-header {
-		font-weight: 600;
-		border-bottom: 1px solid #0000004d;
-		padding: 12px;
-	}
-
-	.form-body {
-		padding: 12px;
-	}
-	.form-field {
-		display: flex;
-		flex-direction: column;
-	}
-	.form-field-image {
-		display: inline-flex;
-		flex-direction: column;
-		span {
-			font-weight: 600;
-		}
-	}
-	.form-footer {
-		display: flex;
-		justify-content: end;
-		border-top: 1px solid #0000004d;
-		padding: 12px;
-	}
-	.tag-input {
-		display: flex;
-		gap: 8px;
-	}
-	.tag-list {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin-top: 8px;
-	}
-	.tag-item {
-		display: flex;
-		align-items: center;
-		background-color: #e0e0e0;
-		padding: 4px 8px;
-		border-radius: 16px;
-	}
+	padding: 1.5rem;
+	border-radius: 0.375rem;
+	box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.1);
 `

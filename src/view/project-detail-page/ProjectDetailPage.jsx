@@ -1,79 +1,138 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getProjectById, getUserProfile, deleteProject } from '../../redux/actions'
+import {
+	getProjectById,
+	getUserProfile,
+	deleteProject,
+} from '../../redux/actions'
+import { Button, Modal } from 'react-bootstrap'
+import styles from './ProjectDetailPage.module.css' // Asegúrate de importar el CSS módulo
 
 const ProjectDetailPage = () => {
-
 	const navigate = useNavigate()
 	const { id } = useParams()
 	const { project } = useSelector((state) => state.projects)
+	const { token, loggedUser } = useSelector((state) => state.auth)
 	const dispatch = useDispatch()
-	const authToken = useSelector((state) => state.auth.token)
-	const lal = useSelector((state)=>state.auth.loggedUser)
-	
+
+	const [show, setShow] = useState(false)
+
 	useEffect(() => {
 		dispatch(getProjectById(id))
-		dispatch(getUserProfile(authToken))
-	}, [dispatch, id])
+		dispatch(getUserProfile(token))
+	}, [dispatch, id, token])
 
-	const DeleteProject = () => {
-		console.log(id, authToken)
-		dispatch(deleteProject(id, authToken))
-		alert("Proyecto eliminado exitosamente")
-		navigate("/home")
+	const handleEdit = () => {
+		navigate(`/modProject/${id}`)
+	}
+
+	const handleDelete = () => {
+		dispatch(deleteProject(id, token))
+		alert('Proyecto eliminado exitosamente')
+		navigate('/myprofile')
+	}
+
+	const handleClose = () => setShow(false)
+	// const handleShow = () => setShow(true)
+
+	const fileProject = () => {
+		dispatch(deleteProject(id, token))
+		alert('Proyecto archivado')
+		navigate('/myprofile')
 	}
 
 	if (!project) return null
 
 	return (
-		project && (
-			<div className="container mt-5">
-				<div className="row">
-					<div className="col-md-8 mx-auto">
-						<div className="card">
-							<img
-								src={project.image}
-								className="card-img-top"
-								alt={project.title}
-							/>
-							<div className="card-body">
-								<h5 className="card-title">{project.title}</h5>
-								<p className="card-text">{project.description}</p>
-								{project.tags && (
-									<ul className="list-group list-group-flush">
-										{project.tags.map((tag, index) => (
-											<li key={index} className="list-group-item">
-												{tag}
-											</li>
-										))}
-									</ul>
-								)}
-								{project.technologies && (
-									<ul>
-										{project.technologies.map((tech) => (
-											<li key={tech.id}>{tech.name}</li>
-										))}
-									</ul>
-								)}
-							{
-								lal.id !== undefined ?
-								lal.id === project.userId ?
-								<div>
-									<button className="btn btn-custom border" style={{textDecoration:"none", margin:"10px"}}>
-										Modificar
-									</button>
-									<button className="btn btn-custom border" onClick={DeleteProject} style={{textDecoration:"none", margin:"10px"}}>
-										Eliminar
-									</button>
-								</div> : null : null
-							}
-							</div>
-						</div>
-					</div>
+		<div className="container mt-5">
+			<section className={styles.card}>
+				<div className={styles.cardImageContainer}>
+					<img
+						className={styles.cardImage}
+						src={project?.image}
+						alt={project?.title}
+					/>
 				</div>
-			</div>
-		)
+				<div className={styles.cardDetail}>
+					<p className={styles.cardDetailCaption}>PROJECT</p>
+					<h1 className={styles.cardDetailTitle}>{project?.title}</h1>
+					<p className={styles.cardDetailDesc}>{project?.description}</p>
+
+					{project?.tags && (
+						<div className={styles.tagsContainer}>
+							{project?.tags.map((tag, index) => (
+								<button
+									key={index}
+									className={`btn ${styles.tagButton}`}
+									disabled
+								>
+									{tag}
+								</button>
+							))}
+						</div>
+					)}
+
+					<hr className={styles.divider} />
+
+					{project?.technologies && (
+						<div className={styles.technologiesContainer}>
+							{project?.technologies.map((tech) => (
+								<button
+									key={tech.id}
+									className={`btn ${styles.techButton}`}
+									disabled
+								>
+									{tech.name}
+								</button>
+							))}
+						</div>
+					)}
+
+					{loggedUser?.id !== undefined && loggedUser?.id === project?.userId && (
+						<div className={styles.buttonsContainer}>
+							<button
+								className={`btn ${styles.modifyButton}`}
+								onClick={handleEdit}
+								style={{ textDecoration: 'none', margin: '10px' }}
+							>
+								Modificar
+							</button>
+							{/* <button
+								className={`btn ${styles.deleteButton}`}
+								onClick={handleShow}
+								style={{ textDecoration: 'none', margin: '10px' }}
+							>
+								Eliminar
+							</button> */}
+							<Modal show={show} onHide={handleClose}>
+								<Modal.Header closeButton>
+									<Modal.Title>Confirmación</Modal.Title>
+								</Modal.Header>
+								<Modal.Body>
+									¿Estás seguro que deseas eliminar el proyecto?
+								</Modal.Body>
+								<Modal.Footer>
+									<Button variant="secondary" onClick={handleClose}>
+										Cancelar
+									</Button>
+									<Button variant="danger" onClick={handleDelete}>
+										Aceptar
+									</Button>
+								</Modal.Footer>
+							</Modal>
+							<button
+								className={`btn ${styles.fileButton}`}
+								onClick={fileProject}
+								style={{ textDecoration: 'none', margin: '10px' }}
+							>
+								Archivar
+							</button>
+						</div>
+					)}
+				</div>
+			</section>
+		</div>
 	)
 }
 

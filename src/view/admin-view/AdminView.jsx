@@ -35,9 +35,13 @@ const AdminView = () => {
 
 	return (
 		<div>
-			<br />
-			<br />
-			{data === 'Users' ? (
+			<hr />
+			<h1>Administrador</h1>
+			<hr />
+			<button>Usuarios</button>
+			<button onClick={() => alert('Redirecciona')}>Proyectos</button>
+			<button onClick={() => alert('Redirecciona')}>Tecnologías</button>
+			{data === 'User' ? (
 				<div className="align-items-center">
 					<div className="table-responsive">
 						<table className="table table-bordered">
@@ -48,7 +52,7 @@ const AdminView = () => {
 												<th key={key} scope="col">
 													{key}
 												</th>
-										))
+										  ))
 										: null}
 									<th key="edit">Editar</th>
 									<th key="delete">Eliminar</th>
@@ -65,16 +69,16 @@ const AdminView = () => {
 												<td>{key.bio}</td>
 												<td>{key.image}</td>
 												<td>{key.role}</td>
-												<td>{key.isPremium === true ? 'true' : 'false'}</td>
+												<td>{key.planName}</td>
 												<td>{key.createdAt}</td>
 												<td>{key.updatedAt}</td>
-												<td>
+												{/* <td>
 													{key.deletedAt === null ? 'null' : key.deletedAt}
-												</td>
+												</td> */}
 												<td style={{ fontWeight: 'bolder' }}>Editar</td>
 												<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
 											</tr>
-									))
+									  ))
 									: null}
 							</tbody>
 						</table>
@@ -91,8 +95,10 @@ const AdminView = () => {
 									<tr>
 										{projects.length !== 0
 											? Object.keys(projects[0]).map((key, index) => (
-													<th scope="col" key={index}>{key}</th>
-											))
+													<th scope="col" key={index}>
+														{key}
+													</th>
+											  ))
 											: null}
 										<th key="edit">Editar</th>
 										<th key="delete">Eliminar</th>
@@ -126,7 +132,7 @@ const AdminView = () => {
 													<td style={{ fontWeight: 'bolder' }}>Editar</td>
 													<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
 												</tr>
-										))
+										  ))
 										: null}
 								</tbody>
 							</table>
@@ -156,7 +162,7 @@ const AdminView = () => {
 													<th key={key} scope="col">
 														{key}
 													</th>
-											))
+											  ))
 											: null}
 										<th key="edit">Editar</th>
 										<th key="delete">Eliminar</th>
@@ -171,7 +177,7 @@ const AdminView = () => {
 													<td style={{ fontWeight: 'bolder' }}>Editar</td>
 													<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
 												</tr>
-										))
+										  ))
 										: null}
 								</tbody>
 							</table>
