@@ -120,7 +120,7 @@ const CreateProjectPage = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3001/projects',
+        '/projects',
         dataToSubmit,
         {
           headers: {
