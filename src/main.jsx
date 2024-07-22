@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 	<Auth0Provider
 		domain={AUTH0_DOMAIN}
 		clientId={AUTH0_CLIENT_ID}
-		redirectUri={`${DEPLOY_FRONT_URL_BASE_FULL}/home`}
+		redirectUri={DEPLOY_FRONT_URL_BASE_FULL}
 		onRedirectCallback={onRedirectCallback}
 	>
 		<Provider store={store}>

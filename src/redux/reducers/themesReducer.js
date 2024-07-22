@@ -1,7 +1,7 @@
 import { SET_LIGHT_MODE, SET_DARK_MODE } from '../types'
 
 const initialState = {
-	theme: localStorage.getItem('theme') || 'light',
+	theme: localStorage.getItem('theme') || 'dark',
 }
 
 const themesReducer = (state = initialState, action) => {
