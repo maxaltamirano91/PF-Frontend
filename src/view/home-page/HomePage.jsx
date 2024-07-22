@@ -22,7 +22,7 @@ const HomePage = () => {
 	}, [dispatch, renderingCards])
 
 	return (
-		<div>
+		<div className='w-100'>
 			<Cards projects={allProjects} />
 			<div className="mb-5 text-center">
 				{allProjects &&
