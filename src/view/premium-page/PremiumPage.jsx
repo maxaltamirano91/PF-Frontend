@@ -181,7 +181,7 @@ const PremiumPage = () => {
 				<p className="lead">
 					Lleva tus proyectos al siguiente nivel con ForDevs Pro.
 				</p>
-				<PlanComparison loggedUser={loggedUser} />
+				<PlanComparison/>
 			</section>
 		</div>
 	)

@@ -1,10 +1,12 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
+import Filter from '../filter/Filter.jsx'
+import { Gem } from 'lucide-react'
 
 import { setDarkMode, setLightMode } from '../../redux/actions'
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
@@ -33,25 +35,20 @@ const NavBarExtended = () => {
 		theme === 'dark' ? darkMode() : lightMode()
 	}, [theme])
 
+	const location = useLocation()
+	const showFilter = ['/home', '/users'].includes(location.pathname)
+
 	return (
 		<div>
 			<nav className="navbar navbar-expand-lg p-3 bg-body-tertiary">
 				<div className="container-fluid">
-					<Link to={'/home'}>
+					<Link to={'/'}>
 						<span className="navbar-brand">ForDevs</span>
 					</Link>
 					{/* ----------------------SearchBar  Movil ----------------- */}
-					{/* <form className="d-flex me-auto d-sm-none " role="search">
-						<input
-							className="form-control me-2"
-							type="search"
-							placeholder="Search"
-							aria-label="Search"
-						/>
-						<button className="btn btn-outline-success" type="submit">
-							Search
-						</button>
-					</form> */}
+
+					{/* <div className="d-flex me-auto d-sm-none "></div> */}
+
 					{/* ----------------------end ----------------- */}
 					<button
 						className="navbar-toggler"
@@ -84,6 +81,11 @@ const NavBarExtended = () => {
 
 									<ul className="dropdown-menu">
 										<li>
+											<Link to={'/home'}>
+												<span className="dropdown-item">Proyectos</span>
+											</Link>
+										</li>
+										<li>
 											<Link to={'/explorer/users'}>
 												<span className="dropdown-item">Usuarios</span>
 											</Link>
@@ -93,17 +95,12 @@ const NavBarExtended = () => {
 												Tecnologías
 											</a>
 										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Something else here
-											</a>
-										</li>
 									</ul>
 								</div>
 
 								{/* --------------------------------- end Explorer ----------------------- */}
 							</li>
-							{loggedUser?.plan !== 'Premium' && (
+							{loggedUser?.planName !== 'Premium' && (
 								<li className="nav-item">
 									<Link to={'/'}>
 										<span className="nav-link">ForDevPro</span>
@@ -113,7 +110,9 @@ const NavBarExtended = () => {
 							{loggedUser && (
 								<li className="nav-item">
 									<Link to={'/myprofile'}>
-										<span className="nav-link ">Mis Proyectos</span>
+										<span className="nav-link ">
+											Perfil{loggedUser.planName === 'Premium' && <Gem />}
+										</span>
 									</Link>
 								</li>
 							)}
@@ -127,17 +126,13 @@ const NavBarExtended = () => {
 						</ul>
 
 						{/* ----------------------SearchBar  Desktop ----------------- */}
-						{/* <form className="d-flex me-auto " role="search">
-							<input
-								className="form-control me-2"
-								type="search"
-								placeholder="Search"
-								aria-label="Search"
-							/>
-							<button className="btn btn-outline-success" type="submit">
-								Search
-							</button>
-						</form> */}
+
+						<div className="d-flex me-auto ">
+							{showFilter && <Filter />}
+
+							{/* <Filter /> */}
+						</div>
+
 						{/* ----------------------end ----------------- */}
 
 						{loggedUser ? (

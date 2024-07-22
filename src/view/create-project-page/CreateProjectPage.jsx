@@ -199,7 +199,7 @@ const CreateProjectPage = () => {
               </select>
               <div className="mt-2">
                 {selectedTechs.map((tech) => (
-                  <span key={tech} className="badge bg-secondary me-2">
+                  <span key={tech} className="badge me-2">
                     {tech}
                     <button
                       type="button"
@@ -227,7 +227,7 @@ const CreateProjectPage = () => {
               </div>
               <div className="mt-2">
                 {formData.tags.map((tag) => (
-                  <span key={tag} className="badge bg-secondary me-2">
+                  <span key={tag} className="badge me-2">
                     {tag}
                     <button
                       type="button"
