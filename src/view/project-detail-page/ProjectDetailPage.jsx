@@ -7,7 +7,7 @@ import {
 	deleteProject,
 } from '../../redux/actions'
 import { Button, Modal } from 'react-bootstrap'
-import styles from './ProjectDetailPage.module.css' // Asegúrate de importar el CSS módulo
+import styles from './ProjectDetailPage.module.css'
 
 const ProjectDetailPage = () => {
 	const navigate = useNavigate()

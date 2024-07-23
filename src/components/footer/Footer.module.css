@@ -1,0 +1,24 @@
+.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    z-index: 1000;
+    gap: 1rem;
+    margin-top: 30px;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    position: relative;
+    padding: 5px 10px;
+}
+
+

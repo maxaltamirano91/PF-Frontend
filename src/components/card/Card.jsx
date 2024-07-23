@@ -10,6 +10,8 @@ const CardDiv = styled.div`
 		overflow: hidden;
 		transition: transform 0.3s ease-in-out;
 		margin: 5px auto;
+		box-shadow: 0 4px 8px rgba(148, 0, 211, 0.7)
+
 	}
 	.card:hover {
 		transform: scale(1.05);
@@ -53,6 +55,12 @@ const CardDiv = styled.div`
 		justify-content: center;
 		align-items: flex-start;
 		margin: auto;
+		transition: transform 0.3s ease-in-out;
+		box-shadow: 0 4px 8px rgba(148, 0, 211, 0.7)
+
+	}
+	.info-bar:hover {
+	transform: scale(1.05);
 	}
 	.project-title {
 		p {
