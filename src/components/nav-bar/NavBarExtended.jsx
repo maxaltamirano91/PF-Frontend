@@ -150,9 +150,9 @@ const NavBarExtended = () => {
 									</a>
 									<ul className="dropdown-menu">
 										<li>
-											<a className="dropdown-item" href="#">
-												Action
-											</a>
+											<Link className="dropdown-item" to={`/modUser`}>
+												Mi perfil
+											</Link>
 										</li>
 										<li>
 											<a className="dropdown-item" href="#">
