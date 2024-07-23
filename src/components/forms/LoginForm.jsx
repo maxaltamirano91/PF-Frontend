@@ -3,13 +3,13 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../../redux/actions'
+import { loginUser, resetFetchError } from '../../redux/actions'
 import { loginValidationSchema } from './validations'
 
 const LoginForm = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	const { loggedUser } = useSelector((state) => state.auth)
+	const { loggedUser, fetchError, loading } = useSelector((state) => state.auth)
 	const { loginWithRedirect } = useAuth0()
 
 	const initialValues = { email: '', password: '' }
@@ -23,6 +23,7 @@ const LoginForm = () => {
 		dispatch(loginUser(userData, 'local'))
 	}
 	useEffect(() => {
+		dispatch(resetFetchError());
 		if (loggedUser) navigate('/home')
 	}, [loggedUser, navigate])
 
@@ -36,7 +37,7 @@ const LoginForm = () => {
 				fields={fields}
 				minWidth="420px"
 			>
-				{() => (
+				{(formik) => (
 					<>
 						<div className="mb-3 d-flex justify-content-between">
 							<div className="d-flex align-items-center gap-1">
@@ -49,8 +50,9 @@ const LoginForm = () => {
 								¿Olvidaste la contraseña?
 							</a>
 						</div>
+						{fetchError && <div className="text-danger mb-4">{fetchError}</div>}
 						<button type="submit" className="m-0 btn btn-primary">
-							Iniciar sesión
+							{formik.isSubmitting || loading ? 'Ingresando...' : 'Ingresar'}
 						</button>
 						<p className="m-0 text-center text-secondary">
 							O ingresa con otro metodo:
