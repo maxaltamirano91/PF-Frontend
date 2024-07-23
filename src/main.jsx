@@ -18,6 +18,7 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
+
 axios.defaults.baseURL = BACK_URL_BASE_FULL
 // axios.defaults.baseURL = DEPLOY_BACK_URL_BASE_FULL
 

@@ -5,6 +5,9 @@ import {
     CREATE_PREFERENCE_REQUEST,
     CREATE_PREFERENCE_SUCCESS,
     FETCH_ERROR,
+    CANCEL_SUBSCRIPTION_REQUEST,
+    CANCEL_SUBSCRIPTION_SUCCESS,
+    CANCEL_SUBSCRIPTION_FAILURE,
 } from "../types";
 
 export const fetchProduct = () => async (dispatch) => {
@@ -39,3 +42,13 @@ export const createPreference = (product) => async (dispatch, getState) => {
     dispatch({ type: FETCH_ERROR, error: error.message });
   }
 };
+export const cancelSubscription = (userId) => async (dispatch) => {
+  dispatch({ type: CANCEL_SUBSCRIPTION_REQUEST });
+  try {
+    const response = await axios.post('/payment/cancel', { userId });
+    dispatch({ type: CANCEL_SUBSCRIPTION_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: CANCEL_SUBSCRIPTION_FAILURE, payload: error.message });
+  }
+};
+
