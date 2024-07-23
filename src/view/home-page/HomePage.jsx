@@ -6,7 +6,7 @@ import Cards from '../../components/cards/Cards'
 const HomePage = () => {
     const dispatch = useDispatch()
     const { allProjects } = useSelector((state) => state.projects)
-    const [renderingCards, setRenderingCards] = useState(10)
+    const [renderingCards, setRenderingCards] = useState(15)
 
     const handleScroll = () => {
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
@@ -25,7 +25,7 @@ const HomePage = () => {
     }, [dispatch, renderingCards])
 
     return (
-        <div>
+        <div style={{ margin: "5rem 0 10rem 0" }}>
             <Cards projects={allProjects} />
         </div>
     )
