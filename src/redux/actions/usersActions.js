@@ -34,14 +34,16 @@ export const getUserById = (id) => {
 	}
 }
 
-export const updateUser = (id, userData, token) => {
+export const updateUser = (userData, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(`/users/${id}`, userData, {
+			console.log(userData)
+			const { data } = await axios.put(`/users`, {userData}, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
+			console.log("NO FUNCIONA: ", data)
 			dispatch({ type: UPDATE_USER, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
