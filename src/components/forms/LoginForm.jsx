@@ -27,6 +27,12 @@ const LoginForm = () => {
 		if (loggedUser) navigate('/home')
 	}, [loggedUser, navigate])
 
+	const handleAuth0Login = (e) => {
+		e.preventDefault()
+		loginWithRedirect()
+	}
+
+
 	return (
 		<div className="d-flex justify-content-center align-items-center">
 			<Form
@@ -58,7 +64,8 @@ const LoginForm = () => {
 							O ingresa con otro metodo:
 						</p>
 						<button
-							onClick={() => loginWithRedirect()}
+							type="button"
+							onClick={handleAuth0Login}
 							className="w-100 m-0 btn btn-secondary"
 						>
 							Ingresar con otro metodo
