@@ -92,13 +92,13 @@ const Filter = () => {
                     className={sortOrder === 'new' ? 'selected' : ''}
                     onClick={() => handleSortChange('new')}
                 >
-                    New
+                    Recientes
                 </button>
                 <button
                     className={sortOrder === 'old' ? 'selected' : ''}
                     onClick={() => handleSortChange('old')}
                 >
-                    Old
+                    Viejos
                 </button>
             </div>
         </SectionStyled>
