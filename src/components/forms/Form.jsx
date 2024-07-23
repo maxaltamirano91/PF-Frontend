@@ -53,7 +53,7 @@ const Form = ({
 							) : null}
 						</div>
 					))}
-					{children({ formik })}
+					{children(formik)}
 				</form>
 			</div>
 			{aditionalContent}

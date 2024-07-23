@@ -4,36 +4,31 @@ import { getAllProjects } from '../../redux/actions'
 import Cards from '../../components/cards/Cards'
 
 const HomePage = () => {
-	const dispatch = useDispatch()
-	const { allProjects } = useSelector((state) => state.projects)
-	const [renderingCards, setRenderingCards] = useState(10)
-	const [displayPagination, setDisplayPagination] = useState(true)
+    const dispatch = useDispatch()
+    const { allProjects } = useSelector((state) => state.projects)
+    const [renderingCards, setRenderingCards] = useState(10)
 
-	const handlePagination = () => {
-		if (allProjects.length >= renderingCards) {
-			setRenderingCards((prevCount) => prevCount + 5)
-		} else {
-			setDisplayPagination(false)
-		}
-	}
+    const handleScroll = () => {
+        const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
+        if (bottom) {
+            setRenderingCards((prevCount) => prevCount + 5)
+        }
+    }
 
-	useEffect(() => {
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, renderingCards])
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
 
-	return (
-		<div className='w-100'>
-			<Cards projects={allProjects} />
-			<div className="mb-5 text-center">
-				{allProjects &&
-					(displayPagination ? (
-						<button onClick={handlePagination}>Ver más</button>
-					) : (
-						<p>Estos son todos los proyectos</p>
-					))}
-			</div>
-		</div>
-	)
+    useEffect(() => {
+        dispatch(getAllProjects(renderingCards))
+    }, [dispatch, renderingCards])
+
+    return (
+        <div>
+            <Cards projects={allProjects} />
+        </div>
+    )
 }
 
 export default HomePage

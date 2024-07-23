@@ -68,7 +68,7 @@ const SignupForm = () => {
 				</div>
 			}
 		>
-			{({ formik }) => (
+			{(formik) => (
 				<>
 					<div className="mb-3">
 						<div className="mt-3 d-flex align-items-center gap-1">
