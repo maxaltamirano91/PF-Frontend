@@ -42,6 +42,15 @@ const ProfilePage = () => {
 								<button className={styles.btnCustom}>Crear proyecto</button>
 							</Link>
 						)}
+						<button className={styles.btnCustom}>
+  						{loggedUser.planName === 'Premium' ? (
+    					'Desuscribirse'
+						  ) : (
+    					<Link to="/subscription">
+    					  Subscribirse
+    					</Link>
+						  )}
+						</button>
 					</div>
 				</div>
 				<div className={styles.profileContent}>
