@@ -7,6 +7,8 @@ import {
 	deleteProject,
 } from '../../redux/actions'
 import { Button, Modal } from 'react-bootstrap'
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
 import styles from './ProjectDetailPage.module.css'
 
 const ProjectDetailPage = () => {
@@ -38,10 +40,20 @@ const ProjectDetailPage = () => {
 
 	const fileProject = () => {
 		dispatch(deleteProject(id, token))
-		alert('Proyecto archivado')
-		navigate('/myprofile')
-	}
-
+		 Toastify({
+				text: 'Proyecto archivado',
+				duration: 3000,
+				close: true,
+				gravity: 'top',
+				position: 'center',
+				backgroundColor: '#4CAF50',
+				stopOnFocus: true, 
+			}).showToast()
+		}
+	setTimeout(() => {
+		navigate('/myprofile')			
+	}, 3000)
+	
 	if (!project) return null
 
 	return (
