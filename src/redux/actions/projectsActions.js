@@ -15,7 +15,7 @@ import {
 
 const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
 
-export const getAllProjects = (pagination, search, technologies) => {
+export const getAllProjects = (pagination, search, technologies, sort) => {
 	return async (dispatch) => {
 		try {
 			const techData = (await axios.get('/technologies')).data
@@ -25,7 +25,8 @@ export const getAllProjects = (pagination, search, technologies) => {
 			if (search) params.append('search', search)
 			if (technologies) params.append('technologies', technologies)
 			else params.append('technologies', techData.map((t) => t.name).join(','))
-
+			if (sort) params.append('sort', sort)
+				
 			const projects = await axios.get(`/projects?${params.toString()}`)
 
 			dispatch({
