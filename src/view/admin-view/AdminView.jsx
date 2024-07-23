@@ -1,192 +1,125 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import {
-	getAllUsers,
-	fetchTechnologies,
-	getAllProjects,
-} from '../../redux/actions'
+import { useState } from 'react'
+
+import styled from 'styled-components'
+import AdminViewUsers from './AdminView-users'
+import AdminViewProjects from './AdminView-projects'
+import AdminViewTechnologies from './AdminView-technologies'
 
 const AdminView = () => {
-	const dispatch = useDispatch()
-	const { data } = useParams()
-	const token = useSelector((state) => state.auth.token)
+	const categories = Object.freeze({
+		users: 'users',
+		projects: 'projects',
+		technologies: 'technologies',
+	})
+	const [activeTab, setActiveTab] = useState('users')
 
-	const [displayPagination, setDisplayPagination] = useState(true)
-
-	const [renderingCards, setRenderingCards] = useState(15)
-	const handlePagination = () => {
-		if (projects.length >= renderingCards) {
-			setRenderingCards((prevCount) => prevCount + 15)
-		} else {
-			setDisplayPagination(false)
-		}
+	const handleTabClick = (category) => {
+		setActiveTab(category)
 	}
-
-	useEffect(() => {
-		dispatch(getAllUsers(token))
-		dispatch(fetchTechnologies(token))
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, token, renderingCards])
-
-	const users = useSelector((state) => state.users.allUsers)
-	const techs = useSelector((state) => state.technologies.technologies)
-	const projects = useSelector((state) => state.projects.allProjects)
 
 	return (
 		<div>
-			<hr />
-			<h1>Administrador</h1>
-			<hr />
-			<button>Usuarios</button>
-			<button onClick={() => alert('Redirecciona')}>Proyectos</button>
-			<button onClick={() => alert('Redirecciona')}>Tecnologías</button>
-			{data === 'User' ? (
-				<div className="align-items-center">
-					<div className="table-responsive">
-						<table className="table table-bordered">
-							<thead>
-								<tr>
-									{users.length !== 0
-										? Object.keys(users[0]).map((key) => (
-												<th key={key} scope="col">
-													{key}
-												</th>
-										  ))
-										: null}
-									<th key="edit">Editar</th>
-									<th key="delete">Eliminar</th>
-								</tr>
-							</thead>
-							<tbody>
-								{users.length !== 0
-									? users.map((key, index) => (
-											<tr key={index}>
-												<td>{key.id}</td>
-												<td>{key.userName}</td>
-												<td>{key.email}</td>
-												<td>{key.password}</td>
-												<td>{key.bio}</td>
-												<td>{key.image}</td>
-												<td>{key.role}</td>
-												<td>{key.planName}</td>
-												<td>{key.createdAt}</td>
-												<td>{key.updatedAt}</td>
-												{/* <td>
-													{key.deletedAt === null ? 'null' : key.deletedAt}
-												</td> */}
-												<td style={{ fontWeight: 'bolder' }}>Editar</td>
-												<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
-											</tr>
-									  ))
-									: null}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			) : null}
+			<SectionStyled className="container-fluid mt-2" id="dashboard">
+				<h2>Hola, Admin</h2>
 
-			{data === 'Projects' ? (
-				<div>
-					<div className="align-items-center">
-						<div className="table-responsive">
-							<table className="table table-bordered">
-								<thead>
-									<tr>
-										{projects.length !== 0
-											? Object.keys(projects[0]).map((key, index) => (
-													<th scope="col" key={index}>
-														{key}
-													</th>
-											  ))
-											: null}
-										<th key="edit">Editar</th>
-										<th key="delete">Eliminar</th>
-									</tr>
-								</thead>
-								<tbody>
-									{projects.length !== 0
-										? projects.map((key, index) => (
-												<tr key={index}>
-													<td>{key.id}</td>
-													<td>{key.title}</td>
-													<td>{key.description}</td>
-													<td>
-														{key.tags.map((tag, index) => (
-															<ul key={index}>
-																<li>{tag}</li>
-															</ul>
-														))}
-													</td>
-													<td>{key.image}</td>
-													<td>{key.createdAt}</td>
-													<td>{key.updatedAt}</td>
-													<td>{key.userId}</td>
-													<td>
-														{key.technologies.map((technology, index) => (
-															<ul key={index}>
-																<li>{technology.name}</li>
-															</ul>
-														))}
-													</td>
-													<td style={{ fontWeight: 'bolder' }}>Editar</td>
-													<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
-												</tr>
-										  ))
-										: null}
-								</tbody>
-							</table>
-						</div>
-					</div>
-					{displayPagination ? (
-						<div className="text-center mt-3">
-							<button className="btn btn-secondary" onClick={handlePagination}>
-								Ver más
-							</button>
-						</div>
-					) : (
-						<p className="text-center mt-3">Estos son todos los proyectos</p>
-					)}
-				</div>
-			) : null}
+				<div className="mt-4 ">
+					<ul className="nav nav-tabs ">
+						<li className="nav-item ">
+							<a
+								className={`nav-link ${
+									activeTab === categories.users ? 'active' : ''
+								}`}
+								aria-current={activeTab === 'users' ? 'page' : undefined}
+								onClick={() => handleTabClick(categories.users)}
+							>
+								Usuarios
+							</a>
+						</li>
+						<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.projects ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.projects ? 'page' : undefined
+								}
+								onClick={() => handleTabClick(categories.projects)}
+							>
+								Proyectos
+							</a>
+						</li>
+						<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.technologies ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.technologies ? 'page' : undefined
+								}
+								onClick={() => handleTabClick(categories.technologies)}
+							>
+								Tecnologías
+							</a>
+						</li>
+						<li className="nav-item">
+							<a
+								className={`nav-link ${activeTab ? 'disabled' : ''}`}
+								aria-current={activeTab ? 'page' : undefined}
+								// onClick={() => handleTabClick(categories.technologies)}
+							>
+								Próximamente...
+							</a>
+						</li>
+						<li className="nav-item ">
+							<div className="input-group    mb-3">
+								<span className="input-group-text " id="basic-addon1">
+									@
+								</span>
+								<input
+									type="text"
+									className="form-control"
+									placeholder="Buscar"
+									aria-label="Username"
+									aria-describedby="basic-addon1"
+								/>
+							</div>
+						</li>
+					</ul>
 
-			{data === 'Technologies' ? (
-				<div>
-					<div className="align-items-center">
-						<div className="table-responsive">
-							<table className="table table-bordered">
-								<thead>
-									<tr>
-										{techs.length !== 0
-											? Object.keys(techs[0]).map((key) => (
-													<th key={key} scope="col">
-														{key}
-													</th>
-											  ))
-											: null}
-										<th key="edit">Editar</th>
-										<th key="delete">Eliminar</th>
-									</tr>
-								</thead>
-								<tbody>
-									{techs.length !== 0
-										? techs.map((key, index) => (
-												<tr key={index}>
-													<td key={key.id}>{key.id}</td>
-													<td key={key.name}>{key.name}</td>
-													<td style={{ fontWeight: 'bolder' }}>Editar</td>
-													<td style={{ fontWeight: 'bolder' }}>Eliminar</td>
-												</tr>
-										  ))
-										: null}
-								</tbody>
-							</table>
-						</div>
+					<div className="content-tab " id="content-tab">
+						{activeTab === categories.users && <AdminViewUsers />}
+						{activeTab === categories.projects && <AdminViewProjects />}
+						{activeTab === categories.technologies && <AdminViewTechnologies />}
 					</div>
 				</div>
-			) : null}
+			</SectionStyled>
 		</div>
 	)
 }
 
 export default AdminView
+
+const SectionStyled = styled.section`
+	/* justify-content: center; */
+	/* align-items: center; */
+	/* min-height: 512px; */
+	/* text-align: center; */
+	/* margin: auto; */
+
+	/* height: 100vh; */
+
+	.content-tab {
+		/* background-color: #b4b4b456; */
+	}
+
+	a.nav-link {
+		cursor: pointer;
+
+		&.active {
+			font-weight: 700;
+		}
+		&:hover {
+			/* background: none; */
+		}
+	}
+`

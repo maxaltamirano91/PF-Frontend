@@ -118,7 +118,7 @@ const NavBarExtended = () => {
 							)}
 							{loggedUser && loggedUser.role === 'admin' && (
 								<li className="nav-item">
-									<Link to={'/dashboard/User'}>
+									<Link to={'/dashboard'}>
 										<span className="nav-link ">Admin-Console</span>
 									</Link>
 								</li>
