@@ -19,7 +19,7 @@ const PremiumPage = () => {
 	}, [])
 
 	return (
-		<div>
+		<div className='w-100'>
 			<header
 				className={`${styles.heroSection} d-flex align-items-center justify-content-center`}
 			>

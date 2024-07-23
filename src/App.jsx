@@ -1,8 +1,7 @@
+import "./App.css"
 import { Routes, Route } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
-// import Success from './components/success/Success'
-// import Error from './components/error/Error'
 import Footer from './components/footer/Footer'
 import NavBarExtended from './components/nav-bar/NavBarExtended'
 import HomePage from './view/home-page/HomePage'
@@ -34,38 +33,40 @@ function App() {
 
 	return (
 		<>
-			<div>
-				{/* <Success />
-<Error /> */}
+			<div className="App">
 				<NavBarExtended />
+				<div className='App-Container'>
+					<Routes>
+						<Route path="/" element={<PremiumPage />} />
+						<Route path="/home" element={<HomePage />} />
+						{/* // ? Explorer -- */}
+						<Route path="/explorer/users" element={<UsersPage />} />
+						{/* --- ---- */}
+						<Route path="/myprofile" element={<ProfilePage />} />
 
-				<Routes className="App">
-					<Route path="/" element={<PremiumPage />} />
-					<Route path="/home" element={<HomePage />} />
-					{/* // ? Explorer -- */}
-					<Route path="/explorer/users" element={<UsersPage />} />
-					{/* --- ---- */}
-					<Route path="/myprofile" element={<ProfilePage />} />
+						<Route path="/create" element={<CreateProjectPage />} />
+						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+						<Route path="/dashboard/:data" element={<AdminView />} />
+						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
+						<Route path="/project/:id" element={<ProjectDetailPage />} />
+						<Route
+							path="/myprofile/myfiledproj"
+							element={<ProjectFiledPage />}
+						/>
 
-					<Route path="/create" element={<CreateProjectPage />} />
-					<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-					<Route path="/dashboard/:data" element={<AdminView />} />
-					<Route path="/modProject/:id" element={<UpdateProjectPage />} />
-					<Route path="/project/:id" element={<ProjectDetailPage />} />
-					<Route path="/myprofile/myfiledproj" element={<ProjectFiledPage />} />
+						<Route path="/premium" element={<PremiumPage />} />
 
-					<Route path="/premium" element={<PremiumPage />} />
+						<Route path="/login" element={<LoginPage />} />
+						<Route path="/register" element={<RegisterPage />} />
 
-					<Route path="/login" element={<LoginPage />} />
-					<Route path="/register" element={<RegisterPage />} />
+						<Route path="/*" element={<NotFoundPage />} />
 
-					<Route path="/*" element={<NotFoundPage />} />
-
-					<Route path="/subscription" element={<SubscriptionPage />} />
-					<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
-					<Route path="/paymentFailure" element={<PaymentFailurePage />} />
-					<Route path="/paymentPending" element={<PaymentPendingPage />} />
-				</Routes>
+						<Route path="/subscription" element={<SubscriptionPage />} />
+						<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
+						<Route path="/paymentFailure" element={<PaymentFailurePage />} />
+						<Route path="/paymentPending" element={<PaymentPendingPage />} />
+					</Routes>
+				</div>
 				<Footer />
 			</div>
 		</>
