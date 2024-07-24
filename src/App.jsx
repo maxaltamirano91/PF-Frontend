@@ -50,7 +50,7 @@ function App() {
 						<Route path="/dashboard/:data" element={<AdminView />} />
 						<Route path="/modUser" element={<UpdateUserPage />} />
 						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
-						<Route path="/project/:id" element={<ProjectDetailPage />} />
+						<Route path="/projects/:id" element={<ProjectDetailPage />} />
 						<Route
 							path="/myprofile/myfiledproj"
 							element={<ProjectFiledPage />}
