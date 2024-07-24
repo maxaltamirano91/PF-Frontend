@@ -1,16 +1,34 @@
+import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProjects } from '../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
-const AdminViewProjects = () => {
+const AdminViewProjects = ({ searchQuery }) => {
 	const dispatch = useDispatch()
 	const token = useSelector((state) => state.auth.token)
 	const projects = useSelector((state) => state.projects.allProjects)
+	console.log(projects)
 
 	const [displayPagination, setDisplayPagination] = useState(true)
 	const [renderingCards, setRenderingCards] = useState(15)
+
+	useEffect(() => {
+		dispatch(getAllProjects(renderingCards))
+	}, [dispatch, token, renderingCards])
+
+	const filteredProjects = projects.filter(
+		(project) =>
+			project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			project.tags.some((tag) =>
+				tag.toLowerCase().includes(searchQuery.toLowerCase())
+			) ||
+			project.id.toString().includes(searchQuery) ||
+			project.technologies.some((tech) =>
+				tech.name.toLowerCase().includes(searchQuery.toLowerCase())
+			)
+	)
 
 	const handlePagination = () => {
 		if (projects.length >= renderingCards) {
@@ -20,90 +38,92 @@ const AdminViewProjects = () => {
 		}
 	}
 
-	useEffect(() => {
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, token, renderingCards])
-
-	const [collapsedRows, setCollapsedRows] = useState({})
-
-	const toggleCollapse = (projectId) => {
-		setCollapsedRows((prev) => ({
-			...prev,
-			[projectId]: !prev[projectId],
-		}))
-	}
-
 	return (
-		<div>
-			<table className="table table-striped">
-				<thead>
-					<tr>
-						<th scope="col">ID</th>
-						<th scope="col">Title</th>
-						<th scope="col">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					{projects && projects.length > 0 ? (
-						projects.map((project) => (
-							<>
-								<tr key={project.id}>
-									<th scope="row" className="align-middle">
-										{project.id}
-									</th>
-									<td className="align-middle">{project.title}</td>
-									<td className="align-middle">
-										<span
-											className="btn btn-primary btn-sm mx-2"
-											onClick={() => toggleCollapse(project.id)}
-											data-bs-toggle="collapse"
-											data-bs-target={`#collapseExample${project.id}`}
-											aria-expanded="false"
-											aria-controls={`collapseExample${project.id}`}
-										>
-											Ver mas
-										</span>
-										<span className="btn btn-danger btn-sm">Eliminar</span>
-									</td>
-								</tr>
-								<tr
-									className={`collapse ${
-										collapsedRows[project.id] ? 'show' : ''
-									}`}
-									id={`collapseExample${project.id}`}
+		<SectionStyled className="ListProjects">
+			<div className="accordion accordion-flush" id="accordionFlushExample">
+				{filteredProjects && filteredProjects.length > 0 ? (
+					filteredProjects.map((project, index) => (
+						<div className="accordion-item" key={project.id}>
+							<h2 className="accordion-header">
+								<span
+									className="accordion-button collapsed item"
+									type="button"
+									data-bs-toggle="collapse"
+									data-bs-target={`#flush-collapse${index}`}
+									aria-expanded="false"
+									aria-controls={`flush-collapse${index}`}
 								>
-									<td colSpan="3">
-										<div className="card card-body">
-											<p>Description: {project.description}</p>
-										</div>
-									</td>
-								</tr>
-							</>
-						))
-					) : (
-						<tr>
-							<td className="align-middle" colSpan="3">
-								No hay proyectos disponibles
-							</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
+									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
+										<div className="title">{project.title}</div>
+										<div className="tags">{project.tags.join(', ')}</div>
+										<div className="id">{project.id}</div>
+									</div>
+								</span>
+							</h2>
+							<div
+								id={`flush-collapse${index}`}
+								className="accordion-collapse collapse"
+								data-bs-parent="#accordionFlushExample"
+							>
+								<div className="card-body accordion-body card my-2">
+									<div className="info">
+										<p>Description: {project.description}</p>
+										<p>
+											Technologies:{' '}
+											{project.technologies.map((tech) => tech.name).join(', ')}
+										</p>
+										<p>ID: {project.id}</p>
+									</div>
+									<hr />
+									<div className="actions d-flex justify-content-end gap-2">
+										<button
+											type="button"
+											className="btn btn-outline-primary mb-0"
+										>
+											Editar
+										</button>
+										<button
+											type="button"
+											className="btn btn-outline-danger mb-0"
+										>
+											Eliminar
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					))
+				) : (
+					<p>No hay proyectos disponibles</p>
+				)}
+			</div>
 			{displayPagination && (
 				<button className="btn btn-secondary" onClick={handlePagination}>
 					Cargar más
 				</button>
 			)}
-		</div>
+		</SectionStyled>
 	)
 }
 
 export default AdminViewProjects
 
-// ---------------------------------------------------------
+// ? Styles
+
+const SectionStyled = styled.section`
+	span.item {
+		&:hover {
+			background-color: #a7abab39;
+		}
+	}
+`
+
+// import styled from 'styled-components'
 // import { useEffect, useState } from 'react'
 // import { useDispatch, useSelector } from 'react-redux'
 // import { getAllProjects } from '../../redux/actions'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 // const AdminViewProjects = () => {
 // 	const dispatch = useDispatch()
@@ -111,8 +131,8 @@ export default AdminViewProjects
 // 	const projects = useSelector((state) => state.projects.allProjects)
 
 // 	const [displayPagination, setDisplayPagination] = useState(true)
-
 // 	const [renderingCards, setRenderingCards] = useState(15)
+
 // 	const handlePagination = () => {
 // 		if (projects.length >= renderingCards) {
 // 			setRenderingCards((prevCount) => prevCount + 15)
@@ -125,12 +145,82 @@ export default AdminViewProjects
 // 		dispatch(getAllProjects(renderingCards))
 // 	}, [dispatch, token, renderingCards])
 
-// 	console.log(projects)
-
 // 	return (
-// 		<div>
-// 			<span>aqui va la tabla</span>
-// 		</div>
+// 		<SectionStyled className="ListProjects">
+// 			<div className="accordion accordion-flush" id="accordionFlushExample">
+// 				{projects && projects.length > 0 ? (
+// 					projects.map((project, index) => (
+// 						<div className="accordion-item" key={project.id}>
+// 							<h2 className="accordion-header">
+// 								<span
+// 									className="accordion-button collapsed item"
+// 									type="button"
+// 									data-bs-toggle="collapse"
+// 									data-bs-target={`#flush-collapse${index}`}
+// 									aria-expanded="false"
+// 									aria-controls={`flush-collapse${index}`}
+// 								>
+// 									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
+// 										<div className="title">{project.title}</div>
+// 										<div className="tags">{project.tags.join(', ')}</div>
+// 										<div className="id">{project.id}</div>
+// 									</div>
+// 								</span>
+// 							</h2>
+// 							<div
+// 								id={`flush-collapse${index}`}
+// 								className="accordion-collapse collapse"
+// 								data-bs-parent="#accordionFlushExample"
+// 							>
+// 								<div className="card-body accordion-body card my-2">
+// 									<div className="info">
+// 										<p>Description: {project.description}</p>
+// 										<p>
+// 											Technologies:{' '}
+// 											{project.technologies.map((tech) => tech.name).join(', ')}
+// 										</p>
+// 										<p>ID: {project.id}</p>
+// 									</div>
+// 									<hr />
+// 									<div className="actions d-flex justify-content-end gap-2">
+// 										<button
+// 											type="button"
+// 											className="btn btn-outline-primary mb-0"
+// 										>
+// 											Editar
+// 										</button>
+// 										<button
+// 											type="button"
+// 											className="btn btn-outline-danger mb-0"
+// 										>
+// 											Eliminar
+// 										</button>
+// 									</div>
+// 								</div>
+// 							</div>
+// 						</div>
+// 					))
+// 				) : (
+// 					<p>No hay proyectos disponibles</p>
+// 				)}
+// 			</div>
+// 			{displayPagination && (
+// 				<button className="btn btn-secondary" onClick={handlePagination}>
+// 					Cargar más
+// 				</button>
+// 			)}
+// 		</SectionStyled>
 // 	)
 // }
+
 // export default AdminViewProjects
+
+// // ? Styles
+
+// const SectionStyled = styled.section`
+// 	span.item {
+// 		&:hover {
+// 			background-color: #a7abab39;
+// 		}
+// 	}
+// `
