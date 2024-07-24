@@ -24,6 +24,7 @@ const authReducer = (state = initialState, action) => {
 			}
 		case LOGIN_USER:
 			localStorage.setItem('authToken', action.payload.token)
+			localStorage.setItem('loggedUser', JSON.stringify(action.payload.user));
 			return {
 				...state,
 				loggedUser: action.payload.user,
