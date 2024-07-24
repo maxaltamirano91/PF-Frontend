@@ -6,6 +6,8 @@ import {
 	UPDATE_PROJECT,
 	DELETE_PROJECT,
 	IMAGE_UPLOAD,
+	FILTER_TAGS,
+	FILTER_TECHNOLOGIES,
 	FETCH_ERROR,
 	GET_DELETED_PROJ,
 	GET_DELETED_PROJECTS,
@@ -14,21 +16,36 @@ import {
 
 const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
 
-export const getAllProjects = (pagination, search, technologies, sort) => {
+export const getAllProjects = (pagination, title, tags, technologies, sort) => {
 	return async (dispatch) => {
+		console.log('Tags:', tags, 'Technologies:', technologies)
 		try {
 			const params = new URLSearchParams()
-			
+
 			if (pagination) params.append('pageSize', pagination)
-			if (search) params.append('search', search)
-			if (technologies) params.append('technologies', technologies)
+			if (title) params.append('title', title)
+			if (tags && tags.length > 0)
+				params.append('tags', tags)
+			if (technologies && technologies.length > 0)
+				params.append('technologies', technologies)
 			if (sort) params.append('sort', sort)
 
-			const projects = await axios.get(`/projects?${params.toString()}`)
+			const projectsResponse = await axios.get(`/projects?${params.toString()}`)
+			const projects = projectsResponse.data
 
 			dispatch({
 				type: FETCH_PROJECTS,
-				payload: projects.data,
+				payload: projects,
+			})
+
+			dispatch({
+				type: FILTER_TAGS,
+				payload: tags,
+			})
+
+			dispatch({
+				type: FILTER_TECHNOLOGIES,
+				payload: technologies,
 			})
 		} catch (error) {
 			dispatch({
@@ -38,6 +55,46 @@ export const getAllProjects = (pagination, search, technologies, sort) => {
 		}
 	}
 }
+
+// export const filterTags = (pagination, tags, technologies) => {
+// 	return async (dispatch) => {
+// 		try {
+// 			const techData = (await axios.get('/techologies')).data
+// 			const tagsData = (await axios.get('/tags')).data
+// 			const params = new URLSearchParams()
+
+// 			if (pagination) params.append('pageSize', pagination)
+// 			if (technologies) params.append('technologies', technologies)
+// 			else
+// 				params.append(
+// 					'technologies',
+// 					techData.map((tech) => tech.name).join(',')
+// 				)
+// 			if (tags) params.append('tags', tags)
+// 			else params.append('tags', tagsData.map((t) => t.name).join(','))
+
+// 			const projects = await axios.get(`/projects?${params.toString()}`)
+
+// 			dispatch({
+// 				type: FETCH_PROJECTS,
+// 				payload: projects.data,
+// 			})
+// 			dispatch({
+// 				type: FILTER_TAGS,
+// 				payload: tags,
+// 			})
+// 			dispatch({
+// 				type: FILTER_TECHNOLOGIES,
+// 				payload: technologies,
+// 			})
+// 		} catch (error) {
+// 			dispatch({
+// 				type: FETCH_ERROR,
+// 				payload: error.message,
+// 			})
+// 		}
+// 	}
+// }
 
 export const getProjectById = (id) => async (dispatch) => {
 	try {
