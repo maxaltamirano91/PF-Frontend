@@ -10,6 +10,7 @@ const PaymentPendingPage = () => {
 	const location = useLocation()
 	const authToken = useSelector((state) => state.auth.token)
 	const [showToast, setShowToast] = useState(true)
+	const loggedUser = useSelector((state) => state.auth.loggedUser)
 
 	useEffect(() => {
 		dispatch(getUserProfile(authToken))
@@ -18,6 +19,7 @@ const PaymentPendingPage = () => {
 			external_reference: query.get('external_reference'),
 			payment_id: query.get('payment_id'),
 			status: query.get('status'),
+			email:loggedUser.email,
 		}
 
 		dispatch(sendPaymentNotification(paymentData))

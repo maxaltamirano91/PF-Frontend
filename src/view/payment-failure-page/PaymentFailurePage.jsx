@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { sendPaymentNotification } from '../../redux/actions/paymentActions';
-import styles from './PaymentFailurePage.module.css'; // Import the CSS module
+import styles from './PaymentFailurePage.module.css'; 
 
 const PaymentFailurePage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [showToast, setShowToast] = useState(true);
+  const loggedUser = useSelector((state) => state.auth.loggedUser)
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -15,6 +16,7 @@ const PaymentFailurePage = () => {
       external_reference: query.get('external_reference'),
       payment_id: query.get('payment_id'),
       status: query.get('status'),
+      email:loggedUser.email,
     };
 
     dispatch(sendPaymentNotification(paymentData));

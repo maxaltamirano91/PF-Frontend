@@ -9,7 +9,8 @@ const HomePage = () => {
 	const dispatch = useDispatch()
 	const { allProjects } = useSelector((state) => state.projects)
 	const [renderingCards, setRenderingCards] = useState(15)
-
+	const loggedUser = useSelector((state) => state.auth.loggedUser);
+	console.log(loggedUser);
 	const handleScroll = () => {
 		const bottom =
 			Math.ceil(window.innerHeight + window.scrollY) >=

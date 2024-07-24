@@ -8,7 +8,7 @@ import {
 } from '../types'
 
 const initialState = {
-	loggedUser: null,
+	loggedUser: JSON.parse(localStorage.getItem('loggedUser')) || null,
 	token: localStorage.getItem('authToken') || null,
 	loading: false,
 	fetchError: null,
@@ -24,6 +24,7 @@ const authReducer = (state = initialState, action) => {
 			}
 		case LOGIN_USER:
 			localStorage.setItem('authToken', action.payload.token)
+			localStorage.setItem('loggedUser', JSON.stringify(action.payload.user));
 			return {
 				...state,
 				loggedUser: action.payload.user,
