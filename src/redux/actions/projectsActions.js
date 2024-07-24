@@ -6,7 +6,6 @@ import {
 	UPDATE_PROJECT,
 	DELETE_PROJECT,
 	IMAGE_UPLOAD,
-	FILTER_TECHNOLOGIES,
 	FETCH_ERROR,
 	GET_DELETED_PROJ,
 	GET_DELETED_PROJECTS,
@@ -18,24 +17,18 @@ const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b1696
 export const getAllProjects = (pagination, search, technologies, sort) => {
 	return async (dispatch) => {
 		try {
-			const techData = (await axios.get('/technologies')).data
 			const params = new URLSearchParams()
-
+			
 			if (pagination) params.append('pageSize', pagination)
 			if (search) params.append('search', search)
 			if (technologies) params.append('technologies', technologies)
-			else params.append('technologies', techData.map((t) => t.name).join(','))
 			if (sort) params.append('sort', sort)
-				
+
 			const projects = await axios.get(`/projects?${params.toString()}`)
 
 			dispatch({
 				type: FETCH_PROJECTS,
 				payload: projects.data,
-			})
-			dispatch({
-				type: FILTER_TECHNOLOGIES,
-				payload: technologies,
 			})
 		} catch (error) {
 			dispatch({
@@ -53,6 +46,7 @@ export const getProjectById = (id) => async (dispatch) => {
 			type: FETCH_PROJECT,
 			payload: data,
 		})
+		return data
 	} catch (error) {
 		dispatch({
 			type: FETCH_ERROR,

@@ -32,28 +32,26 @@ const ProjectDetailPage = () => {
 	const handleDelete = () => {
 		dispatch(deleteProject(id, token))
 		alert('Proyecto eliminado exitosamente')
-		navigate('/myprofile')
+		setTimeout(() => {
+			navigate('/myprofile')
+		}, 3000)
 	}
 
 	const handleClose = () => setShow(false)
-	// const handleShow = () => setShow(true)
 
 	const fileProject = () => {
 		dispatch(deleteProject(id, token))
-		 Toastify({
-				text: 'Proyecto archivado',
-				duration: 3000,
-				close: true,
-				gravity: 'top',
-				position: 'center',
-				backgroundColor: '#4CAF50',
-				stopOnFocus: true, 
-			}).showToast()
-		}
-	setTimeout(() => {
-		navigate('/myprofile')			
-	}, 3000)
-	
+		Toastify({
+			text: 'Proyecto archivado',
+			duration: 3000,
+			close: true,
+			gravity: 'top',
+			position: 'center',
+			backgroundColor: '#4CAF50',
+			stopOnFocus: true,
+		}).showToast()
+	}
+
 	if (!project) return null
 
 	return (
@@ -79,7 +77,7 @@ const ProjectDetailPage = () => {
 									className={`btn ${styles.tagButton}`}
 									disabled
 								>
-									{tag}
+									{tag.tagName}
 								</button>
 							))}
 						</div>
@@ -101,47 +99,48 @@ const ProjectDetailPage = () => {
 						</div>
 					)}
 
-					{loggedUser?.id !== undefined && loggedUser?.id === project?.userId && (
-						<div className={styles.buttonsContainer}>
-							<button
-								className={`btn ${styles.modifyButton}`}
-								onClick={handleEdit}
-								style={{ textDecoration: 'none', margin: '10px' }}
-							>
-								Modificar
-							</button>
-							{/* <button
+					{loggedUser?.id !== undefined &&
+						loggedUser?.id === project?.userId && (
+							<div className={styles.buttonsContainer}>
+								<button
+									className={`btn ${styles.modifyButton}`}
+									onClick={handleEdit}
+									style={{ textDecoration: 'none', margin: '10px' }}
+								>
+									Modificar
+								</button>
+								{/* <button
 								className={`btn ${styles.deleteButton}`}
 								onClick={handleShow}
 								style={{ textDecoration: 'none', margin: '10px' }}
 							>
 								Eliminar
 							</button> */}
-							<Modal show={show} onHide={handleClose}>
-								<Modal.Header closeButton>
-									<Modal.Title>Confirmación</Modal.Title>
-								</Modal.Header>
-								<Modal.Body>
-									¿Estás seguro que deseas eliminar el proyecto?
-								</Modal.Body>
-								<Modal.Footer>
-									<Button variant="secondary" onClick={handleClose}>
-										Cancelar
-									</Button>
-									<Button variant="danger" onClick={handleDelete}>
-										Aceptar
-									</Button>
-								</Modal.Footer>
-							</Modal>
-							<button
-								className={`btn ${styles.fileButton}`}
-								onClick={fileProject}
-								style={{ textDecoration: 'none', margin: '10px' }}
-							>
-								Archivar
-							</button>
-						</div>
-					)}
+								<Modal show={show} onHide={handleClose}>
+									<Modal.Header closeButton>
+										<Modal.Title>Confirmación</Modal.Title>
+									</Modal.Header>
+									<Modal.Body>
+										¿Estás seguro que deseas eliminar el proyecto?
+									</Modal.Body>
+									<Modal.Footer>
+										<Button variant="secondary" onClick={handleClose}>
+											Cancelar
+										</Button>
+										<Button variant="danger" onClick={handleDelete}>
+											Aceptar
+										</Button>
+									</Modal.Footer>
+								</Modal>
+								<button
+									className={`btn ${styles.fileButton}`}
+									onClick={fileProject}
+									style={{ textDecoration: 'none', margin: '10px' }}
+								>
+									Archivar
+								</button>
+							</div>
+						)}
 				</div>
 			</section>
 		</div>

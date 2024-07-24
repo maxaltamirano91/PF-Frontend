@@ -1,12 +1,11 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
-import Filter from '../filter/Filter.jsx'
 import { Gem } from 'lucide-react'
 
 import { setDarkMode, setLightMode } from '../../redux/actions'
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const NavBarExtended = () => {
 	const dispatch = useDispatch()
@@ -34,9 +33,6 @@ const NavBarExtended = () => {
 	useEffect(() => {
 		theme === 'dark' ? darkMode() : lightMode()
 	}, [theme])
-
-	const location = useLocation()
-	const showFilter = ['/home', '/users'].includes(location.pathname)
 
 	return (
 		<div>
@@ -124,16 +120,6 @@ const NavBarExtended = () => {
 								</li>
 							)}
 						</ul>
-
-						{/* ----------------------SearchBar  Desktop ----------------- */}
-
-						<div className="d-flex me-auto ">
-							{showFilter && <Filter />}
-
-							{/* <Filter /> */}
-						</div>
-
-						{/* ----------------------end ----------------- */}
 
 						{loggedUser ? (
 							//? -------------------- login ----------------
