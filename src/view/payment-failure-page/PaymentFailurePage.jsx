@@ -8,7 +8,7 @@ const PaymentFailurePage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [showToast, setShowToast] = useState(true);
-  const loggedUser = useSelector((state) => state.auth.loggedUser);
+  const loggedUser = useSelector((state) => state.auth.loggedUser)
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);

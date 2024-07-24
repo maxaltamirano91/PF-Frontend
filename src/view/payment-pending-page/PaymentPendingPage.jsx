@@ -10,7 +10,7 @@ const PaymentPendingPage = () => {
 	const location = useLocation()
 	const authToken = useSelector((state) => state.auth.token)
 	const [showToast, setShowToast] = useState(true)
-	const loggedUser = useSelector((state) => state.auth.loggedUser);
+	const loggedUser = useSelector((state) => state.auth.loggedUser)
 
 	useEffect(() => {
 		dispatch(getUserProfile(authToken))

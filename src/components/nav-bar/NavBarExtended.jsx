@@ -41,11 +41,6 @@ const NavBarExtended = () => {
 					<Link to={'/'}>
 						<span className="navbar-brand">ForDevs</span>
 					</Link>
-					{/* ----------------------SearchBar  Movil ----------------- */}
-
-					{/* <div className="d-flex me-auto d-sm-none "></div> */}
-
-					{/* ----------------------end ----------------- */}
 					<button
 						className="navbar-toggler"
 						type="button"

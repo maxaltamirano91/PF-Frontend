@@ -8,7 +8,7 @@ import {
 } from '../types'
 
 const initialState = {
-	loggedUser: null,
+	loggedUser: JSON.parse(localStorage.getItem('loggedUser')) || null,
 	token: localStorage.getItem('authToken') || null,
 	loading: false,
 	fetchError: null,
