@@ -22,6 +22,7 @@ import SubscriptionPage from './view/subscription-page/subscriptionPage'
 import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage'
 import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage'
 import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
+import DeletedProjectDetailPage from './view/deleted-project-detail-page/DeletedProjectDetailPage'
 
 import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
 
@@ -54,6 +55,10 @@ function App() {
 						<Route
 							path="/myprofile/myfiledproj"
 							element={<ProjectFiledPage />}
+						/>
+						<Route
+							path="/myprofile/myfiledproj/:id"
+							element={<DeletedProjectDetailPage />}
 						/>
 
 						<Route path="/premium" element={<PremiumPage />} />

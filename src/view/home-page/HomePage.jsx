@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllProjects } from '../../redux/actions'
-
 import Filter from '../../components/filter/Filter'
 import Cards from '../../components/cards/Cards'
 
@@ -10,7 +9,13 @@ const HomePage = () => {
 	const { allProjects } = useSelector((state) => state.projects)
 	const [renderingCards, setRenderingCards] = useState(15)
 	const loggedUser = useSelector((state) => state.auth.loggedUser);
-	console.log(loggedUser);
+	const [searchParams, setSearchParams] = useState({
+		title: '',
+		tags: '',
+		technologies: '',
+		sort: 'new',
+	})
+
 	const handleScroll = () => {
 		const bottom =
 			Math.ceil(window.innerHeight + window.scrollY) >=
@@ -26,12 +31,28 @@ const HomePage = () => {
 	}, [])
 
 	useEffect(() => {
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, renderingCards])
+		dispatch(
+			getAllProjects(
+				renderingCards,
+				searchParams.title,
+				searchParams.tags,
+				searchParams.technologies,
+				searchParams.sort
+			)
+		)
+	}, [dispatch, renderingCards, searchParams])
+
+	const updateSearchParams = (newParams) => {
+		setSearchParams((prevParams) => ({
+			...prevParams,
+			...newParams,
+		}))
+		setRenderingCards(15) // Reset renderingCards to initial value when search parameters change
+	}
 
 	return (
-		<div className='mx-auto'>
-			<Filter />
+		<div className="mx-auto">
+			<Filter updateSearchParams={updateSearchParams} />
 			<Cards projects={allProjects} />
 		</div>
 	)

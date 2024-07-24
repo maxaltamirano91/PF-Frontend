@@ -26,6 +26,9 @@ const ProjectFiledPage = () => {
 
 	const handleRestore = (id) => {
 		dispatch(restoreDeletedProject(id, token))
+		setTimeout(() => {
+			navigate('/myprofile')
+		}, 3000)
 		Toastify({
 			text: 'Proyecto restaurado',
 			duration: 3000,
@@ -36,9 +39,6 @@ const ProjectFiledPage = () => {
 			stopOnFocus: true,
 		}).showToast()
 	}
-	setTimeout(() => {
-		navigate('/myprofile')
-	}, 3000)
 
 	return (
 		<div>
@@ -48,7 +48,7 @@ const ProjectFiledPage = () => {
 			{deletedProjects.length === 0 ? (
 				<p>No hay proyectos archivados.</p>
 			) : (
-				<Cards projects={deletedProjects} onRestore={handleRestore} />
+				<Cards projects={deletedProjects}/>
 			)}
 		</div>
 	)

@@ -1,6 +1,7 @@
 export * from './authTypes'
 export * from './requestsTypes'
 export * from './projectsTypes'
+export * from './tagsTypes'
 export * from './techonologiesTypes'
 export * from './themesTypes'
 export * from './usersTypes'
