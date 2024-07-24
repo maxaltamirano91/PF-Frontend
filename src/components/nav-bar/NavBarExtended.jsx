@@ -82,8 +82,8 @@ const NavBarExtended = () => {
 											</Link>
 										</li>
 										<li>
-											<a className="dropdown-item" href="#">
-												Tecnologías
+											<a className="dropdown-item" href="/explorer/tags">
+												Tags
 											</a>
 										</li>
 									</ul>

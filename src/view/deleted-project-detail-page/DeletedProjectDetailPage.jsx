@@ -2,42 +2,37 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
-	getProjectById,
-	getUserProfile,
-	deleteProject,
+	getDeletedProjectById,
+    getUserProfile,
+    restoreDeletedProject
 } from '../../redux/actions'
 import { Button, Modal } from 'react-bootstrap'
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
-import styles from './ProjectDetailPage.module.css'
+import styles from './DeletedProjectDetailPage.module.css'
 
 const ProjectDetailPage = () => {
 	const navigate = useNavigate()
 	const { id } = useParams()
-	const { project, deletedProjects } = useSelector((state) => state.projects)
+	const { project } = useSelector((state) => state.projects)
 	const { token, loggedUser } = useSelector((state) => state.auth)
 	const dispatch = useDispatch()
-	console.log(project)
 
 	const [show, setShow] = useState(false)
 
 	useEffect(() => {
-		dispatch(getProjectById(id))
+		dispatch(getDeletedProjectById(id))
 		dispatch(getUserProfile(token))
-	}, [dispatch, id, token])
-
-	const handleEdit = () => {
-		navigate(`/modProject/${id}`)
-	}
-
+    }, [dispatch, id, token])
+    
 	const handleShow = () => {
 		setShow(true)
 	}
 
 	const handleClose = () => setShow(false)
 
-	const fileProject = () => {
-		dispatch(deleteProject(id, token))
+	const restoreProject = () => {
+		dispatch(restoreDeletedProject(id, token))
 		Toastify({
 			text: 'Proyecto archivado',
 			duration: 3000,
@@ -49,8 +44,6 @@ const ProjectDetailPage = () => {
 		}).showToast()
 		navigate('/myprofile')
 	}
-
-	if (!project) return null
 
 	return (
 		<div className="container mt-5">
@@ -101,31 +94,24 @@ const ProjectDetailPage = () => {
 						loggedUser?.id === project?.userId && (
 							<div className={styles.buttonsContainer}>
 								<button
-									className={`btn ${styles.modifyButton}`}
-									onClick={handleEdit}
-									style={{ textDecoration: 'none', margin: '10px' }}
-								>
-									Modificar
-								</button>
-								<button
 								className={`btn ${styles.deleteButton}`}
 								onClick={handleShow}
 								style={{ textDecoration: 'none', margin: '10px' }}
 							>
-								Archivar
+								Restaurar
 							</button>
 								<Modal show={show} onHide={handleClose}>
 									<Modal.Header closeButton>
 										<Modal.Title>Confirmación</Modal.Title>
 									</Modal.Header>
 									<Modal.Body>
-										¿Estás seguro que deseas archivar el proyecto?
+										¿Deseas restaurar el proyecto?
 									</Modal.Body>
 									<Modal.Footer>
 										<Button variant="secondary" onClick={handleClose}>
 											Cancelar
 										</Button>
-										<Button variant="danger" onClick={fileProject}>
+										<Button variant="danger" onClick={restoreProject}>
 											Aceptar
 										</Button>
 									</Modal.Footer>

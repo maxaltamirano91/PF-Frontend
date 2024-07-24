@@ -1,37 +1,50 @@
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchTechnologies, getAllProjects } from '../../redux/actions'
-import styles from './Filter.module.css'
 import Select from 'react-select'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchTechnologies } from '../../redux/actions'
+import styles from './Filter.module.css'
 
-const Filter = () => {
+const Filter = ({ updateSearchParams }) => {
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
 	const { token } = useSelector((state) => state.auth)
-	const [selectedOptions, setSelectedOptions] = useState([])
-	const [search, setSearch] = useState('')
+	const [selectedTechnologies, setSelectedTechnologies] = useState([])
+	const [titleSearch, setTitleSearch] = useState('')
+	const [tagSearch, setTagSearch] = useState('')
 	const [sortOrder, setSortOrder] = useState('new')
-	const pagination = 10
 
-	const options = technologies.map((tech) => ({
+	// Opciones para el componente Select
+	const technologyOptions = technologies.map((tech) => ({
 		value: tech.name,
 		label: tech.name,
 		key: tech.name,
 	}))
 
-	const handleInputChange = (select) => {
-		setSelectedOptions(select)
+	const handleTechnologyChange = (select) => {
+		setSelectedTechnologies(select)
 	}
 
 	const handleSortChange = (sort) => {
 		setSortOrder(sort)
+		updateSearchParams({ sort })
 	}
 
-	const handleSubmit = () => {
-		const selectedTechnologies = selectedOptions.map((option) => option.value)
-		dispatch(
-			getAllProjects(pagination, search, selectedTechnologies, sortOrder)
-		)
+	const handleTitleSearch = () => {
+		const selectedTechs = selectedTechnologies.map((option) => option.value)
+		updateSearchParams({
+			title: titleSearch,
+			tags: '',
+			technologies: selectedTechs.join(','),
+		})
+	}
+
+	const handleTagSearch = () => {
+		const selectedTechs = selectedTechnologies.map((option) => option.value)
+		updateSearchParams({
+			title: '',
+			tags: tagSearch,
+			technologies: selectedTechs.join(','),
+		})
 	}
 
 	useEffect(() => {
@@ -39,12 +52,21 @@ const Filter = () => {
 	}, [dispatch, token])
 
 	return (
-		<div className={styles.section}>
+		<section className={styles.section}>
+			<div>
+				<link
+					rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+					integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+					crossOrigin="anonymous"
+					referrerPolicy="no-referrer"
+				/>
+			</div>
 			<div className={styles.selectsContainer}>
 				<Select
-					options={options}
-					onChange={handleInputChange}
-					value={selectedOptions}
+					options={technologyOptions}
+					onChange={handleTechnologyChange}
+					value={selectedTechnologies}
 					isMulti={true}
 					placeholder="Selecciona tecnología"
 					styles={customStylesSelectReact}
@@ -53,14 +75,27 @@ const Filter = () => {
 			<div className={styles.searchContainer}>
 				<input
 					type="search"
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
+					value={titleSearch}
+					onChange={(e) => setTitleSearch(e.target.value)}
 					placeholder="Nombre del proyecto"
 				/>
 			</div>
 			<div className={styles.btnContainer}>
-				<button className="btn btn-light" onClick={handleSubmit}>
-					Filtrar
+				<button className="btn btn-light" onClick={handleTitleSearch}>
+					Buscar Proyectos
+				</button>
+			</div>
+			<div className={styles.searchContainer}>
+				<input
+					type="search"
+					value={tagSearch}
+					onChange={(e) => setTagSearch(e.target.value)}
+					placeholder="Buscar por Tags"
+				/>
+			</div>
+			<div className={styles.btnContainer}>
+				<button className="btn btn-light" onClick={handleTagSearch}>
+					Buscar por Tags
 				</button>
 			</div>
 			<div className={styles.sortButtons}>
@@ -89,7 +124,7 @@ const Filter = () => {
 					Viejos
 				</button>
 			</div>
-		</div>
+		</section>
 	)
 }
 
