@@ -93,7 +93,7 @@ const NavBarExtended = () => {
 							</li>
 							{loggedUser?.planName !== 'Premium' && (
 								<li className="nav-item">
-									<Link to={'/'}>
+									<Link to={'/premium'}>
 										<span className="nav-link">ForDevPro</span>
 									</Link>
 								</li>
