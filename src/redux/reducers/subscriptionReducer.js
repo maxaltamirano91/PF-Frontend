@@ -3,6 +3,9 @@ import {
     FETCH_PRODUCT_SUCCESS,
     CREATE_PREFERENCE_REQUEST,
     CREATE_PREFERENCE_SUCCESS,
+    CANCEL_SUBSCRIPTION_REQUEST,
+    CANCEL_SUBSCRIPTION_SUCCESS,
+    CANCEL_SUBSCRIPTION_FAILURE
   } from '../types/subscriptionTypes';
   
   const initialState = {
@@ -16,9 +19,11 @@ import {
     switch (action.type) {
       case FETCH_PRODUCT_REQUEST:
       case CREATE_PREFERENCE_REQUEST:
+      case CANCEL_SUBSCRIPTION_REQUEST:
         return {
           ...state,
-          loading: true
+          loading: true,
+          error: null
         };
       case FETCH_PRODUCT_SUCCESS:
         return {
@@ -32,10 +37,22 @@ import {
           loading: false,
           preferenceId: action.payload
         };
+      case CANCEL_SUBSCRIPTION_SUCCESS:
+        return {
+          ...state,
+          loading: false
+        };
+      case CANCEL_SUBSCRIPTION_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload
+        };
       default:
         return state;
     }
   };
   
   export default subscriptionReducer;
+  
   

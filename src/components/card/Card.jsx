@@ -1,115 +1,87 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import styles from './Card.module.css'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { ThumbsUp } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import {
+	getUserById,
+	getProjectById,
+	toggleProjectLike,
+} from '../../redux/actions'
 
-const CardDiv = styled.div`
-	.card {
-		width: 19rem;
-		height: 14rem;
-		position: relative;
-		overflow: hidden;
-		transition: transform 0.3s ease-in-out;
-		margin: 5px auto;
-		box-shadow: 0 4px 8px rgba(148, 0, 211, 0.7)
+const Card = ({ project }) => {
+	const dispatch = useDispatch()
+	const { loggedUser, token } = useSelector((state) => state.auth)
+	const { theme } = useSelector((state) => state.themes)
+	const [likes, setLikes] = useState(project.likes?.length || 0)
+	const [liked, setLiked] = useState(project.liked || false)
 
-	}
-	.card:hover {
-		transform: scale(1.05);
-	}
+	const toggleLike = () => {
+		if (loggedUser && project) {
+			const newLiked = !liked
+			const newLikes = newLiked ? likes + 1 : likes - 1
 
-	.card-img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.3s ease-in-out;
-	}
+			setLiked(newLiked)
+			setLikes(newLikes)
 
-	.card-img-overlay {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		padding: 0px 0px 2px;
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-end;
-	}
-	.card-text {
-		p {
-			color: #ffffff;
-			text-decoration: none;
-			display: block;
-			width: 19rem;
-			padding: 0px 0px 2px;
-			opacity: 0;
+			dispatch(
+				toggleProjectLike(
+					{ projectId: project.id, userId: loggedUser.id },
+					token
+				)
+			)
+			dispatch(getProjectById(project.id, token))
 		}
 	}
-	.card-img-overlay:hover .card-text a {
-		opacity: 1;
-	}
-	.info-bar {
-		width: 19rem;
-		background-color: transparent;
-		padding: 5px;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: flex-start;
-		margin: auto;
-		transition: transform 0.3s ease-in-out;
-		box-shadow: 0 4px 8px rgba(148, 0, 211, 0.7)
 
-	}
-	.info-bar:hover {
-	transform: scale(1.05);
-	}
-	.project-title {
-		p {
-			margin: 0;
-			text-decoration: none;
-			font-weight: bold;
-			transition: color 0.3s ease-in-out;
+	useEffect(() => {
+		if (project) {
+			dispatch(getUserById(project.userId))
 		}
-	}
-	.technologies {
-		font-size: 1rem;
-		transition: color 0.3s ease-in-out;
-	}
+	}, [dispatch, project.userId])
 
-	.card:hover .project-title p,
-	.card:hover .technologies {
-		color: #000000;
-	}
-`
+	useEffect(() => {
+		setLikes(project.likes?.length)
+		setLiked(project.liked || false)
+	}, [project])
 
-const Card = ({ id, title, technologies, image }) => {
+	if (!project.user || !project) return null
+
 	return (
-		<CardDiv>
-			<Link to={`/project/${id}`}>
-				<div className="card text-bg-dark">
-					<img src={image} className="card-img" alt="..." />
-					<div className="card-img-overlay">
-						<p className="card-text">
-							<small>
-								<p>{title}</p>
-							</small>
-						</p>
-					</div>
-				</div>
-				<div className="info-bar">
-					<div className="project-title">
-						<p>{title}</p>
-					</div>
-					<div className="technologies">
-						{technologies.map((tech, index) => (
-							<span key={index}>
-								{tech.name}
-								{index < technologies.length - 1 ? ', ' : ''}
-							</span>
-						))}
-					</div>
-				</div>
+		<div className={styles.cardContainer}>
+			<Link
+				to={`/projects/${project.id}`}
+				className={`${styles.cardImgContainer} ${
+					theme === 'light' ? styles.light : ''
+				}`}
+			>
+				<span className={styles.cardTitle}>{project.title}</span>
+				<img
+					src={project.image}
+					alt={project.title}
+					className={styles.cardImg}
+				/>
 			</Link>
-		</CardDiv>
+			<div className={styles.textContainer}>
+				<Link
+					to={`/users/${project.user.id}`}
+					className={`${styles.profileImg} ${
+						theme === 'light' ? 'text-dark' : 'text-light'
+					}`}
+				>
+					<img src={project.user.image} alt={project.user.userName} />
+					<span className={styles.name}>{project.user.userName}</span>
+				</Link>
+				<div onClick={toggleLike} className={styles.likeButton}>
+					<span>{likes}</span>
+					<ThumbsUp
+						className={theme === 'light' ? 'text-dark' : 'text-light'}
+						fill={liked ? (theme === 'light' ? '#343a40' : '#f8f9fa') : 'none'}
+						size={14}
+					/>
+				</div>
+			</div>
+		</div>
 	)
 }
 

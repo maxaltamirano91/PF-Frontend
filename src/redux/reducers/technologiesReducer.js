@@ -1,11 +1,9 @@
 import {
 	FETCH_TECHNOLOGIES,
-	FILTER_TECHNOLOGIES,
 } from '../types'
 
 const initialState = {
 	technologies: [],
-	filteredTechnologies: [],
 	fetchError: null,
 }
 
@@ -15,11 +13,6 @@ const technologiesReducer = (state = initialState, action) => {
 			return {
 				...state,
 				technologies: action.payload,
-			}
-		case FILTER_TECHNOLOGIES:
-			return {
-				...state,
-				filteredTechnologies: action.payload,
 			}
 
 		default:

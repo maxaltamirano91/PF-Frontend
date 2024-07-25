@@ -7,6 +7,8 @@ import {
 } from '../../redux/actions'
 import Cards from '../../components/cards/Cards'
 import { useNavigate } from 'react-router-dom'
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
 
 const ProjectFiledPage = () => {
 	const dispatch = useDispatch()
@@ -24,8 +26,18 @@ const ProjectFiledPage = () => {
 
 	const handleRestore = (id) => {
 		dispatch(restoreDeletedProject(id, token))
-		alert('Proyecto restaurado con éxito')
-		navigate('/myprofile')
+		setTimeout(() => {
+			navigate('/myprofile')
+		}, 3000)
+		Toastify({
+			text: 'Proyecto restaurado',
+			duration: 3000,
+			close: true,
+			gravity: 'top',
+			position: 'center',
+			backgroundColor: '#4CAF50',
+			stopOnFocus: true,
+		}).showToast()
 	}
 
 	return (
@@ -36,7 +48,7 @@ const ProjectFiledPage = () => {
 			{deletedProjects.length === 0 ? (
 				<p>No hay proyectos archivados.</p>
 			) : (
-				<Cards projects={deletedProjects} onRestore={handleRestore} />
+				<Cards projects={deletedProjects}/>
 			)}
 		</div>
 	)

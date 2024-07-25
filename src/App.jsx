@@ -12,6 +12,7 @@ import ForgotPasswordPage from './view/forgot-password-page/ForgotPasswordPage'
 import PremiumPage from './view/premium-page/PremiumPage'
 import NotFoundPage from './view/not-found-page/NotFoundPage'
 import UpdateProjectPage from './view/update-project-page/UpdateProjectPage'
+import UpdateUserPage from './view/update-user-page/UpdateUserPage'
 import UsersPage from './view/users-page/UsersPage'
 import CreateProjectPage from './view/create-project-page/CreateProjectPage'
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler'
@@ -21,8 +22,11 @@ import SubscriptionPage from './view/subscription-page/subscriptionPage'
 import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage'
 import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage'
 import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
+import DeletedProjectDetailPage from './view/deleted-project-detail-page/DeletedProjectDetailPage'
 
 import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
+import LandingPage from './view/landing-page/LandingPage'
+
 
 function App() {
 	const { isLoading } = useAuth0()
@@ -37,30 +41,31 @@ function App() {
 				<NavBarExtended />
 				<div className="App-Container">
 					<Routes>
-						<Route path="/" element={<PremiumPage />} />
+						<Route path="/premium" element={<PremiumPage />} />
 						<Route path="/home" element={<HomePage />} />
-						{/* // ? Explorer -- */}
 						<Route path="/explorer/users" element={<UsersPage />} />
-						{/* --- ---- */}
 						<Route path="/myprofile" element={<ProfilePage />} />
+						<Route path="/" element={<LandingPage />} />
 
 						<Route path="/create" element={<CreateProjectPage />} />
 						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+
 						<Route path="/dashboard" element={<AdminView />} />
+						<Route path="/modUser" element={<UpdateUserPage />} />
 						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
-						<Route path="/project/:id" element={<ProjectDetailPage />} />
+						<Route path="/projects/:id" element={<ProjectDetailPage />} />
 						<Route
 							path="/myprofile/myfiledproj"
 							element={<ProjectFiledPage />}
 						/>
-
+						<Route
+							path="/myprofile/myfiledproj/:id"
+							element={<DeletedProjectDetailPage />}
+						/>
 						<Route path="/premium" element={<PremiumPage />} />
-
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/register" element={<RegisterPage />} />
-
 						<Route path="/*" element={<NotFoundPage />} />
-
 						<Route path="/subscription" element={<SubscriptionPage />} />
 						<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
 						<Route path="/paymentFailure" element={<PaymentFailurePage />} />

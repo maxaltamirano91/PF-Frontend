@@ -1,43 +1,59 @@
-import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-	fetchTechnologies,
-	filterTechnologies,
-	getAllProjects,
-} from '../../redux/actions'
+import { fetchTechnologies } from '../../redux/actions'
+import styles from './Filter.module.css'
 
-const Filter = () => {
+const Filter = ({ updateSearchParams }) => {
 	const dispatch = useDispatch()
 	const { technologies } = useSelector((state) => state.technologies)
 	const { token } = useSelector((state) => state.auth)
-	const [selectedOptions, setSelectedOptions] = useState([])
-	const [search, setSearch] = useState('')
-	const pagination = 10
+	const [selectedTechnologies, setSelectedTechnologies] = useState([])
+	const [titleSearch, setTitleSearch] = useState('')
+	const [tagSearch, setTagSearch] = useState('')
+	const [sortOrder, setSortOrder] = useState('new')
 
-	const options = technologies.map((tech) => ({
+	// Opciones para el componente Select
+	const technologyOptions = technologies.map((tech) => ({
 		value: tech.name,
 		label: tech.name,
 		key: tech.name,
 	}))
 
-	const handleInputChange = (select) => {
-		setSelectedOptions(select)
+	const handleTechnologyChange = (select) => {
+		setSelectedTechnologies(select)
 	}
 
-	const handleSubmit = () => {
-		const selectedTechnologies = selectedOptions.map((option) => option.value)
-		dispatch(filterTechnologies(selectedTechnologies))
-		dispatch(getAllProjects(pagination, search, selectedTechnologies))
+	const handleSortChange = (sort) => {
+		setSortOrder(sort)
+		updateSearchParams({ sort })
+	}
+
+	const handleTitleSearch = () => {
+		const selectedTechs = selectedTechnologies.map((option) => option.value)
+		updateSearchParams({
+			title: titleSearch,
+			tags: '',
+			technologies: selectedTechs.join(','),
+		})
+	}
+
+	const handleTagSearch = () => {
+		const selectedTechs = selectedTechnologies.map((option) => option.value)
+		updateSearchParams({
+			title: '',
+			tags: tagSearch,
+			technologies: selectedTechs.join(','),
+		})
 	}
 
 	useEffect(() => {
 		dispatch(fetchTechnologies(token))
 	}, [dispatch, token])
+
 	return (
-		<SectionStyled className="">
-			<div className="">
+		<section className={styles.section}>
+			<div>
 				<link
 					rel="stylesheet"
 					href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
@@ -46,79 +62,74 @@ const Filter = () => {
 					referrerPolicy="no-referrer"
 				/>
 			</div>
-			<div className="selects-container ">
+			<div className={styles.selectsContainer}>
 				<Select
-					options={options}
-					onChange={handleInputChange}
-					value={selectedOptions}
+					options={technologyOptions}
+					onChange={handleTechnologyChange}
+					value={selectedTechnologies}
 					isMulti={true}
 					placeholder="Selecciona tecnología"
 					styles={customStylesSelectReact}
 				/>
 			</div>
-			<div className="search-container ">
+			<div className={styles.searchContainer}>
 				<input
 					type="search"
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
+					value={titleSearch}
+					onChange={(e) => setTitleSearch(e.target.value)}
 					placeholder="Nombre del proyecto"
 				/>
 			</div>
-			<div className="btn-container ">
-				<button className="btn btn-light" onClick={handleSubmit}>
-					Filtrar
+			<div className={styles.btnContainer}>
+				<button className="btn btn-light" onClick={handleTitleSearch}>
+					Buscar Proyectos
 				</button>
 			</div>
-		</SectionStyled>
+			<div className={styles.searchContainer}>
+				<input
+					type="search"
+					value={tagSearch}
+					onChange={(e) => setTagSearch(e.target.value)}
+					placeholder="Buscar por Tags"
+				/>
+			</div>
+			<div className={styles.btnContainer}>
+				<button className="btn btn-light" onClick={handleTagSearch}>
+					Buscar por Tags
+				</button>
+			</div>
+			<div className={styles.sortButtons}>
+				<button
+					className={sortOrder === 'a-z' ? styles.selected : ''}
+					onClick={() => handleSortChange('a-z')}
+				>
+					A-Z
+				</button>
+				<button
+					className={sortOrder === 'z-a' ? styles.selected : ''}
+					onClick={() => handleSortChange('z-a')}
+				>
+					Z-A
+				</button>
+				<button
+					className={sortOrder === 'new' ? styles.selected : ''}
+					onClick={() => handleSortChange('new')}
+				>
+					Recientes
+				</button>
+				<button
+					className={sortOrder === 'old' ? styles.selected : ''}
+					onClick={() => handleSortChange('old')}
+				>
+					Viejos
+				</button>
+			</div>
+		</section>
 	)
 }
 
 export default Filter
 
-// ? Styles
-const SectionStyled = styled.section`
-	display: flex;
-	flex-wrap: wrap;
-	gap: 1rem;
-
-	justify-content: center;
-	align-items: center;
-
-	.selects-container {
-		color-scheme: light;
-	}
-
-	.search-container {
-		input {
-			height: 39px;
-			border-radius: 6px;
-			border-color: #a8a8a88e;
-			color-scheme: light;
-			padding: 0 12px;
-			font-weight: 600;
-		}
-		:focus {
-			border-color: #0099ff; /* Cambia el color del borde cuando el input está enfocado */
-			outline: none; /* Opcional: elimina el borde de enfoque predeterminado del navegador */
-			border-width: 3px;
-		}
-		::placeholder {
-			color: #a8a8a8; /* Cambia esto al color que prefieras */
-			color: grey; /* Cambia esto al color que prefieras */
-			font-weight: 400;
-		}
-	}
-	.btn-container {
-		button {
-			margin: 0;
-			border-color: #a8a8a88e;
-			color: gray;
-		}
-		&:hover {
-			text-decoration: none;
-		}
-	}
-`
 const customStylesSelectReact = {
 	control: (provided, state) => ({
 		...provided,

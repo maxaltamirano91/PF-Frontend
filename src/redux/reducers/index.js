@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import authReducer from "./authReducer";
 import requestsReducer from "./requestsReducer"
 import projectsReducer from "./projectsReducer"
+import tagsReducer from './tagsReducer'
 import technologiesReducer from "./technologiesReducer"
 import themesReducer from "./themesReducer"
 import usersReducer from "./usersReducer"
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     requests: requestsReducer,
     projects: projectsReducer,
+    tags: tagsReducer,
     technologies: technologiesReducer,
     themes: themesReducer,
     users: usersReducer,

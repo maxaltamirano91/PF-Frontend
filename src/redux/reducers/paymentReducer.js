@@ -2,7 +2,7 @@ import {
     PAYMENT_NOTIFICATION_FAILURE,   
     PAYMENT_NOTIFICATION_REQUEST,
     PAYMENT_NOTIFICATION_SUCCESS,
-} from '../types/paymentTypes';
+} from '../types';
 
 const initialState = {
     loading: false,

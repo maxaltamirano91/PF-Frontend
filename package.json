@@ -30,6 +30,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "styled-components": "^6.1.9",
+    "toastify-js": "^1.12.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {

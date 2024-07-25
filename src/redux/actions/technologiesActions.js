@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {
     FETCH_TECHNOLOGIES,
-    FILTER_TECHNOLOGIES,
     FETCH_ERROR
 } from "../types"
 
@@ -19,14 +18,5 @@ export const fetchTechnologies = () => {
 				payload: error.message,
 			});
 		}
-	};
-};
-
-export const filterTechnologies = (filteredTechnologies) => {
-	return (dispatch) => {
-		dispatch({
-			type: FILTER_TECHNOLOGIES,
-			payload: filteredTechnologies,
-		});
 	};
 };
