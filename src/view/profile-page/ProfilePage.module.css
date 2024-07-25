@@ -15,20 +15,20 @@
 
 .title {
 	margin: 0;
-	font-size: 5rem;
+	font-size: 3rem;
 	color: hwb(0 95% 3%);
 	text-align: center;
 }
 
 .profileContainer {
-  margin: 1.5rem 3rem;
+    margin: 1.5rem 3rem;
 	display: flex;
 	gap: 1rem;
 }
 
 .card {
 	width: 18rem;
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	text-align: center;
 	border: 1px solid #ddd;
 	border-radius: 8px;
@@ -36,8 +36,8 @@
 }
 
 .cardImg {
-	width: 12rem;
-	height: 12rem;
+	width: 10rem;
+	height: 10rem;
 	object-fit: cover;
 	border-radius: 50%;
 	margin: 0 auto;
@@ -45,6 +45,7 @@
 
 .cardBody {
 	padding: 20px;
+	font-size: 1.1rem;
 }
 
 .btnCustom {
@@ -60,22 +61,34 @@
 }
 
 .profileContent {
-  margin: 0 2rem;
+    margin: 0 2rem;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 10px;
 }
-.cardsContainer {
+
+
+.projectsHeader {
 	display: flex;
-	flex-wrap: nowrap;
-	overflow-x: auto;
-	gap: 1rem;
-	padding: 10px 0;
+	justify-content: space-between;
+	align-items: center;
 	width: 100%;
 }
-.card {
-	flex: 0 0 auto;
-	width: 18rem;
+
+.btn-dark-blue {
+    background: #4b4bf6;  
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF);  
+    background: linear-gradient(to right, #348AC7, #7474BF);  
+    color: #fff;
+    border: 3px solid #eee;
+	border-radius: 8rem; 
+}  
+
+
+.cardTitle {
+	font-size: 1rem; 
+	color: #333; 
+	margin-bottom: 1rem; 
 }

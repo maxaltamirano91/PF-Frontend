@@ -14,10 +14,9 @@ import styles from './ProjectDetailPage.module.css'
 const ProjectDetailPage = () => {
 	const navigate = useNavigate()
 	const { id } = useParams()
-	const { project, deletedProjects } = useSelector((state) => state.projects)
+	const { project } = useSelector((state) => state.projects)
 	const { token, loggedUser } = useSelector((state) => state.auth)
 	const dispatch = useDispatch()
-	console.log(project)
 
 	const [show, setShow] = useState(false)
 

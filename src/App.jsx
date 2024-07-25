@@ -1,4 +1,4 @@
-import "./App.css"
+import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -25,6 +25,8 @@ import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
 import DeletedProjectDetailPage from './view/deleted-project-detail-page/DeletedProjectDetailPage'
 
 import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
+import LandingPage from './view/landing-page/LandingPage'
+
 
 function App() {
 	const { isLoading } = useAuth0()
@@ -37,18 +39,18 @@ function App() {
 		<>
 			<div className="App">
 				<NavBarExtended />
-				<div className='App-Container'>
+				<div className="App-Container">
 					<Routes>
-						<Route path="/" element={<PremiumPage />} />
+						<Route path="/premium" element={<PremiumPage />} />
 						<Route path="/home" element={<HomePage />} />
-						{/* // ? Explorer -- */}
 						<Route path="/explorer/users" element={<UsersPage />} />
-						{/* --- ---- */}
 						<Route path="/myprofile" element={<ProfilePage />} />
+						<Route path="/" element={<LandingPage />} />
 
 						<Route path="/create" element={<CreateProjectPage />} />
 						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-						<Route path="/dashboard/:data" element={<AdminView />} />
+
+						<Route path="/dashboard" element={<AdminView />} />
 						<Route path="/modUser" element={<UpdateUserPage />} />
 						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 						<Route path="/projects/:id" element={<ProjectDetailPage />} />
@@ -60,14 +62,10 @@ function App() {
 							path="/myprofile/myfiledproj/:id"
 							element={<DeletedProjectDetailPage />}
 						/>
-
 						<Route path="/premium" element={<PremiumPage />} />
-
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/register" element={<RegisterPage />} />
-
 						<Route path="/*" element={<NotFoundPage />} />
-
 						<Route path="/subscription" element={<SubscriptionPage />} />
 						<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
 						<Route path="/paymentFailure" element={<PaymentFailurePage />} />

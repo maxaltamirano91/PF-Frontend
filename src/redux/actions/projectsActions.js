@@ -103,7 +103,6 @@ export const getProjectById = (id) => async (dispatch) => {
 			type: FETCH_PROJECT,
 			payload: data,
 		})
-		return data
 	} catch (error) {
 		dispatch({
 			type: FETCH_ERROR,

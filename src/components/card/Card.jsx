@@ -1,5 +1,6 @@
 import styles from './Card.module.css'
 import { Link } from 'react-router-dom'
+import { ThumbsUp } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import {
@@ -10,22 +11,26 @@ import {
 
 const Card = ({ project }) => {
 	const dispatch = useDispatch()
-	const { user } = useSelector((state) => state.users)
 	const { loggedUser, token } = useSelector((state) => state.auth)
-	const [likes, setLikes] = useState(project.likes?.length)
+	const { theme } = useSelector((state) => state.themes)
+	const [likes, setLikes] = useState(project.likes?.length || 0)
 	const [liked, setLiked] = useState(project.liked || false)
 
 	const toggleLike = () => {
 		if (loggedUser && project) {
+			const newLiked = !liked
+			const newLikes = newLiked ? likes + 1 : likes - 1
+
+			setLiked(newLiked)
+			setLikes(newLikes)
+
 			dispatch(
 				toggleProjectLike(
 					{ projectId: project.id, userId: loggedUser.id },
 					token
 				)
 			)
-			const updatedProject = dispatch(getProjectById(project.id, token))
-			setLikes(updatedProject.likes?.length || 0)
-			setLiked(updatedProject.liked || false)
+			dispatch(getProjectById(project.id, token))
 		}
 	}
 
@@ -40,11 +45,16 @@ const Card = ({ project }) => {
 		setLiked(project.liked || false)
 	}, [project])
 
-	if (!user || !project) return null
+	if (!project.user || !project) return null
 
 	return (
 		<div className={styles.cardContainer}>
-			<Link to={`/projects/${project.id}`} className={styles.cardImgContainer}>
+			<Link
+				to={`/projects/${project.id}`}
+				className={`${styles.cardImgContainer} ${
+					theme === 'light' ? styles.light : ''
+				}`}
+			>
 				<span className={styles.cardTitle}>{project.title}</span>
 				<img
 					src={project.image}
@@ -53,21 +63,28 @@ const Card = ({ project }) => {
 				/>
 			</Link>
 			<div className={styles.textContainer}>
-				<Link to={`/users/${user.id}`} className={styles.profileImg}>
-					<img src={user.image} alt={user.userName} />
-					<span>{user.userName}</span>
+				<Link
+					to={`/users/${project.user.id}`}
+					className={`${styles.profileImg} ${
+						theme === 'light' ? 'text-dark' : 'text-light'
+					}`}
+				>
+					<img src={project.user.image} alt={project.user.userName} />
+					<span className={styles.name}>{project.user.userName}</span>
 				</Link>
-				<div>
-					<span>
-						{likes}
-						<button
-							onClick={toggleLike}
-							className={liked ? styles.liked : styles.notLiked}
-						>
-							Like
-						</button>
-					</span>
+				<div onClick={toggleLike} className={styles.likeButton}>
+					<span>{likes}</span>
+					<ThumbsUp
+						className={theme === 'light' ? 'text-dark' : 'text-light'}
+						fill={liked ? (theme === 'light' ? '#343a40' : '#f8f9fa') : 'none'}
+						size={14}
+					/>
 				</div>
+			</div>
+			<div className={styles.tagsContainer}>
+				{project.tags.map((t) => (
+					<span key={t.id}>#{t.tagName}</span>
+				))}
 			</div>
 		</div>
 	)

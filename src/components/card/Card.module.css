@@ -1,20 +1,21 @@
 .cardContainer {
-    width: 100%;
-    height: 100%
+	width: 100%;
+	height: 100%;
 }
 
 .cardImgContainer {
 	width: 100%;
 	height: 260px;
-    max-height: 300px;
+	max-height: 300px;
 	margin-bottom: 0.5rem;
 	border-radius: 0.25rem;
 	background-color: black;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 	overflow: hidden;
-	box-shadow: 0px 1px 5px -2px rgba(0, 0, 0, 0.29);
+	box-shadow: 0 0 3px rgba(105, 105, 105, 0.29);
 }
 
 .cardImg {
@@ -25,36 +26,53 @@
 }
 
 .cardTitle {
-    padding: 1rem;
-    color: white;
-    font-weight: 600;
-    position: absolute;
-
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 100;
+	margin: 1rem;
+	color: white;
+	font-weight: 800;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	text-shadow: 0 0 1rem rgba(0,0,0,0.75);
+	z-index: 100;
 }
 
 .textContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+	width: 100%;
+	font-size: 0.9rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.name:hover {
+	border-bottom: 1px solid;
 }
 
 .profileImg img {
 	width: 1.25rem;
 	height: 1.25rem;
-    margin-right: .5rem;
+	margin-right: 0.5rem;
 	border-radius: 50%;
 }
 
-.liked {
-    color: red;
+.likeButton {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.25rem;
 }
 
-.notLiked {
-    color: green;
+.tagsContainer {
+	width: 100%;
+	margin-left: 1.75rem;
+	font-size: .75rem;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: .25rem;
+	cursor: pointer;
 }
 
 .cardImgContainer:hover .cardImg {
@@ -63,8 +81,4 @@
 
 .cardImgContainer:hover .cardTitle {
 	opacity: 1;
-}
-
-.cardTitle:hover {
-	text-decoration: underline;
 }

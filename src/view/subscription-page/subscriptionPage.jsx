@@ -11,8 +11,8 @@ const SubscriptionPage = () => {
 	const displayProduct = {
 		title: 'Premium',
 		quantity: 1,
-		unit_price: 2000,
-		discount: 40,
+		unit_price: 40,
+		discount: 99,
 		id: loggedUser?.id,
 	}
 

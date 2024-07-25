@@ -18,7 +18,6 @@ import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
-
 axios.defaults.baseURL = BACK_URL_BASE_FULL
 // axios.defaults.baseURL = DEPLOY_BACK_URL_BASE_FULL
 
@@ -36,6 +35,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 		clientId={AUTH0_CLIENT_ID}
 		redirectUri={FRONT_URL_BASE_FULL}
 		onRedirectCallback={onRedirectCallback}
+		audience="YOUR_API_IDENTIFIER"
+		scope="openid profile email"
 	>
 		<Provider store={store}>
 			<BrowserRouter>
