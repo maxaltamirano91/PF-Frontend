@@ -8,7 +8,6 @@ const HomePage = () => {
 	const dispatch = useDispatch()
 	const { allProjects } = useSelector((state) => state.projects)
 	const [renderingCards, setRenderingCards] = useState(15)
-	const loggedUser = useSelector((state) => state.auth.loggedUser);
 	const [searchParams, setSearchParams] = useState({
 		title: '',
 		tags: '',

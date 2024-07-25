@@ -23,10 +23,14 @@ const Selector = ({ onTechnologyChange, selectedTechnologies }) => {
 	const toggleDropdown = () => setDropdownOpen(!dropdownOpen)
 
 	return (
-		<div className={`${styles.selectContainer} dropdown`}>
+		<div
+			className={`${theme === 'dark' ? '' : 'border'} ${
+				styles.selectContainer
+			} dropdown`}
+			style={theme === 'dark' ? {} : { backgroundColor: '#f8f9fa' }}
+		>
 			<div
-				className="dropdown-toggle"
-				style={theme === 'dark' ? {} : { backgroundColor: '#f8f9fa' }}
+				className={`${styles.select} dropdown-toggle`}
 				aria-expanded={dropdownOpen}
 				onClick={toggleDropdown}
 			>
