@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getUserProfile, cancelSubscription } from '../../redux/actions';
 import { Link } from 'react-router-dom';
 import Cards from '../../components/cards/Cards';
+import Tabs from './components/Tabs';
 import styles from './ProfilePage.module.css';
+import { Pencil } from 'lucide-react';
 
 const ProfilePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -31,6 +33,40 @@ const ProfilePage = () => {
 
   if (!loggedUser) return <div>Loading ...</div>;
 
+  const tabs = [
+    {
+      key: 'projects',
+      label: 'Proyectos',
+      content: (
+        <div>
+          <div className={styles.projectsHeader}>
+            <h1>Proyectos:</h1>
+            {loggedUser.planName !== 'Premium' && (
+              <Link to="/subscription">
+                <button className={`btn ${styles['btn-dark-blue']}`}>Actualizar a PRO</button>
+              </Link>
+            )}
+          </div>
+          <div className={styles.cardsContainer}>
+            <Cards projects={loggedUser.projects} displayButtons={true} />
+          </div>
+        </div>
+      )
+    },
+    {
+      key: 'archived',
+      label: 'Archivados',
+      content: (
+        <div>
+          <h1>Proyectos Archivados:</h1>
+          <div className={styles.cardsContainer}>
+            <Cards projects={loggedUser.archivedProjects} displayButtons={false} />
+          </div>
+        </div>
+      )
+    }
+  ];
+
   return (
     <div>
       <div className={styles.banner}>
@@ -45,20 +81,22 @@ const ProfilePage = () => {
               alt={loggedUser.userName}
             />
           </div>
+          
           <div className={styles.cardBody}>
             <h2 className="card-title">{loggedUser.userName}</h2>
             <p className="card-text">{loggedUser.email}</p>
             <p className="card-text">{loggedUser.bio}</p>
+            <p className="card-text">{loggedUser.role}</p>
             <hr />
-            <Link to="/myprofile/myfiledproj">
-              <button className={styles.btnCustom}>Archivados</button>
+            <Link to="/create">
+              <button className={styles.btnCustom}>Crear proyecto</button>
             </Link>
-            {loggedUser && (
-              <Link to="/create">
-                <button className={styles.btnCustom}>Crear proyecto</button>
-              </Link>
-            )}
-            {loggedUser.planName === 'Premium' ? (
+            <Link to="/modUser">
+              <button className={styles.btnCustom}>
+                <Pencil /> Editar perfil
+              </button>
+            </Link>
+            {loggedUser.planName === 'Premium' && (
               <>
                 <button
                   className={styles.btnCustom}
@@ -110,19 +148,12 @@ const ProfilePage = () => {
                   </div>
                 </div>
               </>
-            ) : (
-              <Link to="/subscription">
-                <button className={styles.btnCustom}>Subscribirse</button>
-              </Link>
             )}
             {error && <p className={styles.error}>{error}</p>}
           </div>
         </div>
         <div className={styles.profileContent}>
-          <h1>Proyectos:</h1>
-          <div className={styles.cardsContainer}>
-            <Cards projects={loggedUser.projects} displayButtons={true} />
-          </div>
+          <Tabs tabs={tabs} />
         </div>
       </div>
     </div>

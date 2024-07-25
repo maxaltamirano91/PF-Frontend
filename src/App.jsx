@@ -25,6 +25,8 @@ import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
 import DeletedProjectDetailPage from './view/deleted-project-detail-page/DeletedProjectDetailPage'
 
 import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
+import LandingPage from './view/landing-page/LandingPage'
+
 
 function App() {
 	const { isLoading } = useAuth0()
@@ -39,10 +41,11 @@ function App() {
 				<NavBarExtended />
 				<div className='App-Container'>
 					<Routes>
-						<Route path="/" element={<PremiumPage />} />
+						<Route path="/premium" element={<PremiumPage />} />
 						<Route path="/home" element={<HomePage />} />
 						<Route path="/explorer/users" element={<UsersPage />} />
 						<Route path="/myprofile" element={<ProfilePage />} />
+						<Route path="/" element={<LandingPage />} />
 
 						<Route path="/create" element={<CreateProjectPage />} />
 						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
