@@ -64,6 +64,17 @@
 	gap: 0.25rem;
 }
 
+.tagsContainer {
+	width: 100%;
+	margin-left: 1.75rem;
+	font-size: .75rem;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: .25rem;
+	cursor: pointer;
+}
+
 .cardImgContainer:hover .cardImg {
 	opacity: 0.75;
 }
