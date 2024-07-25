@@ -1,4 +1,4 @@
-import "./App.css"
+import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -39,7 +39,7 @@ function App() {
 		<>
 			<div className="App">
 				<NavBarExtended />
-				<div className='App-Container'>
+				<div className="App-Container">
 					<Routes>
 						<Route path="/premium" element={<PremiumPage />} />
 						<Route path="/home" element={<HomePage />} />
@@ -49,7 +49,8 @@ function App() {
 
 						<Route path="/create" element={<CreateProjectPage />} />
 						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-						<Route path="/dashboard/:data" element={<AdminView />} />
+
+						<Route path="/dashboard" element={<AdminView />} />
 						<Route path="/modUser" element={<UpdateUserPage />} />
 						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 						<Route path="/projects/:id" element={<ProjectDetailPage />} />
