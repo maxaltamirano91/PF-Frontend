@@ -81,6 +81,11 @@ const Card = ({ project }) => {
 					/>
 				</div>
 			</div>
+			<div className={styles.tagsContainer}>
+				{project.tags.map((t) => (
+					<span key={t.id}>#{t.tagName}</span>
+				))}
+			</div>
 		</div>
 	)
 }

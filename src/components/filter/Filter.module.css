@@ -1,61 +1,50 @@
-.section {
+.container {
+    width: 100%;
+    padding: 2rem;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
-.selectsContainer {
-    color-scheme: light;
+.searchContainer {
+    width: 75%;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .searchContainer input {
-    height: 39px;
-    border-radius: 6px;
-    border-color: #a8a8a88e;
-    color-scheme: light;
-    padding: 0 12px;
+    width: 100%;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 99999px;
+    display: flex;
+    align-items: center;
+}
+
+.searchContainer div {
+    padding: .5rem 2rem;
+    border-radius: 99999px;
     font-weight: 600;
-}
-
-.searchContainer input:focus {
-    border-color: #0099ff;
-    outline: none;
-    border-width: 3px;
-}
-
-.searchContainer input::placeholder {
-    color: #a8a8a8;
-    font-weight: 400;
-}
-
-.btnContainer button {
-    margin: 0;
-    border-color: #a8a8a88e;
-    color: gray;
-}
-
-.btnContainer button:hover {
-    text-decoration: none;
-}
-
-.sortButtons button {
-    margin: 0 5px;
-    padding: 8px 16px;
-    border: 1px solid #a8a8a88e;
-    background-color: white;
-    color: gray;
+    position: absolute;
+    right: 1%;
     cursor: pointer;
-    border-radius: 4px;
 }
 
-.sortButtons button.selected {
-    background-color: #0099ff;
-    color: white;
+.selectContainer {
+    width: 11%;
+    padding: 1rem 2.5rem;
+    text-align: center;
+    border-radius: 99999px;
 }
 
-.sortButtons button:hover {
-    background-color: #007acc;
-    color: white;
+.selectContainer select {
+    width: 100%;
+    height: 100%;
+}
+
+.sortContainer {
+    width: 11%;
+    padding: 1rem;
+    text-align: center;
 }
