@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllProjects } from '../../redux/actions'
+import { getAllProjects, toggleProjectLike } from '../../redux/actions'
 import Filter from '../../components/filter/Filter'
 import Cards from '../../components/cards/Cards'
 
 const HomePage = () => {
 	const dispatch = useDispatch()
 	const { allProjects } = useSelector((state) => state.projects)
+	const { loggedUser, token } = useSelector((state) => state.auth)
 	const [renderingCards, setRenderingCards] = useState(15)
 	const [searchParams, setSearchParams] = useState({
 		title: '',
@@ -24,22 +25,17 @@ const HomePage = () => {
 		}
 	}
 
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll)
-		return () => window.removeEventListener('scroll', handleScroll)
-	}, [])
-
-	useEffect(() => {
-		dispatch(
-			getAllProjects(
-				renderingCards,
-				searchParams.title,
-				searchParams.tags,
-				searchParams.technologies,
-				searchParams.sort
+	const toggleLike = (project) => {
+		if (loggedUser && project) {
+			dispatch(
+				toggleProjectLike(
+					{ projectId: project.id, userId: loggedUser.id },
+					{ pagination: renderingCards, ...searchParams },
+					token
+				)
 			)
-		)
-	}, [dispatch, renderingCards, searchParams])
+		}
+	}
 
 	const updateSearchParams = (newParams) => {
 		setSearchParams((prevParams) => ({
@@ -49,10 +45,19 @@ const HomePage = () => {
 		setRenderingCards(15) // Reset renderingCards to initial value when search parameters change
 	}
 
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
+
+	useEffect(() => {
+		dispatch(getAllProjects({ pagination: renderingCards, ...searchParams }, token))
+	}, [dispatch, renderingCards, searchParams])
+
 	return (
 		<div className="mx-auto">
 			<Filter updateSearchParams={updateSearchParams} />
-			<Cards projects={allProjects} />
+			<Cards projects={allProjects} toggleLike={toggleLike} />
 		</div>
 	)
 }
