@@ -41,9 +41,7 @@ function App() {
 					<Routes>
 						<Route path="/" element={<PremiumPage />} />
 						<Route path="/home" element={<HomePage />} />
-						{/* // ? Explorer -- */}
 						<Route path="/explorer/users" element={<UsersPage />} />
-						{/* --- ---- */}
 						<Route path="/myprofile" element={<ProfilePage />} />
 
 						<Route path="/create" element={<CreateProjectPage />} />
@@ -60,14 +58,10 @@ function App() {
 							path="/myprofile/myfiledproj/:id"
 							element={<DeletedProjectDetailPage />}
 						/>
-
 						<Route path="/premium" element={<PremiumPage />} />
-
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/register" element={<RegisterPage />} />
-
 						<Route path="/*" element={<NotFoundPage />} />
-
 						<Route path="/subscription" element={<SubscriptionPage />} />
 						<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
 						<Route path="/paymentFailure" element={<PaymentFailurePage />} />
