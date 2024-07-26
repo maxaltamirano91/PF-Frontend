@@ -12,6 +12,8 @@ import {
 	GET_DELETED_PROJ,
 	GET_DELETED_PROJECTS,
 	RESTORE_PROJECT,
+	UPDATE_PROJECT_BY_ID,
+  	DELETE_PROJECT_BY_ID,
 } from '../types'
 
 const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
@@ -231,5 +233,29 @@ export const uploadImage = (image) => {
 				payload: error.message,
 			})
 		}
+	}
+}
+
+export const deleteProjectById = (projectId, token) => async (dispatch) => {
+	try {
+		await axios.delete(`/projects/${projectId}`, {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+		dispatch({ type: DELETE_PROJECT_BY_ID, payload: projectId })
+		dispatch(getAllProjects())
+	} catch (error) {
+		console.error('Error deleting project:', error)
+	}
+}
+
+export const updateProjectById = (projectData, token) => async (dispatch) => {
+	try {
+		const response = await axios.put(`/projects/${projectData.id}`, projectData, {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+		dispatch({ type: UPDATE_PROJECT_BY_ID, payload: response.data })
+		dispatch(getAllProjects())
+	} catch (error) {
+		console.error('Error updating project:', error)
 	}
 }

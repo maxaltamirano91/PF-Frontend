@@ -8,6 +8,8 @@ import {
 	GET_DELETED_PROJ,
 	GET_DELETED_PROJECTS,
 	RESTORE_PROJECT,
+	UPDATE_PROJECT_BY_ID,
+	DELETE_PROJECT_BY_ID,
 } from '../types'
 
 const initialState = {
@@ -74,6 +76,18 @@ const projectsReducer = (state = initialState, action) => {
 					(p) => p.id !== action.payload.id
 				),
 			}
+			case UPDATE_PROJECT_BY_ID:
+				return {
+					...state,
+					allProjects: state.allProjects.map((project) =>
+						project.id === action.payload.id ? action.payload : project
+					),
+				}
+			case DELETE_PROJECT_BY_ID:
+				return {
+					...state,
+					allProjects: state.allProjects.filter((project) => project.id !== action.payload),
+				}
 
 		default:
 			return state
