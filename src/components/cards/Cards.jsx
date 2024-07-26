@@ -2,6 +2,7 @@ import styles from './Cards.module.css'
 import Card from '../card/Card'
 
 const Cards = ({ projects, toggleLike }) => {
+	console.log(projects);
 	return (
 		<div className={styles.cards}>
 			{projects?.length ? (

@@ -7,18 +7,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'
 
 const AdminViewProjects = ({ searchQuery }) => {
 	const dispatch = useDispatch()
-	const token = useSelector((state) => state.auth.token)
-	const projects = useSelector((state) => state.projects.allProjects)
-	console.log(projects)
+	const { token } = useSelector((state) => state.auth)
+	const { allProjects } = useSelector((state) => state.projects)
 
 	const [displayPagination, setDisplayPagination] = useState(true)
 	const [renderingCards, setRenderingCards] = useState(15)
 
-	useEffect(() => {
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, token, renderingCards])
-
-	const filteredProjects = projects.filter(
+	const filteredProjects = allProjects.filter(
 		(project) =>
 			project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			project.tags.some((tag) =>
@@ -31,12 +26,16 @@ const AdminViewProjects = ({ searchQuery }) => {
 	)
 
 	const handlePagination = () => {
-		if (projects.length >= renderingCards) {
+		if (allProjects.length >= renderingCards) {
 			setRenderingCards((prevCount) => prevCount + 15)
 		} else {
 			setDisplayPagination(false)
 		}
 	}
+
+	useEffect(() => {
+		dispatch(getAllProjects(renderingCards))
+	}, [dispatch, token, renderingCards])
 
 	return (
 		<SectionStyled className="ListProjects">
