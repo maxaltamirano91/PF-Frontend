@@ -1,22 +1,27 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserProfile, cancelSubscription } from '../../redux/actions'
+import {
+	getUserProfile,
+	cancelSubscription,
+	getDeletedProjects,
+	restoreDeletedProject,
+} from '../../redux/actions'
 import { Link } from 'react-router-dom'
 import Cards from '../../components/cards/Cards'
 import Tabs from './components/Tabs'
 import styles from './ProfilePage.module.css'
 import { Pencil } from 'lucide-react'
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
 
 const ProfilePage = () => {
-	const [showModal, setShowModal] = useState(false)
 	const dispatch = useDispatch()
+	const [showModal, setShowModal] = useState(false)
+	const [projects, setProjects] = useState([])
 	const { token, loggedUser } = useSelector((state) => state.auth)
 	const { loading, error } = useSelector((state) => state.subscription)
+	const { deletedProjects } = useSelector((state) => state.projects)
 
-	useEffect(() => {
-		dispatch(getUserProfile(token))
-	}, [dispatch, token,])
-	console.log(loggedUser)
 	const handleUnsubscribe = () => {
 		setShowModal(true)
 	}
@@ -27,6 +32,28 @@ const ProfilePage = () => {
 			setShowModal(false)
 		})
 	}
+
+	const handleRestore = (projectId) => {
+		dispatch(restoreDeletedProject(projectId, token)).then(() => {
+			Toastify({
+				text: 'Proyecto restaurado',
+				duration: 3000,
+				close: true,
+				gravity: 'top',
+				position: 'center',
+				backgroundColor: '#4CAF50',
+				stopOnFocus: true,
+			}).showToast()
+			dispatch(getUserProfile(token))
+			setProjects(loggedUser.projects)
+		})
+	}
+
+	useEffect(() => {
+		dispatch(getUserProfile(token))
+		dispatch(getDeletedProjects(token))
+		setProjects(loggedUser.projects)
+	}, [dispatch, token, projects])
 
 	if (!loggedUser) return <div>Loading ...</div>
 
@@ -47,7 +74,7 @@ const ProfilePage = () => {
 						)}
 					</div>
 					<div className={styles.cardsContainer}>
-						<Cards projects={loggedUser?.projects} displayButtons={true} />
+						<Cards projects={loggedUser.projects} />
 					</div>
 				</div>
 			),
@@ -59,10 +86,7 @@ const ProfilePage = () => {
 				<div>
 					<h1>Proyectos Archivados:</h1>
 					<div className={styles.cardsContainer}>
-						<Cards
-							projects={loggedUser.archivedProjects}
-							displayButtons={false}
-						/>
+						<Cards projects={deletedProjects} onRestore={handleRestore} />
 					</div>
 				</div>
 			),
