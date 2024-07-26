@@ -75,10 +75,27 @@
 	cursor: pointer;
 }
 
+.restore {
+	padding: .25rem 1rem;
+	border-radius: 9999px;
+	color: black;
+	background-color: white;
+	position: absolute;
+	top: 1rem;
+	right: 1.5rem;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	z-index: 100;
+}
+
 .cardImgContainer:hover .cardImg {
 	opacity: 0.75;
 }
 
-.cardImgContainer:hover .cardTitle {
+.restore:hover {
+	background-color: #dee2e6;
+}
+
+.cardImgContainer:hover .cardTitle, .cardImgContainer:hover .restore {
 	opacity: 1;
 }
