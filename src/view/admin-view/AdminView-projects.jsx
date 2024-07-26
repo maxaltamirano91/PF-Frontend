@@ -1,41 +1,68 @@
-import styled from 'styled-components'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getAllProjects } from '../../redux/actions'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min'
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	getAllProjects,
+	updateProjectById,
+	deleteProjectById,
+} from '../../redux/actions';
+import EditProjectModal from './EditProjectModal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const AdminViewProjects = ({ searchQuery }) => {
-	const dispatch = useDispatch()
-	const { token } = useSelector((state) => state.auth)
-	const { allProjects } = useSelector((state) => state.projects)
+	const dispatch = useDispatch();
+	const token = useSelector((state) => state.auth.token);
+	const projects = useSelector((state) => state.projects.allProjects);
+	const { technologies } = useSelector((state) => state.technologies); // Obtén las tecnologías del estado
 
-	const [displayPagination, setDisplayPagination] = useState(true)
-	const [renderingCards, setRenderingCards] = useState(15)
+	const [showModal, setShowModal] = useState(false);
+	const [selectedProject, setSelectedProject] = useState(null);
+	const [renderingCards, setRenderingCards] = useState(15);
+	const [displayPagination, setDisplayPagination] = useState(true);
 
-	const filteredProjects = allProjects.filter(
+	useEffect(() => {
+		dispatch(getAllProjects({ pagination: renderingCards }));
+	}, [dispatch, renderingCards]);
+
+	const handleEdit = (project) => {
+		setSelectedProject(project);
+		setShowModal(true);
+	};
+
+	const handleSave = async (formData) => {
+		console.log('FormData to send:', Object.fromEntries(formData));
+		await dispatch(updateProjectById(formData, token));
+		setShowModal(false);
+		dispatch(getAllProjects({ pagination: renderingCards }));
+	};
+
+	const handleDelete = async (projectId) => {
+		if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
+			await dispatch(deleteProjectById(projectId, token));
+			dispatch(getAllProjects({ pagination: renderingCards }));
+		}
+	};
+
+	const filteredProjects = projects.filter(
 		(project) =>
 			project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			project.tags.some((tag) =>
-				tag.toLowerCase().includes(searchQuery.toLowerCase())
+				tag.tagName.toLowerCase().includes(searchQuery.toLowerCase())
 			) ||
 			project.id.toString().includes(searchQuery) ||
 			project.technologies.some((tech) =>
 				tech.name.toLowerCase().includes(searchQuery.toLowerCase())
 			)
-	)
+	);
 
 	const handlePagination = () => {
-		if (allProjects.length >= renderingCards) {
-			setRenderingCards((prevCount) => prevCount + 15)
+		if (projects.length >= renderingCards) {
+			setRenderingCards((prevCount) => prevCount + 15);
 		} else {
-			setDisplayPagination(false)
+			setDisplayPagination(false);
 		}
-	}
-
-	useEffect(() => {
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, token, renderingCards])
+	};
 
 	return (
 		<SectionStyled className="ListProjects">
@@ -54,7 +81,11 @@ const AdminViewProjects = ({ searchQuery }) => {
 								>
 									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
 										<div className="title">{project.title}</div>
-										<div className="tags">{project.tags.join(', ')}</div>
+										<div className="tags">
+											{project.tags
+												.map((tag) => <span key={tag.id}>{tag.tagName}</span>)
+												.reduce((prev, curr) => [prev, ', ', curr])}
+										</div>
 										<div className="id">{project.id}</div>
 									</div>
 								</span>
@@ -78,12 +109,14 @@ const AdminViewProjects = ({ searchQuery }) => {
 										<button
 											type="button"
 											className="btn btn-outline-primary mb-0"
+											onClick={() => handleEdit(project)}
 										>
 											Editar
 										</button>
 										<button
 											type="button"
 											className="btn btn-outline-danger mb-0"
+											onClick={() => handleDelete(project.id)}
 										>
 											Eliminar
 										</button>
@@ -96,18 +129,27 @@ const AdminViewProjects = ({ searchQuery }) => {
 					<p>No hay proyectos disponibles</p>
 				)}
 			</div>
-			{displayPagination && (
-				<button className="btn btn-secondary" onClick={handlePagination}>
-					Cargar más
-				</button>
+			{displayPagination ? (
+				<div>
+					<button onClick={handlePagination}>Ver más</button>
+				</div>
+			) : (
+				<p>No hay más proyectos</p>
+			)}
+			{selectedProject && (
+				<EditProjectModal
+					show={showModal}
+					handleClose={() => setShowModal(false)}
+					project={selectedProject}
+					handleSave={handleSave}
+					technologies={technologies} 
+				/>
 			)}
 		</SectionStyled>
-	)
-}
+	);
+};
 
-export default AdminViewProjects
-
-// ? Styles
+export default AdminViewProjects;
 
 const SectionStyled = styled.section`
 	span.item {
@@ -115,4 +157,4 @@ const SectionStyled = styled.section`
 			background-color: #a7abab39;
 		}
 	}
-`
+`;
