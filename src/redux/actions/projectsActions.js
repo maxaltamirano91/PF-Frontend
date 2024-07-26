@@ -111,7 +111,7 @@ export const createProject = (projectData, token) => {
 export const updateProject = (dataToSubmit, token) => {
 	return async function (dispatch) {
 		try {
-			console.log('Token being used:', token) // Log the token
+			console.log('Token being used:', token) 
 			const { data } = await axios.put(
 				`/projects/${dataToSubmit.id}`,
 				dataToSubmit,
