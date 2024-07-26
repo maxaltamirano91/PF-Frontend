@@ -42,7 +42,7 @@ const HomePage = () => {
 			...prevParams,
 			...newParams,
 		}))
-		setRenderingCards(15) // Reset renderingCards to initial value when search parameters change
+		setRenderingCards(15)
 	}
 
 	useEffect(() => {
