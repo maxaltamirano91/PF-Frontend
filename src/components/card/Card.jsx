@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 
 const Card = ({ project, toggleLike }) => {
 	const { theme } = useSelector((state) => state.themes)
-
 	if (!project.user || !project) return null
 
 	return (
