@@ -2,6 +2,7 @@ import styles from './UsersPage.module.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers } from '../../redux/actions'
+import { Link } from 'react-router-dom'
 
 const UsersPage = () => {
 	const dispatch = useDispatch()
@@ -48,17 +49,19 @@ const UsersPage = () => {
 			</div>
 			<div className={styles.cardContainer}>
 				{sortedUsers.map((user) => (
-					<div className={styles.userCard} key={user.id}>
-						<img
-							src={user.image}
-							alt={user.userName}
-							className={styles.userImage}
-						/>
-						<div className={styles.userDetails}>
-							<h3>{user.userName}</h3>
-							<p>{user.email}</p>
+					<Link to={`/users/${user.id}`}>
+						<div className={styles.userCard} key={user.id}>
+							<img
+								src={user.image}
+								alt={user.userName}
+								className={styles.userImage}
+							/>
+							<div className={styles.userDetails}>
+								<h3>{user.userName}</h3>
+								<p>{user.email}</p>
+							</div>
 						</div>
-					</div>
+					</Link>
 				))}
 			</div>
 		</div>

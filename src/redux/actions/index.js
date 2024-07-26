@@ -7,3 +7,4 @@ export * from "./themesActions"
 export * from "./usersActions"
 export * from "./subscriptionActions"
 export * from "./likesActions"
+export * from './contractActions'

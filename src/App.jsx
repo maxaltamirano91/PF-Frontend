@@ -27,7 +27,6 @@ import DeletedProjectDetailPage from './view/deleted-project-detail-page/Deleted
 // import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
 import LandingPage from './view/landing-page/LandingPage'
 
-
 function App() {
 	const { isLoading } = useAuth0()
 
@@ -45,6 +44,7 @@ function App() {
 						<Route path="/home" element={<HomePage />} />
 						<Route path="/explorer/users" element={<UsersPage />} />
 						<Route path="/myprofile" element={<ProfilePage />} />
+						<Route path="/users/:id" element={<ProfilePage />} />
 						<Route path="/" element={<LandingPage />} />
 
 						<Route path="/create" element={<CreateProjectPage />} />
