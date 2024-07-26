@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getUserProfile, createPreference } from '../../redux/actions'
+import { createPreference } from '../../redux/actions'
 import PaymentButton from '../../components/payment-button/PaymentButton'
 
 const SubscriptionPage = () => {
 	const dispatch = useDispatch()
-	const { loggedUser, token } = useSelector((state) => state.auth)
+	const { token } = useSelector((state) => state.auth)
 	const { preferenceId } = useSelector((state) => state.subscription)
 
 	const displayProduct = {
@@ -13,33 +13,29 @@ const SubscriptionPage = () => {
 		quantity: 1,
 		unit_price: 40,
 		discount: 99,
-		id: loggedUser?.id,
 	}
 
 	const subtotal = displayProduct?.unit_price
-	const discountAmount = (displayProduct?.unit_price * displayProduct?.discount) / 100
+	const discountAmount =
+		(displayProduct?.unit_price * displayProduct?.discount) / 100
 	const total = subtotal - discountAmount
 
 	const product = {
 		title: 'Premium',
 		quantity: 1,
 		unit_price: total,
-		id: loggedUser?.id,
 	}
 
 	useEffect(() => {
-		dispatch(getUserProfile(token))
-	}, [dispatch, token])
-
-	useEffect(() => {
-		if (loggedUser) {
-			dispatch(createPreference(product))
-		}
-	}, [dispatch, loggedUser])
+		dispatch(createPreference(product, token))
+	}, [dispatch])
 
 	const amounts = [
 		{ label: 'Subtotal', value: subtotal },
-		{ label: `Descuento (${product?.discount}%)`, value: -discountAmount },
+		{
+			label: `Descuento (${displayProduct?.discount}%)`,
+			value: -discountAmount,
+		},
 	]
 
 	return (
