@@ -78,12 +78,13 @@ const projectsReducer = (state = initialState, action) => {
 			};
 
 			case UPDATE_PROJECT_BY_ID:
-				return {
-					...state,
-					allProjects: state.allProjects.map((project) =>
-						project.id === action.payload.id ? action.payload : project
-					),
-				};
+            return {
+                ...state,
+                allProjects: state.allProjects.map((project) =>
+                    project.id === action.payload.id ? action.payload : project
+                ),
+            };
+
 
 		case DELETE_PROJECT_BY_ID:
 			return {

@@ -1,47 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	getAllProjects,
 	updateProjectById,
 	deleteProjectById,
-} from '../../redux/actions'
-import EditProjectModal from './EditProjectModal'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min'
+} from '../../redux/actions';
+import EditProjectModal from './EditProjectModal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const AdminViewProjects = ({ searchQuery }) => {
-	const dispatch = useDispatch()
-	const token = useSelector((state) => state.auth.token)
-	const projects = useSelector((state) => state.projects.allProjects)
+	const dispatch = useDispatch();
+	const token = useSelector((state) => state.auth.token);
+	const projects = useSelector((state) => state.projects.allProjects);
+	const { technologies } = useSelector((state) => state.technologies); // Obtén las tecnologías del estado
 
-	const [showModal, setShowModal] = useState(false)
-	const [selectedProject, setSelectedProject] = useState(null)
-	const [renderingCards, setRenderingCards] = useState(15)
-	const [displayPagination, setDisplayPagination] = useState(true)
+	const [showModal, setShowModal] = useState(false);
+	const [selectedProject, setSelectedProject] = useState(null);
+	const [renderingCards, setRenderingCards] = useState(15);
+	const [displayPagination, setDisplayPagination] = useState(true);
 
 	useEffect(() => {
 		dispatch(getAllProjects({ pagination: renderingCards }));
-	}, [dispatch, token, renderingCards]);
-	
+	}, [dispatch, renderingCards]);
+
 	const handleEdit = (project) => {
-		setSelectedProject(project)
-		setShowModal(true)
-	}
+		setSelectedProject(project);
+		setShowModal(true);
+	};
 
 	const handleSave = async (formData) => {
-		const dataToSubmit = Object.fromEntries(formData.entries());
-		dispatch(updateProjectById(dataToSubmit, token));
+		console.log('FormData to send:', Object.fromEntries(formData));
+		await dispatch(updateProjectById(formData, token));
 		setShowModal(false);
+		dispatch(getAllProjects({ pagination: renderingCards }));
 	};
-	
 
 	const handleDelete = async (projectId) => {
 		if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
-			await dispatch(deleteProjectById(projectId, token)); 
-			dispatch(getAllProjects({ pagination: renderingCards })); 
+			await dispatch(deleteProjectById(projectId, token));
+			dispatch(getAllProjects({ pagination: renderingCards }));
 		}
-	}
+	};
 
 	const filteredProjects = projects.filter(
 		(project) =>
@@ -53,15 +54,15 @@ const AdminViewProjects = ({ searchQuery }) => {
 			project.technologies.some((tech) =>
 				tech.name.toLowerCase().includes(searchQuery.toLowerCase())
 			)
-	)
+	);
 
 	const handlePagination = () => {
 		if (projects.length >= renderingCards) {
-			setRenderingCards((prevCount) => prevCount + 15)
+			setRenderingCards((prevCount) => prevCount + 15);
 		} else {
-			setDisplayPagination(false)
+			setDisplayPagination(false);
 		}
-	}
+	};
 
 	return (
 		<SectionStyled className="ListProjects">
@@ -133,7 +134,7 @@ const AdminViewProjects = ({ searchQuery }) => {
 					<button onClick={handlePagination}>Ver más</button>
 				</div>
 			) : (
-				<p>Estos son todos los proyectos</p>
+				<p>No hay más proyectos</p>
 			)}
 			{selectedProject && (
 				<EditProjectModal
@@ -141,15 +142,14 @@ const AdminViewProjects = ({ searchQuery }) => {
 					handleClose={() => setShowModal(false)}
 					project={selectedProject}
 					handleSave={handleSave}
+					technologies={technologies} 
 				/>
 			)}
 		</SectionStyled>
-	)
-}
+	);
+};
 
-export default AdminViewProjects
-
-// ? Styles
+export default AdminViewProjects;
 
 const SectionStyled = styled.section`
 	span.item {
@@ -157,4 +157,4 @@ const SectionStyled = styled.section`
 			background-color: #a7abab39;
 		}
 	}
-`
+`;

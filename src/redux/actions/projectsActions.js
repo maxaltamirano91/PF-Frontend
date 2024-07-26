@@ -78,24 +78,35 @@ export const getProjectById = (id) => async (dispatch) => {
 
 export const createProject = (projectData, token) => {
 	return async (dispatch) => {
-		try {
-			const { data } = await axios.post('/projects', projectData, {
+	  try {
+		const transformedData = {
+		  ...projectData,
+		  tags: projectData.tags.map(tag => ({ tagName: tag.tagName || tag })), 
+		  technologies: projectData.technologies.map(tech => ({ name: tech })),
+		};
+		console.log('Datos a enviar:', transformedData);
+
+			const { data } = await axios.post('/projects', transformedData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
-			})
+			});
+
 			dispatch({
 				type: CREATE_PROJECT,
 				payload: data,
-			})
+			});
 		} catch (error) {
+			console.error('Error al crear el proyecto:', error.response ? error.response.data : error.message);
 			return dispatch({
 				type: FETCH_ERROR,
-				payload: error.message,
-			})
+				payload: error.response ? error.response.data : error.message,
+			});
 		}
-	}
-}
+	};
+};
+
+
 
 export const updateProject = (dataToSubmit, token) => {
 	return async function (dispatch) {
@@ -115,7 +126,7 @@ export const updateProject = (dataToSubmit, token) => {
 				payload: data,
 			})
 		} catch (error) {
-			console.error('Update project error:', error.response || error.message) // Log the error response
+			console.error('Update project error:', error.response || error.message) 
 			return dispatch({
 				type: FETCH_ERROR,
 				payload: error.response ? error.response.data : error.message,
@@ -246,20 +257,17 @@ export const deleteProjectById = (projectId, token) => async (dispatch) => {
 }
 
 export const updateProjectById = (formData, token) => async (dispatch) => {
-	try {
-		const response = await axios.put(
-			`/projects/${formData.get('id')}`,
-			formData,
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-					'Content-Type': 'multipart/form-data',
-				},
-			}
-		);
-		dispatch({ type: UPDATE_PROJECT_BY_ID, payload: response.data });
-		dispatch(getAllProjects()); // Assuming this action is to refresh the project list
-	} catch (error) {
-		console.error('Error updating project:', error);
-	}
+    try {
+        const response = await axios.put(
+            `/projects/${formData.get('id')}`,
+            formData,
+            {
+                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+            }
+        );
+        dispatch({ type: UPDATE_PROJECT_BY_ID, payload: response.data });
+    } catch (error) {
+        console.error('Error updating project:', error);
+    }
 };
+
