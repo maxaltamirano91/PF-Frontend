@@ -13,7 +13,7 @@ import {
 	GET_DELETED_PROJECTS,
 	RESTORE_PROJECT,
 	UPDATE_PROJECT_BY_ID,
-  	DELETE_PROJECT_BY_ID,
+	DELETE_PROJECT_BY_ID,
 } from '../types'
 
 const IMAGE_URL = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`
@@ -30,15 +30,13 @@ export const getAllProjects = (data, token) => {
 			if (technologies && technologies.length > 0)
 				params.append('technologies', technologies)
 			if (sort) params.append('sort', sort)
-				
-			const { data } = await axios.get(
-				`/projects?${params.toString()}`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
+			const { data } = token
+				? await axios.get(`/projects?${params.toString()}`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+				  })
+				: await axios.get(`/projects?${params.toString()}`)
 
 			dispatch({
 				type: FETCH_PROJECTS,
@@ -242,20 +240,26 @@ export const deleteProjectById = (projectId, token) => async (dispatch) => {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 		dispatch({ type: DELETE_PROJECT_BY_ID, payload: projectId })
-		dispatch(getAllProjects())
 	} catch (error) {
 		console.error('Error deleting project:', error)
 	}
 }
 
-export const updateProjectById = (projectData, token) => async (dispatch) => {
+export const updateProjectById = (formData, token) => async (dispatch) => {
 	try {
-		const response = await axios.put(`/projects/${projectData.id}`, projectData, {
-			headers: { Authorization: `Bearer ${token}` },
-		})
-		dispatch({ type: UPDATE_PROJECT_BY_ID, payload: response.data })
-		dispatch(getAllProjects())
+		const response = await axios.put(
+			`/projects/${formData.get('id')}`,
+			formData,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'multipart/form-data',
+				},
+			}
+		);
+		dispatch({ type: UPDATE_PROJECT_BY_ID, payload: response.data });
+		dispatch(getAllProjects()); // Assuming this action is to refresh the project list
 	} catch (error) {
-		console.error('Error updating project:', error)
+		console.error('Error updating project:', error);
 	}
-}
+};

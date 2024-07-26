@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllProjects, updateProjectById, deleteProjectById } from '../../redux/actions'
+import {
+	getAllProjects,
+	updateProjectById,
+	deleteProjectById,
+} from '../../redux/actions'
 import EditProjectModal from './EditProjectModal'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
@@ -14,40 +18,48 @@ const AdminViewProjects = ({ searchQuery }) => {
 	const [showModal, setShowModal] = useState(false)
 	const [selectedProject, setSelectedProject] = useState(null)
 	const [renderingCards, setRenderingCards] = useState(15)
+	const [displayPagination, setDisplayPagination] = useState(true)
 
 	useEffect(() => {
-		dispatch(getAllProjects(renderingCards))
-	}, [dispatch, token, renderingCards])
-
+		dispatch(getAllProjects({ pagination: renderingCards }));
+	}, [dispatch, token, renderingCards]);
+	
 	const handleEdit = (project) => {
 		setSelectedProject(project)
 		setShowModal(true)
 	}
 
-	const handleSave = (updatedProject) => {
-		dispatch(updateProjectById(updatedProject, token))
-		setShowModal(false)
-	}
+	const handleSave = async (formData) => {
+		const dataToSubmit = Object.fromEntries(formData.entries());
+		dispatch(updateProjectById(dataToSubmit, token));
+		setShowModal(false);
+	};
+	
 
-	const handleDelete = (projectId) => {
+	const handleDelete = async (projectId) => {
 		if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
-			dispatch(deleteProjectById(projectId, token))
+			await dispatch(deleteProjectById(projectId, token)); 
+			dispatch(getAllProjects({ pagination: renderingCards })); 
 		}
 	}
 
 	const filteredProjects = projects.filter(
 		(project) =>
 			project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			project.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+			project.tags.some((tag) =>
+				tag.tagName.toLowerCase().includes(searchQuery.toLowerCase())
+			) ||
 			project.id.toString().includes(searchQuery) ||
-			project.technologies.some((tech) => tech.name.toLowerCase().includes(searchQuery.toLowerCase()))
+			project.technologies.some((tech) =>
+				tech.name.toLowerCase().includes(searchQuery.toLowerCase())
+			)
 	)
 
 	const handlePagination = () => {
 		if (projects.length >= renderingCards) {
 			setRenderingCards((prevCount) => prevCount + 15)
 		} else {
-			setRenderingCards(false)
+			setDisplayPagination(false)
 		}
 	}
 
@@ -68,7 +80,11 @@ const AdminViewProjects = ({ searchQuery }) => {
 								>
 									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
 										<div className="title">{project.title}</div>
-										<div className="tags">{project.tags.join(', ')}</div>
+										<div className="tags">
+											{project.tags
+												.map((tag) => <span key={tag.id}>{tag.tagName}</span>)
+												.reduce((prev, curr) => [prev, ', ', curr])}
+										</div>
 										<div className="id">{project.id}</div>
 									</div>
 								</span>
@@ -82,7 +98,8 @@ const AdminViewProjects = ({ searchQuery }) => {
 									<div className="info">
 										<p>Description: {project.description}</p>
 										<p>
-											Technologies: {project.technologies.map((tech) => tech.name).join(', ')}
+											Technologies:{' '}
+											{project.technologies.map((tech) => tech.name).join(', ')}
 										</p>
 										<p>ID: {project.id}</p>
 									</div>
@@ -111,10 +128,12 @@ const AdminViewProjects = ({ searchQuery }) => {
 					<p>No hay proyectos disponibles</p>
 				)}
 			</div>
-			{renderingCards && (
-				<button className="btn btn-secondary" onClick={handlePagination}>
-					Cargar más
-				</button>
+			{displayPagination ? (
+				<div>
+					<button onClick={handlePagination}>Ver más</button>
+				</div>
+			) : (
+				<p>Estos son todos los proyectos</p>
 			)}
 			{selectedProject && (
 				<EditProjectModal

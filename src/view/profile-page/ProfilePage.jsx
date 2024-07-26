@@ -15,8 +15,8 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		dispatch(getUserProfile(token))
-	}, [dispatch, token])
-
+	}, [dispatch, token,])
+	console.log(loggedUser)
 	const handleUnsubscribe = () => {
 		setShowModal(true)
 	}
@@ -47,7 +47,7 @@ const ProfilePage = () => {
 						)}
 					</div>
 					<div className={styles.cardsContainer}>
-						<Cards projects={loggedUser.projects} displayButtons={true} />
+						<Cards projects={loggedUser?.projects} displayButtons={true} />
 					</div>
 				</div>
 			),
@@ -163,6 +163,7 @@ const ProfilePage = () => {
 			</div>
 		</div>
 	)
+	
 }
 
 export default ProfilePage
