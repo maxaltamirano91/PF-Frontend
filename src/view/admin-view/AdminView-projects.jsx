@@ -14,7 +14,7 @@ const AdminViewProjects = ({ searchQuery }) => {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.auth.token);
 	const projects = useSelector((state) => state.projects.allProjects);
-	const { technologies } = useSelector((state) => state.technologies); // Obtén las tecnologías del estado
+	const { technologies } = useSelector((state) => state.technologies); 
 
 	const [showModal, setShowModal] = useState(false);
 	const [selectedProject, setSelectedProject] = useState(null);
@@ -30,9 +30,9 @@ const AdminViewProjects = ({ searchQuery }) => {
 		setShowModal(true);
 	};
 
-	const handleSave = async (formData) => {
+	const handleSave = async (formData, id) => {
 		console.log('FormData to send:', Object.fromEntries(formData));
-		await dispatch(updateProjectById(formData, token));
+		await dispatch(updateProjectById(formData, id , token));
 		setShowModal(false);
 		dispatch(getAllProjects({ pagination: renderingCards }));
 	};

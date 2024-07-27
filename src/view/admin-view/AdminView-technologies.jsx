@@ -24,41 +24,7 @@ const AdminViewTechnologies = ({ searchQuery }) => {
 		<SectionStyled className="ListTechnologies">
 			<div className="accordion accordion-flush" id="accordionFlushExample">
 				<div className="accordion-item">
-					<h2 className="accordion-header">
-						<span
-							className="accordion-button collapsed "
-							type="button"
-							data-bs-toggle="collapse"
-							data-bs-target="#flush-collapseOne"
-							aria-expanded="false"
-							aria-controls="flush-collapseOne"
-						>
-							<span>+ Agregar Nueva Tech </span>
-						</span>
-					</h2>
-					<div
-						id="flush-collapseOne"
-						className="accordion-collapse collapse"
-						data-bs-parent="#accordionFlushExample"
-					>
-						<div className="card-body accordion-body card my-2">
-							<div className="form-floating mb-3">
-								<input
-									type="email"
-									className="form-control"
-									id="floatingInput"
-									placeholder="name@example.com"
-								/>
-								<label htmlFor="floatingInput">Nombre de la tecnología </label>
-							</div>
-							<hr />
-							<div className="actions d-flex justify-content-end gap-2">
-								<button type="button" className="btn btn-outline-success mb-0">
-									Crear Tech
-								</button>
-							</div>
-						</div>
-					</div>
+					<h2 className="accordion-header"></h2>
 				</div>
 
 				{filteredTechnologies && filteredTechnologies.length > 0 ? (
@@ -86,24 +52,10 @@ const AdminViewTechnologies = ({ searchQuery }) => {
 							>
 								<div className="card-body accordion-body card my-2">
 									<div className="info">
-										<p>Name: {tech.name}</p>
+										<p>{tech.name}</p>
 										<p>ID: {tech.id}</p>
 									</div>
 									<hr />
-									<div className="actions d-flex justify-content-end gap-2">
-										<button
-											type="button"
-											className="btn btn-outline-primary mb-0"
-										>
-											Editar
-										</button>
-										<button
-											type="button"
-											className="btn btn-outline-danger mb-0"
-										>
-											Eliminar
-										</button>
-									</div>
 								</div>
 							</div>
 						</div>

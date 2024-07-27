@@ -65,12 +65,12 @@ const EditProjectModal = ({ show, handleClose, project, handleSave, technologies
 
     const handleSubmit = async () => {
         const formData = new FormData();
-        formData.append('id', updatedProject.id);
+        console.log(tags, selectedTechs ,"SALAMALECO");
         formData.append('title', updatedProject.title);
         formData.append('description', updatedProject.description);
-        formData.append('tags', JSON.stringify(tags)); // Enviar como array de strings
-        formData.append('technologies', JSON.stringify(selectedTechs)); // Enviar como array de strings
-        
+        formData.append('tags', JSON.stringify(tags)); // Convert array to JSON string
+    formData.append('technologies', JSON.stringify(selectedTechs));
+
         if (file) {
             const url = 'https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3';
             try {
@@ -88,8 +88,7 @@ const EditProjectModal = ({ show, handleClose, project, handleSave, technologies
         } else {
             formData.append('image', imageURL);
         }
-    
-        await handleSave(formData);
+        await handleSave(formData,updatedProject.id);
         handleClose();
     };
 
