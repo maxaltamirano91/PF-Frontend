@@ -1,0 +1,74 @@
+.container {
+    padding: 3rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 3px rgba(105, 105, 105, 0.29);
+}
+.card {
+    padding-bottom: 2rem; 
+    width: 100%;
+    max-width: 60rem;
+    margin: auto;
+    
+}
+
+.header {
+    background-color:transparent;
+    text-align: center;
+}
+
+.inheritColor {
+    color: inherit;
+}
+
+.imageContainer {
+    margin-top: 20px;
+}
+
+.imagePreviewLabel {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.imagePreview {
+    max-width: 20rem;
+    max-height: 20rem;
+    object-fit: cover;
+}
+
+
+.techBadge {
+    background-color: transparent;
+    color: inherit;
+    font-size: 0.9rem;
+}
+
+.tagBadge {
+    background-color: #888585;
+    color: inherit;
+    font-size: 0.9rem;
+}
+
+.btnClose {
+    cursor: pointer;
+}
+
+.addButton {
+    margin-left: 10px;
+    background: #7474BF;  
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF); 
+    background: linear-gradient(to right, #348AC7, #7474BF); 
+    color: inherit;
+    border: 3px solid #eee;
+}
+
+.buttonLike{
+    background: #56ab2f;  
+    background: -webkit-linear-gradient(to right, #a8e063, #56ab2f); 
+    background: linear-gradient(to right, #a8e063, #56ab2f); 
+    color: #fff;
+    border: 3px solid #eee;
+}

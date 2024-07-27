@@ -129,6 +129,7 @@ const ProfilePage = () => {
 						<p className="card-text">{profileData?.email}</p>
 						<p className="card-text">{profileData?.bio}</p>
 						<p className="card-text">{profileData?.role}</p>
+						<p className="card-text">{profileData?.aboutMe}</p>
 						{!id && (
 							<>
 							<hr />
