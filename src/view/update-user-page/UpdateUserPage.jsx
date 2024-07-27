@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getUserById, updateUser, logoutUser, deleteProject, deleteUserById } from "../../redux/actions";
+import { getUserById, updateUser, logoutUser, deleteUserProfile } from "../../redux/actions";
 import styles from './UpdateUserPage.module.css';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -31,8 +31,9 @@ const validationSchema = Yup.object().shape({
 })
 
 const handleSubmit = async(values, {setSubmitting}) => {
-    const { userName, password, bio, image } = values;
-    const userData = { userName, password, bio, image };
+    const userData = Object.fromEntries(
+    Object.entries(values).filter(([key, value]) => value !== '')
+    )
 
     dispatch(updateUser(userData, token))
     setSubmitting(false)
@@ -41,9 +42,18 @@ const handleSubmit = async(values, {setSubmitting}) => {
     
 }
 
+const [finish, setFinish] = useState(false)
+const preFinishUser = () => {
+    setFinish(true)
+}
+
+const unFinish = () => {
+    setFinish(false)
+}
+
 const finishUser = () => {
-    dispatch(deleteUserById(user.id, token))
-    console.log("SALAMALECOMALECONSALÁ")
+    dispatch(deleteUserProfile(token))
+
     dispatch(logoutUser())
     navigate('/home')
 }
@@ -125,9 +135,19 @@ return (
                 </Form>)}
                 </Formik>
                 <br /><br />
-                <button className="btn btn-danger" onClick={finishUser} style={{width:"50%", fontWeight:"bold", fontSize:"20px", textDecoration:"none"}}>
+                <button className="btn btn-danger" onClick={preFinishUser} style={{width:"50%", fontWeight:"bold", fontSize:"20px", textDecoration:"none"}}>
                     Eliminar cuenta
+                </button> <br />
+                {finish ? <div>
+                <button className="btn btn-danger" onClick={finishUser} style={{fontWeight:"bold", fontSize:"20px", textDecoration:"none", margin:"0px 10px"}}>
+                    Confirmar
                 </button>
+
+                <button className="btn btn-primary" onClick={unFinish} style={{fontWeight:"bold", fontSize:"20px", textDecoration:"none", margin:"0px 10px"}}>
+                    Cancelar
+                </button>
+                </div> : null}
+                <br />
 
                     </div>
     </div>
