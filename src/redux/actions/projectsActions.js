@@ -113,7 +113,7 @@ export const updateProject = (dataToSubmit, token) => {
 		try {
 			console.log('Token being used:', token) 
 			const { data } = await axios.put(
-				`/projects/${dataToSubmit.id}`,
+				`/projects/profile/${dataToSubmit.id}`,
 				dataToSubmit,
 				{
 					headers: {
@@ -256,18 +256,48 @@ export const deleteProjectById = (projectId, token) => async (dispatch) => {
 	}
 }
 
-export const updateProjectById = (formData, token) => async (dispatch) => {
-    try {
-        const response = await axios.put(
-            `/projects/${formData.get('id')}`,
-            formData,
-            {
-                headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
-            }
-        );
-        dispatch({ type: UPDATE_PROJECT_BY_ID, payload: response.data });
-    } catch (error) {
-        console.error('Error updating project:', error);
-    }
+export const updateProjectById = (dataToSubmit, id, token) => {
+    return async function (dispatch) {
+        try {
+            // Convert FormData to object
+            const data = Object.fromEntries(dataToSubmit.entries());
+
+            // Parse JSON strings to arrays
+            const parsedTags = JSON.parse(data.tags);
+            const parsedTechnologies = JSON.parse(data.technologies);
+
+            // Create the data object to send in the request
+            const requestData = {
+                ...data,
+                tags: parsedTags,
+                technologies: parsedTechnologies,
+            };
+
+            console.log('DataToSubmit in action:', requestData);
+
+            const response = await axios.put(
+                `/projects/${id}`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json', // Change to 'application/json' since we are sending JSON
+                    },
+                }
+            );
+
+            dispatch({
+                type: UPDATE_PROJECT_BY_ID,
+                payload: response.data,
+            });
+        } catch (error) {
+            console.error('Update project error:', error.response || error.message);
+
+            dispatch({
+                type: FETCH_ERROR,
+                payload: error.response ? error.response.data : error.message,
+            });
+        }
+    };
 };
 
