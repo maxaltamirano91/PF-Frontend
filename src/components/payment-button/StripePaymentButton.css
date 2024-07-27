@@ -1,0 +1,27 @@
+.stripe-payment-button {
+    background-color: #0070f3; 
+    color: #ffffff; 
+    border: none; 
+    border-radius: 8px; 
+    padding: 12px 24px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    width: 100%; 
+    text-align: center; 
+  }
+  
+  .stripe-payment-button:hover {
+    background-color: #005bb5; 
+  }
+  
+  .stripe-payment-button:active {
+    background-color: #004494; 
+  }
+  
+  .stripe-payment-button:disabled {
+    background-color: #cccccc; 
+    cursor: not-allowed; 
+  }
+  

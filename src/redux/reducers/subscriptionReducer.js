@@ -5,14 +5,18 @@ import {
     CREATE_PREFERENCE_SUCCESS,
     CANCEL_SUBSCRIPTION_REQUEST,
     CANCEL_SUBSCRIPTION_SUCCESS,
-    CANCEL_SUBSCRIPTION_FAILURE
+    CANCEL_SUBSCRIPTION_FAILURE,
+    CREATE_STRIPE_PREFERENCE_REQUEST,
+    CREATE_STRIPE_PREFERENCE_SUCCESS,
+    CREATE_STRIPE_PREFERENCE_FAILURE
   } from '../types/subscriptionTypes';
   
   const initialState = {
     product: null,
     loading: false,
     error: null,
-    preferenceId: null
+    preferenceId: null,
+    stripeUrl: null,
   };
   
   const subscriptionReducer = (state = initialState, action) => {
@@ -48,7 +52,16 @@ import {
           loading: false,
           error: action.payload
         };
-      default:
+        case CREATE_STRIPE_PREFERENCE_REQUEST:
+        return { ...state, loading: true };
+
+        case CREATE_STRIPE_PREFERENCE_SUCCESS:
+        return { ...state, loading: false, stripeUrl: action.payload };
+
+        case CREATE_STRIPE_PREFERENCE_FAILURE:
+        return { ...state, loading: false, error: action.payload };
+        
+        default:
         return state;
     }
   };

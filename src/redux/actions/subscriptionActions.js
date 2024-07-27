@@ -8,6 +8,9 @@ import {
 	CANCEL_SUBSCRIPTION_REQUEST,
 	CANCEL_SUBSCRIPTION_SUCCESS,
 	CANCEL_SUBSCRIPTION_FAILURE,
+	CREATE_STRIPE_PREFERENCE_REQUEST,
+  	CREATE_STRIPE_PREFERENCE_SUCCESS,
+  CREATE_STRIPE_PREFERENCE_FAILURE
 } from '../types'
 
 export const fetchProduct = () => async (dispatch) => {
@@ -59,3 +62,22 @@ export const cancelSubscription = (token) => async (dispatch) => {
 		dispatch({ type: CANCEL_SUBSCRIPTION_FAILURE, payload: error.message })
 	}
 }
+
+export const createStripePreference = (product, token) => async (dispatch) => {
+	dispatch({ type: CREATE_STRIPE_PREFERENCE_REQUEST });
+  
+	try {
+	  const response = await axios.post('/payment/stripe/preference', product, {
+		headers: {
+		  Authorization: `Bearer ${token}`
+		}
+	  });
+	  const  url  = response.data;
+	  dispatch({ type: CREATE_STRIPE_PREFERENCE_SUCCESS, payload: url });
+	} catch (error) {
+	  dispatch({
+		type: CREATE_STRIPE_PREFERENCE_FAILURE,
+		payload: error.message
+	  });
+	}
+  };
