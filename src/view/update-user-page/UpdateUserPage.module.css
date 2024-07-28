@@ -1,43 +1,86 @@
-.centerDiv{
-    display: flex;
-    /* justify-content: center; */
-    margin: auto;
-    margin-top: 2vh;
-    align-items: center;
-    width: 50%;
-    padding: 15px 7px;
-    font-size: 17px;
-    flex-direction: column;
-}
-
-.custom-input {
+.cardContainer {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
   border-radius: 10px;
-  padding: 10px;
-  transition: padding 0.3s, border-color 0.3s;
-
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
 }
 
-.custom-input:focus {
-  padding: 5px;
-  border-color: #80bdff;
-  box-shadow: none;
+.cardBody {
+  display: flex;
+  justify-content: space-between;
 }
 
-.form-label {
+.half {
+  width: 48%;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem; 
+  margin-bottom: 2rem;
+}
+
+.smallImage {
+  width: 50%;
+  height: auto;
+}
+
+.customForm {
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.eyeButton {
   position: absolute;
-  left: 12px;
   top: 50%;
+  right: 10px;
   transform: translateY(-50%);
-  color: #6c757d;
-  transition: all 0.3s;
-  pointer-events: none;
-  z-index: 1;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
-.custom-input:focus + .form-label,
-.custom-input.has-content + .form-label {
-  top: 5%;
-  transform: translateY(-120%) scale(1.4);
-  font-size: 12px;
-  color: #288b8b;
+.customButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.customButton {
+  width: 45%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.deleteButton {
+  margin-top: 1rem; 
+  justify-content: center;
+  margin-left: 8.5rem;
+
+}
+
+.submitButton {
+  margin-top: 1rem;
+  background: #7474BF; 
+  background: -webkit-linear-gradient(to right, #348AC7, #7474BF); 
+  background: linear-gradient(to right, #348AC7, #7474BF);
+  color: #fff;
+  border: 3px solid #eee;
 }

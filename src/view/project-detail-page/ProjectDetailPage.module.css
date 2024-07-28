@@ -4,12 +4,12 @@
 	display: flex;
 	flex-direction: row;
 	border: 1px solid #ddd;
-	border-radius: 2.5rem;
 	overflow: hidden;
-	box-shadow: 0 4px 8px rgba(148, 0, 211, 0.7);
 	position: relative;
 	margin: 0 auto;
-	width: 90%;
+	width: 65%;
+	box-shadow: 0 0 3px rgba(105, 105, 105, 0.29);
+	margin-bottom: 2rem;
 }
 
 .cardImageContainer {
@@ -19,14 +19,9 @@
 }
 
 .cardImage {
-	width: 90%;
+	width: 85%;
 	height: 100%;
 	object-fit: cover;
-}
-
-.cardDetailCaption {
-	font-weight: bold;
-	margin-bottom: 0.5rem;
 }
 
 .cardDetail {
@@ -36,25 +31,29 @@
 }
 
 .cardDetailTitle {
-	font-size: 2.5rem;
+	font-size: 2rem;
 	margin: 1rem 0;
 }
 
 .cardDetailDesc {
-	font-size: 1.3rem;
+	font-size: 1.2rem;
 	margin: 2rem 0;
 }
 
 .modifyButton {
-	background-color: #007bff;
-	color: #fff;
-	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+	background: #7474BF;  
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF); 
+    background: linear-gradient(to right, #348AC7, #7474BF);
+    color: #fff;
+    border: 3px solid #eee;
 }
 
 .deleteButton {
-	background-color: #dc3545;
-	color: #fff;
-	box-shadow: 0 4px 8px rgba(220, 53, 69, 0.5);
+	background: #ec008c; 
+    background: -webkit-linear-gradient(to right, #fc6767, #ec008c);  
+    background: linear-gradient(to right, #fc6767, #ec008c);
+    color: #fff;
+    border: 3px solid #eee;
 }
 
 .fileButton {
@@ -68,19 +67,6 @@
 	justify-content: center;
 	gap: 1rem;
 	margin-top: 8rem;
-}
-
-.tagButton {
-	padding: 0.5rem 1rem;
-	border-radius: 0.25rem;
-	margin-right: 0.5rem;
-	margin-bottom: 0.5rem;
-	cursor: not-allowed;
-	color: #000;
-	border: none;
-	font-weight: bold;
-	border: 2px solid #000;
-	background-color: transparent;
 }
 
 .tagsContainer {
@@ -116,4 +102,10 @@
 	border: 0;
 	border-top: 1px solid #ddd;
 	margin: 1rem 0;
+}
+
+.tagText {
+	margin-right: 7px;
+	color: inherit;
+	font-size: 1rem; 
 }

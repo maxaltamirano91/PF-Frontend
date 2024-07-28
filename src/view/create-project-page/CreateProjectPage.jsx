@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchTechnologies } from '../../redux/actions';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
+import styles from './CreateProjectPage.module.css';
 
 const CreateProjectPage = () => {
   const dispatch = useDispatch();
@@ -62,9 +63,9 @@ const CreateProjectPage = () => {
 
   const handleUploadImagen = async (e) => {
     const imageUpload = e.target.files[0];
-    const url = `https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3`;
+    const url = 'https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3';
 
-    if (!imageUpload) return; 
+    if (!imageUpload) return;
 
     try {
       const formData = new FormData();
@@ -85,7 +86,7 @@ const CreateProjectPage = () => {
     if (
       formData.tags.length < 5 &&
       newTag.trim() !== '' &&
-      !formData.tags.some(tag => tag.tagName === newTag.trim())
+      !formData.tags.some((tag) => tag.tagName === newTag.trim())
     ) {
       const updatedTags = [...formData.tags, { tagName: newTag.trim() }];
       setFormData({
@@ -108,7 +109,10 @@ const CreateProjectPage = () => {
     event.preventDefault();
 
     if (!formData.title) {
-      alert('El título es obligatorio');
+      Toastify({
+        text: 'El título es obligatorio',
+        backgroundColor: 'red',
+      }).showToast();
       return;
     }
 
@@ -129,7 +133,7 @@ const CreateProjectPage = () => {
       image: imagenAddHosting,
     };
 
-    console.log('Datos a enviar al backend:', dataToSubmit); 
+    console.log('Datos a enviar al backend:', dataToSubmit);
 
     try {
       const response = await axios.post(
@@ -142,7 +146,10 @@ const CreateProjectPage = () => {
         }
       );
       console.log('Se agregó el proyecto:', response.data);
-      window.alert(`${formData.title} agregado a la Base de Datos`);
+      Toastify({
+        text: `${formData.title} agregado a la Base de Datos`,
+        backgroundColor: 'green',
+      }).showToast();
 
       setFormData({
         title: '',
@@ -155,21 +162,27 @@ const CreateProjectPage = () => {
       setImagenAddHosting('');
     } catch (error) {
       console.error('Error al agregar el proyecto:', error);
-      console.error('Error detalle:', error.response ? error.response.data : error.message);
-      window.alert('Error al agregar');
+      console.error(
+        'Error detalle:',
+        error.response ? error.response.data : error.message
+      );
+      Toastify({
+        text: 'Error al agregar',
+        backgroundColor: 'red',
+      }).showToast();
     }
   };
 
   return (
-    <div className="container mt-5">
-      <div className="card">
-        <div className="card-header">
+    <div className={`w-100 h-100 d-flex justify-content-center align-items-center ${styles.container}`}>
+      <div className={`card ${styles.card}`}>
+        <div className={`card-header ${styles.header}`}>
           <h2>Añadir proyecto</h2>
         </div>
-        <div className="card-body">
-          <form onSubmit={handleSubmit}>
+        <div className="card-body d-flex">
+          <form onSubmit={handleSubmit} className="flex-grow-1 me-3">
             <div className="mb-3">
-              <label htmlFor="title" className="form-label">
+              <label htmlFor="title" className={`form-label ${styles.inheritColor}`}>
                 Nombre del Proyecto
               </label>
               <input
@@ -183,7 +196,7 @@ const CreateProjectPage = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="description" className="form-label">
+              <label htmlFor="description" className={`form-label ${styles.inheritColor}`}>
                 Descripción
               </label>
               <textarea
@@ -195,7 +208,7 @@ const CreateProjectPage = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="image" className="form-label">
+              <label htmlFor="image" className={`form-label ${styles.inheritColor}`}>
                 Contenido multimedia
               </label>
               <input
@@ -207,7 +220,7 @@ const CreateProjectPage = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="technologies" className="form-label">
+              <label htmlFor="technologies" className={`form-label ${styles.inheritColor}`}>
                 Tecnologías
               </label>
               <select
@@ -225,11 +238,11 @@ const CreateProjectPage = () => {
               </select>
               <div className="mt-2">
                 {selectedTechs.map((tech) => (
-                  <span key={tech} className="badge me-2">
+                  <span key={tech} className={`badge ${styles.techBadge} me-2`}>
                     {tech}
                     <button
                       type="button"
-                      className="btn-close ms-1"
+                      className={`btn-close ms-1 ${styles.btnClose}`}
                       onClick={() => handleRemoveTech(tech)}
                     ></button>
                   </span>
@@ -237,7 +250,7 @@ const CreateProjectPage = () => {
               </div>
             </div>
             <div className="mb-3">
-              <label htmlFor="tags" className="form-label">
+              <label htmlFor="tags" className={`form-label ${styles.inheritColor}`}>
                 Etiquetas
               </label>
               <div className="input-group">
@@ -251,7 +264,7 @@ const CreateProjectPage = () => {
                 />
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className={`btn btn-primary ${styles.addButton}`}
                   onClick={handleAddTag}
                 >
                   Agregar
@@ -259,11 +272,11 @@ const CreateProjectPage = () => {
               </div>
               <div className="mt-2">
                 {formData.tags.map((tag) => (
-                  <span key={tag.tagName} className="badge me-2">
+                  <span key={tag.tagName} className={`badge ${styles.tagBadge} me-2`}>
                     {tag.tagName}
                     <button
                       type="button"
-                      className="btn-close ms-1"
+                      className={`btn-close ms-1 ${styles.btnClose}`}
                       onClick={() => handleRemoveTag(tag.tagName)}
                     ></button>
                   </span>
@@ -271,11 +284,17 @@ const CreateProjectPage = () => {
               </div>
             </div>
             <div className="d-flex justify-content-end">
-              <button type="submit" className="btn btn-success">
+              <button type="submit" className={`btn btn-green-moon ${styles.buttonLike}`}>
                 Guardar
               </button>
             </div>
           </form>
+          {imagenAddHosting && (
+            <div className={styles.imageContainer}>
+              <h4 className={styles.imagePreviewLabel}>Image preview</h4>
+              <img src={imagenAddHosting} alt="Imagen seleccionada" className={styles.imagePreview} />
+            </div>
+          )}
         </div>
       </div>
     </div>

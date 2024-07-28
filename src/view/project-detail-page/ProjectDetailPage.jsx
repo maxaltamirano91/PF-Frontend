@@ -62,20 +62,15 @@ const ProjectDetailPage = () => {
 					/>
 				</div>
 				<div className={styles.cardDetail}>
-					<p className={styles.cardDetailCaption}>PROJECT</p>
 					<h1 className={styles.cardDetailTitle}>{project?.title}</h1>
 					<p className={styles.cardDetailDesc}>{project?.description}</p>
 
 					{project?.tags && (
 						<div className={styles.tagsContainer}>
 							{project?.tags.map((tag) => (
-								<button
-									key={tag.id}
-									className={`btn ${styles.tagButton}`}
-									disabled
-								>
-									{tag.tagName}
-								</button>
+								<span key={tag.id} className={styles.tagText}>
+									#{tag.tagName}
+								</span>
 							))}
 						</div>
 					)}
@@ -107,12 +102,12 @@ const ProjectDetailPage = () => {
 									Modificar
 								</button>
 								<button
-								className={`btn ${styles.deleteButton}`}
-								onClick={handleShow}
-								style={{ textDecoration: 'none', margin: '10px' }}
-							>
-								Archivar
-							</button>
+									className={`btn ${styles.deleteButton}`}
+									onClick={handleShow}
+									style={{ textDecoration: 'none', margin: '10px' }}
+								>
+									Archivar
+								</button>
 								<Modal show={show} onHide={handleClose}>
 									<Modal.Header closeButton>
 										<Modal.Title>Confirmación</Modal.Title>
