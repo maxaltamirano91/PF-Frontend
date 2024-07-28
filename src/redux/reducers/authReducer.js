@@ -34,6 +34,7 @@ const authReducer = (state = initialState, action) => {
 			}
 		case LOGOUT_USER:
 			localStorage.removeItem('authToken')
+			localStorage.removeItem('loggedUser')
 			return { ...state, loggedUser: null, token: null }
 		case GET_PROFILE:
 			return {
