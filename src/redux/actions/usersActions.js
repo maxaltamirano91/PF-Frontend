@@ -37,7 +37,26 @@ export const getUserById = (id) => {
 export const updateUser = (userData, token) => {
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(`/users/profile`, {userData}, {
+			const { data } = await axios.put(
+				`/users/profile`,
+				{ userData },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			dispatch({ type: UPDATE_USER, payload: data })
+		} catch (error) {
+			dispatch({ type: FETCH_ERROR, payload: error.message })
+		}
+	}
+}
+
+export const updateUserByID = (userData, token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.put(`/users/${userData.id}`, userData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -49,24 +68,7 @@ export const updateUser = (userData, token) => {
 	}
 }
 
-export const updateUserByID = (userData, token) => {
-	return async (dispatch) => {
-	  try {
-		console.log(token);
-		const { data } = await axios.put(`/users`, userData, {
-	
-		  headers: {
-			Authorization: `Bearer ${token}`,
-		  },
-		})
-		dispatch({ type: UPDATE_USER, payload: data })
-	  } catch (error) {
-		dispatch({ type: FETCH_ERROR, payload: error.message })
-	  }
-	}
-  }
-
-  export const deleteUserById = (id, token) => {
+export const deleteUserById = (id, token) => {
 	return async (dispatch) => {
 		try {
 			await axios.delete(`/users/${id}`, {
