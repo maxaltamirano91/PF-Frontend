@@ -8,10 +8,16 @@ import {
 	FETCH_ERROR,
 } from '../types'
 
-export const getAllUsers = (token) => {
+export const getAllUsers = (data, token) => {
+	const { search, sort } = data
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get('/users', {
+			const params = new URLSearchParams()
+
+			if (search) params.append('search', search)
+			if (sort) params.append('sort', sort)
+
+			const { data } = await axios.get(`/users?${params}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

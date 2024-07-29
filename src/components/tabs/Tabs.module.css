@@ -1,0 +1,49 @@
+
+.tabsContainer {
+    display: block;
+}
+
+.tabs {
+    padding: 0;
+    margin-bottom: 25px;
+    list-style: none;
+    display: inline-block;
+}
+
+.tab {
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    position: relative;
+    z-index: 3;
+}
+
+.tab a {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    display: block;
+    padding: 9px 18px;
+    border-radius: 9999px;
+}
+
+@media (min-width: 1201px) {
+	.tabsContainer {
+		flex: 1;
+		margin: 150px 0 50px 50px;
+	}
+
+    .tabs {
+        margin-top: 15px;
+        overflow: visible;
+        text-align: left;
+        white-space: normal;
+    }
+}
+
+@media (min-width: 604px) and (max-width: 1200px) {
+    .tabsContainer {
+        padding: 15px 30px 30px;
+    }
+}
