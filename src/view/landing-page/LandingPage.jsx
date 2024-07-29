@@ -12,9 +12,10 @@ const LandingPage = () => {
           className={styles['hero-image']}
         />
         <div className={styles['hero-text']}>
-          <h1>The World's Best Devs</h1>
-          <h1>Are on ForDevs</h1>
-          <Link to="/home" className={`btn ${styles['btn-purple-moon']}`}>
+          <h1>
+            Los mejores programadores están en ForDevs
+          </h1>
+          <Link to="/home" className={`${styles.btn} ${styles['btn-purple-moon']}`}>
             Empezá
           </Link>
         </div>

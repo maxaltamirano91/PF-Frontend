@@ -9,11 +9,12 @@ import {
 } from '../types'
 
 export const getAllUsers = (data, token) => {
-	const { search, sort } = data
+	const { pagination, search, sort } = data
 	return async (dispatch) => {
 		try {
 			const params = new URLSearchParams()
 
+			if (pagination) params.append('pageSize', pagination)
 			if (search) params.append('search', search)
 			if (sort) params.append('sort', sort)
 
@@ -93,12 +94,12 @@ export const deleteUserById = (id, token) => {
 export const deleteUserProfile = (token) => {
 	return async (dispatch) => {
 		try {
-			await axios.delete(`/users`, {
+			const { data } = await axios.delete(`/users`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			dispatch({ type: DELETE_USER, payload: id })
+			dispatch({ type: DELETE_USER, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
 		}
