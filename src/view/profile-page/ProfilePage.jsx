@@ -6,25 +6,45 @@ import {
 	getUserById,
 	getDeletedProjects,
 	restoreDeletedProject,
+	contractForm,
 } from '../../redux/actions'
+import ContractView from './components/ContractView'
 import { Link, useParams } from 'react-router-dom'
 import Cards from '../../components/cards/Cards'
 import Tabs from './components/Tabs'
 import styles from './ProfilePage.module.css'
-import { Pencil } from 'lucide-react'
+import styled from 'styled-components'
+import { Pencil, Briefcase } from 'lucide-react'
 import Toastify from 'toastify-js'
+import ModalForm from './components/ModalForm'
 import 'toastify-js/src/toastify.css'
 
 const ProfilePage = () => {
+	const categories = Object.freeze({
+		contracts: 'contracts',
+	})
 	const dispatch = useDispatch()
 	const [showModal, setShowModal] = useState(false)
 	const [projects, setProjects] = useState([])
+	const [formData, setFormData] = useState({
+		senderId: '',
+		receiverId: '',
+		subject: '',
+		projectDescription: '',
+		budget: '',
+		currency: 'ARS',
+		availableTime: '',
+		status: 'pending',
+	})
+	const [activeTab, setActiveTab] = useState(categories.contracts)
+	const [searchQuery, setSearchQuery] = useState('')
 	const { token, loggedUser } = useSelector((state) => state.auth)
 	const { deletedProjects } = useSelector((state) => state.projects)
 	const { loading, error } = useSelector((state) => state.subscription)
 	const { id } = useParams()
 	const { user } = useSelector((state) => state.users)
 
+	const profileData = !id ? loggedUser : user
 
 	const handleUnsubscribe = () => {
 		setShowModal(true)
@@ -35,6 +55,20 @@ const ProfilePage = () => {
 			dispatch(getUserProfile(token))
 			setShowModal(false)
 		})
+	}
+
+	const handleForm = () => {
+		setFormData({
+			...formData,
+			senderId: loggedUser.id,
+			receiverId: id,
+		})
+		setShowModal(true)
+	}
+
+	const handleContractFormSubmit = (form) => {		
+		dispatch(contractForm(form, token))
+		setShowModal(false)
 	}
 
 	const handleRestore = (projectId) => {
@@ -53,6 +87,11 @@ const ProfilePage = () => {
 		})
 	}
 
+	const handleTabClick = (category) => {
+		setActiveTab(category)
+		setSearchQuery('')
+	}
+
 	useEffect(() => {
 		if (loggedUser?.id === id || !id) {
 			dispatch(getUserProfile(token))
@@ -64,9 +103,6 @@ const ProfilePage = () => {
 	}, [dispatch, token, projects, id, loggedUser.id])
 
 	if (!loggedUser) return <div>Loading ...</div>
-
-	// const isOwner = !id  user
-	const profileData = !id ? loggedUser : user
 
 	const tabs = [
 		{
@@ -87,7 +123,13 @@ const ProfilePage = () => {
 							)}
 					</div>
 					<div className={styles.cardsContainer}>
-						<Cards projects={profileData === loggedUser ? loggedUser?.projects : user?.projects} />
+						<Cards
+							projects={
+								profileData === loggedUser
+									? loggedUser?.projects
+									: user?.projects
+							}
+						/>
 					</div>
 				</div>
 			),
@@ -103,6 +145,37 @@ const ProfilePage = () => {
 					<h1>Proyectos Archivados:</h1>
 					<div className={styles.cardsContainer}>
 						<Cards projects={deletedProjects} onRestore={handleRestore} />
+					</div>
+				</div>
+			),
+		})
+	}
+
+	if (loggedUser?.id === profileData?.id) {
+		tabs.push({
+			key: 'contracts',
+			label: 'Contratos',
+			content: (
+				<div>
+					<h1>Solicitudes de trabajo:</h1>
+					<SectionStyled className="container-fluid mt-2" id="dashboard" />
+					<ul className="nav nav-tabs">
+						<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.contracts ? 'active' : ''
+								}`}
+								aria-current={activeTab === 'contracts' ? 'page' : undefined}
+								onClick={() => handleTabClick(categories.contracts)}
+							>
+								Solicita usuario
+							</a>
+						</li>
+					</ul>
+					<div className="content-tab" id="content-tab">
+						{activeTab === categories.contracts && (
+							<ContractView searchQuery={searchQuery} />
+						)}
 					</div>
 				</div>
 			),
@@ -130,9 +203,18 @@ const ProfilePage = () => {
 						<p className="card-text">{profileData?.bio}</p>
 						<p className="card-text">{profileData?.role}</p>
 						<p className="card-text">{profileData?.aboutMe}</p>
+						{id && (
+							<button
+								type="button"
+								className={styles.btnCustom}
+								onClick={() => handleForm(formData)}
+							>
+								<Briefcase /> Contratar
+							</button>
+						)}
 						{!id && (
 							<>
-							<hr />
+								<hr />
 								<Link to="/create">
 									<button className={styles.btnCustom}>Crear proyecto</button>
 								</Link>
@@ -141,6 +223,7 @@ const ProfilePage = () => {
 										<Pencil /> Editar perfil
 									</button>
 								</Link>
+
 								{loggedUser?.planName === 'Premium' && (
 									<>
 										<button
@@ -210,9 +293,27 @@ const ProfilePage = () => {
 					<Tabs tabs={tabs} />
 				</div>
 			</div>
+			<ModalForm
+				show={showModal}
+				handleClose={() => setShowModal(false)}
+				contract={formData}
+				handleSend={handleContractFormSubmit}
+			/>
 		</div>
 	)
-	
 }
 
 export default ProfilePage
+
+const SectionStyled = styled.section`
+	a.nav-link {
+		cursor: pointer;
+
+		&.active {
+			font-weight: 700;
+		}
+		&:hover {
+			/* background: none; */
+		}
+	}
+`
