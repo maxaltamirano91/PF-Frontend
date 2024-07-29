@@ -124,7 +124,9 @@ const NavBarExtended = () => {
 									<ul className="dropdown-menu">
 										<li>
 											<Link className="dropdown-item" to={`/myprofile`}>
-												Mi perfil
+												<span className="nav-link ">
+													Perfil{loggedUser.planName === 'Premium' && <Gem />}
+												</span>
 											</Link>
 										</li>
 										<li>
