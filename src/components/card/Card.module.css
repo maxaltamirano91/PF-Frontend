@@ -85,6 +85,7 @@
 	right: 1.5rem;
 	opacity: 0;
 	transition: opacity 0.3s ease;
+	cursor: pointer;
 	z-index: 100;
 }
 
@@ -93,7 +94,7 @@
 }
 
 .restore:hover {
-	background-color: #dee2e6;
+	background-color: #f3f4f4;
 }
 
 .cardImgContainer:hover .cardTitle, .cardImgContainer:hover .restore {

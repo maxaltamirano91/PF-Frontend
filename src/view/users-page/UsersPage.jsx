@@ -49,7 +49,7 @@ const UsersPage = () => {
 			</div>
 			<div className={styles.cardContainer}>
 				{sortedUsers.map((user) => (
-					<Link to={`/users/${user.id}`}>
+					<Link key={user.id} to={`/users/${user.id}`}>
 						<div className={styles.userCard} key={user.id}>
 							<img
 								src={user.image}
