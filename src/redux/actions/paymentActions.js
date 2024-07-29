@@ -35,7 +35,6 @@ export const sendPaymentNotification = (paymentData) => async (dispatch) => {
 
 export const sendStripePaymentNotification = (paymentData) => async (dispatch) => {
   dispatch(paymentNotificationRequest());
-  console.log(paymentData);
   try {
     const response = await axios.post('/payment/stripe/webhook', paymentData);
     dispatch(paymentNotificationSuccess(response.data));
