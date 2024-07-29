@@ -23,8 +23,8 @@ import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage'
 import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage'
 import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
 import DeletedProjectDetailPage from './view/deleted-project-detail-page/DeletedProjectDetailPage'
+import ProFooter from './components/pro-footer/ProFooter'
 
-// import ProjectFiledPage from './view/project-filed-page/ProjectFiledPage'
 import LandingPage from './view/landing-page/LandingPage'
 
 function App() {
@@ -54,10 +54,6 @@ function App() {
 						<Route path="/modUser" element={<UpdateUserPage />} />
 						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 						<Route path="/projects/:id" element={<ProjectDetailPage />} />
-						{/* <Route
-							path="/myprofile/myfiledproj"
-							element={<ProjectFiledPage />}
-						/> */}
 						<Route
 							path="/myprofile/myfiledproj/:id"
 							element={<DeletedProjectDetailPage />}
@@ -72,6 +68,7 @@ function App() {
 						<Route path="/paymentPending" element={<PaymentPendingPage />} />
 					</Routes>
 				</div>
+				<ProFooter />
 				<Footer />
 			</div>
 		</>
