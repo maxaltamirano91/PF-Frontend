@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link } from 'react-router-dom'
-import { sendPaymentNotification } from '../../redux/actions/paymentActions'
+import { sendPaymentNotification, sendStripePaymentNotification } from '../../redux/actions/paymentActions'
 import { getUserProfile } from '../../redux/actions'
 import styles from './PaymentSuccessPage.module.css'
 
@@ -13,17 +13,35 @@ const PaymentSuccessPage = () => {
 	const loggedUser = useSelector((state) => state.auth.loggedUser)
 
 	useEffect(() => {
-		dispatch(getUserProfile(authToken))
-		const query = new URLSearchParams(location.search)
-		const paymentData = {
+		if (!loggedUser || !authToken) return;
+	  
+		dispatch(getUserProfile(authToken));
+	  
+		const query = new URLSearchParams(location.search);
+		const session_id = query.get('session_id');
+	  
+		if (session_id) {
+		  // Es un pago de Stripe
+		  const stripePaymentData = {
+			session_id,
+			email: loggedUser.email,
+			user: loggedUser.id,
+		  };
+	  
+		  dispatch(sendStripePaymentNotification(stripePaymentData));
+		} else {
+		  // Es un pago de MercadoPago
+		  const paymentData = {
 			external_reference: query.get('external_reference'),
 			payment_id: query.get('payment_id'),
 			status: query.get('status'),
-			email:loggedUser.email,
+			email: loggedUser.email,
+			user_id: loggedUser.id,
+		  };
+	  
+		  dispatch(sendPaymentNotification(paymentData));
 		}
-
-		dispatch(sendPaymentNotification(paymentData))
-	}, [dispatch, location, authToken])
+	  }, [dispatch, location.search, authToken, loggedUser]);
 
 	return (
 		<div className={styles.container}>
