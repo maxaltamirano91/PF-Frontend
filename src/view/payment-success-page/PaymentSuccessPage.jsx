@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link } from 'react-router-dom'
-import { sendPaymentNotification } from '../../redux/actions/paymentActions'
+import { sendPaymentNotification, sendStripePaymentNotification } from '../../redux/actions/paymentActions'
 import { getUserProfile } from '../../redux/actions'
 import styles from './PaymentSuccessPage.module.css'
 
@@ -11,19 +11,41 @@ const PaymentSuccessPage = () => {
 	const authToken = useSelector((state) => state.auth.token)
 	const [showToast, setShowToast] = useState(true)
 	const loggedUser = useSelector((state) => state.auth.loggedUser)
+	const [hasNotified, setHasNotified] = useState(false) // Estado adicional para evitar la notificación repetida
 
 	useEffect(() => {
-		dispatch(getUserProfile(authToken))
-		const query = new URLSearchParams(location.search)
-		const paymentData = {
-			external_reference: query.get('external_reference'),
-			payment_id: query.get('payment_id'),
-			status: query.get('status'),
-			email:loggedUser.email,
-		}
+		if (!loggedUser || !authToken) return;
 
-		dispatch(sendPaymentNotification(paymentData))
-	}, [dispatch, location, authToken])
+		// Solo realizar la notificación si no se ha hecho antes
+		if (!hasNotified) {
+			dispatch(getUserProfile(authToken));
+
+			const query = new URLSearchParams(location.search);
+			const session_id = query.get('session_id');
+
+			if (session_id) {
+				// Es un pago de Stripe
+				const stripePaymentData = {
+					session_id,
+					email: loggedUser.email,
+					user: loggedUser.id,
+				};
+				dispatch(sendStripePaymentNotification(stripePaymentData));
+			} else {
+				// Es un pago de MercadoPago
+				const paymentData = {
+					external_reference: query.get('external_reference'),
+					payment_id: query.get('payment_id'),
+					status: query.get('status'),
+					email: loggedUser.email,
+					user_id: loggedUser.id,
+				};
+				dispatch(sendPaymentNotification(paymentData));
+			}
+
+			setHasNotified(true); // Marcar que la notificación ha sido realizada
+		}
+	}, [dispatch, location.search, authToken, loggedUser, hasNotified]);
 
 	return (
 		<div className={styles.container}>
