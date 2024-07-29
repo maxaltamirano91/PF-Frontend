@@ -58,7 +58,7 @@ const AdminViewUsers = ({ searchQuery }) => {
                 >
                   <div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
                     <div className="name">{user.userName}</div>
-                    <div className="mail">{user.email}</div>
+                    <a href={`mailto:${user.email}`}>{user.email}</a>
                     <div className="id">{user.id}</div>
                   </div>
                 </span>
@@ -71,7 +71,7 @@ const AdminViewUsers = ({ searchQuery }) => {
                 <div className="card-body card my-2 ">
                   <div className="info">
                     <p>Bio: {user.bio}</p>
-                    <p>Email: {user.email}</p>
+                    <p>Email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
                     <p>Password: {user.password}</p>
                     <p>ID: {user.id}</p>
                   </div>

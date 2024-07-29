@@ -1,203 +1,157 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUserById, updateUser, logoutUser, deleteUserProfile } from "../../redux/actions";
 import styles from './UpdateUserPage.module.css';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Eye, EyeOff } from 'lucide-react';
 
 const UpdateUserPage = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.auth.loggedUser);
-    const { token } = useSelector((state) => state.auth);
 
-    const validationSchema = Yup.object().shape({
-        userName: Yup.string()
-            .matches(/^[A-Za-z\s]+$/, "El nombre debe de consistir de solo letras")
-            .min(2, 'El nombre es muy corto')
-            .max(50, 'El nombre es muy largo'),
-        password: Yup.string()
-            .min(6, 'La contraseña debe de ser de al menos 6 carácteres')
-            .matches(/[A-Z]/, 'La contraseña debe de contener al menos una mayúscula'),
-        password2: Yup.string()
-            .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir'),
-        bio: Yup.string()
-            .min(2, 'La biografía es muy corta')
-            .max(50, 'La biografía es muy larga'),
-        image: Yup.string()
-    });
+const navigate = useNavigate()
+const dispatch = useDispatch()
+const user = useSelector((state)=>state.auth.loggedUser)
+const { token } = useSelector((state)=>state.auth)
+console.log(user)
 
-    const handleSubmit = async (values, { setSubmitting }) => {
-        const userData = Object.fromEntries(
-            Object.entries(values).filter(([key, value]) => value !== '')
-        );
+const validationSchema = Yup.object().shape({
+    userName:Yup.string()
+    .matches(/^[A-Za-z\s]+$/, "El nombre debe de consistir de solo letras")
+    .min(2, 'El nombre es muy corto')
+    .max(50, 'El nombre es muy largo'),
+    password:Yup.string()
+    .min(6, 'La contraseña debe de ser de al menos 6 carácteres')
+    .matches(/[A-Z]/, 'La contraseña debe de contener al menos una mayúscula'),
+    password2: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir'),
+    bio:Yup.string()
+    .min(2, 'La biografía es muy corta')
+    .max(50, 'La biografía es muy larga'),
+    image:Yup.string()
+})
 
-        dispatch(updateUser(userData, token));
-        setSubmitting(false);
-        dispatch(logoutUser());
-        navigate('/login');
-    };
+const handleSubmit = async(values, {setSubmitting}) => {
+    const userData = Object.fromEntries(
+    Object.entries(values).filter(([key, value]) => value !== '')
+    )
 
-    const [finish, setFinish] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
+    dispatch(updateUser(userData, token))
+    setSubmitting(false)
+    dispatch(logoutUser())
+    navigate('/login')
+    
+}
 
-    const preFinishUser = () => setFinish(true);
-    const unFinish = () => setFinish(false);
+const [finish, setFinish] = useState(false)
+const preFinishUser = () => {
+    setFinish(true)
+}
 
-    const finishUser = () => {
-        dispatch(deleteUserProfile(token));
-        dispatch(logoutUser());
-        navigate('/home');
-    };
+const unFinish = () => {
+    setFinish(false)
+}
 
-    return (
-        <div className={styles.cardContainer}>
-            <div className={styles.cardBody}>
-                <div className={styles.half}>
-                    {user && (
-                        <div className={styles.currentData}>
-                            <h4 className="text-center mb-4">Tus datos actuales</h4>
-                            <ul className="list-group">
-                                <li className="list-group-item"><p><strong>Nombre: </strong>{user.userName}</p></li>
-                                <li className="list-group-item"><p><strong>Contraseña: </strong>{user.password}</p></li>
-                                <li className="list-group-item"><p><strong>Biografía: </strong>{user.bio}</p></li>
-                                <li className="list-group-item"><p><strong>Imagen: </strong>{user.image}</p></li>
-                                <li className="list-group-item">
-                                    <div className={styles.imageContainer}>
-                                        <img className={styles.smallImage} src={user.image} alt={user.userName} />
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
+const finishUser = () => {
+    dispatch(deleteUserProfile(token))
+
+    dispatch(logoutUser())
+    navigate('/home')
+}
+
+return (
+    <div className="row justify-content-center">
+        
+        <div className={[styles.centerDiv]}>
+            {user?<div style={{width:"100%"}}>
+            <h4 className="text-center mb-4" style={{border:"none"}}>Tus datos actuales</h4>
+            <ul className="list-group">
+                <li className="list-group-item" style={{border:"none"}}> <p style={{display:"inline", fontWeight:"bold"}}>Nombre: </p> {`${user.userName}`}</li>
+                <li className="list-group-item" style={{border:"none"}}> <p style={{display:"inline", fontWeight:"bold"}}>Contraseña:</p> {`${user.password}`}</li>
+                <li className="list-group-item" style={{border:"none"}}> <p style={{display:"inline", fontWeight:"bold"}}>Biografía: </p> {`${user.bio}`}</li>
+                <li className="list-group-item" style={{border:"none"}}> <p style={{display:"inline", fontWeight:"bold"}}>Imagen: </p> {`${user.image}`}</li>
+                <li className="list-group-item" style={{border:"none"}}> <img width="400px" src={`${user.image}`} alt={`${user.image}`} /> </li>
+            </ul></div>
+            :null} <br /><br />
+            <br />
+            <h4 className="text-center mb-4" style={{border:"none"}}>Tus nuevos datos</h4> 
+
+        <Formik
+        initialValues={{ userName: '', password: '', password2:'', bio:'', image: ''}}              
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        >
+        {({ handleSubmit, handleChange, handleBlur, values, errors, isSubmitting }) => (
+            <Form style={{width:"50%"}}>
+
+                <div className="mb-3 position-relative">
+                <Field type="text" name="userName" id="userName" key="userName"
+                  className={`form-control ${styles["custom-input"]} ${values.userName.length > 0 ? styles["has-content"] : ""}`}
+                />
+                <label htmlFor="userName" className={`${styles["form-label"]}`}> Nombre </label>
                 </div>
-                <div className={styles.half}>
-                    <div className={styles.newData}>
-                        <h4 className="text-center mb-4">Tus nuevos datos</h4>
-                        <Formik
-                            initialValues={{ userName: '', password: '', password2: '', bio: '', image: '' }}
-                            validationSchema={validationSchema}
-                            onSubmit={handleSubmit}
-                        >
-                            {({ handleSubmit, handleChange, handleBlur, values, errors, isSubmitting }) => (
-                                <Form className={styles.customForm}>
-                                    <div className="mb-3">
-                                        <label htmlFor="userName" className={styles.formLabel}>Nombre</label>
-                                        <Field
-                                            type="text"
-                                            name="userName"
-                                            id="userName"
-                                            className={`form-control ${styles.customInput} ${values.userName.length > 0 ? styles.hasContent : ""}`}
-                                        />
-                                        <ErrorMessage name="userName" component="div" className="text-danger" />
-                                    </div>
+                <ErrorMessage name="userName" component="div" className="text-danger" />
+                <br />
 
-                                    <div className="mb-3 position-relative">
-                                        <label htmlFor="password" className={styles.formLabel}>Contraseña</label>
-                                        <div className={styles.passwordWrapper}>
-                                            <Field
-                                                type={showPassword ? "text" : "password"}
-                                                name="password"
-                                                id="password"
-                                                className={`form-control ${styles.customInput} ${values.password.length > 0 ? styles.hasContent : ""}`}
-                                            />
-                                            <button
-                                                type="button"
-                                                className={styles.eyeButton}
-                                                onClick={() => setShowPassword(!showPassword)}
-                                            >
-                                                {showPassword ? <EyeOff /> : <Eye />}
-                                            </button>
-                                        </div>
-                                        <ErrorMessage name="password" component="div" className="text-danger" />
-                                    </div>
+                <div className="mb-3 position-relative">
+                <Field type="password" key='password' name="password"
+                className={`form-control ${styles['custom-input']} ${values.password.length > 0 ? styles['has-content'] : ""}`}
+                />
+                <label className={`${styles['form-label']}`}>Contraseña</label>
+                </div>
+                <ErrorMessage name="password" component="div" className="text-danger" />
+                <br />
 
-                                    <div className="mb-3 position-relative">
-                                        <label htmlFor="password2" className={styles.formLabel}>Repetir contraseña</label>
-                                        <div className={styles.passwordWrapper}>
-                                            <Field
-                                                type={showPassword2 ? "text" : "password"}
-                                                name="password2"
-                                                id="password2"
-                                                className={`form-control ${styles.customInput} ${values.password2.length > 0 ? styles.hasContent : ""}`}
-                                            />
-                                            <button
-                                                type="button"
-                                                className={styles.eyeButton}
-                                                onClick={() => setShowPassword2(!showPassword2)}
-                                            >
-                                                {showPassword2 ? <EyeOff /> : <Eye />}
-                                            </button>
-                                        </div>
-                                        <ErrorMessage name="password2" component="div" className="text-danger" />
-                                    </div>
+                <div className="mb-3 position-relative">
+                <Field type="password" key='password2' name="password2"
+                className={`form-control ${styles['custom-input']} ${values.password2.length > 0 ? styles['has-content'] : ""}`}
+                />
+                <label className={`${styles['form-label']}`}>Repetir contraseña</label>
+                </div>
+                <ErrorMessage name="password2" component="div" className="text-danger" />
+                <br />
 
-                                    <div className="mb-3">
-                                        <label htmlFor="bio" className={styles.formLabel}>Biografía</label>
-                                        <Field
-                                            type="text"
-                                            name="bio"
-                                            id="bio"
-                                            className={`form-control ${styles.customInput} ${values.bio.length > 0 ? styles.hasContent : ""}`}
-                                        />
-                                        <ErrorMessage name="bio" component="div" className="text-danger" />
-                                    </div>
+                <div className="mb-3 position-relative">
+                <Field type="text" key='bio' name="bio"
+                className={`form-control ${styles['custom-input']} ${values.bio.length > 0 ? styles['has-content'] : ""}`}
+                />
+                <label className={`${styles['form-label']}`}>Biografía</label>
+                </div>
+                <ErrorMessage name="bio" component="div" className="text-danger" />
+                <br />
 
-                                    <div className="mb-3">
-                                        <label htmlFor="image" className={styles.formLabel}>Imagen</label>
-                                        <Field
-                                            type="text"
-                                            name="image"
-                                            id="image"
-                                            className={`form-control ${styles.customInput} ${values.image.length > 0 ? styles.hasContent : ""}`}
-                                        />
-                                        <ErrorMessage name="image" component="div" className="text-danger" />
-                                    </div>
+                <div className="mb-3 position-relative">
+                <Field type="text" key='image' name="image"
+                className={`form-control ${styles['custom-input']} ${values.image.length > 0 ? styles['has-content'] : ""}`}
+                />
+                <label className={`${styles['form-label']}`}>Imagen</label>
+                </div>
+                <ErrorMessage name="image" component="div" className="text-danger" />
+                <br />
 
-                                    <div className={styles.customButtonContainer}>
-                                        <button
-                                            type="submit"
-                                            className={`btn btn-primary ${styles.submitButton}`}
-                                            disabled={isSubmitting}
-                                        >
-                                            {isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
-                                        </button>
-                                    </div>
-                                </Form>
-                            )}
-                        </Formik>
+                <button type="submit" className="btn btn-primary" style={{textDecoration:"none"}} disabled={isSubmitting}>
+                    {isSubmitting ? 'Guardando cambios...' : 'Guardar cambios'}
+                </button>
 
-                        <button
-                            className={`btn btn-danger ${styles.deleteButton}`}
-                            onClick={preFinishUser}
-                        >
-                            Eliminar cuenta
-                        </button>
+                </Form>)}
+                </Formik>
+                <br /><br />
+                <button className="btn btn-danger" onClick={preFinishUser} style={{width:"50%", fontWeight:"bold", fontSize:"20px", textDecoration:"none"}}>
+                    Eliminar cuenta
+                </button> <br />
+                {finish ? <div>
+                <button className="btn btn-danger" onClick={finishUser} style={{fontWeight:"bold", fontSize:"20px", textDecoration:"none", margin:"0px 10px"}}>
+                    Confirmar
+                </button>
 
-                        {finish && (
-                            <div className={styles.buttonContainer}>
-                                <button
-                                    className={`btn btn-danger ${styles.confirmButton}`}
-                                    onClick={finishUser}
-                                >
-                                    Confirmar
-                                </button>
-                                <button
-                                    className={`btn btn-primary ${styles.cancelButton}`}
-                                    onClick={unFinish}
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        )}
+                <button className="btn btn-primary" onClick={unFinish} style={{fontWeight:"bold", fontSize:"20px", textDecoration:"none", margin:"0px 10px"}}>
+                    Cancelar
+                </button>
+                </div> : null}
+                <br />
+
                     </div>
-                </div>
-            </div>
-        </div>
-    );
+    </div>
+);
 };
 
 export default UpdateUserPage;
