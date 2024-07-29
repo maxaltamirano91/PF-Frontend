@@ -64,7 +64,7 @@ const ProfilePage = () => {
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.banner}>
+			<div className={`${styles.banner} z-index-0`}>
 				<div className={styles.profileContainer}>
 					{profileData ? (
 						<>

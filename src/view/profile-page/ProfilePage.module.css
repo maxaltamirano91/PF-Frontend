@@ -11,14 +11,14 @@
         left: 0;
         position: absolute;
         right: 0;
-        top: 0;
-        z-index: 2;
+        top: 4rem;
+        z-index: -1;
     }
 	
 	.profileContainer {
 		align-items: flex-start;
         display: flex;
-        padding: 80px 50px 50px;
+        padding: 80px 50px;
 		margin: auto;
     }
 }

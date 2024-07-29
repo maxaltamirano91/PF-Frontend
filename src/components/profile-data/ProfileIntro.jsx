@@ -25,7 +25,7 @@ const ProfileIntro = ({ profileData, isCurrentUser }) => {
 								className={`${styles.linkButton} btn btn-primary`}
 								to="/create"
 							>
-								<button className={styles.buttons}>Crear proyecto</button>
+								<span className={styles.buttons}>Crear proyecto</span>
 							</Link>
 						</div>
 						<div className={styles.buttonContainer}>
@@ -33,9 +33,9 @@ const ProfileIntro = ({ profileData, isCurrentUser }) => {
 								className={`${styles.linkButton} ${styles.editButton} btn btn-outline-light`}
 								to="/modUser"
 							>
-								<button className={styles.buttons}>
+								<span className={styles.buttons}>
 									<Pencil fill="#fff" size={16} /> Editar perfil
-								</button>
+								</span>
 							</Link>
 						</div>
 					</div>

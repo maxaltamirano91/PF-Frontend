@@ -20,7 +20,7 @@ const ProfileData = ({
 						onClick={handleUnsubscribe}
 						className={`${styles.unsubscribeButton} border`}
 					>
-						<button className="text-dark" disabled={loading}>
+						<button className="btn text-dark" disabled={loading}>
 							{loading ? 'Procesando...' : 'Desuscribirse'}
 						</button>
 					</div>

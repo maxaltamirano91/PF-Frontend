@@ -9,7 +9,7 @@ const Searchbar = ({ value, onChange, searchByTitle, toggleSearchByTitle }) => {
 			<input
 				type="search"
 				name={searchByTitle ? 'title' : 'tags'}
-				value={searchByTitle ? value.title : value.tags}
+				value={searchByTitle ? value?.title : value?.tags}
 				className={theme === 'dark' ? '' : 'border'}
 				style={theme === 'dark' ? {} : { backgroundColor: '#f8f9fa' }}
 				onChange={onChange}
