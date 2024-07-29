@@ -38,7 +38,7 @@ const Card = ({ project, toggleLike }) => {
 					<ThumbsUp
 						className={theme === 'light' ? 'text-dark' : 'text-light'}
 						fill={
-							project.likes.some(like => like.userId === loggedUser.id)
+							project.likes.some(like => like?.userId === loggedUser?.id)
 								? theme === 'light'
 									? '#343a40'
 									: '#f8f9fa'

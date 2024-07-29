@@ -8,8 +8,8 @@ const HomePage = () => {
 	const dispatch = useDispatch()
 	const { allProjects } = useSelector((state) => state.projects)
 	const { loggedUser, token } = useSelector((state) => state.auth)
-	const [renderingCards, setRenderingCards] = useState(15)
 	const [searchParams, setSearchParams] = useState({
+		pagination: 15,
 		title: '',
 		tags: '',
 		technologies: '',
@@ -21,7 +21,7 @@ const HomePage = () => {
 			Math.ceil(window.innerHeight + window.scrollY) >=
 			document.documentElement.scrollHeight
 		if (bottom) {
-			setRenderingCards((prevCount) => prevCount + 5)
+			setSearchParams((prev) => ({...prev, pagination: (prev.pagination + 5)}))
 		}
 	}
 
@@ -30,7 +30,7 @@ const HomePage = () => {
 			dispatch(
 				toggleProjectLike(
 					{ projectId: project.id, userId: loggedUser.id },
-					{ pagination: renderingCards, ...searchParams },
+					searchParams,
 					token
 				)
 			)
@@ -42,7 +42,6 @@ const HomePage = () => {
 			...prevParams,
 			...newParams,
 		}))
-		setRenderingCards(15)
 	}
 
 	useEffect(() => {
@@ -51,8 +50,8 @@ const HomePage = () => {
 	}, [])
 
 	useEffect(() => {
-		dispatch(getAllProjects({ pagination: renderingCards, ...searchParams }, token))
-	}, [dispatch, renderingCards, searchParams])
+		dispatch(getAllProjects(searchParams, token))
+	}, [dispatch, searchParams])
 
 	return (
 		<div className="mx-auto">

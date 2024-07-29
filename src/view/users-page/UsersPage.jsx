@@ -10,8 +10,9 @@ const UsersPage = () => {
 	const { allUsers } = useSelector((state) => state.users)
 	const { token } = useSelector((state) => state.auth)
 	const [query, setQuery] = useState({
+		pagination: 15,
 		search: '',
-		sort: '',
+		sort: 'a-z',
 	})
 
 	const handleChange = (e) => {
@@ -19,10 +20,22 @@ const UsersPage = () => {
 		dispatch(getAllUsers(query, token))
 	}
 
-	useEffect(() => {
-		if (token) {
-			dispatch(getAllUsers(query, token))
+	const handleScroll = () => {
+		const bottom =
+			Math.ceil(window.innerHeight + window.scrollY) >=
+			document.documentElement.scrollHeight
+		if (bottom) {
+			setQuery((prev) => ({ ...prev, pagination: query.pagination + 5 }))
 		}
+	}
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
+
+	useEffect(() => {
+		dispatch(getAllUsers(query, token))
 	}, [dispatch, token, query])
 
 	return (
