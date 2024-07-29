@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const signupValidationSchema = yup.object().shape({
     userName: yup
@@ -22,14 +22,9 @@ export const signupValidationSchema = yup.object().shape({
         .required('Confirma tu contraseña'),
     terms: yup
         .boolean()
-        .required(
-            'Debes aceptar todas las declaraciones de los Términos de servicio'
-        )
-        .oneOf(
-            [true],
-            'Debes aceptar todas las declaraciones de los Términos de servicio'
-        ),
-})
+        .required('Debes aceptar todas las declaraciones de los Términos de servicio')
+        .oneOf([true], 'Debes aceptar todas las declaraciones de los Términos de servicio'),
+});
 
 export const loginValidationSchema = yup.object().shape({
     email: yup
@@ -39,8 +34,7 @@ export const loginValidationSchema = yup.object().shape({
     password: yup
         .string()
         .required('La contraseña es requerida'),
-
-})
+});
 
 export const updateProjectValidationSchema = yup.object().shape({
     email: yup
@@ -50,8 +44,7 @@ export const updateProjectValidationSchema = yup.object().shape({
     password: yup
         .string()
         .required('La contraseña es requerida'),
-
-})
+});
 
 export const updateUserValidationSchema = yup.object().shape({
     userName: yup
@@ -59,13 +52,16 @@ export const updateUserValidationSchema = yup.object().shape({
         .matches(/^[A-Za-z\s]+$/, "El nombre debe contener solo letras")
         .min(2, 'El nombre es muy corto')
         .max(50, 'El nombre es muy largo'),
-    password: yup
+    currentPassword: yup
+        .string()
+        .required('La contraseña actual es requerida'),
+    newPassword: yup
         .string()
         .min(6, 'La contraseña debe ser de al menos 6 caracteres')
         .matches(/[A-Z]/, 'La contraseña debe contener al menos una mayúscula'),
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref('password'), null], 'Las contraseñas deben coincidir'),
+        .oneOf([yup.ref('newPassword'), null], 'Las contraseñas deben coincidir'),
     bio: yup
         .string()
         .min(2, 'La biografía es muy corta')
@@ -79,4 +75,4 @@ export const updateUserValidationSchema = yup.object().shape({
         .string()
         .min(2, 'Campo premium muy corto')
         .max(50, 'Campo premium muy largo'),
-})
+});
