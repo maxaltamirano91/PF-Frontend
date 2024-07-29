@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { getUserById, updateUser, logoutUser, deleteUserProfile } from "../../redux/actions";
+import { useNavigate } from "react-router-dom";
+import { updateUser, logoutUser, deleteUserProfile } from "../../redux/actions";
 import styles from './UpdateUserPage.module.css';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -80,7 +80,7 @@ return (
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         >
-        {({ handleSubmit, handleChange, handleBlur, values, errors, isSubmitting }) => (
+        {({ values, isSubmitting }) => (
             <Form style={{width:"50%"}}>
 
                 <div className="mb-3 position-relative">

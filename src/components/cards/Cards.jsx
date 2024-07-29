@@ -1,18 +1,13 @@
 import styles from './Cards.module.css'
 import Card from '../card/Card'
-import ProfileCard from '../card/ProfileCard'
 
-const Cards = ({ projects, toggleLike, onRestore }) => {
+const Cards = ({ projects, toggleLike }) => {
 	return (
 		<div className={styles.cards}>
 			{projects?.length ? (
 				projects.map((project) => (
 					<div key={project.id} className={styles.card}>
-						{project.user ? (
-							<Card project={project} toggleLike={toggleLike} />
-						) : (
-							<ProfileCard project={project} onRestore={onRestore} />
-						)}
+						{project.user && <Card project={project} toggleLike={toggleLike} />}
 					</div>
 				))
 			) : (

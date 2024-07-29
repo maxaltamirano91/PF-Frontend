@@ -3,66 +3,84 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers } from '../../redux/actions'
 import { Link } from 'react-router-dom'
+import { ArrowUpAZ, ArrowDownAZ } from 'lucide-react'
 
 const UsersPage = () => {
 	const dispatch = useDispatch()
 	const { allUsers } = useSelector((state) => state.users)
 	const { token } = useSelector((state) => state.auth)
+	const [query, setQuery] = useState({
+		search: '',
+		sort: '',
+	})
 
-	const [sortBy, setSortBy] = useState('userName')
-	const [sortDirection, setSortDirection] = useState('asc')
+	const handleChange = (e) => {
+		setQuery((prev) => ({ ...prev, search: e.target.value }))
+		dispatch(getAllUsers(query, token))
+	}
 
 	useEffect(() => {
 		if (token) {
-			dispatch(getAllUsers(token))
+			dispatch(getAllUsers(query, token))
 		}
-	}, [dispatch, token])
-
-	const handleSort = (field) => {
-		if (field === sortBy) {
-			setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
-		} else {
-			setSortBy(field)
-			setSortDirection('asc')
-		}
-	}
-
-	const sortedUsers = [...allUsers].sort((a, b) => {
-		const nameA = a[sortBy].toUpperCase()
-		const nameB = b[sortBy].toUpperCase()
-
-		if (sortDirection === 'asc') {
-			return nameA < nameB ? -1 : nameA > nameB ? 1 : 0
-		} else {
-			return nameA > nameB ? -1 : nameA < nameB ? 1 : 0
-		}
-	})
+	}, [dispatch, token, query])
 
 	return (
-		<div className={styles.UsersPage}>
-			<h1>Lista de Usuarios</h1>
-			<div>
-				<button onClick={() => handleSort('userName')}>
-					Nombre{' '}
-					{sortBy === 'userName' && (sortDirection === 'asc' ? '▲' : '▼')}
-				</button>
-			</div>
-			<div className={styles.cardContainer}>
-				{sortedUsers.map((user) => (
-					<Link to={`/users/${user.id}`}>
-						<div className={styles.userCard} key={user.id}>
-							<img
-								src={user.image}
-								alt={user.userName}
-								className={styles.userImage}
-							/>
-							<div className={styles.userDetails}>
-								<h3>{user.userName}</h3>
-								<p>{user.email}</p>
-							</div>
+		<div className={styles.usersPage}>
+			<div className={styles.titleContainer}>
+				<h2>Perfiles</h2>
+				<div className={styles.searchbarContainer}>
+					<div className={styles.sort}>
+						<div onClick={() => setQuery((prev) => ({ ...prev, sort: 'a-z' }))}>
+							<ArrowDownAZ size={20} />
 						</div>
-					</Link>
-				))}
+						<div onClick={() => setQuery((prev) => ({ ...prev, sort: 'z-a' }))}>
+							<ArrowUpAZ size={20} />
+						</div>
+					</div>
+					<input
+						type="search"
+						name="userName"
+						value={query.search}
+						className={styles.searchbar}
+						onChange={handleChange}
+						placeholder="Search..."
+					/>
+				</div>
+			</div>
+			<div className={styles.container}>
+				<div className={styles.cardContainer}>
+					{allUsers.map((user) => (
+						<div className={`${styles.card} border`} key={user.id}>
+							<Link to={`/users/${user.id}`}>
+								<div className={styles.imagesContainer}>
+									<div className={styles.coverContainer}>
+										<img
+											src="../../../public/profile-background.jpg"
+											alt="background"
+										/>
+									</div>
+									<div className={styles.userCardContainer} key={user.id}>
+										<div className={styles.userCard}>
+											<img
+												src={user.image}
+												alt={user.userName}
+												className={styles.userImage}
+											/>
+										</div>
+									</div>
+								</div>
+								<div className={styles.userDetails}>
+									<h3>{user.userName}</h3>
+									<span className="text-secondary">{user.bio}</span>
+									<button className="w-100 btn btn-outline-light text-dark">
+										Contratar
+									</button>
+								</div>
+							</Link>
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 	)
