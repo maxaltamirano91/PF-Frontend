@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllContracts, deleteContract } from '../../../redux/actions'
+import {
+	getAllContracts,
+	updateContractStatus,
+	rejectContract,
+} from '../../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
@@ -9,8 +13,7 @@ const ContractView = ({ searchQuery }) => {
 	const dispatch = useDispatch()
 	const token = useSelector((state) => state.auth.token)
 	const { allContracts } = useSelector((state) => state.contract)
-	const [showModal, setShowModal] = useState(false)
-	const [selectedContract, setSelectedContract] = useState(null)
+	const { loggedUser } = useSelector((state) => state.auth)
 
 	useEffect(() => {
 		dispatch(getAllContracts(token))
@@ -18,17 +21,25 @@ const ContractView = ({ searchQuery }) => {
 
 	const handleReject = (contractId) => {
 		if (window.confirm('¿Estás seguro de que deseas rechazar este proyecto?')) {
-			dispatch(deleteContract(contractId, token))
+			dispatch(updateContractStatus(contractId, 'rejected', token))
+		}
+	}
+
+	const handleAccept = (contractId) => {
+		if (window.confirm('¿Estás seguro de que deseas aceptar este proyecto?')) {
+			dispatch(updateContractStatus(contractId, 'accepted', token))
 		}
 	}
 
 	const filteredContracts = allContracts.filter(
 		(contract) =>
-			contract.projectDescription
+			contract.receiverId === loggedUser.id &&
+			(contract.projectDescription
 				.toLowerCase()
 				.includes(searchQuery.toLowerCase()) ||
-			contract.id.toString().includes(searchQuery)
+				contract.id.toString().includes(searchQuery))
 	)
+	console.log(filteredContracts)
 
 	return (
 		<SectionStyled className="ListContracts">
@@ -46,31 +57,32 @@ const ContractView = ({ searchQuery }) => {
 									aria-controls={`flush-collapse${index}`}
 								>
 									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
-										<div className="name">{contract.subject}</div>
+										<div className="name">{contract.sender?.userName}</div>
+										<div className="name">{contract.sender?.email}</div>
 									</div>
 								</span>
 							</h2>
 							<div
 								id={`flush-collapse${index}`}
-								className="accordion-collapse collapse "
+								className="accordion-collapse collapse"
 								data-bs-parent="#accordionFlushExample"
 							>
-								<div className="card-body card my-2 ">
+								<div className="card-body card my-2">
 									<div className="info">
 										<p>Título proyecto: {contract.subject}</p>
 										<p>Descripción: {contract.projectDescription}</p>
-										<p>Presupuesto disponible: {contract.budget}</p>
+										<p>Presupuesto disponible: {contract.budget}{' '}{contract.currency}</p>
 										<p>Cronología: {contract.availableTime}</p>
 									</div>
 									<hr />
 									<div className="actions d-flex justify-content-end gap-2">
-										{/* <button
+										<button
 											type="button"
-											className="btn btn-outline-primary mb-0"
-											onClick={() => handleEdit(contract)}
+											className="btn btn-outline-success mb-0"
+											onClick={() => handleAccept(contract.id)}
 										>
-											Editar
-										</button> */}
+											Aceptar
+										</button>
 										<button
 											type="button"
 											className="btn btn-outline-danger mb-0"

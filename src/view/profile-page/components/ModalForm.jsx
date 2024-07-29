@@ -3,7 +3,6 @@ import { Modal, Button, Form } from 'react-bootstrap'
 
 const ModalForm = ({ show, handleClose, contract, handleSend }) => {
 	const [formData, setFormData] = useState({ ...contract })
-	console.log(formData, contract)
 
 	useEffect(() => {
 		setFormData({ ...contract })
