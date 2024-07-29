@@ -2,7 +2,6 @@ import styles from './ProfileData.module.css'
 import { ExternalLink } from 'lucide-react'
 
 const ProfileAbout = ({ profileData }) => {
-	console.log(profileData)
 	return (
 		<div className={styles.profileAbout}>
 			{profileData.links?.length > 0 && (

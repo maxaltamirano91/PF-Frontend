@@ -64,26 +64,25 @@ const ProfilePage = () => {
 
 	return (
 		<div className={styles.container}>
-			<div className={`${styles.banner} z-index-0`}>
-				<div className={styles.profileContainer}>
-					{profileData ? (
-						<>
-							<ProfileData
-								profileData={profileData}
-								handleUnsubscribe={handleUnsubscribe}
-								loading={loading}
-								isCurrentUser={!id}
-							/>
-							<Tabs
-								profileData={profileData}
-								onRestore={handleRestore}
-								deletedProjects={deletedProjects}
-							/>
-						</>
-					) : (
-						<div>Loading profile data...</div>
-					)}
-				</div>
+			<div className={`${styles.banner} z-index-0`}></div>
+			<div className={styles.profileContainer}>
+				{profileData ? (
+					<>
+						<ProfileData
+							profileData={profileData}
+							handleUnsubscribe={handleUnsubscribe}
+							loading={loading}
+							isCurrentUser={!id}
+						/>
+						<Tabs
+							profileData={profileData}
+							onRestore={handleRestore}
+							deletedProjects={deletedProjects}
+						/>
+					</>
+				) : (
+					<div>Loading profile data...</div>
+				)}
 			</div>
 		</div>
 	)
