@@ -43,6 +43,7 @@ export const getUserById = (id) => {
 
 export const updateUser = (userData, token) => async (dispatch) => {
     try {
+		console.log(userData);
         const response = await axios.put('/users/profile', userData, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -114,6 +115,7 @@ export const getUserProfile = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
+			console.log(data);
 			dispatch({ type: GET_PROFILE, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
