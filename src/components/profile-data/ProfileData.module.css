@@ -280,7 +280,6 @@
 		margin-bottom: 30px;
 	}
 }
-
 .modalOverlay {
 	position: fixed;
 	top: 0;
@@ -293,7 +292,6 @@
 	justify-content: center;
 	align-items: center;
   }
-
   .modalContent {
 	background-color: transparent;
 	padding: 20px;

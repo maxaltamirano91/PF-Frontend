@@ -5,13 +5,15 @@ import AdminViewProjects from './AdminView-projects'
 import AdminViewTechnologies from './AdminView-technologies'
 
 import AdminViewContracts from './AdminView-contracts'
+import AdminViewDeletedUsers from './AdminView-deletedUsers'
 
 const AdminView = () => {
 	const categories = Object.freeze({
 		users: 'users',
 		projects: 'projects',
 		technologies: 'technologies',
-		contracts: 'contracts'
+		contracts: 'contracts',
+		deletedUsers: 'deletedUsers'
 	})
 	const [activeTab, setActiveTab] = useState(categories.users)
 	const [searchQuery, setSearchQuery] = useState('')
@@ -73,6 +75,19 @@ const AdminView = () => {
 							>
 								Contratos
 							</a>
+							</li>
+							<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.deletedUsers ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.deletedUsers ? 'page' : undefined
+								}
+								onClick={() => handleTabClick(categories.deletedUsers)}
+							>
+								Usuarios eliminados
+							</a>
 						</li>
 						<li className="nav-item ">
 							<div className="input-group mb-3">
@@ -104,6 +119,9 @@ const AdminView = () => {
 						)}
 						{activeTab === categories.contracts && (
 							<AdminViewContracts searchQuery={searchQuery} />
+						)}
+						{activeTab === categories.deletedUsers && (
+							<AdminViewDeletedUsers searchQuery={searchQuery} />
 						)}
 					</div>
 				</div>

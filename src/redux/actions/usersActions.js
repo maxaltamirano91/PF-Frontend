@@ -5,8 +5,11 @@ import {
 	UPDATE_USER,
 	DELETE_USER,
 	GET_PROFILE,
-	FETCH_ERROR
+	FETCH_ERROR,
+	GET_DELETED_USERS,
+	RESTORE_USER
 } from '../types'
+import { type } from '@testing-library/user-event/dist/cjs/utility/type.js'
 
 export const getAllUsers = (data, token) => {
 	const { pagination='', search='', sort='' } = data
@@ -116,6 +119,38 @@ export const getUserProfile = (token) => {
 			dispatch({ type: GET_PROFILE, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
+		}
+	}
+}
+
+export const getDeletedUsers = (token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get('/users/deleted', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			console.log(data)
+			dispatch({ type: GET_DELETED_USERS, payload: data })
+		}catch(error){
+			dispatch({ type: FETCH_ERROR, payload:error.message })
+		}
+	}
+}
+
+export const restoreUser = (id, token) => {
+	return async(dispatch) => {
+		try{
+			const { data } = await axios.post(`/users/restore/${id}`, null, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: RESTORE_USER, payload: data })
+		}
+		catch(error){
+			dispatch({ type: FETCH_ERROR, payload:error.message })
 		}
 	}
 }
