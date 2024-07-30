@@ -26,13 +26,12 @@ import {
 		}
   
 	  case UPDATE_USER:
+		localStorage.setItem('loggedUser', JSON.stringify(action.payload.user));
 		return {
-		  ...state,
-		  allUsers: state.allUsers.map((user) =>
-			user.id === action.payload.id ? action.payload : user
-		  ),
-		}
-  
+			...state,
+			loggedUser: action.payload.user,
+			fetchError: null,
+		};
 	  case DELETE_USER:
 		return {
 		  ...state,

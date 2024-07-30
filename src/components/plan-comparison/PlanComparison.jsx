@@ -1,99 +1,82 @@
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import styles from './PlanComparison.module.css';
+import ArgentinaFlag from './argentina-flag.png';
 
 const PlanComparison = () => {
-	const { loggedUser } = useSelector((state) => state.auth)
-	return (
-		<div className="container py-5">
-			<h2 className="text-center mb-5">Comparación de Planes</h2>
-			<div className="row gx-5">
-				<div className="col-md-6 mb-4">
-					<div className="card h-100">
-						<div className="card-body d-flex flex-column p-5">
-							<h5 className="card-title mb-5 text-center">ForDevs</h5>
-							<div className="card-text flex-grow-1">
-								<ul className="list-unstyled mb-4">
-									<li className="mb-3">Publica tus proyectos</li>
-									<li className="mb-3">Ofrece servicios autónomos</li>
-									<li className="mb-3">Envía propuestas a clientes</li>
-									<li className="mb-3">Vende tus recursos</li>
-									<li className="mb-3">
-										Márcate como disponible para trabajar
-									</li>
-									<li className="mb-3">
-										Accede a nuestra bolsa de trabajo autónomo y a tiempo
-										completo
-									</li>
-									<li className="mb-3">
-										Realiza transacciones en ForDevs con tarifas de plataforma
-										del 15 al 30%
-									</li>
-									<li className="mb-3">-</li>
-									<li className="mb-3">-</li>
-									<li className="mb-3">-</li>
-									<li className="mb-3">-</li>
-									<li className="mb-3">-</li>
-								</ul>
-							</div>
-							{loggedUser ? (
-								<Link to="/home" className="btn btn-primary mt-5">
-									Probar versión gratuita
-								</Link>
-							) : (
-								<Link to="/register" className="btn btn-primary mt-auto">
-									Probar versión gratuita
-								</Link>
-							)}
-						</div>
-					</div>
-				</div>
-				<div className="col-md-6 mb-4">
-					<div className="card h-100">
-						<div className="card-body d-flex flex-column p-5">
-							<h5 className="card-title mb-5 text-center">ForDevs Pro</h5>
-							<div className="card-text flex-grow-1">
-								<ul className="list-unstyled mb-4">
-									<li className="mb-3">Publica tus proyectos</li>
-									<li className="mb-3">Ofrece servicios como freelance</li>
-									<li className="mb-3">Envía propuestas a clientes</li>
-									<li className="mb-3">Vende tus recursos</li>
-									<li className="mb-3">
-										Marca tu disponibilidad para trabajar
-									</li>
-									<li className="mb-3">
-										0% de tarifa de la plataforma ForDevs
-									</li>
-									<li className="mb-3">
-										Proyectos protegidos por el seguro de calidad ForDevs
-									</li>
-									<li className="mb-3">
-										Ganancias transferidas automáticamente
-									</li>
-									<li className="mb-3">Cuota de inscripción 20% más barata</li>
-									<li className="mb-3">
-										Tienes acceso a la bolsa de trabajo freelance
-									</li>
-									<li className="mb-3">
-										Accede a la bolsa de trabajo de tiempo completo
-									</li>
-									<li className="mb-3">Realiza transacciones en ForDevs</li>
-								</ul>
-							</div>
-							{loggedUser ? (
-								<Link to="/subscription" className="btn btn-primary mt-5">
-									Probar versión Pro
-								</Link>
-							) : (
-								<Link to="/register" className="btn btn-primary mt-auto">
-									Probar versión Pro
-								</Link>
-							)}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
-}
+  const { loggedUser } = useSelector((state) => state.auth);
 
-export default PlanComparison
+  return (
+    <div className={styles.container}>
+      <h2 className={styles.title}>Comparación de Planes</h2>
+      <div className={styles.grid}>
+        <div className={styles.card}>
+          <div className={styles.cardBody}>
+            <h5 className={styles.cardTitle}>ForDevs</h5>
+            <div className={styles.cardText}>
+              <div className={styles.price}>
+                <img src={ArgentinaFlag} alt="Argentina Flag" className={styles.flag} /> $0 / mensuales
+              </div>
+              <ul className={styles.list}>
+                <span />
+                <span />
+                <span />
+                <span />
+                <li className={styles.listItem}>Publica tus proyectos</li>
+                <li className={styles.listItem}>Ofrece servicios como freelance</li>
+                <li className={styles.listItem}>Transacciones en ForDevs con tarifas del 15 al 30%</li>
+                <li className={styles.listItem}>Tienes acceso a la bolsa de trabajo</li>
+                <li className={`${styles.listItem} text-muted`}><del>Proyectos protegidos con contraseña</del></li>
+                <li className={`${styles.listItem} text-muted`}><del>Insignia Pro</del></li>
+                <li className={`${styles.listItem} text-muted`}><del>Contrata a otros programadores</del></li>
+                <li className={`${styles.listItem} text-muted`}><del>Dejá reviews en proyectos</del></li>
+              </ul>
+            </div>
+            {loggedUser ? (
+              <Link to="/home" className="btn btn-primary">
+                Probar versión gratuita
+              </Link>
+            ) : (
+              <Link to="/register" className="btn btn-primary">
+                Probar versión gratuita
+              </Link>
+            )}
+          </div>
+        </div>
+        <div className={`${styles.card} ${styles.proCard}`}>
+          <div className={styles.mostPopularButton}>Más popular</div>
+          <div className={styles.cardBody}>
+            <h5 className={styles.cardTitle}>ForDevs Pro</h5>
+            <div className={styles.price}>
+              <img src={ArgentinaFlag} alt="Argentina Flag" className={styles.flag} /> $1350 / mensuales
+            </div>
+            <div className={styles.cardText}>
+              <ul className={styles.list}>
+                <li className={styles.listItem}>Publica tus proyectos</li>
+                <li className={styles.listItem}>Ofrece servicios como freelance</li>
+                <li className={styles.listItem}>0% de tarifa de la plataforma ForDevs</li>
+                <li className={styles.listItem}>Tienes acceso a la bolsa de trabajo</li>
+                <li className={styles.listItem}>Proyectos protegidos con contraseña</li>
+                <li className={styles.listItem}>Insignia Pro</li>
+                <li className={styles.listItem}>Contratá a otros programadores</li>
+                <li className={styles.listItem}>Dejá reviews en proyectos</li>
+              </ul>
+            </div>
+            {loggedUser ? (
+              <Link to="/subscription" className="btn btn-primary">
+                Probar versión Pro
+              </Link>
+            ) : (
+              <Link to="/register" className="btn btn-primary">
+                Probar versión Pro
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PlanComparison;

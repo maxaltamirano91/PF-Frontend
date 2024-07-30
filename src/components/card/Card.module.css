@@ -45,6 +45,10 @@
 	justify-content: space-between;
 }
 
+.name {
+	font-weight: 600;
+}
+
 .name:hover {
 	border-bottom: 1px solid;
 }
@@ -75,6 +79,10 @@
 	cursor: pointer;
 }
 
+.tagsContainer span {
+	font-weight: 500;
+}
+
 .restore {
 	padding: .25rem 1rem;
 	border-radius: 9999px;
@@ -85,6 +93,7 @@
 	right: 1.5rem;
 	opacity: 0;
 	transition: opacity 0.3s ease;
+	cursor: pointer;
 	z-index: 100;
 }
 
@@ -93,7 +102,7 @@
 }
 
 .restore:hover {
-	background-color: #dee2e6;
+	background-color: #f3f4f4;
 }
 
 .cardImgContainer:hover .cardTitle, .cardImgContainer:hover .restore {

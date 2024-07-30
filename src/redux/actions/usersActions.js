@@ -8,10 +8,17 @@ import {
 	FETCH_ERROR,
 } from '../types'
 
-export const getAllUsers = (token) => {
+export const getAllUsers = (data, token) => {
+	const { pagination, search, sort } = data
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get('/users', {
+			const params = new URLSearchParams()
+
+			if (pagination) params.append('pageSize', pagination)
+			if (search) params.append('search', search)
+			if (sort) params.append('sort', sort)
+
+			const { data } = await axios.get(`/users?${params}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -34,25 +41,26 @@ export const getUserById = (id) => {
 	}
 }
 
-export const updateUser = (userData, token) => {
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.put(
-				`/users/profile`,
-				{ userData },
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
-			dispatch({ type: UPDATE_USER, payload: data })
-		} catch (error) {
-			dispatch({ type: FETCH_ERROR, payload: error.message })
-		}
-	}
-}
+export const updateUser = (userData, token) => async (dispatch) => {
+    try {
+        const response = await axios.put('/users/profile', userData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
+        dispatch({
+            type: UPDATE_USER,
+            payload: response.data, 
+        });
+
+        return response; 
+    } catch (error) {
+		dispatch({ type: FETCH_ERROR, payload: error.message });
+
+        return error.response; 
+    }
+};
 export const updateUserByID = (userData, token) => {
 	return async (dispatch) => {
 		try {
@@ -86,12 +94,12 @@ export const deleteUserById = (id, token) => {
 export const deleteUserProfile = (token) => {
 	return async (dispatch) => {
 		try {
-			await axios.delete(`/users`, {
+			const { data } = await axios.delete(`/users`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			dispatch({ type: DELETE_USER, payload: id })
+			dispatch({ type: DELETE_USER, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
 		}

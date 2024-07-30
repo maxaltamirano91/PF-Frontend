@@ -1,0 +1,70 @@
+.projectsContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titleContainer h1 {
+	font-size: 15px;
+	font-weight: 600;
+	min-width: 0;
+}
+
+.titleContainer button {
+	font-size: 15px;
+	font-weight: 600;
+	min-width: 0;
+    padding: 5px 18px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    line-height: 1;
+    transition-duration: 300ms;
+    transition-property: color, background, border;
+}
+
+.cardsContainer {
+	width: 100%;
+	min-height: 9rem;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+@media (min-width: 1489px) and (max-width: 1800px) {
+	.cardsContainer {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (min-width: 1201px) and (max-width: 1488px) {
+	.cardsContainer {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 1039px) and (max-width: 1200px) {
+    .cardsContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 604px) and (max-width: 1038px) {
+    .cardsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 604px) {
+	.cardsContainer {
+		display: inline-grid;
+		grid-column-gap: 20px;
+		grid-row-gap: 20px;
+	}
+}

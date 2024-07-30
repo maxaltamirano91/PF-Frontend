@@ -98,15 +98,7 @@ const NavBarExtended = () => {
 									</Link>
 								</li>
 							)}
-							{loggedUser && (
-								<li className="nav-item">
-									<Link to={'/myprofile'}>
-										<span className="nav-link ">
-											Perfil{loggedUser.planName === 'Premium' && <Gem />}
-										</span>
-									</Link>
-								</li>
-							)}
+
 							{loggedUser && loggedUser.role === 'admin' && (
 								<li className="nav-item">
 									<Link to={'/dashboard'}>
@@ -131,13 +123,15 @@ const NavBarExtended = () => {
 									</a>
 									<ul className="dropdown-menu">
 										<li>
-											<Link className="dropdown-item" to={`/modUser`}>
-												Mi perfil
+											<Link className="dropdown-item" to={`/myprofile`}>
+												<span className="nav-link ">
+													Perfil{loggedUser.planName === 'Premium' && <Gem />}
+												</span>
 											</Link>
 										</li>
 										<li>
-											<a className="dropdown-item" href="#">
-												Another action
+											<a className="dropdown-item" href="/modUser">
+												Editar perfil
 											</a>
 										</li>
 										<li>
