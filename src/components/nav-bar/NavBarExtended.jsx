@@ -82,27 +82,24 @@ const NavBarExtended = () => {
 											</Link>
 										</li>
 										<li>
-											{loggedUser?.role !== 'admin' &&
 											<a className="dropdown-item" href="/explorer/tags">
-												Contratos
+												Tags
 											</a>
-											}
 										</li>
 									</ul>
 								</div>
 
 								{/* --------------------------------- end Explorer ----------------------- */}
 							</li>
-							{loggedUser?.planName !== 'Premium' &&
-								loggedUser?.role !== 'admin' && (
+							{loggedUser?.planName !== 'Premium' && (
 								<li className="nav-item">
 									<Link to={'/premium'}>
-										<span className="nav-link">ForDevsPro</span>
+										<span className="nav-link">ForDevPro</span>
 									</Link>
 								</li>
 							)}
 
-							{loggedUser && loggedUser?.role === 'admin' && (
+							{loggedUser && loggedUser.role === 'admin' && (
 								<li className="nav-item">
 									<Link to={'/dashboard'}>
 										<span className="nav-link ">Admin-Console</span>
@@ -122,13 +119,13 @@ const NavBarExtended = () => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										Hola {loggedUser?.userName}
+										Hola {loggedUser.userName}
 									</a>
 									<ul className="dropdown-menu">
 										<li>
 											<Link className="dropdown-item" to={`/myprofile`}>
 												<span className="nav-link ">
-													Perfil{loggedUser?.planName === 'Premium' && <Gem />}
+													Perfil{loggedUser.planName === 'Premium' && <Gem />}
 												</span>
 											</Link>
 										</li>
