@@ -53,25 +53,27 @@ export const downloadExcel = () => async (dispatch) => {
 }
 
 export const fetchPdf = () => async (dispatch) => {
-	try {
-		const response = await fetch('/metadata/pdf', {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/pdf',
-			},
-		})
+  try {
+    const response = await axios.get('/metadata/pdf', {
+      responseType: 'blob', // Importante para recibir datos binarios
+    });
 
-		if (!response.ok) {
-			throw new Error('Network response was not ok.')
-		}
+    if (response.status !== 200) {
+      throw new Error('Network response was not ok.');
+    }
 
-		const blob = await response.blob()
-		const url = window.URL.createObjectURL(blob)
-		dispatch({ type: FETCH_PDF_SUCCESS, payload: url })
-	} catch (error) {
-		dispatch({ type: FETCH_PDF_FAILURE, payload: error.message })
-	}
-}
+    // Crear un Blob con el tipo de contenido adecuado
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+
+    // Crear una URL para el Blob
+    const url = window.URL.createObjectURL(blob);
+
+    // Despachar la acción con la URL del Blob
+    dispatch({ type: FETCH_PDF_SUCCESS, payload: url });
+  } catch (error) {
+    dispatch({ type: FETCH_PDF_FAILURE, payload: error.message });
+  }
+};
 
 export const clearPdfUrl = () => ({
 	type: CLEAR_PDF_URL,
