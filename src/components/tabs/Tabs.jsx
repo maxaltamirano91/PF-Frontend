@@ -2,7 +2,6 @@ import styles from './Tabs.module.css'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import ProfileProjects from '../../components/profile-projects/ProfileProjects'
 import Reviews from '../reviews/Reviews'
 import PropTypes from 'prop-types'
@@ -26,6 +25,13 @@ const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeCont
 			),
 		},
 		{
+			key: 'contracts',
+			label: 'Contratos',
+			content: (
+				<ContractView searchQuery={searchQuery} activeContractTab={activeContractTab} categories={categories} />
+			),
+		},
+		{
 			key: 'reviews',
 			label: 'Reviews',
 			content: <Reviews tabName="Reviews" />,
@@ -33,18 +39,6 @@ const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeCont
 	]
 
 	if (loggedUser?.id === profileData?.id) {
-		tabs.push({
-			key: 'contracts',
-			label: 'Contratos',
-			content: (
-				<ContractView
-					searchQuery={searchQuery}
-					activeContractTab={activeContractTab}
-					categories={categories}
-				/>
-			),
-		})
-
 		const modifiedProfileData = { ...profileData, projects: deletedProjects }
 		tabs.push({
 			key: 'archived',
