@@ -34,7 +34,7 @@ const Selector = ({ onTechnologyChange, selectedTechnologies }) => {
 				aria-expanded={dropdownOpen}
 				onClick={toggleDropdown}
 			>
-				Filter
+				Filtrar
 			</div>
 			<div
 				className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`}

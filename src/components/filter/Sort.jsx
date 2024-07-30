@@ -9,7 +9,7 @@ const Sort = ({ sortOrder, onSortChange }) => {
 				data-bs-toggle="dropdown"
 				aria-expanded="false"
 			>
-				Sort by {sortOrder}
+				Ordenar por {sortOrder}
 			</div>
 			<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 				<li>
