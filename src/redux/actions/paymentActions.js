@@ -32,3 +32,13 @@ export const sendPaymentNotification = (paymentData) => async (dispatch) => {
     dispatch(paymentNotificationFailure(error));
   }
 };
+
+export const sendStripePaymentNotification = (paymentData) => async (dispatch) => {
+  dispatch(paymentNotificationRequest());
+  try {
+    const response = await axios.post('/payment/stripe/webhook', paymentData);
+    dispatch(paymentNotificationSuccess(response.data));
+  } catch (error) {
+    dispatch(paymentNotificationFailure(error));
+  }
+};
