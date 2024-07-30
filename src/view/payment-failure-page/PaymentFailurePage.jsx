@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { sendPaymentNotification } from '../../redux/actions/paymentActions';
-
 import styles from './PaymentFailurePage.module.css'; 
 
 const PaymentFailurePage = () => {

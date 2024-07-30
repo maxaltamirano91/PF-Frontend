@@ -8,7 +8,7 @@ const ProfileData = ({
 	handleUnsubscribe,
 	loading,
 	isCurrentUser,
-	handleForm,
+	handleForm
 }) => {
 	return (
 		<div className={styles.container}>
