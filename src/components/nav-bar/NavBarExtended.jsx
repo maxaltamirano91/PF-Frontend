@@ -1,10 +1,9 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 import { Gem } from 'lucide-react'
-
 import { setDarkMode, setLightMode } from '../../redux/actions'
-
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { Link } from 'react-router-dom'
 
 const NavBarExtended = () => {
@@ -82,11 +81,11 @@ const NavBarExtended = () => {
 											</Link>
 										</li>
 										<li>
-											{loggedUser?.role !== 'admin' &&
-											<a className="dropdown-item" href="/explorer/tags">
-												Contratos
-											</a>
-											}
+											{loggedUser?.role !== 'admin' && (
+												<a className="dropdown-item" href="/explorer/tags">
+													Contratos
+												</a>
+											)}
 										</li>
 									</ul>
 								</div>
@@ -95,12 +94,12 @@ const NavBarExtended = () => {
 							</li>
 							{loggedUser?.planName !== 'Premium' &&
 								loggedUser?.role !== 'admin' && (
-								<li className="nav-item">
-									<Link to={'/premium'}>
-										<span className="nav-link">ForDevsPro</span>
-									</Link>
-								</li>
-							)}
+									<li className="nav-item">
+										<Link to={'/premium'}>
+											<span className="nav-link">ForDevsPro</span>
+										</Link>
+									</li>
+								)}
 
 							{loggedUser && loggedUser?.role === 'admin' && (
 								<li className="nav-item">

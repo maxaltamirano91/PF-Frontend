@@ -5,12 +5,12 @@ import { ContactRound, CircleCheckBig, Briefcase, Phone } from 'lucide-react'
 
 const ProfileContract = ({ profileData, handleForm }) => {
 	const { loggedUser } = useSelector((state) => state.auth)
-	const { id } = useParams()	
+
+	const { id } = useParams()
 
 	return (
 		<>
-			{loggedUser?.role !== 'admin' &&
-				id && (
+			{loggedUser?.role !== 'admin' && id && (
 				<div className={styles.contractContainer}>
 					<div className={styles.contractTitle}>
 						<h3 className={styles.text}>Contratar {profileData?.userName}</h3>
@@ -24,7 +24,8 @@ const ProfileContract = ({ profileData, handleForm }) => {
 						<div className={styles.contractButtonContainer}>
 							<div>
 								<button className="text-primary">
-									<Phone/>Contactar
+									<Phone />
+									Contactar
 								</button>
 								{profileData?.id && (
 									<button
