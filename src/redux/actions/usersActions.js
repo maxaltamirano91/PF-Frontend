@@ -44,24 +44,27 @@ export const getUserById = (id) => {
 	}
 }
 
-export const updateUser = (userData, token) => {
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.put(
-				`/users/profile`,
-				{ userData },
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
-			dispatch({ type: UPDATE_USER, payload: data })
-		} catch (error) {
-			dispatch({ type: FETCH_ERROR, payload: error.message })
-		}
-	}
-}
+export const updateUser = (userData, token) => async (dispatch) => {
+    try {
+		console.log(userData);
+        const response = await axios.put('/users/profile', userData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        dispatch({
+            type: UPDATE_USER,
+            payload: response.data, 
+        });
+
+        return response; 
+    } catch (error) {
+		dispatch({ type: FETCH_ERROR, payload: error.message });
+
+        return error.response; 
+    }
+};
 
 export const updateUserByID = (userData, token) => {
 	return async (dispatch) => {
@@ -116,6 +119,7 @@ export const getUserProfile = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
+			console.log(data);
 			dispatch({ type: GET_PROFILE, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
