@@ -1,11 +1,15 @@
-import styles from './ProfilePage.module.css'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import 'toastify-js/src/toastify.css'
-
-import Toastify from 'toastify-js'
+import ContractView from './components/ContractView'
+import { Link, useParams } from 'react-router-dom'
+import Cards from '../../components/cards/Cards'
 import Tabs from '../../components/tabs/Tabs'
+import styles from './ProfilePage.module.css'
+import styled from 'styled-components'
+import { Pencil, Briefcase } from 'lucide-react'
+import Toastify from 'toastify-js'
+import ModalForm from './components/ModalForm'
+import 'toastify-js/src/toastify.css'
 import ProfileData from '../../components/profile-data/ProfileData'
 import {
 	getUserProfile,
@@ -13,18 +17,37 @@ import {
 	getUserById,
 	getDeletedProjects,
 	restoreDeletedProject,
+	contractForm,
 } from '../../redux/actions'
 
 const ProfilePage = () => {
+	const categories = Object.freeze({
+		contracts: 'contracts',
+	})
 	const dispatch = useDispatch()
 	const [projects, setProjects] = useState([])
 	const { token, loggedUser } = useSelector((state) => state.auth)
+	const [showModal, setShowModal] = useState(false)
+	const [activeContractTab, setActiveContractTab] = useState(categories.contracts)
+	const [searchQuery, setSearchQuery] = useState('')
 	const { deletedProjects } = useSelector((state) => state.projects)
 	const { loading } = useSelector((state) => state.subscription)
 	const { id } = useParams()
 	const { user } = useSelector((state) => state.users)
+	
 	const profileData = !id ? loggedUser : user
-
+	
+	const [formData, setFormData] = useState({
+		senderId: '',
+		receiverId: '',
+		subject: '',
+		projectDescription: '',
+		budget: '',
+		currency: 'ARS',
+		availableTime: '',
+		status: 'pending',
+	})
+	
 	const handleUnsubscribe = () => {
 		const confirm = window.confirm(
 			'¿Estás seguro de que deseas cancelar tu suscripción? Esta acción no se puede deshacer.'
@@ -34,6 +57,20 @@ const ProfilePage = () => {
 				dispatch(getUserProfile(token))
 			})
 		}
+	}
+
+	const handleForm = () => {
+		setFormData({
+			...formData,
+			senderId: loggedUser.id,
+			receiverId: id,
+		})
+		setShowModal(true)
+	}
+
+	const handleContractFormSubmit = (form) => {		
+		dispatch(contractForm(form, token))
+		setShowModal(false)
 	}
 
 	const handleRestore = (projectId) => {
@@ -52,6 +89,11 @@ const ProfilePage = () => {
 		})
 	}
 
+	const handleTabClick = (category) => {
+		setActiveContractTab(category)
+		setSearchQuery('')
+	}
+
 	useEffect(() => {
 		if (loggedUser?.id === id || !id) {
 			dispatch(getUserProfile(token))
@@ -61,6 +103,7 @@ const ProfilePage = () => {
 	}, [dispatch, token, projects, id, loggedUser.id])
 
 	if (!loggedUser) return <div>Loading ...</div>
+
 
 	return (
 		<div className={styles.container}>
@@ -73,19 +116,42 @@ const ProfilePage = () => {
 							handleUnsubscribe={handleUnsubscribe}
 							loading={loading}
 							isCurrentUser={!id}
-						/>
+							handleForm={handleForm}
+						/>					
 						<Tabs
 							profileData={profileData}
+							activeContractTab={activeContractTab}
 							onRestore={handleRestore}
 							deletedProjects={deletedProjects}
+							onClick={handleTabClick}
+							searchQuery={searchQuery}
 						/>
 					</>
 				) : (
 					<div>Loading profile data...</div>
 				)}
 			</div>
+			<ModalForm
+				show={showModal}
+				handleClose={() => setShowModal(false)}
+				contract={formData}
+				handleSend={handleContractFormSubmit}
+			/>
 		</div>
 	)
 }
 
 export default ProfilePage
+
+const SectionStyled = styled.section`
+	a.nav-link {
+		cursor: pointer;
+
+		&.active {
+			font-weight: 700;
+		}
+		&:hover {
+			/* background: none; */
+		}
+	}
+`

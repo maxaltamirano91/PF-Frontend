@@ -3,12 +3,16 @@ import styled from 'styled-components'
 import AdminViewUsers from './AdminView-users'
 import AdminViewProjects from './AdminView-projects'
 import AdminViewTechnologies from './AdminView-technologies'
+import AdminViewContracts from './AdminView-contracts'
+import AdminViewDeletedUsers from './AdminView-deletedUsers'
 
 const AdminView = () => {
 	const categories = Object.freeze({
 		users: 'users',
 		projects: 'projects',
 		technologies: 'technologies',
+		contracts: 'contracts',
+		deletedUsers: 'deletedUsers'
 	})
 	const [activeTab, setActiveTab] = useState(categories.users)
 	const [searchQuery, setSearchQuery] = useState('')
@@ -63,10 +67,25 @@ const AdminView = () => {
 						</li>
 						<li className="nav-item">
 							<a
-								className={`nav-link ${activeTab ? 'disabled' : ''}`}
-								aria-current={activeTab ? 'page' : undefined}
+								className={`nav-link ${activeTab === categories.contracts ? 'active' : ''}`}
+								aria-current={
+									activeTab === categories.contracts ? 'page' : undefined}
+								onClick={() => handleTabClick(categories.contracts)}
 							>
-								Próximamente...
+								Contratos
+							</a>
+							</li>
+							<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.deletedUsers ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.deletedUsers ? 'page' : undefined
+								}
+								onClick={() => handleTabClick(categories.deletedUsers)}
+							>
+								Usuarios eliminados
 							</a>
 						</li>
 						<li className="nav-item ">
@@ -96,6 +115,12 @@ const AdminView = () => {
 						)}
 						{activeTab === categories.technologies && (
 							<AdminViewTechnologies searchQuery={searchQuery} />
+						)}
+						{activeTab === categories.contracts && (
+							<AdminViewContracts searchQuery={searchQuery} />
+						)}
+						{activeTab === categories.deletedUsers && (
+							<AdminViewDeletedUsers searchQuery={searchQuery} />
 						)}
 					</div>
 				</div>

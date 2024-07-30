@@ -8,13 +8,14 @@ const ProfileData = ({
 	handleUnsubscribe,
 	loading,
 	isCurrentUser,
+	handleForm
 }) => {
 	return (
 		<div className={styles.container}>
 			<ProfileIntro profileData={profileData} isCurrentUser={isCurrentUser} />
-			<ProfileContract profileData={profileData} />
+			<ProfileContract profileData={profileData} handleForm={handleForm} />
 			<ProfileAbout profileData={profileData} />
-			{isCurrentUser && profileData.planName === "Premium" ? (
+			{isCurrentUser && profileData.planName === 'Premium' ? (
 				<div className={styles.buttonContainer}>
 					<div
 						onClick={handleUnsubscribe}

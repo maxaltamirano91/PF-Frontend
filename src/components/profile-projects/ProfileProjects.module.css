@@ -1,36 +1,3 @@
-.projectsContainer {
-	display: flex;
-	flex-direction: column;
-	gap: 0.875rem;
-}
-
-.titleContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.titleContainer h1 {
-	font-size: 15px;
-	font-weight: 600;
-	min-width: 0;
-}
-
-.titleContainer button {
-	font-size: 15px;
-	font-weight: 600;
-	min-width: 0;
-    padding: 5px 18px;
-    flex-shrink: 0;
-    border-radius: 100px;
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 600;
-    line-height: 1;
-    transition-duration: 300ms;
-    transition-property: color, background, border;
-}
-
 .cardsContainer {
 	width: 100%;
 	min-height: 9rem;
