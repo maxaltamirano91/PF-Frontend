@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import AdminViewUsers from './AdminView-users'
 import AdminViewProjects from './AdminView-projects'
 import AdminViewTechnologies from './AdminView-technologies'
-
+import AdminViewData from './AdminViewData'
 import AdminViewContracts from './AdminView-contracts'
 import AdminViewDeletedUsers from './AdminView-deletedUsers'
 
@@ -13,7 +13,8 @@ const AdminView = () => {
 		projects: 'projects',
 		technologies: 'technologies',
 		contracts: 'contracts',
-		deletedUsers: 'deletedUsers'
+		deletedUsers: 'deletedUsers',
+		data: 'data'
 	})
 	const [activeTab, setActiveTab] = useState(categories.users)
 	const [searchQuery, setSearchQuery] = useState('')
@@ -89,6 +90,15 @@ const AdminView = () => {
 								Usuarios eliminados
 							</a>
 						</li>
+						<li className="nav-item">
+							<a
+								className={`nav-link ${activeTab === categories.data ? 'active' : ''}`}
+								aria-current={activeTab === categories.data ? 'page' : undefined}
+								onClick={() => handleTabClick(categories.data)}
+							>
+								Datos
+							</a>
+						</li>
 						<li className="nav-item ">
 							<div className="input-group mb-3">
 								<span className="input-group-text" id="basic-addon1">
@@ -122,6 +132,9 @@ const AdminView = () => {
 						)}
 						{activeTab === categories.deletedUsers && (
 							<AdminViewDeletedUsers searchQuery={searchQuery} />
+						)}
+						{activeTab === categories.data && (
+							<AdminViewData searchQuery={searchQuery} />
 						)}
 					</div>
 				</div>
