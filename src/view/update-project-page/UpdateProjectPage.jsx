@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -8,6 +7,7 @@ import {
     updateProject,
 } from '../../redux/actions';
 import { useParams, useNavigate } from 'react-router-dom';
+import styles from './UpdateProjectPage.module.css';
 
 const UpdateProjectPage = () => {
     const { id } = useParams();
@@ -126,7 +126,7 @@ const UpdateProjectPage = () => {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault();
         const dataToSubmit = {
             ...formData,
             technologies: selectedTechs,
@@ -143,122 +143,131 @@ const UpdateProjectPage = () => {
     }
 
     return (
-        <FormStyled onSubmit={handleSubmit} className="container mt-5">
-            <h2 className="mb-4">Editar Proyecto</h2>
-            <div className="mb-3">
-                <label htmlFor="title" className="form-label">
-                    Nombre del Proyecto
-                </label>
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    className="form-control"
-                    value={formData.title}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="description" className="form-label">
-                    Descripción
-                </label>
-                <textarea
-                    id="description"
-                    name="description"
-                    className="form-control"
-                    value={formData.description}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="image" className="form-label">
-                    Contenido Multimedia
-                </label>
-                <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    className="form-control"
-                    onChange={handleUploadImagen}
-                />
-            </div>
-            <div className="mb-3">
-                <label htmlFor="technologies" className="form-label">
-                    Tecnologías
-                </label>
-                <select
-                    id="technologies"
-                    name="technologies"
-                    className="form-select"
-                    onChange={handleTechChange}
-                >
-                    <option value="">Seleccione una tecnología</option>
-                    {technologies.map((tech) => (
-                        <option key={tech.id} value={tech.name}>
-                            {tech.name}
-                        </option>
-                    ))}
-                </select>
-                <div className="mt-2">
-                    {selectedTechs.map((tech, index) => (
-                        <span key={`${tech}-${index}`} className="badge me-2">
-                            {tech}
-                            <button
-                                type="button"
-                                className="btn-close btn-close-white ms-2"
-                                aria-label="Remove"
-                                onClick={() => handleRemoveTech(tech)}
-                            ></button>
-                        </span>
-                    ))}
+        <div className={`w-100 h-100 d-flex justify-content-center align-items-center ${styles.container}`}>
+            <div className={`card ${styles.card}`}>
+                <div className={`card-header ${styles.header}`}>
+                    <h2>Editar Proyecto</h2>
+                </div>
+                <div className="card-body d-flex">
+                    <form onSubmit={handleSubmit} className="flex-grow-1 me-3">
+                        <div className="mb-3">
+                            <label htmlFor="title" className={`form-label ${styles.inheritColor}`}>
+                                Nombre del Proyecto
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="title"
+                                name="title"
+                                value={formData.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="description" className={`form-label ${styles.inheritColor}`}>
+                                Descripción
+                            </label>
+                            <textarea
+                                className="form-control"
+                                id="description"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="image" className={`form-label ${styles.inheritColor}`}>
+                                Contenido Multimedia
+                            </label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="image"
+                                name="image"
+                                onChange={handleUploadImagen}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="technologies" className={`form-label ${styles.inheritColor}`}>
+                                Tecnologías
+                            </label>
+                            <select
+                                className="form-select"
+                                id="technologies"
+                                name="technologies"
+                                onChange={handleTechChange}
+                            >
+                                <option value="default">Seleccione una tecnología</option>
+                                {technologies.map((tech) => (
+                                    <option key={tech.id} value={tech.name}>
+                                        {tech.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="mt-2">
+                                {selectedTechs.map((tech) => (
+                                    <span key={tech} className={`badge ${styles.techBadge} me-2`}>
+                                        {tech}
+                                        <button
+                                            type="button"
+                                            className={`btn-close ms-1 ${styles.btnClose}`}
+                                            onClick={() => handleRemoveTech(tech)}
+                                        ></button>
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="tags" className={`form-label ${styles.inheritColor}`}>
+                                Etiquetas
+                            </label>
+                            <div className="input-group">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="tags"
+                                    value={newTag}
+                                    onChange={handleTagChange}
+                                    placeholder="Agregar etiqueta"
+                                />
+                                <button
+                                    type="button"
+                                    className={`btn btn-primary ${styles.addButton}`}
+                                    onClick={handleAddTag}
+                                >
+                                    Agregar
+                                </button>
+                            </div>
+                            <div className="mt-2">
+                                {formData.tags.map((tag) => (
+                                    <span key={tag} className={`badge ${styles.tagBadge} me-2`}>
+                                        #{tag}
+                                        <button
+                                            type="button"
+                                            className={`btn-close ms-1 ${styles.btnClose}`}
+                                            onClick={() => handleRemoveTag(tag)}
+                                        ></button>
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-end">
+                            <button type="submit" className="btn btn-success">
+                                Actualizar Proyecto
+                            </button>
+                        </div>
+                    </form>
+                    {imagenAddHosting && (
+                        <div className={styles.imageContainer}>
+                            <h4 className={styles.imagePreviewLabel}>Image preview</h4>
+                            <img src={imagenAddHosting} alt="Imagen seleccionada" className={styles.imagePreview} />
+                        </div>
+                    )}
                 </div>
             </div>
-            <div className="mb-3">
-                <label htmlFor="tags" className="form-label">
-                    Etiquetas
-                </label>
-                <div className="d-flex">
-                    <input
-                        type="text"
-                        id="tags"
-                        value={newTag}
-                        onChange={handleTagChange}
-                        className="form-control me-2"
-                        placeholder="Agregar etiqueta"
-                    />
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={handleAddTag}
-                    >
-                        Agregar
-                    </button>
-                </div>
-                <div className="mt-2">
-                    {formData.tags.map((tag, index) => (
-                        <span key={`${tag}-${index}`} className="badge me-2">
-                            {tag}
-                            <button
-                                type="button"
-                                className="btn-close btn-close-dark ms-2"
-                                aria-label="Remove"
-                                onClick={() => handleRemoveTag(tag)}
-                            ></button>
-                        </span>
-                    ))}
-                </div>
-            </div>
-            <button type="submit" className="btn btn-primary">
-                Actualizar Proyecto
-            </button>
-        </FormStyled>
+        </div>
     );
 };
-
-const FormStyled = styled.form`
-    max-width: 600px;
-    margin: 0 auto;
-`;
 
 export default UpdateProjectPage;
