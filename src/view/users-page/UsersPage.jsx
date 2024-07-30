@@ -14,6 +14,7 @@ const UsersPage = () => {
 		search: '',
 		sort: 'a-z',
 	})
+	const { loggedUser } = useSelector(state => state.auth)
 
 	const handleChange = (e) => {
 		setQuery((prev) => ({ ...prev, search: e.target.value }))
@@ -57,7 +58,7 @@ const UsersPage = () => {
 						value={query.search}
 						className={styles.searchbar}
 						onChange={handleChange}
-						placeholder="Search..."
+						placeholder="Buscar..."
 					/>
 				</div>
 			</div>
@@ -86,9 +87,11 @@ const UsersPage = () => {
 								<div className={styles.userDetails}>
 									<h3>{user.userName}</h3>
 									<span className="text-secondary">{user.bio}</span>
+									{loggedUser?.role !== 'admin' &&
 									<button className="w-100 btn btn-outline-light text-dark">
 										Contratar
 									</button>
+									}
 								</div>
 							</Link>
 						</div>

@@ -2,15 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './PremiumPage.module.css'
-import PlanComparison from "../../components/plan-comparison/PlanComparison"
-
+import PlanComparison from '../../components/plan-comparison/PlanComparison'
 
 const image1Url = 'https://i.ibb.co/tYfrgKG/portfolio.png'
 const image2Url = 'https://i.ibb.co/s51rcjF/Proyect-Proposal.png'
 const image3Url = 'https://i.ibb.co/k265XpZ/imagen3.png'
 
 const PremiumPage = () => {
-
 	useEffect(() => {
 		const carousel = document.querySelector('#carouselExampleIndicators')
 		if (carousel) {
@@ -19,7 +17,7 @@ const PremiumPage = () => {
 	}, [])
 
 	return (
-		<div className='w-100'>
+		<div className="w-100">
 			<header
 				className={`${styles.heroSection} d-flex align-items-center justify-content-center`}
 			>
@@ -31,9 +29,10 @@ const PremiumPage = () => {
 								0 % de tarifas de la plataforma, más funciones para que tu
 								carrera creativa crezca y dar más visibilidad a tus proyectos.
 							</p>
-							<Link to="/register" className="btn btn-primary">
-								Probar versión gratuita
-							</Link>
+
+							<a href="#plan-comparison" className="btn btn-primary">
+								Conoce DevPro
+							</a>
 						</div>
 						<div className="col-md-6">
 							<div
@@ -177,7 +176,9 @@ const PremiumPage = () => {
 				<p className="lead">
 					Lleva tus proyectos al siguiente nivel con ForDevs Pro.
 				</p>
-				<PlanComparison/>
+				<div id="plan-comparison">
+					<PlanComparison />
+				</div>
 			</section>
 		</div>
 	)

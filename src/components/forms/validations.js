@@ -66,13 +66,20 @@ export const updateUserValidationSchema = yup.object().shape({
         .string()
         .min(2, 'La biografía es muy corta')
         .max(50, 'La biografía es muy larga'),
-    image: yup.string(),
-    premiumFeature1: yup
+    image: yup.string().nullable(),
+    aboutMe: yup
         .string()
-        .min(2, 'Campo premium muy corto')
-        .max(50, 'Campo premium muy largo'),
-    premiumFeature2: yup
-        .string()
-        .min(2, 'Campo premium muy corto')
-        .max(50, 'Campo premium muy largo'),
+        .min(10, 'Debe tener al menos 10 caracteres')
+        .max(500, 'Puede tener hasta 500 caracteres'),
+    links: yup
+        .array()
+        .of(
+            yup.object().shape({
+                name: yup.string().required('El nombre de la plataforma es requerido'),
+                url: yup
+                    .string()
+                    .url('Debe ser una URL válida')
+                    .required('La URL es requerida'),
+            })
+        ),
 });

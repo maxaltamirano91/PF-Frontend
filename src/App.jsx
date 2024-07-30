@@ -26,6 +26,7 @@ import DeletedProjectDetailPage from './view/deleted-project-detail-page/Deleted
 import ProFooter from './components/pro-footer/ProFooter'
 
 import LandingPage from './view/landing-page/LandingPage'
+import Dashboard from './view/dashboard-admin/dashboard'
 
 function App() {
 	const { isLoading } = useAuth0()
@@ -66,6 +67,7 @@ function App() {
 						<Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
 						<Route path="/paymentFailure" element={<PaymentFailurePage />} />
 						<Route path="/paymentPending" element={<PaymentPendingPage />} />
+						<Route path="/escritorio" element={<Dashboard />} />
 					</Routes>
 				</div>
 				<ProFooter />

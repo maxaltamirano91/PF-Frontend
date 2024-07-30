@@ -6,7 +6,10 @@ import {
 	DELETE_USER,
 	GET_PROFILE,
 	FETCH_ERROR,
+	GET_DELETED_USERS,
+	RESTORE_USER
 } from '../types'
+import { type } from '@testing-library/user-event/dist/cjs/utility/type.js'
 
 export const getAllUsers = (data, token) => {
 	const { pagination='', search='', sort='' } = data
@@ -41,24 +44,27 @@ export const getUserById = (id) => {
 	}
 }
 
-export const updateUser = (userData, token) => {
-	return async (dispatch) => {
-		try {
-			const { data } = await axios.put(
-				`/users/profile`,
-				{ userData },
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
-			dispatch({ type: UPDATE_USER, payload: data })
-		} catch (error) {
-			dispatch({ type: FETCH_ERROR, payload: error.message })
-		}
-	}
-}
+export const updateUser = (userData, token) => async (dispatch) => {
+    try {
+		console.log(userData);
+        const response = await axios.put('/users/profile', userData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        dispatch({
+            type: UPDATE_USER,
+            payload: response.data, 
+        });
+
+        return response; 
+    } catch (error) {
+		dispatch({ type: FETCH_ERROR, payload: error.message });
+
+        return error.response; 
+    }
+};
 
 export const updateUserByID = (userData, token) => {
 	return async (dispatch) => {
@@ -113,9 +119,42 @@ export const getUserProfile = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
+			console.log(data);
 			dispatch({ type: GET_PROFILE, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
+		}
+	}
+}
+
+export const getDeletedUsers = (token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get('/users/deleted', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			console.log(data)
+			dispatch({ type: GET_DELETED_USERS, payload: data })
+		}catch(error){
+			dispatch({ type: FETCH_ERROR, payload:error.message })
+		}
+	}
+}
+
+export const restoreUser = (id, token) => {
+	return async(dispatch) => {
+		try{
+			const { data } = await axios.post(`/users/restore/${id}`, null, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: RESTORE_USER, payload: data })
+		}
+		catch(error){
+			dispatch({ type: FETCH_ERROR, payload:error.message })
 		}
 	}
 }
