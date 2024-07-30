@@ -21,8 +21,20 @@ const UpdateUserPage = () => {
 	const [imagenAddHosting, setImagenAddHosting] = useState('')
 	const [finish, setFinish] = useState(false)
 	const [formError, setFormError] = useState('')
-    const [selectedPlatform, setSelectedPlatform] = useState('');
-    const [linkUrl, setLinkUrl] = useState('');
+	const [selectedPlatform, setSelectedPlatform] = useState('')
+	const [linkUrl, setLinkUrl] = useState('')
+
+	useEffect(() => {
+		if (token) {
+			dispatch(getUserProfile(token))
+		}
+	}, [dispatch, token])
+
+	useEffect(() => {
+		if (user) {
+			setImagenAddHosting(user.image || '')
+		}
+	}, [user])
 
 	const handleUploadImagen = async (e) => {
 		const imageUpload = e.target.files[0]
@@ -52,39 +64,41 @@ const UpdateUserPage = () => {
 	}
 
 	const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-		setFormError('')
+		setFormError('');
 
 		const userData = {
 			...values,
 			image: imagenAddHosting || user.image,
-			links: values.links.map((link) => ({
-				...link,
-				userId: user.id,
-			})),
+			links: values.links
+				.filter((link) => link.name && link.url) 
+				.map((link) => ({
+					...link,
+					userId: user.id,
+				})),
 		}
 
 		try {
 			const result = await dispatch(updateUser(userData, token))
 
-			console.log('Resultado de la actualización:', result)
-
 			if (result.status === 200) {
 				navigate('/myprofile')
 			} else {
-				const errorMessage =
-					result.data?.message || 'Error al actualizar el usuario'
-				setFormError(`Error al actualizar el usuario: ${errorMessage}`)
+				if (result.status === 400 && result.data?.message === 'Contraseña actual incorrecta') {
+					setFormError('La contraseña actual es incorrecta')
+					resetForm()
+				} else {
+					const errorMessage = result.data?.message || 'Error al actualizar el usuario'
+					setFormError(`Error al actualizar el usuario: ${errorMessage}`)
+				}
 			}
 		} catch (error) {
 			console.error('Error en la actualización:', error)
-			const errorMessage =
-				error.response?.data?.message ||
-				'Error al actualizar el usuario. Intente nuevamente más tarde.'
+			const errorMessage = error.response?.data?.message || 'Error al actualizar el usuario. Intente nuevamente más tarde.'
 			setFormError(errorMessage)
-		} finally {
-			dispatch(getUserProfile(token))
-			setSubmitting(false)
 			resetForm()
+		} finally {
+			dispatch(getUserProfile(token)) 
+			setSubmitting(false)
 		}
 	}
 
@@ -107,20 +121,14 @@ const UpdateUserPage = () => {
 		}
 	}
 
-	useEffect(() => {
-		if (user) {
-			setImagenAddHosting(user.image || '')
-		}
-	}, [user])
-
-    const socialPlatforms = [
-        { name: 'GitHub', value: 'github' },
-        { name: 'LinkedIn', value: 'linkedin' },
-        { name: 'YouTube', value: 'youtube' },
-        { name: 'Facebook', value: 'facebook' },
-        { name: 'Twitter', value: 'twitter' },
-        { name: 'Google', value: 'google' }
-    ];
+	const socialPlatforms = [
+		{ name: 'GitHub', value: 'github' },
+		{ name: 'LinkedIn', value: 'linkedin' },
+		{ name: 'YouTube', value: 'youtube' },
+		{ name: 'Facebook', value: 'facebook' },
+		{ name: 'Twitter', value: 'twitter' },
+		{ name: 'Google', value: 'google' },
+	]
 
 	return (
 		<div className="row justify-content-center">
@@ -200,18 +208,21 @@ const UpdateUserPage = () => {
 							'El About Me debe tener hasta 5000 caracteres'
 						),
 						image: Yup.string(),
-						links: Yup.array().of(
-							Yup.object().shape({
-								name: Yup.string().required('Requerido'),
-								url: Yup.string()
-									.url('Debe ser una URL válida')
-									.required('Requerido'),
-							})
-						),
+						links: Yup.array()
+							.of(
+								Yup.object().shape({
+									name: Yup.string().required('Requerido'),
+									url: Yup.string()
+										.url('Debe ser una URL válida')
+										.required('Requerido'),
+								})
+							)
+							.nullable()
+							.optional(),
 					})}
 					onSubmit={handleSubmit}
 				>
-					{({ isSubmitting, values }) => (
+					{({ isSubmitting, values, setFieldValue }) => (
 						<Form style={{ width: '50%' }}>
 							<div className="mb-3 position-relative">
 								<Field
@@ -322,90 +333,100 @@ const UpdateUserPage = () => {
 							</div>
 
 							{user && user.planName === 'Premium' && (
-								<><div className="mb-3">
-                                    <label htmlFor="platform">Plataforma:</label>
-                                    <Field
-                                        as="select"
-                                        name="selectedPlatform"
-                                        id="platform"
-                                        className="form-control"
-                                        onChange={(e) => {
-                                            setSelectedPlatform(e.target.value)
-                                            setFieldValue('selectedPlatform', e.target.value)
-                                        } }
-                                    >
-                                        <option value="" label="Selecciona una plataforma" />
-                                        {socialPlatforms.map((platform) => (
-                                            <option key={platform.value} value={platform.value}>
-                                                {platform.name}
-                                            </option>
-                                        ))}
-                                    </Field>
-                                    <ErrorMessage
-                                        name="selectedPlatform"
-                                        component="div"
-                                        className="text-danger" />
-                                </div><div className="mb-3">
-                                        <label htmlFor="linkUrl">URL:</label>
-                                        <Field
-                                            type="url"
-                                            name="linkUrl"
-                                            id="linkUrl"
-                                            className="form-control"
-                                            value={linkUrl}
-                                            onChange={(e) => {
-                                                setLinkUrl(e.target.value)
-                                                setFieldValue('linkUrl', e.target.value)
-                                            } } />
-                                        <ErrorMessage
-                                            name="linkUrl"
-                                            component="div"
-                                            className="text-danger" />
-                                    </div><FieldArray
-                                        name="links"
-                                        render={arrayHelpers => (
-                                            <div>
-                                                {values.links && values.links.length > 0 ? (
-                                                    values.links.map((link, index) => (
-                                                        <div key={index} className="mb-3">
-                                                            <div>
-                                                                Plataforma: {link.name}
-                                                                <br />
-                                                                URL: {link.url}
-                                                            </div>
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => arrayHelpers.remove(index)}
-                                                                className="btn btn-danger mt-2"
-                                                            >
-                                                                Eliminar Enlace
-                                                            </button>
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p>No hay enlaces agregados.</p>
-                                                )}
-                                                <button
-                                                    type="button"
-                                                    onClick={() => {
-                                                        // Agregar un nuevo enlace basado en los valores seleccionados
-                                                        if (selectedPlatform && linkUrl) {
-                                                            arrayHelpers.push({
-                                                                name: selectedPlatform,
-                                                                url: linkUrl
-                                                            })
-                                                            setSelectedPlatform('')
-                                                            setLinkUrl('')
-                                                        } else {
-                                                            alert('Selecciona una plataforma y proporciona una URL.')
-                                                        }
-                                                    } }
-                                                    className="btn btn-primary mt-2"
-                                                >
-                                                    Agregar Enlace
-                                                </button>
-                                            </div>
-                                        )} /></>
+								<>
+									<div className="mb-3">
+										<label htmlFor="platform">Plataforma:</label>
+										<Field
+											as="select"
+											name="selectedPlatform"
+											id="platform"
+											className="form-control"
+											onChange={(e) => {
+												setSelectedPlatform(e.target.value)
+												setFieldValue('selectedPlatform', e.target.value)
+											}}
+										>
+											<option value="" label="Selecciona una plataforma" />
+											{socialPlatforms.map((platform) => (
+												<option key={platform.value} value={platform.value}>
+													{platform.name}
+												</option>
+											))}
+										</Field>
+										<ErrorMessage
+											name="selectedPlatform"
+											component="div"
+											className="text-danger"
+										/>
+									</div>
+									<div className="mb-3">
+										<label htmlFor="linkUrl">URL:</label>
+										<Field
+											type="url"
+											name="linkUrl"
+											id="linkUrl"
+											className="form-control"
+											value={linkUrl}
+											onChange={(e) => {
+												setLinkUrl(e.target.value)
+												setFieldValue('linkUrl', e.target.value)
+											}}
+										/>
+										<ErrorMessage
+											name="linkUrl"
+											component="div"
+											className="text-danger"
+										/>
+									</div>
+									<FieldArray
+										name="links"
+										render={(arrayHelpers) => (
+											<div>
+												{values.links && values.links.length > 0 ? (
+													values.links.map((link, index) => (
+														<div key={index} className="mb-3">
+															<div>
+																Plataforma: {link.name}
+																<br />
+																URL: {link.url}
+															</div>
+															<button
+																type="button"
+																onClick={() => arrayHelpers.remove(index)}
+																className="btn btn-danger mt-2"
+															>
+																Eliminar Enlace
+															</button>
+														</div>
+													))
+												) : (
+													<p>No hay enlaces agregados.</p>
+												)}
+												<button
+													type="button"
+													onClick={() => {
+														// Agregar un nuevo enlace basado en los valores seleccionados
+														if (selectedPlatform && linkUrl) {
+															arrayHelpers.push({
+																name: selectedPlatform,
+																url: linkUrl,
+															})
+															setSelectedPlatform('')
+															setLinkUrl('')
+														} else {
+															alert(
+																'Selecciona una plataforma y proporciona una URL.'
+															)
+														}
+													}}
+													className="btn btn-primary mt-2"
+												>
+													Agregar Enlace
+												</button>
+											</div>
+										)}
+									/>
+								</>
 							)}
 
 							<button
