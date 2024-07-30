@@ -11,6 +11,12 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@coreui/chartjs": "^4.0.0",
+    "@coreui/coreui": "^5.1.0",
+    "@coreui/icons": "^3.0.1",
+    "@coreui/icons-react": "^2.3.0",
+    "@coreui/react": "^5.2.0",
+    "@coreui/react-chartjs": "^3.0.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",

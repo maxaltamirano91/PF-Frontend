@@ -6,7 +6,9 @@ import styles from './ProfilePage.module.css'
 import Toastify from 'toastify-js'
 import ModalForm from './components/ModalForm'
 import ProfileData from '../../components/profile-data/ProfileData'
+
 import {
+	createReview,
 	getUserProfile,
 	cancelSubscription,
 	getUserById,
@@ -24,15 +26,17 @@ const ProfilePage = () => {
 	const [projects, setProjects] = useState([])
 	const [showModal, setShowModal] = useState(false)
 	const [searchQuery, setSearchQuery] = useState('')
-	const [activeContractTab, setActiveContractTab] = useState(categories.contracts)
+	const [activeContractTab, setActiveContractTab] = useState(
+		categories.contracts
+	)
 	const { token, loggedUser } = useSelector((state) => state.auth)
 	const { deletedProjects } = useSelector((state) => state.projects)
 	const { loading } = useSelector((state) => state.subscription)
 	const { user } = useSelector((state) => state.users)
 	const { id } = useParams()
-	
+
 	const profileData = !id ? loggedUser : user
-	
+
 	const [formData, setFormData] = useState({
 		senderId: '',
 		receiverId: '',
@@ -43,7 +47,7 @@ const ProfilePage = () => {
 		availableTime: '',
 		status: 'pending',
 	})
-	
+
 	const handleUnsubscribe = () => {
 		const confirm = window.confirm(
 			'¿Estás seguro de que deseas cancelar tu suscripción? Esta acción no se puede deshacer.'
@@ -64,9 +68,26 @@ const ProfilePage = () => {
 		setShowModal(true)
 	}
 
-	const handleContractFormSubmit = (form) => {		
+	const handleContractFormSubmit = (form) => {
 		dispatch(contractForm(form, token))
 		setShowModal(false)
+	}
+
+	const handleReviewFormSubmit = (reviewData, handleCloseModal) => {
+		if (id) {
+			dispatch(createReview({ ...reviewData, reviewedUserId: id }, token))
+			handleCloseModal()
+			Toastify({
+				text: 'Review publicado exitosamente',
+				duration: 3000,
+				close: true,
+				gravity: 'top',
+				position: 'center',
+				backgroundColor: '#4CAF50',
+				stopOnFocus: true,
+			}).showToast()
+			dispatch(getUserProfile(token))
+		}
 	}
 
 	const handleRestore = (projectId) => {
@@ -100,11 +121,10 @@ const ProfilePage = () => {
 
 	if (!loggedUser) return <div>Loading ...</div>
 
-
 	return (
 		<div className={styles.container}>
-			<div className={`${styles.banner} z-index-0`}></div>
 			<div className={styles.profileContainer}>
+				<div className={`${styles.banner} z-index-0`}></div>
 				{profileData ? (
 					<>
 						<ProfileData
@@ -113,7 +133,7 @@ const ProfilePage = () => {
 							loading={loading}
 							isCurrentUser={!id}
 							handleForm={handleForm}
-						/>					
+						/>
 						<Tabs
 							profileData={profileData}
 							activeContractTab={activeContractTab}
@@ -121,6 +141,7 @@ const ProfilePage = () => {
 							deletedProjects={deletedProjects}
 							onClick={handleTabClick}
 							searchQuery={searchQuery}
+							handleReviewFormSubmit={handleReviewFormSubmit}
 						/>
 					</>
 				) : (

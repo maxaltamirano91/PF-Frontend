@@ -1,8 +1,6 @@
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 import { Gem } from 'lucide-react'
-
 import { setDarkMode, setLightMode } from '../../redux/actions'
-
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -82,30 +80,43 @@ const NavBarExtended = () => {
 											</Link>
 										</li>
 										<li>
-											<a className="dropdown-item" href="/explorer/tags">
-												Tags
-											</a>
+											{loggedUser?.role !== 'admin' && (
+												<a className="dropdown-item" href="/explorer/tags">
+													Contratos
+												</a>
+											)}
 										</li>
 									</ul>
 								</div>
 
 								{/* --------------------------------- end Explorer ----------------------- */}
 							</li>
-							{loggedUser?.planName !== 'Premium' && (
-								<li className="nav-item">
-									<Link to={'/premium'}>
-										<span className="nav-link">ForDevPro</span>
-									</Link>
-								</li>
-							)}
+							{loggedUser?.planName !== 'Premium' &&
+								loggedUser?.role !== 'admin' && (
+									<li className="nav-item">
+										<Link to={'/premium'}>
+											<span className="nav-link">ForDevsPro</span>
+										</Link>
+									</li>
+								)}
 
-							{loggedUser && loggedUser.role === 'admin' && (
+							{loggedUser && loggedUser?.role === 'admin' && (
 								<li className="nav-item">
 									<Link to={'/dashboard'}>
 										<span className="nav-link ">Admin-Console</span>
 									</Link>
 								</li>
 							)}
+
+							{loggedUser ?
+								(<li className="nav-item">
+									<Link to={'/create'}>
+										<span className="nav-link ">Nuevo proyecto</span>
+									</Link>
+								</li>)
+								: null
+							}
+
 						</ul>
 
 						{loggedUser ? (
@@ -119,13 +130,13 @@ const NavBarExtended = () => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										Hola {loggedUser.userName}
+										Hola {loggedUser?.userName}
 									</a>
 									<ul className="dropdown-menu">
 										<li>
 											<Link className="dropdown-item" to={`/myprofile`}>
 												<span className="nav-link ">
-													Perfil{loggedUser.planName === 'Premium' && <Gem />}
+													Perfil{loggedUser?.planName === 'Premium' && <Gem />}
 												</span>
 											</Link>
 										</li>
