@@ -13,7 +13,7 @@ const Searchbar = ({ value, onChange, searchByTitle, toggleSearchByTitle }) => {
 				className={theme === 'dark' ? '' : 'border'}
 				style={theme === 'dark' ? {} : { backgroundColor: '#f8f9fa' }}
 				onChange={onChange}
-				placeholder="Search..."
+				placeholder="Buscar..."
 			/>
 			<div
 				className={theme === 'dark' ? 'bg-dark' : 'bg-white'}
