@@ -57,7 +57,7 @@ const UsersPage = () => {
 						value={query.search}
 						className={styles.searchbar}
 						onChange={handleChange}
-						placeholder="Search..."
+						placeholder="Buscar..."
 					/>
 				</div>
 			</div>
