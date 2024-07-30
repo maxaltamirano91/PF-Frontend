@@ -3,10 +3,12 @@ import {
 	FETCH_USER,
 	UPDATE_USER,
 	DELETE_USER,
+	GET_DELETED_USERS
   } from '../types'
   
   const initialState = {
 	allUsers: [],
+	allDeletedUsers:[],
 	user: null,
 	profile: null,
   }
@@ -36,6 +38,11 @@ import {
 		return {
 		  ...state,
 		  allUsers: state.allUsers.filter((user) => user.id !== action.payload),
+		}
+	case GET_DELETED_USERS:
+		return {
+			...state,
+			allDeletedUsers: action.payload
 		}
   
 	  default:
