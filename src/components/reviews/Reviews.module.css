@@ -25,36 +25,17 @@
 	border-radius: 4px;
 	position: relative;
 	text-align: center;
-	transition: background-color 0.15s linear;
-}
-
-.cardContent {
-	display: block;
+	transition: background-color 0.15s linear;	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	height: 100%;
 	padding-top: 78.22%;
 	position: relative;
 	width: 100%;
 }
 
-.createReview {
-	bottom: 0;
-	display: flex;
-	flex-direction: column;
-	left: 0;
-	position: absolute;
-	right: 0;
-	text-decoration: none;
-	top: 0;
-}
-
-.createReviewComponents {
-	align-items: center;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    width: 100%;
-}
 
 @media (min-width: 1202px) and (max-width: 1490px) {
 	.cardsContainer {

@@ -1,23 +1,23 @@
 import styles from './Reviews.module.css'
 
-const Reviews = () => {
+const Reviews = ({ profileData }) => {
+	console.log(profileData)
 	return (
 		<div className={styles.reviewsContainer}>
 			<div className={styles.cardsContainer}>
-				<div className={styles.cardContainer}>
-					<div className={styles.card}>
-						<div className={styles.cardBackground}>
-							<div className={styles.cardContent}>
-								<div className={styles.createReview}>
-									<div className={styles.createReviewComponents}>
-
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<div className={styles.card}>
+					<div className={styles.cardBackground}></div>
 				</div>
 			</div>
+			{profileData?.reviews?.length
+				? profileData?.reviews?.map((project) => (
+						<div key={project.id} className={styles.cardsContainer}>
+							<div className={styles.card}>
+								<div className={styles.cardBackground}></div>
+							</div>
+						</div>
+				))
+				: null}
 		</div>
 	)
 }

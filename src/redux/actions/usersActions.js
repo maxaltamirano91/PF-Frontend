@@ -9,7 +9,7 @@ import {
 } from '../types'
 
 export const getAllUsers = (data, token) => {
-	const { pagination='', search='', sort='' } = data
+	const { pagination=10, search='', sort='a-z' } = data
 	return async (dispatch) => {
 		try {
 			const params = new URLSearchParams()

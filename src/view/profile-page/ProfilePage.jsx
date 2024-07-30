@@ -1,15 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import ContractView from './components/ContractView'
-import { Link, useParams } from 'react-router-dom'
-import Cards from '../../components/cards/Cards'
+import { useParams } from 'react-router-dom'
 import Tabs from '../../components/tabs/Tabs'
 import styles from './ProfilePage.module.css'
-import styled from 'styled-components'
-import { Pencil, Briefcase } from 'lucide-react'
 import Toastify from 'toastify-js'
 import ModalForm from './components/ModalForm'
-import 'toastify-js/src/toastify.css'
 import ProfileData from '../../components/profile-data/ProfileData'
 import {
 	getUserProfile,
@@ -19,6 +14,7 @@ import {
 	restoreDeletedProject,
 	contractForm,
 } from '../../redux/actions'
+import 'toastify-js/src/toastify.css'
 
 const ProfilePage = () => {
 	const categories = Object.freeze({
@@ -26,14 +22,14 @@ const ProfilePage = () => {
 	})
 	const dispatch = useDispatch()
 	const [projects, setProjects] = useState([])
-	const { token, loggedUser } = useSelector((state) => state.auth)
 	const [showModal, setShowModal] = useState(false)
-	const [activeContractTab, setActiveContractTab] = useState(categories.contracts)
 	const [searchQuery, setSearchQuery] = useState('')
+	const [activeContractTab, setActiveContractTab] = useState(categories.contracts)
+	const { token, loggedUser } = useSelector((state) => state.auth)
 	const { deletedProjects } = useSelector((state) => state.projects)
 	const { loading } = useSelector((state) => state.subscription)
-	const { id } = useParams()
 	const { user } = useSelector((state) => state.users)
+	const { id } = useParams()
 	
 	const profileData = !id ? loggedUser : user
 	
@@ -142,16 +138,3 @@ const ProfilePage = () => {
 }
 
 export default ProfilePage
-
-const SectionStyled = styled.section`
-	a.nav-link {
-		cursor: pointer;
-
-		&.active {
-			font-weight: 700;
-		}
-		&:hover {
-			/* background: none; */
-		}
-	}
-`
