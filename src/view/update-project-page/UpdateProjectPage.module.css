@@ -1,0 +1,76 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.card {
+    width: 100%;
+    max-width: 1200px; 
+}
+
+.header {
+    background-color: transparent;
+}
+
+.inheritColor {
+    color: inherit;
+}
+
+.imageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.imagePreview {
+    max-width: 80%;
+    max-height: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.imagePreviewLabel {
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+.techBadge {
+    background-color: transparent;
+    color: inherit;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.tagBadge {
+    background-color: transparent;
+    color: inherit;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.btnClose {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1rem;
+    position: absolute;
+}
+
+.addButton {
+    margin-left: 10px;
+}
