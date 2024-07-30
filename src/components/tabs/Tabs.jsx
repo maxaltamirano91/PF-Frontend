@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ProfileProjects from '../../components/profile-projects/ProfileProjects'
+import Reviews from '../reviews/Reviews'
 import PropTypes from 'prop-types'
 import Cards from '../cards/Cards'
 import ContractView from '../../view/profile-page/components/ContractView'
+import { Link } from 'react-router-dom'
 
 const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeContractTab }) => {
-	const { loggedUser } = useSelector(state => state.auth)
+	const { loggedUser } = useSelector((state) => state.auth)
 	const [activeTab, setActiveTab] = useState('projects')
 	const categories = Object.freeze({
 		contracts: 'contracts',
@@ -28,6 +30,11 @@ const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeCont
 			content: (
 				<ContractView searchQuery={searchQuery} activeContractTab={activeContractTab} categories={categories} />
 			),
+		},
+		{
+			key: 'reviews',
+			label: 'Reviews',
+			content: <Reviews tabName="Reviews" />,
 		},
 	]
 
@@ -64,7 +71,24 @@ const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeCont
 			<div className={styles.tabContent}>
 				{tabs.map(
 					(tab) =>
-						activeTab === tab.key && <div key={tab.key}>{tab.content}</div>
+						activeTab === tab.key && (
+							<div key={tab.key} className={styles.projectsContainer}>
+								<div className={styles.titleContainer}>
+									<h2>{tab.label}</h2>
+									<div></div>
+									{loggedUser.id === profileData?.id &&
+										profileData?.planName !== 'Premium' &&
+										profileData?.role !== 'admin' && (
+											<Link to="/subscription" className={`${styles.button}`}>
+												<button className="btn btn-light border">
+													Actualizar a PRO
+												</button>
+											</Link>
+										)}
+								</div>
+								{tab.content}
+							</div>
+						)
 				)}
 			</div>
 		</div>
