@@ -107,6 +107,16 @@ const NavBarExtended = () => {
 									</Link>
 								</li>
 							)}
+
+							{loggedUser ?
+								(<li className="nav-item">
+									<Link to={'/create'}>
+										<span className="nav-link ">Nuevo proyecto</span>
+									</Link>
+								</li>)
+								: null
+							}
+
 						</ul>
 
 						{loggedUser ? (
