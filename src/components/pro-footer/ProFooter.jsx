@@ -41,7 +41,7 @@ const ProFooter = () => {
 			<div className={`${styles.proFooter} text-center mt-4`}>
 				<span>No se encontraron proyectos que coincidan con tu búsqueda.</span>
 				<span className="fw-bold">
-					Te recomendamos explorar estos otros temas:
+					Te recomendamos explorar estos otros temas: 
 				</span>
 				<Link to="/explorer/users">Usuarios</Link>
 			</div>

@@ -7,6 +7,7 @@ import Reviews from '../reviews/Reviews'
 import PropTypes from 'prop-types'
 import Cards from '../cards/Cards'
 import ContractView from '../../view/profile-page/components/ContractView'
+
 import { Link } from 'react-router-dom'
 
 const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeContractTab }) => {

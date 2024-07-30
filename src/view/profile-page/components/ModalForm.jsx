@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
+
 const ModalForm = ({ show, handleClose, contract, handleSend }) => {
 	const [formData, setFormData] = useState({ ...contract })
 
@@ -19,6 +22,15 @@ const ModalForm = ({ show, handleClose, contract, handleSend }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		handleSend(formData)
+		Toastify({
+			text: 'Mensaje enviado',
+			duration: 3000,
+			close: true,
+			gravity: 'top',
+			position: 'center',
+			backgroundColor: '#4CAF50',
+			stopOnFocus: true,
+		}).showToast()
 		handleClose()
 	}
 
