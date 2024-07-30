@@ -284,7 +284,7 @@ const CreateProjectPage = () => {
               </div>
             </div>
             <div className="d-flex justify-content-end">
-              <button type="submit" className={`btn btn-green-moon ${styles.buttonLike}`}>
+              <button type="submit" className="btn btn-success">
                 Guardar
               </button>
             </div>
