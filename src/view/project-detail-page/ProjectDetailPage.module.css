@@ -40,22 +40,6 @@
 	margin: 2rem 0;
 }
 
-.modifyButton {
-	background: #7474BF;  
-    background: -webkit-linear-gradient(to right, #348AC7, #7474BF); 
-    background: linear-gradient(to right, #348AC7, #7474BF);
-    color: #fff;
-    border: 3px solid #eee;
-}
-
-.deleteButton {
-	background: #ec008c; 
-    background: -webkit-linear-gradient(to right, #fc6767, #ec008c);  
-    background: linear-gradient(to right, #fc6767, #ec008c);
-    color: #fff;
-    border: 3px solid #eee;
-}
-
 .fileButton {
 	background-color: #6c757d;
 	color: #fff;
@@ -109,3 +93,27 @@
 	color: inherit;
 	font-size: 1rem; 
 }
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 900px;
+    z-index: 1001; 
+}
+
+
