@@ -65,7 +65,6 @@ const EditProjectModal = ({ show, handleClose, project, handleSave, technologies
 
     const handleSubmit = async () => {
         const formData = new FormData();
-        console.log(tags, selectedTechs ,"SALAMALECO");
         formData.append('title', updatedProject.title);
         formData.append('description', updatedProject.description);
         formData.append('tags', JSON.stringify(tags)); // Convert array to JSON string
