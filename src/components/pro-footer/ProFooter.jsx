@@ -9,21 +9,17 @@ const ProFooter = () => {
 	if (loggedUser?.planName !== 'Premium') {
 		if (pathname === '/home' || pathname === '/explorer/users') {
 			return (
-				<>
-					{loggedUser?.role !== 'admin' && (
-						<div className={styles.proFooter}>
-							<div>
-								<h3>
-									Obtené tus beneficios <br />
-									Accediendo a ForDevs Premium
-								</h3>
-								<Link to="/premium" className="w-100">
-									<button className="btn btn-primary">Ver más</button>
-								</Link>
-							</div>
-						</div>
-					)}
-				</>
+				<div className={styles.proFooter}>
+					<div>
+						<h3>
+							Obtené tus beneficios <br />
+							Accediendo a ForDevs Premium
+						</h3>
+						<Link to="/premium" className="w-100">
+							<button className="btn btn-primary">Ver más</button>
+						</Link>
+					</div>
+				</div>
 			)
 		}
 	}

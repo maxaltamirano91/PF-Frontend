@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation, Link } from 'react-router-dom';
 import { sendPaymentNotification } from '../../redux/actions/paymentActions';
 
