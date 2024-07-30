@@ -2,7 +2,7 @@ import {
 	FETCH_USERS,
 	FETCH_USER,
 	UPDATE_USER,
-	DELETE_USER,
+	DELETE_USER
   } from '../types'
   
   const initialState = {

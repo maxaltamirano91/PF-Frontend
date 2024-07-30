@@ -5,7 +5,7 @@ import {
 	UPDATE_USER,
 	DELETE_USER,
 	GET_PROFILE,
-	FETCH_ERROR,
+	FETCH_ERROR
 } from '../types'
 
 export const getAllUsers = (data, token) => {

@@ -1,5 +1,6 @@
 import styles from './ProFooter.module.css'
 import { useSelector } from 'react-redux'
+
 import { useLocation, Link } from 'react-router-dom'
 
 const ProFooter = () => {
