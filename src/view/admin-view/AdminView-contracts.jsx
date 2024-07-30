@@ -22,7 +22,7 @@ const AdminViewContracts = ({ searchQuery }) => {
 			contract.receiver?.userName
 				.toLowerCase()
 				.includes(searchQuery.toLowerCase()) ||
-			contract.id.toString().includes(searchQuery)
+			contract.id?.toString().includes(searchQuery)
 	)
 
 	const pendingContracts = filteredContracts.filter(
