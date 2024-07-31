@@ -49,7 +49,12 @@ console.log(filteredContracts, contracts)
 										</p>
 										<p>Cronología: {contract.availableTime}</p>
 										<p>Estado: {contract.status}</p>
-										<p>Comisión por pago: {contract.commissionAmount}</p>
+										<p>
+											Comisión por pago:{' '}
+											{contract.commission?.amount !== undefined
+												? `${contract.commission?.amount} ${contract.currency}`
+												: 'No disponible'}
+										</p>
 									</div>
 									<hr />
 								</div>
