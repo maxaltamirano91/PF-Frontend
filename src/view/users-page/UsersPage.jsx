@@ -132,7 +132,7 @@ const UsersPage = () => {
 								>
 									<h3>{user.userName}</h3>
 									<span className="text-secondary">{user.bio}</span>
-									{loggedUser?.role !== 'admin' && (
+									{loggedUser?.role !== 'admin' && loggedUser?.planName !== 'Free' && (
 										<button
 											className={`w-100 btn ${
 												theme === 'light'
