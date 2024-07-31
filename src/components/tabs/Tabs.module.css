@@ -11,6 +11,7 @@
 }
 
 .titleContainer h2 {
+    margin: 0;
 	font-size: 15px;
 	font-weight: 600;
 	min-width: 0;
@@ -30,6 +31,13 @@
     transition-duration: 300ms;
     transition-property: color, background, border;
 }
+
+.titleContainer div {
+    margin: 1rem;
+    border: solid 1px #dee2e6;
+    flex: 1;
+}
+
 .tabsContainer {
     display: block;
 }

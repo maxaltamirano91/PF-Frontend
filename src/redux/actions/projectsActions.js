@@ -233,6 +233,7 @@ export const uploadImage = (image) => {
 					},
 				})
 			).data
+			console.log(data.url);
 			return dispatch({
 				type: IMAGE_UPLOAD,
 				payload: data.url,

@@ -1,16 +1,17 @@
-/* .container {
+.container {
     width: 100%;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-} */
+}
 
 .searchContainer {
-    /* width: 75%; */
+    margin: 0 2rem;
     display: flex;
     align-items: center;
     position: relative;
+    flex: 1;
 }
 
 .searchContainer input {
@@ -20,17 +21,7 @@
     border-radius: 99999px;
     display: flex;
     align-items: center;
-    border: 1px solid rgb(117, 117, 117);
-
-    &:focus{
-        border-color: rgb(206, 206, 206);
-    border-width: 1px; 
-    outline: none; 
-    }    
-    &:hover {
-        /* borderColor: state.isFocused ? '#aaa' : '#555', */
-        border-color: rgb(206, 206, 206);
-    }
+    border: none;
 }
 
 .searchContainer div {
@@ -44,11 +35,10 @@
 
 .selectContainer {
     padding: 1rem 2rem;
-    margin-right: 1rem;
-    max-width: 200px;
+    min-width: 200px;
     text-align: center;
     border-radius: 99999px;
-    border: 1px solid rgb(117, 117, 117);
+    cursor: pointer;
 }
 
 .selectContainer select {
@@ -57,11 +47,23 @@
 }
 
 .sortContainer {
-    
-    padding: 1rem;
+    padding: 1rem 2rem;
+    min-width: 200px;
     text-align: center;
+    border-radius: 99999px;
     cursor: pointer;
 }
+
+.dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
 .select{
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 }

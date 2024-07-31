@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchTechnologies } from '../../redux/actions'
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
+import { ListFilter } from 'lucide-react'
 
 const Selector = ({ onTechnologyChange, selectedTechnologies }) => {
 	const dispatch = useDispatch()
-	const { theme } = useSelector((state) => state.themes)
 	const { technologies } = useSelector((state) => state.technologies)
 	const [dropdownOpen, setDropdownOpen] = useState(false)
 
@@ -23,23 +23,19 @@ const Selector = ({ onTechnologyChange, selectedTechnologies }) => {
 	const toggleDropdown = () => setDropdownOpen(!dropdownOpen)
 
 	return (
-		<div
-			className={`${theme === 'dark' ? '' : 'border'} ${
-				styles.selectContainer
-			} dropdown`}
-			style={theme === 'dark' ? {} : { backgroundColor: '#f8f9fa' }}
-		>
+		<div className={`${styles.selectContainer} dropdown border`}>
 			<div
 				className={`${styles.select} dropdown-toggle`}
 				aria-expanded={dropdownOpen}
 				onClick={toggleDropdown}
 			>
-				<span>Filtrar</span>
+				<ListFilter size={16} strokeWidth={3} />
+				<span className="fw-bold">Filtrar</span>
 			</div>
 			<div
 				className={`dropdown-menu p-3 ${dropdownOpen ? 'show' : ''}`}
 				aria-labelledby="dropdownMenuButton"
-				style={{ width: '360px' }} // Ajusta el ancho según tus necesidades
+				style={{ width: '360px' }}
 			>
 				<Select
 					options={technologyOptions}
