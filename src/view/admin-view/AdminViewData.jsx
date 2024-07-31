@@ -131,7 +131,7 @@ const AdminViewData = () => {
 					<CCard>
 						<CCardHeader>Contratos</CCardHeader>
 						<CCardBody>
-							<h4>$ {metaData.roundedAverageTotal}</h4>
+							<h4>{metaData.contractCount}</h4>
 						</CCardBody>
 					</CCard>
 				</CCol>
@@ -151,7 +151,7 @@ const AdminViewData = () => {
 						className="h-100"
 						icon={
 							<CIcon
-								className="my-4 text-white"
+								className="my-4 text-black"
 								icon={cilArrowTop}
 								height={52}
 							/>
@@ -205,7 +205,7 @@ const AdminViewData = () => {
 						className="h-100"
 						icon={
 							<CIcon
-								className="my-4 text-white"
+								className="my-4 text-black"
 								icon={cilThumbUp}
 								height={52}
 							/>
@@ -265,7 +265,7 @@ const AdminViewData = () => {
 					<CWidgetStatsD
 						className="h-100"
 						icon={
-							<CIcon className="my-4 text-white" icon={cilStar} height={52} />
+							<CIcon className="my-4 text-black" icon={cilStar} height={52} />
 						}
 						chart={
 							<CChartLine
@@ -323,7 +323,7 @@ const AdminViewData = () => {
 						className="h-100"
 						icon={
 							<CIcon
-								className="my-4 text-white"
+								className="my-4 text-black"
 								icon={cibLinkedin}
 								height={52}
 							/>
@@ -440,7 +440,7 @@ const AdminViewData = () => {
 					<CWidgetStatsD
 						className="h-100"
 						icon={
-							<CIcon className="my-4 text-white" icon={cilGem} height={52} />
+							<CIcon className="my-4 text-black" icon={cilGem} height={52} />
 						}
 						chart={
 							<CChartLine
