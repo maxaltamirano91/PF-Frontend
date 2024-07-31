@@ -10,6 +10,10 @@ import {
 	UPDATE_CONTRACT_STATUS_REQUEST,
 	UPDATE_CONTRACT_STATUS_SUCCESS,
 	UPDATE_CONTRACT_STATUS_FAILURE,
+	CONTRACT_COMMISSION,
+	COMMISSION_CREATION_REQUEST,
+	COMMISSION_CREATION_SUCCESS,
+	COMMISSION_CREATION_FAILURE,
 } from '../types'
 
 // Action creators for contract form
@@ -169,6 +173,40 @@ export const updateContractStatus = (id, status, token) => {
 		} catch (error) {
 			dispatch(
 				updateContractStatusFailure(
+					error.response ? error.response.data : error.message
+				)
+			)
+		}
+	}
+}
+
+const commissionCreationRequest = () => ({
+	type: COMMISSION_CREATION_REQUEST,
+})
+
+const commissionCreationSuccess = (data) => ({
+	type: COMMISSION_CREATION_SUCCESS,
+	payload: data,
+})
+
+const commissionCreationFailure = (error) => ({
+	type: COMMISSION_CREATION_FAILURE,
+	payload: error,
+})
+
+export const createCommission = (commissionData, token) => {
+	return async (dispatch) => {
+		dispatch(commissionCreationRequest())
+		try {
+			const { data } = await axios.post('/contracts/create-commission', commissionData, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch(commissionCreationSuccess(data))
+		} catch (error) {
+			dispatch(
+				commissionCreationFailure(
 					error.response ? error.response.data : error.message
 				)
 			)
