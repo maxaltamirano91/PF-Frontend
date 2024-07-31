@@ -1,80 +1,75 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-	fetchMetaData,
-	downloadExcel,
-	fetchPdf,
-	clearPdfUrl,
-	clearExcelUrl,
-} from '../../redux/actions'
+import React from 'react'
+
+import { FileText } from 'lucide-react'
+import { Sheet } from 'lucide-react'
+
 import {
 	CCard,
 	CCardBody,
 	CCardHeader,
 	CCol,
 	CRow,
-	CWidgetStatsD,
+	CDropdown,
+	CDropdownToggle,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {
-	cilArrowTop,
-	cilStar,
-	cilThumbUp,
-	cibLinkedin,
-	cibGithub,
-	cilGem,
-} from '@coreui/icons'
+import { cilArrowTop, cilOptions, cilStar, cilGem } from '@coreui/icons'
 import { CChartLine } from '@coreui/react-chartjs'
-import { Sheet, FileText } from 'lucide-react'
-import styled from 'styled-components'
+import { CWidgetStatsD } from '@coreui/react'
+import { cibGithub, cibLinkedin } from '@coreui/icons'
+import { cilThumbUp } from '@coreui/icons'
 
-const AdminViewData = () => {
-	const dispatch = useDispatch()
-	const { metaData, loading, error, excelUrl, pdfUrl } = useSelector(
-		(state) => state.data
+import { useEffect, useState } from 'react'
+
+import axios from 'axios'
+
+// Componente Widget
+const Widget = ({ color, value, title, chart }) => {
+	return (
+		<CCard className={`mb-4 bg-${color}`}>
+			<CCardHeader>
+				{title}
+				<CDropdown alignment="end">
+					<CDropdownToggle color="transparent" caret={false} className="p-0">
+						<CIcon icon={cilOptions} className="text-white" />
+					</CDropdownToggle>
+				</CDropdown>
+			</CCardHeader>
+			<CCardBody>
+				<div className="d-flex justify-content-between align-items-center">
+					<div className="text-white">
+						<h4>{value}</h4>
+					</div>
+					{chart}
+				</div>
+			</CCardBody>
+		</CCard>
 	)
+}
+
+// Componente Dashboard
+const Dashboard = () => {
+	const [metaData, setMetaData] = useState(null)
 
 	useEffect(() => {
-		dispatch(fetchMetaData())
-	}, [dispatch])
-
-	useEffect(() => {
-		if (excelUrl) {
-			const a = document.createElement('a')
-			a.href = excelUrl
-			a.download = 'datos.xlsx'
-			document.body.appendChild(a)
-			a.click()
-			a.remove()
-			dispatch(clearExcelUrl())
+		const fetchData = async () => {
+			try {
+				const response = await axios.get('http://localhost:3001/metadata/data')
+				setMetaData(response.data)
+				console.log(metaData)
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error)
+			}
 		}
-	}, [excelUrl, dispatch])
+		fetchData()
+	}, [])
 
-	useEffect(() => {
-		if (pdfUrl) {
-			const a = document.createElement('a')
-			a.href = pdfUrl
-			a.download = 'reporte.pdf'
-			document.body.appendChild(a)
-			a.click()
-			a.remove()
-			dispatch(clearPdfUrl())
-		}
-	}, [pdfUrl, dispatch])
-
-	const handleDownloadExcel = () => {
-		dispatch(downloadExcel())
+	if (!metaData) {
+		return <div>Loading...</div>
 	}
-
-	const handlefetchPdf = () => {
-		dispatch(fetchPdf())
-	}
-
-	if (loading) return <div>Loading...</div>
-	if (error) return <div>Error: {error}</div>
 
 	return (
-		<SectionStyled className="p-3">
+		<div className="p-3">
 			<CRow className="mb-4">
 				<CCol xs="12" sm="6" md="4" className="mb-4">
 					<CCard>
@@ -94,52 +89,13 @@ const AdminViewData = () => {
 				</CCol>
 				<CCol xs="12" sm="6" md="4" className="mb-4 position-relative">
 					<CCard>
-						<CCardHeader>Ganancia por administrador</CCardHeader>
+						<CCardHeader>Ganancias</CCardHeader>
 						<CCardBody>
 							<h4>$ {metaData.roundedAveragePrice}</h4>
 							<div className="position-absolute top-0 end-0 p-2">
-								<Sheet
-									size={28}
-									color="#098500"
-									strokeWidth={0.5}
-									onClick={handleDownloadExcel}
-									style={{ cursor: 'pointer', marginRight: '10px' }}
-								/>
-								<FileText
-									size={28}
-									color="#c62424"
-									strokeWidth={1}
-									onClick={handlefetchPdf}
-									style={{ cursor: 'pointer' }}
-								/>
+								<Sheet size={28} color="#098500" strokeWidth={0.5} />
+								<FileText size={28} color="#c62424" strokeWidth={1} />
 							</div>
-						</CCardBody>
-					</CCard>
-				</CCol>
-			</CRow>
-
-			<CRow className="mb-4">
-				<CCol xs="12" sm="6" md="4" className="mb-4">
-					<CCard>
-						<CCardHeader>Administradores</CCardHeader>
-						<CCardBody>
-							<h4>{metaData.userAdmin}</h4>
-						</CCardBody>
-					</CCard>
-				</CCol>
-				<CCol xs="12" sm="6" md="4" className="mb-4">
-					<CCard>
-						<CCardHeader>Contratos</CCardHeader>
-						<CCardBody>
-							<h4>$ {metaData.roundedAverageTotal}</h4>
-						</CCardBody>
-					</CCard>
-				</CCol>
-				<CCol xs="12" sm="6" md="4" className="mb-4">
-					<CCard>
-						<CCardHeader>Ganancias Totales</CCardHeader>
-						<CCardBody>
-							<h4>$ {metaData.roundedAverageTotal}</h4>
 						</CCardBody>
 					</CCard>
 				</CCol>
@@ -493,14 +449,8 @@ const AdminViewData = () => {
 					/>
 				</CCol>
 			</CRow>
-		</SectionStyled>
+		</div>
 	)
 }
 
-const SectionStyled = styled.div`
-	.position-relative {
-		position: relative;
-	}
-`
-
-export default AdminViewData
+export default Dashboard
