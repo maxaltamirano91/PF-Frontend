@@ -34,25 +34,59 @@ const Selector = ({ onTechnologyChange, selectedTechnologies }) => {
 				aria-expanded={dropdownOpen}
 				onClick={toggleDropdown}
 			>
-				Filtrar
+				<span>Filtrar</span>
 			</div>
 			<div
-				className={`dropdown-menu ${dropdownOpen ? 'show' : ''}`}
+				className={`dropdown-menu p-3 ${dropdownOpen ? 'show' : ''}`}
 				aria-labelledby="dropdownMenuButton"
+				style={{ width: '360px' }} // Ajusta el ancho según tus necesidades
 			>
-				<div className="p-3">
-					<Select
-						options={technologyOptions}
-						onChange={onTechnologyChange}
-						value={selectedTechnologies}
-						isMulti={true}
-						placeholder="Selecciona tecnología"
-						classNamePrefix="react-select"
-					/>
-				</div>
+				<Select
+					options={technologyOptions}
+					onChange={onTechnologyChange}
+					value={selectedTechnologies}
+					isMulti={true}
+					placeholder="Selecciona tecnología"
+					classNamePrefix="react-select"
+					styles={customStyles}
+				/>
 			</div>
 		</div>
 	)
 }
 
 export default Selector
+
+const customStyles = {
+	control: (provided, state) => ({
+		...provided,
+		backgroundColor: '#ffffff',
+		color: '#fff',
+		borderColor: state.isFocused ? '#aaa' : '#acacac',
+
+		borderWidth: state.isFocused ? '1px' : '1px',
+		boxShadow: state.isFocused ? '0 0 0 1px #aaa' : 'none',
+
+		'&:hover': {
+			borderColor: state.isFocused ? '#aaa' : '#555',
+		},
+	}),
+	menu: (provided) => ({
+		...provided,
+		backgroundColor: '#3333330',
+		color: '#fff',
+	}),
+	option: (provided, state) => ({
+		...provided,
+		backgroundColor: state.isFocused
+			? '#cccccc'
+			: state.isSelected
+			? '#555'
+			: '#ffffff',
+		color: '#000000',
+	}),
+	singleValue: (provided) => ({
+		...provided,
+		color: '#fff',
+	}),
+}

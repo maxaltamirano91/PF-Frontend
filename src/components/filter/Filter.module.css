@@ -1,13 +1,13 @@
-.container {
+/* .container {
     width: 100%;
     padding: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .searchContainer {
-    width: 75%;
+    /* width: 75%; */
     display: flex;
     align-items: center;
     position: relative;
@@ -20,6 +20,17 @@
     border-radius: 99999px;
     display: flex;
     align-items: center;
+    border: 1px solid rgb(117, 117, 117);
+
+    &:focus{
+        border-color: rgb(206, 206, 206);
+    border-width: 1px; 
+    outline: none; 
+    }    
+    &:hover {
+        /* borderColor: state.isFocused ? '#aaa' : '#555', */
+        border-color: rgb(206, 206, 206);
+    }
 }
 
 .searchContainer div {
@@ -32,10 +43,12 @@
 }
 
 .selectContainer {
-    width: 11%;
-    padding: 1rem 2.5rem;
+    padding: 1rem 2rem;
+    margin-right: 1rem;
+    max-width: 200px;
     text-align: center;
     border-radius: 99999px;
+    border: 1px solid rgb(117, 117, 117);
 }
 
 .selectContainer select {
@@ -44,7 +57,11 @@
 }
 
 .sortContainer {
-    width: 11%;
+    
     padding: 1rem;
     text-align: center;
+    cursor: pointer;
+}
+.select{
+    cursor: pointer;
 }

@@ -47,18 +47,25 @@ const Filter = ({ updateSearchParams }) => {
 	}
 
 	return (
-		<div className={styles.container}>
-			<Selector
-				onTechnologyChange={handleTechnologyChange}
-				selectedTechnologies={selectedTechnologies}
-			/>
-			<Searchbar
-				value={search}
-				onChange={handleSearchChange}
-				searchByTitle={searchByTitle}
-				toggleSearchByTitle={() => setSearchByTitle(!searchByTitle)}
-			/>
-			<Sort onSortChange={handleSortChange} />
+		// <div className={styles.container}>
+		<div className="d-flex flex-wrap  p-3 justify-content-around">
+			<div className=" col-6 col-md-2">
+				<Selector
+					onTechnologyChange={handleTechnologyChange}
+					selectedTechnologies={selectedTechnologies}
+				/>
+			</div>
+			<div className="pb-2 col-12 col-md-8 order-2 order-lg-1">
+				<Searchbar
+					value={search}
+					onChange={handleSearchChange}
+					searchByTitle={searchByTitle}
+					toggleSearchByTitle={() => setSearchByTitle(!searchByTitle)}
+				/>
+			</div>
+			<div className="pb-2 col-6 col-md-2 order-1 order-lg-2">
+				<Sort onSortChange={handleSortChange} />
+			</div>
 		</div>
 	)
 }
