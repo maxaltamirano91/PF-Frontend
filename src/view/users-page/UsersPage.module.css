@@ -40,15 +40,15 @@
 .cardContainer {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	gap: 20px;
+	
 	width: 100%;
 	justify-content: center;
 	
 }
 
 .card {
-	min-width: 250px;
-    border-radius: 6px;
+	width: 250px;
+  border-radius: 6px;
 	transition: transform 0.3s ease;
 	background-color: white;
 }
@@ -63,13 +63,13 @@
 .cardContainer {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-	gap: 20px;
+
 	width: 100%;
 	justify-content: center;
 }
 
 .card {
-	min-width: 320px;
+	width: 320px;
 	cursor: pointer;
 }
 

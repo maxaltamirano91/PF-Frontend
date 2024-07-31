@@ -17,7 +17,7 @@ const UsersPage = () => {
 	})
 	const { loggedUser } = useSelector((state) => state.auth)
 	const navigate = useNavigate()
-
+	console.log(loggedUser)
 	const handleChange = (e) => {
 		setQuery((prev) => ({ ...prev, search: e.target.value }))
 		dispatch(getAllUsers(query, token))
@@ -45,6 +45,8 @@ const UsersPage = () => {
 		navigate(`/users/${userId}`, { state: { showModal: true } })
 	}
 
+	const filteredUsers = allUsers.filter((user) => user.id !== loggedUser.id)
+
 	return (
 		<div className={styles.usersPage}>
 			<div className={styles.titleContainer}>
@@ -70,14 +72,14 @@ const UsersPage = () => {
 			</div>
 			<div className={styles.container}>
 				<div className={styles.cardContainer}>
-					{allUsers.map((user) => (
+					{filteredUsers.map((user) => (
 						<div
 							className={`${styles.card}`}
 							key={user.id}
 							style={
 								theme === 'light'
-									? { backgroundColor: 'white', border: "1px solid #ced4da" }
-									: { backgroundColor: '#212529', border: "1px solid #adb5bd" }
+									? { backgroundColor: 'white', border: '1px solid #ced4da' }
+									: { backgroundColor: '#212529', border: '1px solid #adb5bd' }
 							}
 						>
 							<Link to={`/users/${user.id}`}>
