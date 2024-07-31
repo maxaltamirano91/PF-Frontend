@@ -15,6 +15,7 @@ import {
   getDeletedProjects,
   restoreDeletedProject,
   contractForm,
+  deleteReviewById
 } from '../../redux/actions';
 import 'toastify-js/src/toastify.css';
 
@@ -22,13 +23,15 @@ const ProfilePage = () => {
   const categories = Object.freeze({
     contracts: 'contracts',
   });
-  
+
   const dispatch = useDispatch();
   const [projects, setProjects] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeContractTab, setActiveContractTab] = useState(categories.contracts); // Default to contracts
-  const [activeTab, setActiveTab] = useState('projects'); // Estado para la pestaña activa
+  const [activeContractTab, setActiveContractTab] = useState(categories.contracts);
+  const [activeTab, setActiveTab] = useState('projects');
+  const [reload, setReload] = useState(false);
+
   const { token, loggedUser } = useSelector((state) => state.auth);
   const { deletedProjects } = useSelector((state) => state.projects);
   const { loading } = useSelector((state) => state.subscription);
@@ -49,8 +52,6 @@ const ProfilePage = () => {
     availableTime: '',
     status: 'pending',
   });
-
-  const [reload, setReload] = useState(false);
 
   const handleUnsubscribe = () => {
     const confirm = window.confirm(
@@ -79,19 +80,21 @@ const ProfilePage = () => {
 
   const handleReviewFormSubmit = (reviewData, handleCloseModal, id) => {
     if (id) {
-      dispatch(createReview({ ...reviewData, reviewedUserId: id }, token, id));
-      dispatch(getUserProfile(token));
-      handleCloseModal();
-      setReload(!reload); 
-      Toastify({
-        text: 'Review publicado exitosamente',
-        duration: 3000,
-        close: true,
-        gravity: 'top',
-        position: 'center',
-        backgroundColor: '#4CAF50',
-        stopOnFocus: true,
-      }).showToast();
+      dispatch(createReview({ ...reviewData, reviewedUserId: id }, token, id))
+        .then(() => {
+          dispatch(getUserProfile(token));
+          handleCloseModal();
+          setReload(prev => !prev);
+          Toastify({
+            text: 'Review publicado exitosamente',
+            duration: 3000,
+            close: true,
+            gravity: 'top',
+            position: 'center',
+            backgroundColor: '#4CAF50',
+            stopOnFocus: true,
+          }).showToast();
+        });
     }
   };
 
@@ -111,11 +114,30 @@ const ProfilePage = () => {
     });
   };
 
+  const handleDelete = (id) => {
+    const confirm = window.confirm('¿Deseas eliminar la review?');
+    if (confirm) {
+      dispatch(deleteReviewById(id, token))
+        .then(() => {
+          setReload(prev => !prev);
+          Toastify({
+            text: 'Review eliminada correctamente',
+            duration: 3000,
+            close: true,
+            gravity: 'top',
+            position: 'center',
+            backgroundColor: '#4CAF50',
+            stopOnFocus: true,
+          }).showToast();
+        });
+    }
+  };
+
   const handleTabClick = (category) => {
-    setActiveTab(category); // Actualiza el estado de la pestaña activa
+    setActiveTab(category);
     setSearchQuery('');
     const newUrl = `${location.pathname}?tab=${category}`;
-    navigate(newUrl); // Actualiza la URL
+    navigate(newUrl);
   };
 
   useEffect(() => {
@@ -134,7 +156,7 @@ const ProfilePage = () => {
     } else {
       dispatch(getUserById(id));
     }
-  }, [dispatch, token, id, loggedUser.id, reload]);
+  }, [dispatch, token, id, loggedUser?.id, reload]);
 
   if (!loggedUser) return <div>Loading ...</div>;
 
@@ -158,8 +180,9 @@ const ProfilePage = () => {
               handleReviewFormSubmit={handleReviewFormSubmit}
               onRestore={handleRestore}
               deletedProjects={deletedProjects}
-              onClick={handleTabClick} // Pasar la función para manejar clics en pestañas
-              activeTab={activeTab} // Pasar el estado de la pestaña activa
+              onClick={handleTabClick}
+              activeTab={activeTab}
+              handleDelete={handleDelete}
             />
           </>
         ) : (

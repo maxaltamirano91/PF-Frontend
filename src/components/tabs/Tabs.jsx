@@ -13,6 +13,7 @@ const Tabs = ({
   searchQuery,
   activeContractTab,
   handleReviewFormSubmit,
+  handleDelete,
   onClick, // Nueva prop para manejar clics en pestañas
   activeTab, // Nueva prop para la pestaña activa
 }) => {
@@ -36,6 +37,7 @@ const Tabs = ({
         <Reviews
           profileData={profileData}
           handleReviewFormSubmit={handleReviewFormSubmit}
+          handleDelete={handleDelete}
         />
       ),
     },
@@ -119,6 +121,7 @@ Tabs.propTypes = {
   searchQuery: PropTypes.string,
   activeContractTab: PropTypes.string,
   handleReviewFormSubmit: PropTypes.func,
+  handleDelete: PropTypes.func,
   onClick: PropTypes.func.isRequired, // Añadir propTypes para onClick
   activeTab: PropTypes.string.isRequired, // Añadir propTypes para activeTab
 };
