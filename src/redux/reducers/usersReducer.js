@@ -28,7 +28,7 @@ import {
 		}
   
 	  case UPDATE_USER:
-		localStorage.setItem('loggedUser', JSON.stringify(action.payload.user));
+		// localStorage.setItem('loggedUser', JSON.stringify(action.payload.user));
 		return {
 			...state,
 			loggedUser: action.payload.user,
