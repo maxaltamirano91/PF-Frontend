@@ -8,6 +8,7 @@ import { ArrowUpAZ, ArrowDownAZ } from 'lucide-react'
 const UsersPage = () => {
 	const dispatch = useDispatch()
 	const { allUsers } = useSelector((state) => state.users)
+	const { theme } = useSelector((state) => state.themes)
 	const { token } = useSelector((state) => state.auth)
 	const [query, setQuery] = useState({
 		pagination: 15,
@@ -70,7 +71,15 @@ const UsersPage = () => {
 			<div className={styles.container}>
 				<div className={styles.cardContainer}>
 					{allUsers.map((user) => (
-						<div className={`${styles.card} border`} key={user.id}>
+						<div
+							className={`${styles.card}`}
+							key={user.id}
+							style={
+								theme === 'light'
+									? { backgroundColor: 'white', border: "1px solid #ced4da" }
+									: { backgroundColor: '#212529', border: "1px solid #adb5bd" }
+							}
+						>
 							<Link to={`/users/${user.id}`}>
 								<div className={styles.imagesContainer}>
 									<div className={styles.coverContainer}>
@@ -79,22 +88,48 @@ const UsersPage = () => {
 											alt="background"
 										/>
 									</div>
-									<div className={styles.userCardContainer} key={user.id}>
+									<div
+										className={styles.userCardContainer}
+										key={user.id}
+										style={
+											theme === 'light'
+												? {
+														border: '2px solid #fff',
+														boxShadow: '0 1px 5px rgba(25, 25, 25, 0.15)',
+												  }
+												: {
+														border: '2px solid #adb5bd',
+														boxShadow: '0 1px 5px rgba(255, 255, 255, 0.15)',
+												  }
+										}
+									>
 										<div className={styles.userCard}>
 											<img
 												src={user.image}
 												alt={user.userName}
-												className={styles.userImage}
+												style={
+													theme === 'light'
+														? { backgroundColor: '#fff' }
+														: { backgroundColor: '#000' }
+												}
 											/>
 										</div>
 									</div>
 								</div>
-								<div className={styles.userDetails}>
+								<div
+									className={`${styles.userDetails} ${
+										theme === 'dark' && styles.userDetailsDark
+									}`}
+								>
 									<h3>{user.userName}</h3>
 									<span className="text-secondary">{user.bio}</span>
 									{loggedUser?.role !== 'admin' && (
 										<button
-											className="w-100 btn btn-outline-light text-dark"
+											className={`w-100 btn ${
+												theme === 'light'
+													? 'border btn-outline-light text-dark'
+													: 'border btn-outline-dark text-light'
+											}`}
 											onClick={(e) => {
 												e.preventDefault()
 												handleContract(user.id)

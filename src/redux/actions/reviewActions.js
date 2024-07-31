@@ -51,7 +51,7 @@ export const createReview = (reviewData, token, id) => async (dispatch) => {
 
 export const deleteReviewById = (reviewId, token) => async (dispatch) => {
 	try {
-		await axios.delete(`/reviews/${reviewId}`, {
+		await axios.delete(`/reviews/profile/${reviewId}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

@@ -4,19 +4,12 @@ import ReviewForm from './ReviewForm'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { CirclePlus, Star, X } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { calculateTimeAgo } from '../../utils/calculateTimeAgo'
-import { deleteReviewById } from '../../redux/actions'
 
-const Reviews = ({ profileData, handleReviewFormSubmit }) => {
-	const dispatch = useDispatch()
-	const { loggedUser, token } = useSelector((state) => state.auth)
+const Reviews = ({ profileData, handleReviewFormSubmit, handleDelete }) => {
+	const { loggedUser } = useSelector((state) => state.auth)
 	const [showModal, setShowModal] = useState(false)
-
-	const handleDelete = (id) => {
-		const confirm = window.confirm('¿Deseas eliminar la review?')
-		if (confirm) dispatch(deleteReviewById(id, token))
-	}
 
 	return (
 		<div className={styles.reviewsContainer}>

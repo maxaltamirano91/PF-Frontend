@@ -15,6 +15,7 @@ import {
 	getDeletedProjects,
 	restoreDeletedProject,
 	contractForm,
+	deleteReviewById
 } from '../../redux/actions'
 import 'toastify-js/src/toastify.css'
 
@@ -23,17 +24,17 @@ const ProfilePage = () => {
 		contracts: 'contracts',
 	})
 	const dispatch = useDispatch()
-	const [projects, setProjects] = useState([])
 	const [showModal, setShowModal] = useState(false)
 	const [searchQuery, setSearchQuery] = useState('')
-	const [activeContractTab, setActiveContractTab] = useState(
-		categories.contracts
-	)
+	const [activeContractTab, setActiveContractTab] = useState(categories.contracts)
+	const [reload, setReload] = useState(false);
+
 	const { token, loggedUser } = useSelector((state) => state.auth)
 	const { deletedProjects } = useSelector((state) => state.projects)
 	const { loading } = useSelector((state) => state.subscription)
 	const { user } = useSelector((state) => state.users)
 	const { id } = useParams()
+	
 
 	const profileData = !id ? loggedUser : user
 
@@ -47,9 +48,6 @@ const ProfilePage = () => {
 		availableTime: '',
 		status: 'pending',
 	})
-
-	// Nuevo estado de recarga
-	const [reload, setReload] = useState(false)
 
 	const handleUnsubscribe = () => {
 		const confirm = window.confirm(
@@ -79,20 +77,22 @@ const ProfilePage = () => {
 	const handleReviewFormSubmit = (reviewData, handleCloseModal, id) => {
 		if (id) {
 			dispatch(createReview({ ...reviewData, reviewedUserId: id }, token, id))
-			dispatch(getUserProfile(token))
-			handleCloseModal()
-			setReload(!reload) // Cambiar el estado para recargar el componente
-			Toastify({
-				text: 'Review publicado exitosamente',
-				duration: 3000,
-				close: true,
-				gravity: 'top',
-				position: 'center',
-				backgroundColor: '#4CAF50',
-				stopOnFocus: true,
-			}).showToast()
+				.then(() => {
+					dispatch(getUserProfile(token));
+					handleCloseModal();
+					setReload(prev => !prev); // Cambiar el estado para recargar el componente
+					Toastify({
+						text: 'Review publicado exitosamente',
+						duration: 3000,
+						close: true,
+						gravity: 'top',
+						position: 'center',
+						backgroundColor: '#4CAF50',
+						stopOnFocus: true,
+					}).showToast();
+				});
 		}
-	}
+	};
 
 	const handleRestore = (projectId) => {
 		dispatch(restoreDeletedProject(projectId, token)).then(() => {
@@ -106,9 +106,27 @@ const ProfilePage = () => {
 				stopOnFocus: true,
 			}).showToast()
 			dispatch(getUserProfile(token))
-			setProjects(loggedUser.projects)
 		})
 	}
+
+	const handleDelete = (id) => {
+		const confirm = window.confirm('¿Deseas eliminar la review?');
+		if (confirm) {
+			dispatch(deleteReviewById(id, token))
+				.then(() => {
+					setReload(prev => !prev); // Cambiar el estado para recargar el componente
+					Toastify({
+						text: 'Review eliminada correctamente',
+						duration: 3000,
+						close: true,
+						gravity: 'top',
+						position: 'center',
+						backgroundColor: '#4CAF50',
+						stopOnFocus: true,
+					}).showToast();
+				});
+		}
+	};
 
 	const handleTabClick = (category) => {
 		setActiveContractTab(category)
@@ -117,11 +135,10 @@ const ProfilePage = () => {
 
 	useEffect(() => {
 		if (loggedUser?.id === id || !id) {
-			dispatch(getUserProfile(token))
-			dispatch(getDeletedProjects(token))
-			setProjects(loggedUser.projects)
-		} else dispatch(getUserById(id))
-	}, [dispatch, token, projects, id, loggedUser.id, reload]) // Agregar `reload` a las dependencias
+			dispatch(getUserProfile(token));
+			dispatch(getDeletedProjects(token));
+		} else dispatch(getUserById(id));
+	}, [dispatch, token, id, loggedUser?.id, reload]);// Agregar `reload` a las dependencias
 
 	if (!loggedUser) return <div>Loading ...</div>
 
@@ -145,6 +162,7 @@ const ProfilePage = () => {
 							deletedProjects={deletedProjects}
 							onClick={handleTabClick}
 							searchQuery={searchQuery}
+							handleDelete={handleDelete}
 							handleReviewFormSubmit={handleReviewFormSubmit}
 						/>
 					</>
