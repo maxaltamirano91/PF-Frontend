@@ -30,17 +30,6 @@ const Tabs = ({
 			),
 		},
 		{
-			key: 'contracts',
-			label: 'Contratos',
-			content: (
-				<ContractView
-					searchQuery={searchQuery}
-					activeContractTab={activeContractTab}
-					categories={categories}
-				/>
-			),
-		},
-		{
 			key: 'reviews',
 			label: 'Reviews',
 			content: (
@@ -52,7 +41,21 @@ const Tabs = ({
 		},
 	]
 
+	// Solo agregar la pestaña de contratos si el usuario actual es el propietario del perfil
 	if (loggedUser?.id === profileData?.id) {
+		tabs.push({
+			key: 'contracts',
+			label: 'Contratos',
+			content: (
+				<ContractView
+					searchQuery={searchQuery}
+					activeContractTab={activeContractTab}
+					categories={categories}
+				/>
+			),
+		})
+
+		// Agregar la pestaña de archivados solo si el usuario actual es el propietario del perfil
 		const modifiedProfileData = { ...profileData, projects: deletedProjects }
 		tabs.push({
 			key: 'archived',

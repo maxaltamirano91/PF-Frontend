@@ -81,7 +81,7 @@ const NavBarExtended = () => {
 										</li>
 										<li>
 											{loggedUser?.role !== 'admin' && (
-												<a className="dropdown-item" href="/explorer/tags">
+												<a className="dropdown-item" href="/myprofile">
 													Contratos
 												</a>
 											)}

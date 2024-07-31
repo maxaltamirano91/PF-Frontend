@@ -2,7 +2,7 @@ import styles from './UsersPage.module.css'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers } from '../../redux/actions'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUpAZ, ArrowDownAZ } from 'lucide-react'
 
 const UsersPage = () => {
@@ -14,7 +14,8 @@ const UsersPage = () => {
 		search: '',
 		sort: 'a-z',
 	})
-	const { loggedUser } = useSelector(state => state.auth)
+	const { loggedUser } = useSelector((state) => state.auth)
+	const navigate = useNavigate()
 
 	const handleChange = (e) => {
 		setQuery((prev) => ({ ...prev, search: e.target.value }))
@@ -38,6 +39,10 @@ const UsersPage = () => {
 	useEffect(() => {
 		dispatch(getAllUsers(query, token))
 	}, [dispatch, token, query])
+
+	const handleContract = (userId) => {
+		navigate(`/users/${userId}`, { state: { showModal: true } })
+	}
 
 	return (
 		<div className={styles.usersPage}>
@@ -87,11 +92,17 @@ const UsersPage = () => {
 								<div className={styles.userDetails}>
 									<h3>{user.userName}</h3>
 									<span className="text-secondary">{user.bio}</span>
-									{loggedUser?.role !== 'admin' &&
-									<button className="w-100 btn btn-outline-light text-dark">
-										Contratar
-									</button>
-									}
+									{loggedUser?.role !== 'admin' && (
+										<button
+											className="w-100 btn btn-outline-light text-dark"
+											onClick={(e) => {
+												e.preventDefault()
+												handleContract(user.id)
+											}}
+										>
+											Contratar
+										</button>
+									)}
 								</div>
 							</Link>
 						</div>

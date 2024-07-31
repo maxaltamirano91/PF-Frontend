@@ -7,7 +7,7 @@ const ProFooter = () => {
 	const { loggedUser } = useSelector((state) => state.auth)
 	const { pathname } = useLocation()
 
-	if (loggedUser?.planName !== 'Premium') {
+	if (loggedUser?.planName !== 'Premium' && loggedUser?.role !== 'admin') {
 		if (pathname === '/home' || pathname === '/explorer/users') {
 			return (
 				<div className={styles.proFooter}>
