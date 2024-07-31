@@ -19,7 +19,7 @@ const AdminViewUsers = ({ searchQuery }) => {
 	const [selectedUser, setSelectedUser] = useState(null)
 
 	useEffect(() => {
-		dispatch(getAllUsers({}, token))
+		dispatch(getAllUsers({pagination:9999}, token))
 	}, [dispatch, token])
 
 	const handleEdit = (user) => {

@@ -9,10 +9,9 @@ import {
 	GET_DELETED_USERS,
 	RESTORE_USER
 } from '../types'
-import { type } from '@testing-library/user-event/dist/cjs/utility/type.js'
 
 export const getAllUsers = (data, token) => {
-	const { pagination='', search='', sort='' } = data
+	const { pagination=10, search='', sort='a-z' } = data
 	return async (dispatch) => {
 		try {
 			const params = new URLSearchParams()
@@ -119,7 +118,6 @@ export const getUserProfile = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			console.log(data);
 			dispatch({ type: GET_PROFILE, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
@@ -135,7 +133,6 @@ export const getDeletedUsers = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			console.log(data)
 			dispatch({ type: GET_DELETED_USERS, payload: data })
 		}catch(error){
 			dispatch({ type: FETCH_ERROR, payload:error.message })

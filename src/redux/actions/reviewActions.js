@@ -1,27 +1,57 @@
 import axios from 'axios'
 import {
-	GET_REVIEWS_SUCCESS,
-	GET_REVIEWS_FAILURE,
 	DELETE_REVIEW_SUCCESS,
 	DELETE_REVIEW_FAILURE,
+	GET_ALL_REVIEWS,
+	GET_USER_REVIEWS,
+	CREATE_REVIEW,
+	FETCH_ERROR,
 } from '../types'
 
 export const getAllReviews = (token) => async (dispatch) => {
 	try {
-		const response = await axios.get('/reviews', {
+		const { data } = await axios.get('/reviews', {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		})
-		dispatch({ type: GET_REVIEWS_SUCCESS, payload: response.data })
+		dispatch({ type: GET_ALL_REVIEWS, payload: data })
 	} catch (error) {
-		dispatch({ type: GET_REVIEWS_FAILURE, payload: error.message })
+		dispatch({ type: FETCH_ERROR, error: error.message })
+	}
+}
+
+export const getUserReviews = (token, id) => async (dispatch) => {
+	try {
+		const { data } = await axios.get(`/reviews/users/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+		console.log(data);
+		dispatch({ type: GET_USER_REVIEWS, payload: data })
+	} catch (error) {
+		dispatch({ type: FETCH_ERROR, error: error.message })
+	}
+}
+
+export const createReview = (reviewData, token, id) => async (dispatch) => {
+	try {
+		const { data } = await axios.post('/reviews', reviewData, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+		dispatch(getUserReviews(token, id))
+		dispatch({ type: CREATE_REVIEW, payload: data })
+	} catch (error) {
+		dispatch({ type: FETCH_ERROR, error: error.message })
 	}
 }
 
 export const deleteReviewById = (reviewId, token) => async (dispatch) => {
 	try {
-		await axios.delete(`/api/reviews/${reviewId}`, {
+		await axios.delete(`/reviews/${reviewId}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

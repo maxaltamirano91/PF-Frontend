@@ -1,15 +1,20 @@
 import styles from './Tabs.module.css'
-import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import ProfileProjects from '../../components/profile-projects/ProfileProjects'
 import Reviews from '../reviews/Reviews'
 import PropTypes from 'prop-types'
-import Cards from '../cards/Cards'
 import ContractView from '../../view/profile-page/components/ContractView'
-import { Link } from 'react-router-dom'
+import ProfileProjects from '../../components/profile-projects/ProfileProjects'
 
-const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeContractTab }) => {
+const Tabs = ({
+	profileData,
+	onRestore,
+	deletedProjects,
+	searchQuery,
+	activeContractTab,
+	handleReviewFormSubmit,
+}) => {
 	const { loggedUser } = useSelector((state) => state.auth)
 	const [activeTab, setActiveTab] = useState('projects')
 	const categories = Object.freeze({
@@ -25,20 +30,32 @@ const Tabs = ({ profileData, onRestore, deletedProjects, searchQuery, activeCont
 			),
 		},
 		{
-			key: 'contracts',
-			label: 'Contratos',
-			content: (
-				<ContractView searchQuery={searchQuery} activeContractTab={activeContractTab} categories={categories} />
-			),
-		},
-		{
 			key: 'reviews',
 			label: 'Reviews',
-			content: <Reviews tabName="Reviews" />,
+			content: (
+				<Reviews
+					profileData={profileData}
+					handleReviewFormSubmit={handleReviewFormSubmit}
+				/>
+			),
 		},
 	]
 
+	// Solo agregar la pestaña de contratos si el usuario actual es el propietario del perfil
 	if (loggedUser?.id === profileData?.id) {
+		tabs.push({
+			key: 'contracts',
+			label: 'Contratos',
+			content: (
+				<ContractView
+					searchQuery={searchQuery}
+					activeContractTab={activeContractTab}
+					categories={categories}
+				/>
+			),
+		})
+
+		// Agregar la pestaña de archivados solo si el usuario actual es el propietario del perfil
 		const modifiedProfileData = { ...profileData, projects: deletedProjects }
 		tabs.push({
 			key: 'archived',
@@ -102,11 +119,3 @@ Tabs.propTypes = {
 }
 
 export default Tabs
-
-const SectionStyled = styled.section`
-	span.item {
-		&:hover {
-			background-color: #a7abab39;
-		}
-	}
-`
