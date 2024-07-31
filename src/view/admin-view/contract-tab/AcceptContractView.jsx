@@ -10,7 +10,7 @@ const AcceptContractView = ({ contracts, searchQuery }) => {
 			(contract.id.toString().includes(searchQuery) &&
 				contract.status === 'accepted')
 	)
-console.log(filteredContracts)
+console.log(filteredContracts, contracts)
 	return (
 		<SectionStyled className="ListContracts">
 			<div className="accordion accordion-flush" id="accordionFlushExample">

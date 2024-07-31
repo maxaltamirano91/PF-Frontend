@@ -28,7 +28,7 @@ const calculateCommission = (planName, budget) => {
 const AdminViewContracts = ({ searchQuery }) => {
 	const dispatch = useDispatch()
 	const token = useSelector((state) => state.auth.token)
-	const contracts = useSelector((state) => state.contract.allContracts)
+	const { allUsers } = useSelector((state) => state.users)
 
 	useEffect(() => {
 		dispatch(getAllContracts(token))
@@ -36,47 +36,52 @@ const AdminViewContracts = ({ searchQuery }) => {
 
 	useEffect(() => {
 		// Filtrar los contratos aceptados y calcular la comisión si es necesario
-		const acceptedContracts = contracts.filter(
-			(contract) => contract.status === 'accepted'
-		)
-
-		acceptedContracts.forEach((contract) => {
-			const receiver = contract.receiver
-			if (
-				receiver.role === 'user' &&
-				['free', 'premium'].includes(receiver.planName.toLowerCase())
-			) {
-				const { rate, amount } = calculateCommission(
-					receiver.planName,
-					contract.budget
-				)
-				const commissionData = {
-					contractId: contract.id,
-					rate,
-					amount,
+		allUsers.forEach((user) => {
+			user.receivedContracts.forEach((contract) => {
+				if (contract.status === 'accepted') {
+					if (
+						user.role === 'user' &&
+						['free', 'premium'].includes(user.planName.toLowerCase())
+					) {
+						const { rate, amount } = calculateCommission(
+							user.planName,
+							contract.budget
+						)
+						const commissionData = {
+							contractId: contract.id,
+							rate,
+							amount,
+						}
+						dispatch(createCommission(commissionData, token))
+					}
 				}
-				dispatch(createCommission(commissionData, token))
+			})
+		})
+	}, [allUsers, dispatch, token])
+
+	const filteredUsers = allUsers.filter(
+		(user) =>
+			user.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			user.receivedContracts.some((contract) =>
+				contract.id.toString().includes(searchQuery)
+			)
+	)
+
+	const pendingContracts = []
+	const acceptedContracts = []
+	const rejectedContracts = []
+
+	filteredUsers.forEach((user) => {
+		user.receivedContracts.forEach((contract) => {
+			if (contract.status === 'pending') {
+				pendingContracts.push(contract)
+			} else if (contract.status === 'accepted') {
+				acceptedContracts.push(contract)
+			} else if (contract.status === 'rejected') {
+				rejectedContracts.push(contract)
 			}
 		})
-	}, [contracts, dispatch, token])
-
-	const filteredContracts = contracts.filter(
-		(contract) =>
-			contract.receiver?.userName
-				.toLowerCase()
-				.includes(searchQuery.toLowerCase()) ||
-			contract.id?.toString().includes(searchQuery)
-	)
-
-	const pendingContracts = filteredContracts.filter(
-		(contract) => contract.status === 'pending'
-	)
-	const acceptedContracts = filteredContracts.filter(
-		(contract) => contract.status === 'accepted'
-	)
-	const rejectedContracts = filteredContracts.filter(
-		(contract) => contract.status === 'rejected'
-	)
+	})
 
 	return (
 		<SectionStyled>
