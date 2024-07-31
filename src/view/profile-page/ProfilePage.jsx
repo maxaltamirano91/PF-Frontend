@@ -73,9 +73,10 @@ const ProfilePage = () => {
 		setShowModal(false)
 	}
 
-	const handleReviewFormSubmit = (reviewData, handleCloseModal) => {
+	const handleReviewFormSubmit = (reviewData, handleCloseModal, id) => {
 		if (id) {
-			dispatch(createReview({ ...reviewData, reviewedUserId: id }, token))
+			dispatch(createReview({ ...reviewData, reviewedUserId: id }, token, id))
+			dispatch(getUserProfile(token))
 			handleCloseModal()
 			Toastify({
 				text: 'Review publicado exitosamente',
@@ -86,7 +87,6 @@ const ProfilePage = () => {
 				backgroundColor: '#4CAF50',
 				stopOnFocus: true,
 			}).showToast()
-			dispatch(getUserProfile(token))
 		}
 	}
 

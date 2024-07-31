@@ -21,7 +21,7 @@ const ReviewForm = ({ profileData, handleClose, handleReviewFormSubmit }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		handleReviewFormSubmit(reviewData, handleClose)
+		handleReviewFormSubmit(reviewData, handleClose, profileData.id)
 	}
 
 	return (
