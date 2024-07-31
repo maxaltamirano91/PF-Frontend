@@ -8,4 +8,5 @@ export * from "./usersActions"
 export * from "./subscriptionActions"
 export * from "./likesActions"
 export * from './contractActions'
+export * from './reviewActions'
 export * from './dataActions'

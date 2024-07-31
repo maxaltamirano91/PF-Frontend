@@ -1,0 +1,3 @@
+export const GET_ALL_REVIEWS = 'GET_ALL_REVIEWS'
+export const GET_USER_REVIEWS = 'GET_USER_REVIEWS'
+export const CREATE_REVIEW = 'CREATE_REVIEW'
