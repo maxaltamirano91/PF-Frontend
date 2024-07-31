@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const PendingContractView = ({ contracts, searchQuery }) => {
+	console.log(contracts)
 	const filteredContracts = contracts.filter(
 		(contract) =>
 			contract.receiver?.userName
@@ -27,7 +28,7 @@ const PendingContractView = ({ contracts, searchQuery }) => {
 									aria-controls={`flush-collapse${index}`}
 								>
 									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
-										<div className="subject">{contract.receiver?.userName}</div>
+										<div className="subject">{contract.receiver?.userName}{' '}{}</div>
 										<div className="email">{contract.receiver?.email}</div>
 									</div>
 								</span>

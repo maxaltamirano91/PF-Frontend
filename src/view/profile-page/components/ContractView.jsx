@@ -21,12 +21,14 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 	const handleReject = (contractId) => {
 		if (window.confirm('¿Estás seguro de que deseas rechazar este proyecto?')) {
 			dispatch(updateContractStatus(contractId, 'rejected', token))
+			dispatch(getAllContracts(token))
 		}
 	}
 
 	const handleAccept = (contractId) => {
 		if (window.confirm('¿Estás seguro de que deseas aceptar este proyecto?')) {
 			dispatch(updateContractStatus(contractId, 'accepted', token))
+			dispatch(getAllContracts(token))
 		}
 	}
 
