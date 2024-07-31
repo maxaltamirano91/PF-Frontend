@@ -48,6 +48,9 @@ const ProfilePage = () => {
 		status: 'pending',
 	})
 
+	// Nuevo estado de recarga
+	const [reload, setReload] = useState(false)
+
 	const handleUnsubscribe = () => {
 		const confirm = window.confirm(
 			'¿Estás seguro de que deseas cancelar tu suscripción? Esta acción no se puede deshacer.'
@@ -78,6 +81,7 @@ const ProfilePage = () => {
 			dispatch(createReview({ ...reviewData, reviewedUserId: id }, token, id))
 			dispatch(getUserProfile(token))
 			handleCloseModal()
+			setReload(!reload) // Cambiar el estado para recargar el componente
 			Toastify({
 				text: 'Review publicado exitosamente',
 				duration: 3000,
@@ -117,7 +121,7 @@ const ProfilePage = () => {
 			dispatch(getDeletedProjects(token))
 			setProjects(loggedUser.projects)
 		} else dispatch(getUserById(id))
-	}, [dispatch, token, projects, id, loggedUser.id])
+	}, [dispatch, token, projects, id, loggedUser.id, reload]) // Agregar `reload` a las dependencias
 
 	if (!loggedUser) return <div>Loading ...</div>
 
