@@ -14,6 +14,7 @@ const AdminViewProjects = ({ searchQuery }) => {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.auth.token);
 	const projects = useSelector((state) => state.projects.allProjects);
+	console.log(projects)
 	const { technologies } = useSelector((state) => state.technologies); 
 
 	const [showModal, setShowModal] = useState(false);
