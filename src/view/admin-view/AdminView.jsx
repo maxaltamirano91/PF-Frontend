@@ -23,7 +23,7 @@ const AdminView = () => {
 
 	const handleTabClick = (category) => {
 		setActiveTab(category)
-		setSearchQuery('') // Reset search query when switching tabs
+		setSearchQuery('')
 	}
 
 	return (

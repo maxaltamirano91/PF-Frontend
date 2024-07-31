@@ -9,17 +9,17 @@ import {
 } from '../types'
 
 export const getAllReviews = (token) => async (dispatch) => {
-	try {
-		const { data } = await axios.get('/reviews', {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		})
-		dispatch({ type: GET_ALL_REVIEWS, payload: data })
-	} catch (error) {
-		dispatch({ type: FETCH_ERROR, error: error.message })
-	}
-}
+    try {
+        const { data } = await axios.get('/reviews', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        dispatch({ type: GET_ALL_REVIEWS, payload: data });
+    } catch (error) {
+        dispatch({ type: FETCH_ERROR, payload: error.message });
+    }
+};
 
 export const getUserReviews = (token, id) => async (dispatch) => {
 	try {
