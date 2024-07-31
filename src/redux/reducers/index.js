@@ -11,6 +11,7 @@ import subscriptionReducer from './subscriptionReducer'
 import paymentReducer from './paymentReducer'
 import contractFormReducer from './contractReducer'
 import dataReducer from './dataReducer'
+import reviewReducer from './reviewReducer'
 
 const rootReducer = combineReducers({
 	auth: authReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
 	subscription: subscriptionReducer,
 	payment: paymentReducer,
 	contract: contractFormReducer,
-	data: dataReducer
+	data: dataReducer,
+	review: reviewReducer,
 })
 
 export default rootReducer
