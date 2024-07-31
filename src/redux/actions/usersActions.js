@@ -135,7 +135,6 @@ export const getDeletedUsers = (token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			console.log(data)
 			dispatch({ type: GET_DELETED_USERS, payload: data })
 		}catch(error){
 			dispatch({ type: FETCH_ERROR, payload:error.message })
