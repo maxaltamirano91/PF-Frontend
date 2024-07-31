@@ -1,10 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-	getAllContracts,
-	updateContractStatus,
-} from '../../../redux/actions'
+import { getAllContracts, updateContractStatus } from '../../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
@@ -13,33 +10,37 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 	const token = useSelector((state) => state.auth.token)
 	const { allContracts } = useSelector((state) => state.contract)
 	const { loggedUser } = useSelector((state) => state.auth)
+	const [filteredContracts, setFilteredContracts] = useState([])
 
 	useEffect(() => {
 		dispatch(getAllContracts(token))
 	}, [dispatch, token])
 
-	const handleReject = (contractId) => {
+	const handleReject = async (contractId) => {
 		if (window.confirm('¿Estás seguro de que deseas rechazar este proyecto?')) {
-			dispatch(updateContractStatus(contractId, 'rejected', token))
+			await dispatch(updateContractStatus(contractId, 'rejected', token))
 			dispatch(getAllContracts(token))
 		}
 	}
 
-	const handleAccept = (contractId) => {
+	const handleAccept = async (contractId) => {
 		if (window.confirm('¿Estás seguro de que deseas aceptar este proyecto?')) {
-			dispatch(updateContractStatus(contractId, 'accepted', token))
+			await dispatch(updateContractStatus(contractId, 'accepted', token))
 			dispatch(getAllContracts(token))
 		}
 	}
 
-	const filteredContracts = allContracts.filter(
-		(contract) =>
-			contract.receiverId === loggedUser.id &&
-			(contract.projectDescription
-				.toLowerCase()
-				.includes(searchQuery.toLowerCase()) ||
-				contract.id.toString().includes(searchQuery))
-	)
+	useEffect(() => {
+		const filtered = allContracts.filter(
+			(contract) =>
+				contract.receiverId === loggedUser.id &&
+				(contract.projectDescription
+					.toLowerCase()
+					.includes(searchQuery.toLowerCase()) ||
+					contract.id.toString().includes(searchQuery))
+		)
+		setFilteredContracts(filtered)
+	}, [allContracts, searchQuery, loggedUser.id])
 
 	return (
 		<div>
@@ -50,7 +51,9 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 						className={`nav-link ${
 							activeContractTab === categories.contracts ? 'active' : ''
 						}`}
-						aria-current={activeContractTab === 'contracts' ? 'page' : undefined}
+						aria-current={
+							activeContractTab === 'contracts' ? 'page' : undefined
+						}
 						onClick={() => handleTabClick(categories.contracts)}
 					>
 						Solicita usuario
@@ -79,6 +82,22 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 												<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
 													<div className="name">
 														{contract.sender?.userName}
+														{contract.status === 'accepted' && (
+															<span
+																className="status"
+																style={{ color: 'green', marginLeft: '10px' }}
+															>
+																ACEPTADO
+															</span>
+														)}
+														{contract.status === 'rejected' && (
+															<span
+																className="status"
+																style={{ color: 'red', marginLeft: '10px' }}
+															>
+																RECHAZADO
+															</span>
+														)}
 													</div>
 													<div className="name">{contract.sender?.email}</div>
 												</div>
@@ -98,24 +117,30 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 														{contract.currency}
 													</p>
 													<p>Cronología: {contract.availableTime}</p>
+													{contract.status === 'accepted' && (
+														<p>Estado: PROYECTO ACEPTADO</p>
+													)}
 												</div>
 												<hr />
-												<div className="actions d-flex justify-content-end gap-2">
-													<button
-														type="button"
-														className="btn btn-outline-success mb-0"
-														onClick={() => handleAccept(contract.id)}
-													>
-														Aceptar
-													</button>
-													<button
-														type="button"
-														className="btn btn-outline-danger mb-0"
-														onClick={() => handleReject(contract.id)}
-													>
-														Rechazar
-													</button>
-												</div>
+
+												{contract.status === 'pending' && (
+													<div className="actions d-flex justify-content-end gap-2">
+														<button
+															type="button"
+															className="btn btn-outline-success mb-0"
+															onClick={() => handleAccept(contract.id)}
+														>
+															Aceptar
+														</button>
+														<button
+															type="button"
+															className="btn btn-outline-danger mb-0"
+															onClick={() => handleReject(contract.id)}
+														>
+															Rechazar
+														</button>
+													</div>
+												)}
 											</div>
 										</div>
 									</div>

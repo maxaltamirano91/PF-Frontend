@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+
 import styles from './PremiumPage.module.css'
 import PlanComparison from '../../components/plan-comparison/PlanComparison'
 
@@ -114,22 +114,7 @@ const PremiumPage = () => {
 					</div>
 				</div>
 			</header>
-			<section className="container my-5">
-				<div className="row align-items-center">
-					<div className="col-md-6">
-						<h2>Muestra tu trabajo en tu propio sitio web</h2>
-						<p>Publica hasta 5 sitios.</p>
-						<p>Importa tu trabajo desde ForDevs al instante</p>
-					</div>
-					<div className="col-md-6">
-						<img
-							src={image1Url}
-							className="img-fluid"
-							alt="Imagen adicional 1"
-						/>
-					</div>
-				</div>
-			</section>
+
 			<section className="container my-5">
 				<div className="row align-items-center">
 					<div className="col-md-6">
