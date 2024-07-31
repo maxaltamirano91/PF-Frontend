@@ -53,8 +53,7 @@ export const updateUserValidationSchema = yup.object().shape({
         .min(2, 'El nombre es muy corto')
         .max(50, 'El nombre es muy largo'),
     currentPassword: yup
-        .string()
-        .required('La contraseña actual es requerida'),
+        .string(),
     newPassword: yup
         .string()
         .min(6, 'La contraseña debe ser de al menos 6 caracteres')
@@ -64,12 +63,10 @@ export const updateUserValidationSchema = yup.object().shape({
         .oneOf([yup.ref('newPassword'), null], 'Las contraseñas deben coincidir'),
     bio: yup
         .string()
-        .min(2, 'La biografía es muy corta')
         .max(50, 'La biografía es muy larga'),
     image: yup.string().nullable(),
     aboutMe: yup
         .string()
-        .min(10, 'Debe tener al menos 10 caracteres')
         .max(500, 'Puede tener hasta 500 caracteres'),
     links: yup
         .array()

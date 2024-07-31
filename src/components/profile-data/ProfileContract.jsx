@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import styles from './ProfileData.module.css'
-import { ContactRound, CircleCheckBig, Briefcase, Phone } from 'lucide-react'
+import { ContactRound, CircleCheckBig, Briefcase } from 'lucide-react'
 
 const ProfileContract = ({ profileData, handleForm }) => {
 	const { loggedUser } = useSelector((state) => state.auth)
@@ -23,17 +23,13 @@ const ProfileContract = ({ profileData, handleForm }) => {
 						</div>
 						<div className={styles.contractButtonContainer}>
 							<div>
-								<button className="text-primary">
-									<Phone />
-									Contactar
-								</button>
 								{profileData?.id && (
 									<button
 										type="button"
 										className="text-primary"
 										onClick={handleForm}
 									>
-										<Briefcase /> Contratar
+										<Briefcase size={18} /> Contratar
 									</button>
 								)}
 							</div>

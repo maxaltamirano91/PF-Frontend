@@ -14,12 +14,10 @@ const AdminViewProjects = ({ searchQuery }) => {
 	const dispatch = useDispatch();
 	const token = useSelector((state) => state.auth.token);
 	const projects = useSelector((state) => state.projects.allProjects);
-	console.log(projects)
 	const { technologies } = useSelector((state) => state.technologies); 
 
 	const [showModal, setShowModal] = useState(false);
 	const [selectedProject, setSelectedProject] = useState(null);
-	const [displayPagination, setDisplayPagination] = useState(true);
 
 	useEffect(() => {
 		dispatch(getAllProjects({ pagination: 9999 }, token));
@@ -32,15 +30,15 @@ const AdminViewProjects = ({ searchQuery }) => {
 
 	const handleSave = async (formData, id) => {
 		console.log('FormData to send:', Object.fromEntries(formData));
-		await dispatch(updateProjectById(formData, id , token));
+		dispatch(updateProjectById(formData, id , token));
 		setShowModal(false);
-		dispatch(getAllProjects({ pagination: renderingCards }));
+		dispatch(getAllProjects({ pagination: 9999 }, token));
 	};
 
 	const handleDelete = async (projectId) => {
 		if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
-			await dispatch(deleteProjectById(projectId, token));
-			dispatch(getAllProjects({ pagination: renderingCards }));
+			dispatch(deleteProjectById(projectId, token));
+			dispatch(getAllProjects({ pagination: 9999 }, token));
 		}
 	};
 
@@ -55,14 +53,6 @@ const AdminViewProjects = ({ searchQuery }) => {
 				tech.name.toLowerCase().includes(searchQuery.toLowerCase())
 			)
 	);
-
-	// const handlePagination = () => {
-	// 	if (projects.length >= renderingCards) {
-	// 		setRenderingCards(renderingCards + 15);
-	// 	} else {
-	// 		setDisplayPagination(false);
-	// 	}
-	// };
 
 	return (
 		<SectionStyled className="ListProjects">
@@ -129,15 +119,6 @@ const AdminViewProjects = ({ searchQuery }) => {
 					<p>No hay proyectos disponibles</p>
 				)}
 			</div>
-			{/* {displayPagination ? (
-				<div>
-					<button onClick={handlePagination}>Ver más</button>
-				</div>
-			) : 
-			// (
-			// 	<p>No hay más proyectos</p>
-			// )
-			null} */}
 			{selectedProject && (
 				<EditProjectModal
 					show={showModal}
