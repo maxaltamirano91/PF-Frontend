@@ -1,142 +1,129 @@
 .usersPage {
 	padding: 2rem;
-}
-
-.titleContainer {
+  }
+  
+  .titleContainer {
 	padding: 20px 2rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-}
-
-.titleContainer h2 {
+  }
+  
+  .titleContainer h2 {
 	margin: 0;
 	font-size: 16px;
 	font-weight: 700;
-}
-
-.sort {
+  }
+  
+  .sort {
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	gap: 1rem;
-}
-
-.searchbarContainer {
+  }
+  
+  .searchbarContainer {
 	display: flex;
 	flex-direction: row;
 	gap: 2rem;
-}
-
-.searchbar {
+  }
+  
+  .searchbar {
 	padding: .25rem;
 	outline: 0;
 	border: none;
 	background: none;
 	border-bottom: 1px solid;
-}
-
-.cardContainer {
+  }
+  
+  .cardContainer {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	
-	width: 100%;
-	justify-content: center;
-	
-}
-
-.card {
-	width: 250px;
-  border-radius: 6px;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 0.8rem;
+	justify-items: center; 
+  }
+  
+  .card {
+	width: 100%; 
+	max-width: 250px; 
+	border-radius: 6px;
 	transition: transform 0.3s ease;
 	background-color: white;
-}
-
-.userCardContainer {
+	margin-bottom: 1rem;
+  }
+  
+  .userCardContainer {
 	position: absolute;
 	bottom: -30px;
 	left: 50%;
 	transform: translateX(-50%);
-}
-
-.cardContainer {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
-	width: 100%;
-	justify-content: center;
-}
-
-.card {
-	width: 320px;
-	cursor: pointer;
-}
-
-.imagesContainer {
+  }
+  
+  .imagesContainer {
 	position: relative;
-}
-
-.coverContainer {
+  }
+  
+  .coverContainer {
 	height: 100px;
 	margin: .5rem;
 	overflow: hidden;
 	border-radius: 3px;
-}
-
-.coverContainer img {
+  }
+  
+  .coverContainer img {
 	width: 100%;
-}
-
-.userCardContainer {
+  }
+  
+  .userCardContainer {
 	border-radius: 50%;
 	position: absolute;
 	z-index: 2;
-}
-
-.userCard {
+  }
+  
+  .userCard {
 	width: 100%;
 	height: 100%;
-
-}
-
-.userCard img {
+  }
+  
+  .userCard img {
 	height: 60px;
 	width: 60px;
 	border-radius: 50%;
 	display: block;
-}
-
-.userDetails {
+  }
+  
+  .userDetails {
 	text-align: center;
-	padding:  3rem 1rem 1rem;
+	padding: 3rem 1rem 1rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.userDetails h3 {
+  }
+  
+  .userDetails h3 {
 	font-size: 1.25rem;
 	font-weight: 600;
 	color: black;
-}
-
-.userDetailsDark h3 {
+  }
+  
+  .userDetailsDark h3 {
 	color: white;
-}
-
-.userDetails span {
+  }
+  
+  .userDetails span {
 	font-size: .9rem;
 	margin-bottom: 1rem;
-}
-
-.userDetails button {
+  }
+  
+  .userDetails button {
 	font-size: .9rem;
 	font-weight: 600;
 	border-radius: 9999px;
-}
-
-.card:hover {
+  }
+  
+  .card:hover {
 	transform: translateY(-10px);
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-}
+  }
+  
