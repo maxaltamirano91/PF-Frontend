@@ -18,12 +18,11 @@ const AdminViewProjects = ({ searchQuery }) => {
 
 	const [showModal, setShowModal] = useState(false);
 	const [selectedProject, setSelectedProject] = useState(null);
-	const [renderingCards, setRenderingCards] = useState(15);
 	const [displayPagination, setDisplayPagination] = useState(true);
 
 	useEffect(() => {
-		dispatch(getAllProjects({ pagination: renderingCards }));
-	}, [dispatch, renderingCards]);
+		dispatch(getAllProjects({ pagination: 9999 }, token));
+	}, [dispatch]);
 
 	const handleEdit = (project) => {
 		setSelectedProject(project);
@@ -56,13 +55,13 @@ const AdminViewProjects = ({ searchQuery }) => {
 			)
 	);
 
-	const handlePagination = () => {
-		if (projects.length >= renderingCards) {
-			setRenderingCards((prevCount) => prevCount + 15);
-		} else {
-			setDisplayPagination(false);
-		}
-	};
+	// const handlePagination = () => {
+	// 	if (projects.length >= renderingCards) {
+	// 		setRenderingCards(renderingCards + 15);
+	// 	} else {
+	// 		setDisplayPagination(false);
+	// 	}
+	// };
 
 	return (
 		<SectionStyled className="ListProjects">
@@ -129,13 +128,15 @@ const AdminViewProjects = ({ searchQuery }) => {
 					<p>No hay proyectos disponibles</p>
 				)}
 			</div>
-			{displayPagination ? (
+			{/* {displayPagination ? (
 				<div>
 					<button onClick={handlePagination}>Ver más</button>
 				</div>
-			) : (
-				<p>No hay más proyectos</p>
-			)}
+			) : 
+			// (
+			// 	<p>No hay más proyectos</p>
+			// )
+			null} */}
 			{selectedProject && (
 				<EditProjectModal
 					show={showModal}
