@@ -6,6 +6,7 @@ import AdminViewTechnologies from './AdminView-technologies'
 import AdminViewData from './AdminViewData'
 import AdminViewContracts from './AdminView-contracts'
 import AdminViewDeletedUsers from './AdminView-deletedUsers'
+import AdminViewReviews from './AdminViewReviews'
 
 const AdminView = () => {
 	const categories = Object.freeze({
@@ -14,7 +15,8 @@ const AdminView = () => {
 		technologies: 'technologies',
 		contracts: 'contracts',
 		deletedUsers: 'deletedUsers',
-		data: 'data'
+		reviews: 'reviews',
+		data: 'data',
 	})
 	const [activeTab, setActiveTab] = useState(categories.users)
 	const [searchQuery, setSearchQuery] = useState('')
@@ -39,6 +41,19 @@ const AdminView = () => {
 								onClick={() => handleTabClick(categories.users)}
 							>
 								Usuarios
+							</a>
+						</li>
+						<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.deletedUsers ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.deletedUsers ? 'page' : undefined
+								}
+								onClick={() => handleTabClick(categories.deletedUsers)}
+							>
+								Usuarios eliminados
 							</a>
 						</li>
 						<li className="nav-item">
@@ -69,31 +84,38 @@ const AdminView = () => {
 						</li>
 						<li className="nav-item">
 							<a
-								className={`nav-link ${activeTab === categories.contracts ? 'active' : ''}`}
+								className={`nav-link ${
+									activeTab === categories.contracts ? 'active' : ''
+								}`}
 								aria-current={
-									activeTab === categories.contracts ? 'page' : undefined}
+									activeTab === categories.contracts ? 'page' : undefined
+								}
 								onClick={() => handleTabClick(categories.contracts)}
 							>
 								Contratos
 							</a>
-							</li>
-							<li className="nav-item">
+						</li>
+						<li className="nav-item">
 							<a
 								className={`nav-link ${
-									activeTab === categories.deletedUsers ? 'active' : ''
+									activeTab === categories.reviews ? 'active' : ''
 								}`}
 								aria-current={
-									activeTab === categories.deletedUsers ? 'page' : undefined
+									activeTab === categories.reviews ? 'page' : undefined
 								}
-								onClick={() => handleTabClick(categories.deletedUsers)}
+								onClick={() => handleTabClick(categories.reviews)}
 							>
-								Usuarios eliminados
+								Reseñas
 							</a>
 						</li>
 						<li className="nav-item">
 							<a
-								className={`nav-link ${activeTab === categories.data ? 'active' : ''}`}
-								aria-current={activeTab === categories.data ? 'page' : undefined}
+								className={`nav-link ${
+									activeTab === categories.data ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.data ? 'page' : undefined
+								}
 								onClick={() => handleTabClick(categories.data)}
 							>
 								Datos
@@ -135,6 +157,9 @@ const AdminView = () => {
 						)}
 						{activeTab === categories.data && (
 							<AdminViewData searchQuery={searchQuery} />
+						)}
+						{activeTab === categories.reviews && (
+							<AdminViewReviews searchQuery={searchQuery} />
 						)}
 					</div>
 				</div>

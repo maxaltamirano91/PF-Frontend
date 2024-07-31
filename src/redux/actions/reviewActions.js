@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {
+	DELETE_REVIEW_SUCCESS,
+	DELETE_REVIEW_FAILURE,
 	GET_ALL_REVIEWS,
 	GET_USER_REVIEWS,
 	CREATE_REVIEW,
@@ -44,5 +46,18 @@ export const createReview = (reviewData, token, id) => async (dispatch) => {
 		dispatch({ type: CREATE_REVIEW, payload: data })
 	} catch (error) {
 		dispatch({ type: FETCH_ERROR, error: error.message })
+	}
+}
+
+export const deleteReviewById = (reviewId, token) => async (dispatch) => {
+	try {
+		await axios.delete(`/reviews/${reviewId}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+		dispatch({ type: DELETE_REVIEW_SUCCESS, payload: reviewId })
+	} catch (error) {
+		dispatch({ type: DELETE_REVIEW_FAILURE, payload: error.message })
 	}
 }
