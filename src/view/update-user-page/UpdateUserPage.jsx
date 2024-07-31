@@ -59,16 +59,18 @@ const UpdateUserPage = () => {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         setFormError('')
 
-        const userData = {
-            ...values,
-            image: imagenAddHosting || user.image,
-            links: values.links
-                .filter((link) => link.name && link.url)
-                .map((link) => ({
-                    ...link,
-                    userId: user.id,
-                })),
-        }
+        console.log(values)
+		const userData = {
+			...values,
+			image: imagenAddHosting || user.image,
+			links: values.links
+				.filter((link) => link.name && link.url)
+				.map((link) => ({
+					...link,
+					userId: user.id,
+				})),
+		}
+        console.log(userData)
 
         try {
             const result = await dispatch(updateUser(userData, token))
@@ -117,84 +119,50 @@ const UpdateUserPage = () => {
         { name: 'Google', value: 'google' },
     ]
 
-    return (
-        <div className="container mt-4">
-            <div className="card">
-                <div className="card-body">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <h4 className="card-title">Tus datos actuales</h4>
-                            <div className={styles.currentDataContainer}>
-                                {user && (
-                                    <ul className="list-group">
-                                        <li className={`list-group-item ${styles.listItem}`}>
-                                            <p className={styles.boldText}>Nombre: </p> {user.userName}
-                                        </li>
-                                        <li className={`list-group-item ${styles.listItem}`}>
-                                            <p className={styles.boldText}>Contraseña: ******</p>
-                                        </li>
-                                        <li className={`list-group-item ${styles.listItem}`}>
-                                            <p className={styles.boldText}>Biografía: </p> {user.bio}
-                                        </li>
-                                        <li className={`list-group-item ${styles.listItem}`}>
-                                            <img width="300px" src={user.image} alt="User" />
-                                        </li>
-                                        <li className={`list-group-item ${styles.listItem}`}>
-                                            <p className={styles.boldText}>About me: </p> {user.aboutMe}
-                                        </li>
-                                    </ul>
-                                )}
-                            </div>
-                        </div>
-                        
-                        <div className="col-md-6">
-                            <h4 className="card-title">Tus nuevos datos</h4>
-                            {formError && (
-                                <div className="alert alert-danger" role="alert">
-                                    {formError}
-                                </div>
-                            )}
-                            <Formik
-                                initialValues={{
-                                    userName: user ? user.userName : '',
-                                    currentPassword: '',
-                                    newPassword: '',
-                                    confirmPassword: '',
-                                    bio: user ? user.bio : '',
-                                    aboutMe: user ? user.aboutMe : '',
-                                    image: '',
-                                    links: user ? user.links : [],
-                                }}
-                                validationSchema={Yup.object({
-                                    userName: Yup.string().required('Requerido'),
-                                    currentPassword: Yup.string().required('Requerido'),
-                                    newPassword: Yup.string().min(6, 'Debe tener al menos 6 caracteres'),
-                                    confirmPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Las contraseñas deben coincidir'),
-                                    bio: Yup.string(),
-                                    aboutMe: Yup.string().max(5000, 'El About Me debe tener hasta 5000 caracteres'),
-                                    image: Yup.string(),
-                                    links: Yup.array()
-                                        .of(Yup.object().shape({
-                                            name: Yup.string().required('Requerido'),
-                                            url: Yup.string().url('Debe ser una URL válida').required('Requerido'),
-                                        }))
-                                        .nullable()
-                                        .optional(),
-                                })}
-                                onSubmit={handleSubmit}
-                            >
-                                {({ isSubmitting, values, setFieldValue }) => (
-                                    <Form className="mt-4">
-                                        <div className="form-group">
-                                            <Field
-                                                type="text"
-                                                name="userName"
-                                                id="userName"
-                                                className="form-control"
-                                            />
-                                            <label htmlFor="userName">Nombre</label>
-                                            <ErrorMessage name="userName" component="div" className="text-danger" />
-                                        </div>
+	return (
+		<div className="row justify-content-center">
+			<div className={styles.centerDiv}>
+            <br />
+				{user && (
+					<div style={{ width: '100%' }}>
+						<h4 className="text-center mb-4" style={{ border: 'none' }}>
+							Tus datos actuales
+						</h4>
+						<ul className="list-group">
+							<li className="list-group-item" style={{ border: 'none' }}>
+								<p style={{ display: 'inline', fontWeight: 'bold' }}>
+									Nombre:{' '}
+								</p>{' '}
+								{user.userName}
+							</li>
+							<li className="list-group-item" style={{ border: 'none' }}>
+								<p style={{ display: 'inline', fontWeight: 'bold' }}>
+									Contraseña: ******
+								</p>
+							</li>
+							<li className="list-group-item" style={{ border: 'none' }}>
+								<p style={{ display: 'inline', fontWeight: 'bold' }}>
+									Biografía:{' '}
+								</p>{' '}
+								{user.bio}
+							</li>
+							<li className="list-group-item" style={{ border: 'none' }}>
+								<img width="400px" src={user.image} alt="User" />
+							</li>
+							<li className="list-group-item" style={{ border: 'none' }}>
+								<p style={{ display: 'inline', fontWeight: 'bold' }}>
+									About me:{' '}
+								</p>{' '}
+								{user.aboutMe}
+							</li>
+						</ul>
+					</div>
+				)}
+				<br />
+				<br />
+				<h4 className="text-center mb-4" style={{ border: 'none' }}>
+					Tus nuevos datos
+				</h4>
 
                                         <div className="form-group">
                                             <Field
@@ -207,16 +175,68 @@ const UpdateUserPage = () => {
                                             <ErrorMessage name="currentPassword" component="div" className="text-danger" />
                                         </div>
 
-                                        <div className="form-group">
-                                            <Field
-                                                type="password"
-                                                name="newPassword"
-                                                id="newPassword"
-                                                className="form-control"
-                                            />
-                                            <label htmlFor="newPassword">Nueva Contraseña</label>
-                                            <ErrorMessage name="newPassword" component="div" className="text-danger" />
-                                        </div>
+				<Formik
+					initialValues={{
+						userName: user ? user.userName : '',
+						currentPassword: '',
+						newPassword: '',
+						confirmPassword: '',
+						bio: user ? user.bio : '',
+						aboutMe: user ? user.aboutMe : '',
+						image: '',
+						links: user ? user.links : [],
+					}}
+					validationSchema={Yup.object({
+						userName: Yup.string().required('Requerido'),
+						currentPassword: Yup.string().required('Requerido'),
+						newPassword: Yup.string().min(
+							6,
+							'Debe tener al menos 6 caracteres'
+						),
+						confirmPassword: Yup.string().oneOf(
+							[Yup.ref('newPassword'), null],
+							'Las contraseñas deben coincidir'
+						),
+						bio: Yup.string(),
+						aboutMe: Yup.string().max(
+							5000,
+							'El About Me debe tener hasta 5000 caracteres'
+						),
+						image: Yup.string(),
+						links: Yup.array()
+							.of(
+								Yup.object().shape({
+									name: Yup.string().required('Requerido'),
+									url: Yup.string()
+										.url('Debe ser una URL válida')
+										.required('Requerido'),
+								})
+							)
+							.nullable()
+							.optional(),
+					})}
+					onSubmit={handleSubmit}
+                    
+				>
+					{({ isSubmitting, values, setFieldValue }) => (
+                        <div style={{ display:"flex", justifyContent:"center", alignItems:"center" }} >
+						<Form style={{ width: '50%', display:'flex', flexDirection:'column' }}>
+							<div className="mb-3 position-relative">
+								<Field
+									type="text"
+									name="userName"
+									id="userName"
+									className={`form-control ${styles['custom-input']}`}
+								/>
+								<label htmlFor="userName" className={`${styles['form-label']}`}>
+									Nombre
+								</label>
+								<ErrorMessage
+									name="userName"
+									component="div"
+									className="text-danger"
+								/>
+							</div>
 
                                         <div className="form-group">
                                             <Field
@@ -314,40 +334,36 @@ const UpdateUserPage = () => {
                                             )}
                                         </FieldArray>
 
-                                        <button
-                                            type="submit"
-                                            className="btn btn-success mt-4"
-                                            disabled={isSubmitting}
-                                        >
-                                            Guardar Cambios
-                                        </button>
-                                    </Form>
-                                )}
-                            </Formik>
-                        </div>
-                    </div>
-
-                    <br />
-                    <div className="text-center mt-4">
+							<button
+								type="submit"
+								className="btn btn-primary"
+								disabled={isSubmitting}
+							>
+								Guardar Cambios
+							</button>
+                        <br />
                         <button className="btn btn-danger" onClick={preFinishUser}>
                             Eliminar Perfil
                         </button>
-                    </div>
-                    {finish && (
-                        <div className="alert alert-danger mt-3" role="alert">
-                            <p>¿Estás seguro de que deseas eliminar tu perfil?</p>
-                            <button className="btn btn-danger" onClick={finishUser}>
-                                Sí, eliminar
-                            </button>
-                            <button className="btn btn-secondary" onClick={unFinish}>
-                                Cancelar
-                            </button>
+                        {finish && (
+                            <div className="alert alert-danger mt-3" role="alert">
+                                <p>¿Estás seguro de que deseas eliminar tu perfil?</p>
+                                <button className="btn btn-danger" onClick={finishUser}>
+                                    Sí, eliminar
+                                </button>
+                                <button className="btn btn-secondary" onClick={unFinish}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        )}
+						</Form>
                         </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    )
+					)}
+				</Formik>
+
+			</div>
+		</div>
+	)
 }
 
 export default UpdateUserPage

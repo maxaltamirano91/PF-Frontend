@@ -70,7 +70,7 @@ function App() {
 						<Route path="/escritorio" element={<Dashboard />} />
 					</Routes>
 				</div>
-				<ProFooter />
+				{/* <ProFooter /> */}
 				<Footer />
 			</div>
 		</>

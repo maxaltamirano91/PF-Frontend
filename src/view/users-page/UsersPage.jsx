@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsers } from '../../redux/actions'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUpAZ, ArrowDownAZ } from 'lucide-react'
+import ProFooter from '../../components/pro-footer/ProFooter'
 
 const UsersPage = () => {
 	const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const UsersPage = () => {
 		search: '',
 		sort: 'a-z',
 	})
+	const [loading, setLoading] = useState(true)
 	const { loggedUser } = useSelector((state) => state.auth)
 	const navigate = useNavigate()
 	console.log(loggedUser)
@@ -25,10 +27,14 @@ const UsersPage = () => {
 
 	const handleScroll = () => {
 		const bottom =
-			Math.ceil(window.innerHeight + window.scrollY) >=
-			document.documentElement.scrollHeight
+		Math.ceil(window.innerHeight + window.scrollY) >=
+		document.documentElement.scrollHeight
 		if (bottom) {
-			setQuery((prev) => ({ ...prev, pagination: query.pagination + 5 }))
+			setTimeout(() => {
+				setLoading(true)
+				setQuery((prev) => ({ ...prev, pagination: query.pagination + 5 }))
+				setLoading(false)
+			}, 750)
 		}
 	}
 
@@ -48,6 +54,7 @@ const UsersPage = () => {
 	const filteredUsers = allUsers.filter((user) => user.id !== loggedUser.id)
 
 	return (
+			<div>
 		<div className={styles.usersPage}>
 			<div className={styles.titleContainer}>
 				<h2>Perfiles</h2>
@@ -146,6 +153,8 @@ const UsersPage = () => {
 					))}
 				</div>
 			</div>
+			</div>
+			<ProFooter loading={loading}></ProFooter>
 		</div>
 	)
 }
