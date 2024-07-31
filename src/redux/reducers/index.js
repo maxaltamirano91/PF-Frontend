@@ -10,6 +10,7 @@ import usersReducer from './usersReducer'
 import subscriptionReducer from './subscriptionReducer'
 import paymentReducer from './paymentReducer'
 import contractFormReducer from './contractReducer'
+import reviewReducer from './reviewReducer'
 import dataReducer from './dataReducer'
 
 const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
 	subscription: subscriptionReducer,
 	payment: paymentReducer,
 	contract: contractFormReducer,
+	review: reviewReducer,
 	data: dataReducer
 })
 

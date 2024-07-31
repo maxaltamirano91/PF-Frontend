@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllContracts } from '../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
