@@ -1,12 +1,29 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllContracts } from '../../redux/actions'
+import { getAllContracts, createCommission } from '../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 import PendingContractView from '../admin-view/contract-tab/PendingContractView'
 import AcceptContractView from '../admin-view/contract-tab/AcceptContractView'
 import RejectContractView from '../admin-view/contract-tab/RejectContractView'
 import styled from 'styled-components'
+
+// Función para calcular la comisión
+const calculateCommission = (planName, budget) => {
+	let rate = 0
+	switch (planName.toLowerCase()) {
+		case 'premium':
+			rate = 0.05 // 5% para Premium
+			break
+		case 'free':
+			rate = 0.25 // 25% para Free
+			break
+		default:
+			throw new Error(`Unknown plan: ${planName}`)
+	}
+	const amount = budget * rate
+	return { rate, amount }
+}
 
 const AdminViewContracts = ({ searchQuery }) => {
 	const dispatch = useDispatch()
@@ -16,6 +33,32 @@ const AdminViewContracts = ({ searchQuery }) => {
 	useEffect(() => {
 		dispatch(getAllContracts(token))
 	}, [dispatch, token])
+
+	useEffect(() => {
+		// Filtrar los contratos aceptados y calcular la comisión si es necesario
+		const acceptedContracts = contracts.filter(
+			(contract) => contract.status === 'accepted'
+		)
+
+		acceptedContracts.forEach((contract) => {
+			const receiver = contract.receiver
+			if (
+				receiver.role === 'user' &&
+				['free', 'premium'].includes(receiver.planName.toLowerCase())
+			) {
+				const { rate, amount } = calculateCommission(
+					receiver.planName,
+					contract.budget
+				)
+				const commissionData = {
+					contractId: contract.id,
+					rate,
+					amount,
+				}
+				dispatch(createCommission(commissionData, token))
+			}
+		})
+	}, [contracts, dispatch, token])
 
 	const filteredContracts = contracts.filter(
 		(contract) =>

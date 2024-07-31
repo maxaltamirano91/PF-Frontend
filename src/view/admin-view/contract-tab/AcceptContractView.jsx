@@ -10,7 +10,7 @@ const AcceptContractView = ({ contracts, searchQuery }) => {
 			(contract.id.toString().includes(searchQuery) &&
 				contract.status === 'accepted')
 	)
-
+console.log(filteredContracts)
 	return (
 		<SectionStyled className="ListContracts">
 			<div className="accordion accordion-flush" id="accordionFlushExample">
@@ -48,6 +48,8 @@ const AcceptContractView = ({ contracts, searchQuery }) => {
 											{contract.currency}
 										</p>
 										<p>Cronología: {contract.availableTime}</p>
+										<p>Estado: {contract.status}</p>
+										<p>Comisión por pago: {contract.commissionAmount}</p>
 									</div>
 									<hr />
 								</div>
