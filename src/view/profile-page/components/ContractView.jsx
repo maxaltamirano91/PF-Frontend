@@ -41,7 +41,6 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 
 	return (
 		<div>
-			<h1>Solicitudes de trabajo:</h1>
 			<SectionStyled className="container-fluid mt-2" id="dashboard" />
 			<ul className="nav nav-tabs">
 				<li className="nav-item">

@@ -14,6 +14,7 @@ const Tabs = ({
 	searchQuery,
 	activeContractTab,
 	handleReviewFormSubmit,
+	handleDelete
 }) => {
 	const { loggedUser } = useSelector((state) => state.auth)
 	const [activeTab, setActiveTab] = useState('projects')
@@ -36,6 +37,7 @@ const Tabs = ({
 				<Reviews
 					profileData={profileData}
 					handleReviewFormSubmit={handleReviewFormSubmit}
+					handleDelete={handleDelete}
 				/>
 			),
 		},

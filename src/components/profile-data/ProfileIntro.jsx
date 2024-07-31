@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './ProfileData.module.css';
 import { Link } from 'react-router-dom';
 import { Pencil } from 'lucide-react';

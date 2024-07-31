@@ -11,7 +11,7 @@
 
 .cardContent {
 	background-color: #fff;
-	border: 1px dashed rgb(205, 205, 205);
+	border: 2px dashed rgb(222, 232, 255);
 	border-radius: 8px;
 	text-align: center;
 	display: flex;
@@ -100,6 +100,12 @@
 	flex: 1;
 }
 
+.reviewUserNameContent h4 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .reviewUserNameContent span {
 	font-size: 0.8rem;
 }
@@ -147,7 +153,7 @@
 }
 
 .commentContainer {
-	max-width: 20rem;
+	max-width: 10rem;
 }
 
 .commentContainer p {
@@ -155,6 +161,8 @@
 	height: 80px;
 	margin: 0;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	padding-top: 5px;
 	overflow-wrap: break-word;
 }
