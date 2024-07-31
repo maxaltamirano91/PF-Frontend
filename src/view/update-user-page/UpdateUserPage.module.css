@@ -1,86 +1,42 @@
-.cardContainer {
-  max-width: 900px;
-  margin: 20px auto;
+.container {
+  max-width: 800px;
+  margin: auto;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 3rem;
 }
 
-.cardBody {
-  display: flex;
-  justify-content: space-between;
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
 }
 
-.half {
-  width: 48%;
+.card-body {
+  padding: 20px;
 }
 
-.imageContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem; 
-  margin-bottom: 2rem;
+.card-title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
-.smallImage {
-  width: 50%;
-  height: auto;
+.form-group {
+  margin-bottom: 1rem;
 }
 
-.customForm {
-  font-size: 1rem;
-  font-family: Arial, sans-serif;
-}
-
-.formLabel {
-  display: block;
-  margin-bottom: 5px;
+.boldText {
   font-weight: bold;
 }
 
-.passwordWrapper {
-  position: relative;
+.listItem {
+  margin-bottom: 10px;
 }
 
-.eyeButton {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  border: none;
-  background: none;
-  cursor: pointer;
+.customInput {
+  border-radius: 4px;
+  padding: 0.5rem;
 }
 
-.customButtonContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.customButton {
-  width: 45%;
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.deleteButton {
-  margin-top: 1rem; 
-  justify-content: center;
-  margin-left: 8.5rem;
-
-}
-
-.submitButton {
-  margin-top: 1rem;
-  background: #7474BF; 
-  background: -webkit-linear-gradient(to right, #348AC7, #7474BF); 
-  background: linear-gradient(to right, #348AC7, #7474BF);
-  color: #fff;
-  border: 3px solid #eee;
+.addButton, .removeButton, .saveButton {
+  border-radius: 4px;
 }
