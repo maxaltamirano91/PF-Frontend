@@ -56,6 +56,7 @@ const HomePage = () => {
 	return (
 		<div className="mx-auto">
 			<Filter updateSearchParams={updateSearchParams} />
+			<hr className='m-0' />
 			<Cards projects={allProjects} toggleLike={toggleLike} />
 		</div>
 	)

@@ -1,15 +1,17 @@
+import { ArrowUpDown } from 'lucide-react'
 import styles from './Filter.module.css'
 
-const Sort = ({ sortOrder, onSortChange }) => {
+const Sort = ({ onSortChange }) => {
 	return (
-		<div className={`${styles.sortContainer} dropdown`}>
+		<div className={`${styles.sortContainer} dropdown border`}>
 			<div
-				className="dropdown-toggle"
+				className={`${styles.dropdown} dropdown-toggle`}
 				id="dropdownMenuButton"
 				data-bs-toggle="dropdown"
 				aria-expanded="false"
 			>
-				Ordenar por {sortOrder}
+				<ArrowUpDown size={16} strokeWidth={3} />
+				<span className='fw-bold'>Ordenar por</span>
 			</div>
 			<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
 				<li>

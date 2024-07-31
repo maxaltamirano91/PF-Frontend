@@ -12,7 +12,7 @@ import ForgotPasswordPage from './view/forgot-password-page/ForgotPasswordPage'
 import PremiumPage from './view/premium-page/PremiumPage'
 import NotFoundPage from './view/not-found-page/NotFoundPage'
 import UpdateProjectPage from './view/update-project-page/UpdateProjectPage'
-import UpdateUserPage from './view/update-user-page/UpdateUserPage'
+import UpdateUserPag from './view/update-user-page/UpdateUserPag'
 import UsersPage from './view/users-page/UsersPage'
 import CreateProjectPage from './view/create-project-page/CreateProjectPage'
 import useAuth0TokenHandler from './hooks/useAuth0TokenHandler'
@@ -52,7 +52,7 @@ function App() {
 						<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
 
 						<Route path="/dashboard" element={<AdminView />} />
-						<Route path="/modUser" element={<UpdateUserPage />} />
+						<Route path="/modUser" element={<UpdateUserPag />} />
 						<Route path="/modProject/:id" element={<UpdateProjectPage />} />
 						<Route path="/projects/:id" element={<ProjectDetailPage />} />
 						<Route

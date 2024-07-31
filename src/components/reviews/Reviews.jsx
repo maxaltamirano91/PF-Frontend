@@ -1,16 +1,22 @@
 import styles from './Reviews.module.css'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { CirclePlus, Star, X } from 'lucide-react'
-import { useSelector } from 'react-redux'
 import Modal from '../modal/Modal'
 import ReviewForm from './ReviewForm'
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { CirclePlus, Star, X } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
 import { calculateTimeAgo } from '../../utils/calculateTimeAgo'
+import { deleteReviewById } from '../../redux/actions'
 
 const Reviews = ({ profileData, handleReviewFormSubmit }) => {
-	const { loggedUser } = useSelector((state) => state.auth)
+	const dispatch = useDispatch()
+	const { loggedUser, token } = useSelector((state) => state.auth)
 	const [showModal, setShowModal] = useState(false)
-	console.log(profileData)
+
+	const handleDelete = (id) => {
+		const confirm = window.confirm('¿Deseas eliminar la review?')
+		if (confirm) dispatch(deleteReviewById(id, token))
+	}
 
 	return (
 		<div className={styles.reviewsContainer}>
@@ -30,8 +36,13 @@ const Reviews = ({ profileData, handleReviewFormSubmit }) => {
 												{calculateTimeAgo(review.createdAt)}
 											</span>
 										</div>
-										<button className='btn p-0'>
-											<X size={16} strokeWidth={5} color="#6c757d" />
+										<button
+											className="btn p-0"
+											onClick={() => handleDelete(review.id)}
+										>
+											{profileData.id === review.reviewedUser.id && (
+												<X size={16} strokeWidth={5} color="#6c757d" className='mb-4' />
+											)}
 										</button>
 									</div>
 								</div>
