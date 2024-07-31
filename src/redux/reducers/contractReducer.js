@@ -9,6 +9,10 @@ import {
 	UPDATE_CONTRACT_STATUS_REQUEST,
 	UPDATE_CONTRACT_STATUS_SUCCESS,
 	UPDATE_CONTRACT_STATUS_FAILURE,
+	CONTRACT_COMMISSION,
+	COMMISSION_CREATION_REQUEST,
+	COMMISSION_CREATION_SUCCESS,
+	COMMISSION_CREATION_FAILURE,
 } from '../types'
 
 const initialState = {
@@ -16,6 +20,7 @@ const initialState = {
 	contract: null,
 	loading: false,
 	error: null,
+	commission: null,
 }
 
 const contractReducer = (state = initialState, action) => {
@@ -34,6 +39,7 @@ const contractReducer = (state = initialState, action) => {
 			}
 		case CONTRACT_FORM_REQUEST:
 		case UPDATE_CONTRACT_STATUS_REQUEST:
+		case COMMISSION_CREATION_REQUEST:
 			return {
 				...state,
 				loading: true,
@@ -53,8 +59,15 @@ const contractReducer = (state = initialState, action) => {
 				),
 				loading: false,
 			}
+		case COMMISSION_CREATION_SUCCESS:
+			return {
+				...state,
+				commission: action.payload,
+				loading: false,
+			}
 		case CONTRACT_FORM_FAILURE:
 		case UPDATE_CONTRACT_STATUS_FAILURE:
+		case COMMISSION_CREATION_FAILURE:
 		case FETCH_ERROR:
 			return {
 				...state,
