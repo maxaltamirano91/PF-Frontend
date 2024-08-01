@@ -65,6 +65,7 @@ export const updateUser = (userData, token) => async (dispatch) => {
 };
 
 export const updateUserByID = (userData, token) => {
+	console.log(userData);
 	return async (dispatch) => {
 		try {
 			const { data } = await axios.put(`/users/${userData.id}`, userData, {

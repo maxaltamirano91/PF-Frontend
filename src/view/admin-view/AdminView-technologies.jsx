@@ -1,18 +1,29 @@
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchTechnologies } from '../../redux/actions'
+import { fetchTechnologies, createTechnology } from '../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
+import { Modal, Button, Form } from 'react-bootstrap'
 
 const AdminViewTechnologies = ({ searchQuery }) => {
 	const dispatch = useDispatch()
 	const token = useSelector((state) => state.auth.token)
 	const techs = useSelector((state) => state.technologies.technologies)
 
+	const [showModal, setShowModal] = useState(false)
+	const [newTechName, setNewTechName] = useState('')
+
 	useEffect(() => {
 		dispatch(fetchTechnologies(token))
 	}, [dispatch, token])
+
+	const handleCreateTech = () => {
+		dispatch(createTechnology(newTechName, token))
+		setNewTechName('')
+		setShowModal(false)
+	}
 
 	const filteredTechnologies = techs.filter(
 		(tech) =>
@@ -22,6 +33,10 @@ const AdminViewTechnologies = ({ searchQuery }) => {
 
 	return (
 		<SectionStyled className="ListTechnologies">
+			<Button variant="primary" onClick={() => setShowModal(true)}>
+				Agregar Tecnología
+			</Button>
+
 			<div className="accordion accordion-flush" id="accordionFlushExample">
 				<div className="accordion-item">
 					<h2 className="accordion-header"></h2>
@@ -64,6 +79,33 @@ const AdminViewTechnologies = ({ searchQuery }) => {
 					<p>No hay tecnologías disponibles</p>
 				)}
 			</div>
+
+			<Modal show={showModal} onHide={() => setShowModal(false)}>
+				<Modal.Header closeButton>
+					<Modal.Title>Agregar Nueva Tecnología</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<Form>
+						<Form.Group controlId="formTechName">
+							<Form.Label>Nombre de la Tecnología</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Ingrese el nombre de la tecnología"
+								value={newTechName}
+								onChange={(e) => setNewTechName(e.target.value)}
+							/>
+						</Form.Group>
+					</Form>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setShowModal(false)}>
+						Cancelar
+					</Button>
+					<Button variant="primary" onClick={handleCreateTech}>
+						Aceptar
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</SectionStyled>
 	)
 }
