@@ -1,24 +1,64 @@
-import React, { useState, useEffect } from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import axios from 'axios';
 
 const EditUserModal = ({ show, handleClose, user, handleSave }) => {
-  const [formData, setFormData] = useState({ ...user })
+  const [formData, setFormData] = useState({ ...user });
+  const [file, setFile] = useState(null);
+  const [imageURL, setImageURL] = useState(user.image || '');
 
   useEffect(() => {
-    setFormData({ ...user })
-  }, [user])
+    setFormData({ ...user });
+    setImageURL(user.image || '');
+  }, [user]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
-  const handleSubmit = () => {
-    handleSave(formData)
-  }
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageURL(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const updatedData = { ...formData };
+
+    if (file) {
+      const uploadUrl = 'https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3';
+      const uploadData = new FormData();
+      uploadData.append('image', file);
+
+      try {
+        const result = await axios.post(uploadUrl, uploadData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        updatedData.image = result.data.data.url; // URL de la imagen subida
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        return; // Salir si hay un error
+      }
+    }
+
+    if (!updatedData.id) {
+      console.error('ID del usuario no encontrado');
+      return; // Salir si no hay ID
+    }
+
+    handleSave(updatedData);
+    handleClose();
+  };
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -32,7 +72,7 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               type="text"
               name="userName"
-              value={formData.userName}
+              value={formData.userName || ""}
               onChange={handleChange}
             />
           </Form.Group>
@@ -41,7 +81,7 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               type="email"
               name="email"
-              value={formData.email}
+              value={formData.email || ""}
               onChange={handleChange}
             />
           </Form.Group>
@@ -50,18 +90,45 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               type="text"
               name="bio"
-              value={formData.bio}
+              value={formData.bio || ""}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formPassword">
-            <Form.Label>Contraseña</Form.Label>
+          <Form.Group controlId="formAboutMe">
+            <Form.Label>Acerca de mí</Form.Label>
             <Form.Control
               type="text"
-              name="password"
-              value={formData.password}
+              name="aboutMe"
+              value={formData.aboutMe || ""}
               onChange={handleChange}
             />
+          </Form.Group>
+          <Form.Group controlId="formPlan">
+            <Form.Label>Plan</Form.Label>
+            <Form.Control
+              as="select"
+              name="planName"
+              value={formData.planName || ""}
+              onChange={handleChange}
+            >
+              <option value="Free">Free</option>
+              <option value="Premium">Premium</option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="formImage">
+            <Form.Label>Imagen de Perfil</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            {imageURL && (
+              <img
+                src={imageURL}
+                alt="Preview"
+                style={{ marginTop: '10px', width: '100%', height: 'auto' }}
+              />
+            )}
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -74,7 +141,7 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  )
-}
+  );
+};
 
-export default EditUserModal
+export default EditUserModal;
