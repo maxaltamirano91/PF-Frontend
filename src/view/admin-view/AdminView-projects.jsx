@@ -57,8 +57,8 @@ const AdminViewProjects = ({ searchQuery }) => {
 	return (
 		<SectionStyled className="ListProjects">
 			<div className="accordion accordion-flush" id="accordionFlushExample">
-				{filteredProjects && filteredProjects.length > 0 ? (
-					filteredProjects.map((project, index) => (
+				{filteredProjects && filteredProjects?.length > 0 ? (
+					filteredProjects?.map((project, index) => (
 						<div className="accordion-item" key={project.id}>
 							<h2 className="accordion-header">
 								<span
