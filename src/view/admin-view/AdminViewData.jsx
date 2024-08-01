@@ -309,10 +309,10 @@ const AdminViewData = () => {
 						}
 						style={{ '--cui-card-cap-bg': '#3b5998' }}
 						values={[
-							{ title: 'Reviews', value: metaData.reviewsPercentage },
+							{ title: 'Reviews', value: metaData.reviewCount },
 							{
 								title: ' % Porcentaje Reviews',
-								value: metaData.revi,
+								value: metaData.reviewsPercentage,
 							},
 						]}
 					/>
