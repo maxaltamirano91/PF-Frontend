@@ -1,5 +1,7 @@
 import {
 	FETCH_TECHNOLOGIES,
+	CREATE_TECHNOLOGY_SUCCESS,
+	CREATE_TECHNOLOGY_FAILURE,
 } from '../types'
 
 const initialState = {
@@ -14,7 +16,16 @@ const technologiesReducer = (state = initialState, action) => {
 				...state,
 				technologies: action.payload,
 			}
-
+		case CREATE_TECHNOLOGY_SUCCESS:
+			return {
+				...state,
+				technologies: [...state.technologies, action.payload],
+			}
+		case CREATE_TECHNOLOGY_FAILURE:
+			return {
+				...state,
+				error: action.payload,
+			}
 		default:
 			return state
 	}
