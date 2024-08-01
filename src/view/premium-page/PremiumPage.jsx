@@ -1,21 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+
 import styles from './PremiumPage.module.css'
-import PlanComparison from "../../components/plan-comparison/PlanComparison"
-import { getUserProfile } from '../../redux/actions'
+import PlanComparison from '../../components/plan-comparison/PlanComparison'
 
 const image1Url = 'https://i.ibb.co/tYfrgKG/portfolio.png'
 const image2Url = 'https://i.ibb.co/s51rcjF/Proyect-Proposal.png'
 const image3Url = 'https://i.ibb.co/k265XpZ/imagen3.png'
 
 const PremiumPage = () => {
-	const dispatch = useDispatch()
-	const { token } = useSelector((state) => state.auth)
-
 	useEffect(() => {
-		dispatch(getUserProfile(token))
 		const carousel = document.querySelector('#carouselExampleIndicators')
 		if (carousel) {
 			carousel.setAttribute('data-bs-interval', '5000')
@@ -23,7 +17,7 @@ const PremiumPage = () => {
 	}, [])
 
 	return (
-		<div>
+		<div className="w-100">
 			<header
 				className={`${styles.heroSection} d-flex align-items-center justify-content-center`}
 			>
@@ -35,9 +29,10 @@ const PremiumPage = () => {
 								0 % de tarifas de la plataforma, más funciones para que tu
 								carrera creativa crezca y dar más visibilidad a tus proyectos.
 							</p>
-							<Link to="/register" className="btn btn-primary">
-								Probar versión gratuita
-							</Link>
+
+							<a href="#plan-comparison" className="btn btn-primary">
+								Conoce DevPro
+							</a>
 						</div>
 						<div className="col-md-6">
 							<div
@@ -119,22 +114,7 @@ const PremiumPage = () => {
 					</div>
 				</div>
 			</header>
-			<section className="container my-5">
-				<div className="row align-items-center">
-					<div className="col-md-6">
-						<h2>Muestra tu trabajo en tu propio sitio web</h2>
-						<p>Publica hasta 5 sitios.</p>
-						<p>Importa tu trabajo desde ForDevs al instante</p>
-					</div>
-					<div className="col-md-6">
-						<img
-							src={image1Url}
-							className="img-fluid"
-							alt="Imagen adicional 1"
-						/>
-					</div>
-				</div>
-			</section>
+
 			<section className="container my-5">
 				<div className="row align-items-center">
 					<div className="col-md-6">
@@ -181,7 +161,9 @@ const PremiumPage = () => {
 				<p className="lead">
 					Lleva tus proyectos al siguiente nivel con ForDevs Pro.
 				</p>
-				<PlanComparison/>
+				<div id="plan-comparison">
+					<PlanComparison />
+				</div>
 			</section>
 		</div>
 	)

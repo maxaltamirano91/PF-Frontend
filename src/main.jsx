@@ -35,6 +35,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 		clientId={AUTH0_CLIENT_ID}
 		redirectUri={DEPLOY_FRONT_URL_BASE_FULL}
 		onRedirectCallback={onRedirectCallback}
+		audience="YOUR_API_IDENTIFIER"
+		scope="openid profile email"
 	>
 		<Provider store={store}>
 			<BrowserRouter>

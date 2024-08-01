@@ -2,12 +2,14 @@ import axios from 'axios'
 import {
 	LOGIN_USER,
 	LOGOUT_USER,
-	FETCH_ERROR,
-	HANDLE_ERROR,
+	LOGIN_REQUEST,
+	FETCH_AUTH_ERROR,
+	HANDLE_AUTH_ERROR,
 } from '../types'
 
 export const loginUser = (userData, loginType) => {
 	return async (dispatch) => {
+		dispatch({ type: LOGIN_REQUEST })
 		try {
 			const { data } =
 				loginType === 'local'
@@ -17,20 +19,24 @@ export const loginUser = (userData, loginType) => {
 				type: LOGIN_USER,
 				payload: data,
 			})
-			dispatch({type: HANDLE_ERROR})
+			dispatch({ type: HANDLE_AUTH_ERROR })
 		} catch (error) {
 			dispatch({
-				type: FETCH_ERROR,
+				type: FETCH_AUTH_ERROR,
 				payload: 'Credenciales inválidas',
 			})
 		}
 	}
 }
 
+export const resetFetchError = () => ({
+	type: HANDLE_AUTH_ERROR,
+})
+
 export const logoutUser = () => {
 	return (dispatch) => {
-		dispatch({type: LOGOUT_USER})
-		dispatch({type: HANDLE_ERROR})
+		dispatch({ type: LOGOUT_USER })
+		dispatch({ type: HANDLE_AUTH_ERROR })
 	}
 }
 
@@ -40,7 +46,7 @@ export const registerUser = (userData) => {
 			await axios.post('/signup', userData)
 		} catch (error) {
 			dispatch({
-				type: FETCH_ERROR,
+				type: FETCH_AUTH_ERROR,
 				payload: 'Error al registrar el usuario',
 			})
 		}

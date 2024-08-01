@@ -56,7 +56,6 @@ const ForgotPasswordPage = () => {
 
   const newPass = () => {
     Number(input_code) === Number(code2) ? alert("Enter your new password") : null
-    // console.log("NEWPASS")
   }
 
     // return (

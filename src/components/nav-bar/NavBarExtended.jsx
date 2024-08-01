@@ -1,14 +1,14 @@
+import styles from './NavBar.module.css'
+import styled from 'styled-components'
 import LogoutButton from '../logout-button/LogoutButton.jsx'
-import Filter from '../filter/Filter.jsx'
 import { Gem } from 'lucide-react'
-
 import { setDarkMode, setLightMode } from '../../redux/actions'
-
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import NotificationIcon from './NotificationIcon.jsx'
 
-const NavBarExtended = () => {
+const NavBarExtended = ({ hasUnreadNotifications }) => {
 	const dispatch = useDispatch()
 	const theme = useSelector((state) => state.themes.theme)
 	const { loggedUser } = useSelector((state) => state.auth)
@@ -35,21 +35,19 @@ const NavBarExtended = () => {
 		theme === 'dark' ? darkMode() : lightMode()
 	}, [theme])
 
-	const location = useLocation()
-	const showFilter = ['/home', '/users'].includes(location.pathname)
+	const ProfileLink = styled.span`
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	`
 
 	return (
-		<div>
+		<div className={styles.navbar}>
 			<nav className="navbar navbar-expand-lg p-3 bg-body-tertiary">
 				<div className="container-fluid">
 					<Link to={'/'}>
 						<span className="navbar-brand">ForDevs</span>
 					</Link>
-					{/* ----------------------SearchBar  Movil ----------------- */}
-
-					{/* <div className="d-flex me-auto d-sm-none "></div> */}
-
-					{/* ----------------------end ----------------- */}
 					<button
 						className="navbar-toggler"
 						type="button"
@@ -64,13 +62,13 @@ const NavBarExtended = () => {
 					<div className="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul className="navbar-nav me-auto mb-2 mb-lg-0">
 							<li className="nav-item">
-								{/* --------------------------------- Explorer----------------------- */}
-								{/* <Link to={'/home'}>
-									<span className="nav-link active">Explorar</span>
-								</Link> */}
 								<div className="dropdown">
 									<a
-										className="btn btn-light dropdown-toggle"
+										className={
+											theme === 'light'
+												? 'btn btn-light dropdown-toggle fw-bold'
+												: 'btn btn-dark dropdown-toggle fw-bold'
+										}
 										href="#"
 										role="button"
 										data-bs-toggle="dropdown"
@@ -91,52 +89,45 @@ const NavBarExtended = () => {
 											</Link>
 										</li>
 										<li>
-											<a className="dropdown-item" href="#">
-												Tecnologías
-											</a>
+											{loggedUser?.role !== 'admin' && (
+												<a
+													className="dropdown-item"
+													href="/myprofile?tab=contracts"
+												>
+													Contratos
+												</a>
+											)}
 										</li>
 									</ul>
 								</div>
-
-								{/* --------------------------------- end Explorer ----------------------- */}
 							</li>
-							{loggedUser?.planName !== 'Premium' && (
+							{loggedUser?.planName !== 'Premium' &&
+								loggedUser?.role !== 'admin' && (
+									<li className="nav-item">
+										<Link to={'/premium'}>
+											<span className="nav-link">ForDevsPro</span>
+										</Link>
+									</li>
+								)}
+
+							{loggedUser && loggedUser?.role === 'admin' && (
 								<li className="nav-item">
-									<Link to={'/'}>
-										<span className="nav-link">ForDevPro</span>
-									</Link>
-								</li>
-							)}
-							{loggedUser && (
-								<li className="nav-item">
-									<Link to={'/myprofile'}>
-										<span className="nav-link ">
-											Perfil{loggedUser.planName === 'Premium' && <Gem />}
-										</span>
-									</Link>
-								</li>
-							)}
-							{loggedUser && loggedUser.role === 'admin' && (
-								<li className="nav-item">
-									<Link to={'/dashboard/User'}>
+									<Link to={'/dashboard'}>
 										<span className="nav-link ">Admin-Console</span>
 									</Link>
 								</li>
 							)}
+
+							{loggedUser ? (
+								<li className="nav-item">
+									<Link to={'/create'}>
+										<span className="nav-link ">Nuevo proyecto</span>
+									</Link>
+								</li>
+							) : null}
 						</ul>
 
-						{/* ----------------------SearchBar  Desktop ----------------- */}
-
-						<div className="d-flex me-auto ">
-							{showFilter && <Filter />}
-
-							{/* <Filter /> */}
-						</div>
-
-						{/* ----------------------end ----------------- */}
-
 						{loggedUser ? (
-							//? -------------------- login ----------------
 							<ul className="navbar-nav mb-2 mb-lg-0">
 								<li className="nav-item dropdown">
 									<a
@@ -146,33 +137,50 @@ const NavBarExtended = () => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										Hola {loggedUser.userName}
+										{loggedUser.receivedContracts?.length > 0 &&
+											loggedUser.receivedContracts?.some(
+												(contract) => contract.status === 'pending'
+											) && (
+												<NotificationIcon
+													hasUnreadNotifications={hasUnreadNotifications}
+												/>
+											)}
+										Hola {loggedUser?.userName}
 									</a>
 									<ul className="dropdown-menu">
 										<li>
-											<a className="dropdown-item" href="#">
-												Action
-											</a>
+											<Link className="dropdown-item p-3" to={`/myprofile`}>
+												<ProfileLink className="nav-link p-0">
+													Perfil
+													{loggedUser?.planName === 'Premium' && (
+														<Gem size={20} />
+													)}
+													{loggedUser.receivedContracts?.length > 0 &&
+														loggedUser.receivedContracts?.some(
+															(contract) => contract.status === 'pending'
+														) && (
+															<NotificationIcon
+																hasUnreadNotifications={hasUnreadNotifications}
+															/>
+														)}
+												</ProfileLink>
+											</Link>
 										</li>
 										<li>
-											<a className="dropdown-item" href="#">
-												Another action
+											<a className="dropdown-item p-3" href="/modUser">
+												Editar perfil
 											</a>
 										</li>
 										<li>
 											<hr className="dropdown-divider" />
 										</li>
-										<li className="">
+										<li className="py-2">
 											<LogoutButton className="dropdown-item " />
 										</li>
 									</ul>
 								</li>
 							</ul>
 						) : (
-							//*-------------------- end login----------------*/
-							// securePassword!
-
-							//? ----------------Sign in / Sign Up -------------------*/
 							<ul className="navbar-nav px-3">
 								<li className="nav-item">
 									<Link to={'/login'}>
@@ -185,10 +193,7 @@ const NavBarExtended = () => {
 									</Link>
 								</li>
 							</ul>
-							//* ----------------End -------------------*/
 						)}
-
-						{/*--------- Theme------------------- */}
 						<ul className="navbar-nav">
 							<li className="nav-item">
 								<button

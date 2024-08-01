@@ -1,0 +1,93 @@
+.projectsContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titleContainer h2 {
+    margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+	min-width: 0;
+}
+
+.titleContainer button {
+	font-size: 15px;
+	font-weight: 600;
+	min-width: 0;
+    padding: 5px 18px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    line-height: 1;
+    transition-duration: 300ms;
+    transition-property: color, background, border;
+}
+
+.titleContainer div {
+    margin: 1rem;
+    border: solid 1px #dee2e6;
+    flex: 1;
+}
+
+.tabsContainer {
+    display: block;
+}
+
+.tabs {
+    padding: 0;
+    margin-bottom: 25px;
+    list-style: none;
+    display: inline-block;
+}
+
+.tab {
+    border-radius: 100px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    position: relative;
+    z-index: 3;
+}
+
+.tab a {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    display: block;
+    padding: 9px 18px;
+    border-radius: 9999px;
+}
+
+.exception {
+    color: white;
+    background-color: #343a40;
+}
+
+@media (min-width: 1201px) {
+	.tabsContainer {
+		flex: 1;
+		margin: 150px 0 50px 50px;
+	}
+
+    .tabs {
+        margin-top: 15px;
+        overflow: visible;
+        text-align: left;
+        white-space: normal;
+    }
+}
+
+@media (min-width: 604px) and (max-width: 1200px) {
+    .tabsContainer {
+        padding: 15px 30px 30px;
+    }
+}

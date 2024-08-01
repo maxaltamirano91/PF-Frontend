@@ -1,0 +1,44 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.centerDiv{
+  width: 50%;
+}
+
+.cardBody {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.listItem {
+  margin-bottom: 10px;
+}
+
+.customInput {
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.addButton, .removeButton, .saveButton {
+  border-radius: 4px;
+}

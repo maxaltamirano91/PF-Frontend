@@ -1,0 +1,98 @@
+.container {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background-color: transparent;
+    border: 1px solid #e2e8f0;
+    border-radius: 1.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.cardTitle {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.cardText {
+    flex-grow: 1;
+}
+
+.list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+
+.listItem {
+    margin-bottom: 0.75rem;
+}
+
+.button:hover {
+    background-color: #4f46e5;
+}
+
+.premiumButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    pointer-events: none;
+    cursor: default;
+}
+
+.proCard {
+    position: relative;
+}
+
+.mostPopularButton {
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0508d0;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.flag {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+}

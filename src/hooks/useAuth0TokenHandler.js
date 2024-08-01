@@ -21,7 +21,7 @@ const useAuth0TokenHandler = () => {
 
 	const userData = {
 		userName: user?.nickname.split(' ').join('_'),
-		email: `${user?.nickname.toLowerCase().split(' ').join('')}@fordevs.com`,
+		email: `${user?.nickname.toLowerCase().split(' ').join('')}@gmail.com`,
 		password: generatePassword(12),
 		image: user?.picture,
 	}

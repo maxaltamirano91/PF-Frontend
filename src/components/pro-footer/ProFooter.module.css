@@ -1,0 +1,48 @@
+.proFooter {
+    width: 100%;
+    padding: 0 2rem 2rem;
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.addStyle {
+    margin-top: 4rem;
+    padding-bottom: 5rem;
+}
+
+.proFooter span {
+    padding-bottom: 2rem;
+}
+
+.proFooter ul  {
+    list-style: none;
+}
+
+.proFooter div {
+    width: 100%;
+    padding: 8rem 26rem;
+    margin: auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+}
+
+.proFooter div h3 {
+    line-height: 5rem;
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.proFooter button {
+    width: 50%;
+    padding: .5rem 0;
+    font-size: 1.25rem;
+}

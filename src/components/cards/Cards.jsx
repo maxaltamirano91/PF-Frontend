@@ -1,47 +1,20 @@
-import styled from 'styled-components'
+import styles from './Cards.module.css'
 import Card from '../card/Card'
 
-const Cards = ({ projects, onRestore }) => {
+const Cards = ({ projects, toggleLike }) => {
 	return (
-		<CardsDiv className="container-fluid my-5">
+		<div className={styles.cards}>
 			{projects?.length ? (
 				projects.map((project) => (
-					<div key={project.id}>
-						<Card
-							id={project.id}
-							title={project.title}
-							description={project.description}
-							technologies={project.technologies}
-							tags={project.tags}
-							image={project.image}
-						/>
-						{onRestore && (
-							<button
-								className="btn btn-custom border"
-								onClick={() => onRestore(project.id)}
-								style={{ textDecoration: 'none', margin: '10px' }}
-							>
-								Restaurar
-							</button>
-						)}
+					<div key={project.id} className={styles.card}>
+						{project.user && <Card project={project} toggleLike={toggleLike} />}
 					</div>
 				))
 			) : (
 				<p>No se encontraron los proyectos</p>
 			)}
-		</CardsDiv>
+		</div>
 	)
 }
 
 export default Cards
-
-const CardsDiv = styled.section`
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-	justify-items: center;
-	grid-gap: 0.8rem;
-
-	@media (max-width: 992px) {
-		grid-template-columns: 1fr;
-	}
-`

@@ -1,0 +1,53 @@
+.container {
+  background-image: url('https://i.ibb.co/z2Pg2h5/modern-gradient-background-picjumbo-com.jpg');
+  background-size: cover;  
+  background-attachment: fixed;
+  background-repeat: no-repeat;	
+  color: black;  
+  overflow: hidden;
+	margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;	
+}
+
+.card {  	
+	border: 1px solid rgb(194, 194, 194);
+  border-radius: 20px;
+  background-color: #fff;
+  width: 450px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.cardPaymentMethods {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 200px;
+}
+
+.header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.amounts {
+  margin-bottom: 20px;
+}
+
+.amountRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.total {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}

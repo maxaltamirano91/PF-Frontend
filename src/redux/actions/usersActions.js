@@ -6,12 +6,21 @@ import {
 	DELETE_USER,
 	GET_PROFILE,
 	FETCH_ERROR,
+	GET_DELETED_USERS,
+	RESTORE_USER
 } from '../types'
 
-export const getAllUsers = (token) => {
+export const getAllUsers = (data, token) => {
+	const { pagination=10, search='', sort='a-z' } = data
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.get('/users', {
+			const params = new URLSearchParams()
+
+			if (pagination) params.append('pageSize', pagination)
+			if (search) params.append('search', search)
+			if (sort) params.append('sort', sort)
+
+			const { data } = await axios.get(`/users?${params}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -34,10 +43,33 @@ export const getUserById = (id) => {
 	}
 }
 
-export const updateUser = (id, userData, token) => {
+export const updateUser = (userData, token) => async (dispatch) => {
+    try {
+		console.log(userData);
+        const response = await axios.put('/users/profile', userData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        dispatch({
+            type: UPDATE_USER,
+            payload: response.data, 
+        });
+
+        return response; 
+    } catch (error) {
+		dispatch({ type: FETCH_ERROR, payload: error.message });
+
+        return error.response; 
+    }
+};
+
+export const updateUserByID = (userData, token) => {
+	console.log(userData);
 	return async (dispatch) => {
 		try {
-			const { data } = await axios.put(`/users/${id}`, userData, {
+			const { data } = await axios.put(`/users/${userData.id}`, userData, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -57,7 +89,22 @@ export const deleteUserById = (id, token) => {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			dispatch({ type: DELETE_USER })
+			dispatch({ type: DELETE_USER, payload: id })
+		} catch (error) {
+			dispatch({ type: FETCH_ERROR, payload: error.message })
+		}
+	}
+}
+
+export const deleteUserProfile = (token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.delete(`/users`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: DELETE_USER, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
 		}
@@ -75,6 +122,37 @@ export const getUserProfile = (token) => {
 			dispatch({ type: GET_PROFILE, payload: data })
 		} catch (error) {
 			dispatch({ type: FETCH_ERROR, payload: error.message })
+		}
+	}
+}
+
+export const getDeletedUsers = (token) => {
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get('/users/deleted', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: GET_DELETED_USERS, payload: data })
+		}catch(error){
+			dispatch({ type: FETCH_ERROR, payload:error.message })
+		}
+	}
+}
+
+export const restoreUser = (id, token) => {
+	return async(dispatch) => {
+		try{
+			const { data } = await axios.post(`/users/restore/${id}`, null, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			dispatch({ type: RESTORE_USER, payload: data })
+		}
+		catch(error){
+			dispatch({ type: FETCH_ERROR, payload:error.message })
 		}
 	}
 }

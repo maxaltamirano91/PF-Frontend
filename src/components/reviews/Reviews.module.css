@@ -1,0 +1,200 @@
+.reviewsContainer {
+	width: 100%;
+	min-height: 22rem;
+}
+
+.cardsContainer {
+	width: 100%;
+	min-height: 9rem;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.cardContent {
+	background-color: #fff;
+	border: 2px dashed rgb(222, 232, 255);
+	border-radius: 8px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	max-width: 100%;
+	min-height: 200px;
+}
+
+.cardContentReview {
+	padding: 1rem 1.5rem;
+	background-color: #fff;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	min-height: 200px;
+	gap: 1rem;
+}
+
+.iconContainer {
+	align-items: center;
+	background: rgb(222, 232, 255);
+	border-radius: 50%;
+	display: flex;
+	height: 75px;
+	justify-content: center;
+	margin-bottom: 5%;
+	min-height: 75px;
+	width: 75px;
+}
+
+.createButton {
+	padding: 0.25rem 1rem;
+	border-radius: 9999px;
+}
+
+.createButton:hover {
+	background-color: #f8f9fa;
+}
+
+.createButtonSpan {
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+.reviewFormContainer {
+	width: 100%;
+	padding: 1rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.reviewForm {
+	width: 100%;
+}
+
+.reviewFormUserImage {
+	height: 100%;
+	margin-bottom: 1rem;
+}
+
+.reviewFormUserImage img,
+.reviewerImageContent img {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	display: block;
+	background-color: #fff;
+}
+
+.reviewerImageContent {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+}
+
+.reviewUserNameContent {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.reviewUserNameContent h4 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.reviewUserNameContent span {
+	font-size: 0.8rem;
+}
+
+.reviewFormUserName {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.reviewFormUserName span {
+	font-size: 0.9rem;
+}
+
+.starContainer {
+	margin: 1rem auto;
+	display: flex;
+	justify-content: center;
+	gap: 0.25rem;
+}
+
+.formTextareaContainer {
+	width: 90%;
+	margin: 1.75rem auto;
+}
+
+.formTextarea {
+	width: 100%;
+	padding: 1rem;
+	margin: auto;
+}
+
+.reviewFormButtonSubmit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+}
+
+.reviewFormButtonSubmit button {
+	width: 50%;
+	border-radius: 9999px;
+}
+
+.commentContainer {
+	max-width: 10rem;
+}
+
+.commentContainer p {
+	width: 100%;
+	height: 80px;
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding-top: 5px;
+	overflow-wrap: break-word;
+}
+
+@media (min-width: 1489px) and (max-width: 1800px) {
+	.cardsContainer {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (min-width: 1201px) and (max-width: 1488px) {
+	.cardsContainer {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 1039px) and (max-width: 1200px) {
+	.cardsContainer {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 604px) and (max-width: 1038px) {
+	.cardsContainer {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 604px) {
+	.cardsContainer {
+		display: inline-grid;
+		grid-column-gap: 20px;
+		grid-row-gap: 20px;
+	}
+}
