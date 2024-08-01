@@ -6,7 +6,6 @@ import styles from './ProfilePage.module.css';
 import Toastify from 'toastify-js';
 import ModalForm from './components/ModalForm';
 import ProfileData from '../../components/profile-data/ProfileData';
-
 import {
   createReview,
   getUserProfile,
@@ -109,8 +108,9 @@ const ProfilePage = () => {
         backgroundColor: '#4CAF50',
         stopOnFocus: true,
       }).showToast();
+      dispatch(getDeletedProjects(token));
       dispatch(getUserProfile(token));
-      setProjects(loggedUser.projects);
+      setReload(prev => !prev);
     });
   };
 

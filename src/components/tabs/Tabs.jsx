@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import styles from './Tabs.module.css';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -18,6 +19,12 @@ const Tabs = ({
   activeTab, // Nueva prop para la pestaña activa
 }) => {
   const { loggedUser } = useSelector((state) => state.auth);
+  const [archivedProjects, setArchivedProjects] = useState(deletedProjects);
+
+  useEffect(() => {
+    setArchivedProjects(deletedProjects);
+  }, [deletedProjects]);
+
   const categories = Object.freeze({
     contracts: 'contracts',
   });
@@ -58,7 +65,7 @@ const Tabs = ({
     });
 
     // Agregar la pestaña de archivados solo si el usuario actual es el propietario del perfil
-    const modifiedProfileData = { ...profileData, projects: deletedProjects };
+    const modifiedProfileData = { ...profileData, projects: archivedProjects };
     tabs.push({
       key: 'archived',
       label: 'Archivados',
