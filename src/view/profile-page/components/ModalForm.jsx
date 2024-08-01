@@ -91,6 +91,9 @@ const ModalForm = ({ show, handleClose, contract, handleSend }) => {
 							value={formData.availableTime}
 							onChange={handleChange}
 						>
+							<option value="" disabled selected>
+								Seleccione una opción
+							</option>
 							<option value="Ahora">Ahora</option>
 							<option value="En un plazo de varias semanas">
 								En un plazo de varias semanas

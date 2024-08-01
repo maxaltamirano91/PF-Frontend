@@ -24,6 +24,7 @@ const UsersPage = () => {
 		setQuery((prev) => ({ ...prev, search: e.target.value }))
 		dispatch(getAllUsers(query, token))
 	}
+	console.log(allUsers)
 
 	const handleScroll = () => {
 		const bottom =
@@ -132,7 +133,7 @@ const UsersPage = () => {
 								>
 									<h3>{user.userName}</h3>
 									<span className="text-secondary">{user.bio}</span>
-									{loggedUser?.role !== 'admin' && loggedUser?.planName !== 'Free' && (
+									{loggedUser?.role !== 'admin' && loggedUser?.planName !== 'Free' && user?.role !== 'admin' && (
 										<button
 											className={`w-100 btn ${
 												theme === 'light'

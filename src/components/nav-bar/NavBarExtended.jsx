@@ -1,12 +1,14 @@
-import styles from './NavBar.module.css'
+import styles from "./NavBar.module.css"
+import styled from "styled-components"
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 import { Gem } from 'lucide-react'
 import { setDarkMode, setLightMode } from '../../redux/actions'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import NotificationIcon from "./NotificationIcon.jsx"
 
-const NavBarExtended = () => {
+const NavBarExtended = ({ hasUnreadNotifications }) => {
 	const dispatch = useDispatch()
 	const theme = useSelector((state) => state.themes.theme)
 	const { loggedUser } = useSelector((state) => state.auth)
@@ -32,6 +34,12 @@ const NavBarExtended = () => {
 	useEffect(() => {
 		theme === 'dark' ? darkMode() : lightMode()
 	}, [theme])
+
+	const ProfileLink = styled.span`
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	`
 
 	return (
 		<div className={styles.navbar}>
@@ -82,7 +90,10 @@ const NavBarExtended = () => {
 										</li>
 										<li>
 											{loggedUser?.role !== 'admin' && (
-												<a className="dropdown-item" href="/myprofile?tab=contracts">
+												<a
+													className="dropdown-item"
+													href="/myprofile?tab=contracts"
+												>
 													Contratos
 												</a>
 											)}
@@ -126,17 +137,27 @@ const NavBarExtended = () => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
+										{loggedUser.receivedContracts?.length > 0 && (
+											<NotificationIcon
+												hasUnreadNotifications={hasUnreadNotifications}
+											/>
+										)}
 										Hola {loggedUser?.userName}
 									</a>
 									<ul className="dropdown-menu">
 										<li>
 											<Link className="dropdown-item p-3" to={`/myprofile`}>
-												<span className="nav-link p-0 d-flex align-content-center gap-2">
+												<ProfileLink className="nav-link p-0">
 													Perfil
 													{loggedUser?.planName === 'Premium' && (
 														<Gem size={20} />
 													)}
-												</span>
+													{loggedUser.receivedContracts?.length > 0 && loggedUser.receivedContracts?.map(contract => contract.status === 'pending') && (
+														<NotificationIcon
+															hasUnreadNotifications={hasUnreadNotifications}
+														/>
+													)}
+												</ProfileLink>
 											</Link>
 										</li>
 										<li>

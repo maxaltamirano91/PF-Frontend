@@ -194,11 +194,11 @@ const commissionCreationFailure = (error) => ({
 	payload: error,
 })
 
-export const createCommission = (commissionData, token) => {
+export const createCommission = (contractId, token) => {
 	return async (dispatch) => {
 		dispatch(commissionCreationRequest())
 		try {
-			const { data } = await axios.post('/contracts/create-commission', commissionData, {
+			const { data } = await axios.post('/contracts/create-commission', {contractId}, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
