@@ -32,14 +32,37 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
     }
   };
 
+  const handleAddLink = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      links: [...(prevData.links || []), { name: '', url: '', userId: prevData.id }],
+    }));
+  };
+
+  const handleRemoveLink = (index) => {
+    setFormData((prevData) => {
+      return{
+      ...prevData,
+      links: prevData.links.filter((_, i) => i !== index),}
+    });
+  };
+
+  const handleLinkChange = (index, e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      links: prevData.links.map((link, i) =>
+        i === index ? { ...link, [name]: value } : link
+      ),
+    }));
+  };
+
   const handleSubmit = async () => {
     const updatedData = { ...formData };
-
     if (file) {
       const uploadUrl = 'https://api.imgbb.com/1/upload?key=54253385757dc7d196411b16962bfda3';
       const uploadData = new FormData();
       uploadData.append('image', file);
-
       try {
         const result = await axios.post(uploadUrl, uploadData, {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -51,14 +74,18 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
       }
     }
 
-    if (!updatedData.id) {
-      console.error('ID del usuario no encontrado');
-      return; // Salir si no hay ID
-    }
-
     handleSave(updatedData);
     handleClose();
   };
+
+  const socialPlatforms = [
+    { name: 'GitHub', value: 'github' },
+    { name: 'LinkedIn', value: 'linkedin' },
+    { name: 'YouTube', value: 'youtube' },
+    { name: 'Facebook', value: 'facebook' },
+    { name: 'Twitter', value: 'twitter' },
+    { name: 'Google', value: 'google' },
+  ];
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -72,16 +99,7 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               type="text"
               name="userName"
-              value={formData.userName || ""}
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="formEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={formData.email || ""}
+              value={formData.userName || ''}
               onChange={handleChange}
             />
           </Form.Group>
@@ -90,7 +108,7 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               type="text"
               name="bio"
-              value={formData.bio || ""}
+              value={formData.bio || ''}
               onChange={handleChange}
             />
           </Form.Group>
@@ -99,7 +117,7 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               type="text"
               name="aboutMe"
-              value={formData.aboutMe || ""}
+              value={formData.aboutMe || ''}
               onChange={handleChange}
             />
           </Form.Group>
@@ -108,13 +126,62 @@ const EditUserModal = ({ show, handleClose, user, handleSave }) => {
             <Form.Control
               as="select"
               name="planName"
-              value={formData.planName || ""}
+              value={formData.planName || ''}
               onChange={handleChange}
             >
               <option value="Free">Free</option>
               <option value="Premium">Premium</option>
             </Form.Control>
           </Form.Group>
+
+          {/* Enlaces */}
+          <Form.Group controlId="formLinks">
+            <Form.Label>Redes Sociales</Form.Label>
+            {formData.links && formData.links.map((link, index) => (
+              <div key={index} className="mb-3">
+                <Form.Group>
+                  <Form.Label>Plataforma</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="name"
+                    value={link.name || ''}
+                    onChange={(e) => handleLinkChange(index, e)}
+                  >
+                    <option value="" disabled>Seleccionar una plataforma</option>
+                    {socialPlatforms.map((platform) => (
+                      <option key={platform.value} value={platform.value}>
+                        {platform.name}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>URL</Form.Label>
+                  <Form.Control
+                    type="url"
+                    name="url"
+                    value={link.url || ''}
+                    onChange={(e) => handleLinkChange(index, e)}
+                    placeholder="https://example.com"
+                  />
+                </Form.Group>
+                <Button
+                  variant="danger"
+                  onClick={() => handleRemoveLink(index)}
+                  className="mt-2"
+                >
+                  Eliminar
+                </Button>
+              </div>
+            ))}
+            <Button
+              variant="primary"
+              onClick={handleAddLink}
+            >
+              Agregar Link
+            </Button>
+          </Form.Group>
+
           <Form.Group controlId="formImage">
             <Form.Label>Imagen de Perfil</Form.Label>
             <Form.Control

@@ -76,7 +76,6 @@ const AdminViewProjects = ({ searchQuery }) => {
 												.map((tag) => <span key={tag.id}>{tag.tagName}</span>)
 												.reduce((prev, curr) => [prev, ', ', curr])}
 										</div>
-										<div className="id">{project.id}</div>
 									</div>
 								</span>
 							</h2>
@@ -86,13 +85,15 @@ const AdminViewProjects = ({ searchQuery }) => {
 								data-bs-parent="#accordionFlushExample"
 							>
 								<div className="card-body accordion-body card my-2">
-									<div className="info">
-										<p>Description: {project.description}</p>
-										<p>
-											Technologies:{' '}
-											{project.technologies.map((tech) => tech.name).join(', ')}
-										</p>
-										<p>ID: {project.id}</p>
+									<div className="d-flex justify-content-between">
+										<div className="info">
+											<p><strong>Description:</strong> {project.description}</p>
+											<p><strong>Tags:</strong> {project.tags.map((tag) => tag.tagName).join(', ')}</p>
+											<p><strong>Technologies:</strong> {project.technologies.map((tech) => tech.name).join(', ')}</p>
+										</div>
+										<div className="project-image">
+											<img src={project.image} alt={project.title} style={{ maxWidth: '150px', maxHeight: '150px' }} />
+										</div>
 									</div>
 									<hr />
 									<div className="actions d-flex justify-content-end gap-2">
@@ -138,6 +139,13 @@ const SectionStyled = styled.section`
 	span.item {
 		&:hover {
 			background-color: #a7abab39;
+		}
+	}
+	.project-image {
+		img {
+			max-width: 150px;
+			max-height: 150px;
+			object-fit: cover;
 		}
 	}
 `;

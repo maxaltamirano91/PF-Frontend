@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import AdminViewUsers from './AdminView-users'
 import AdminViewProjects from './AdminView-projects'
-import AdminViewTechnologies from './AdminView-technologies'
+// import AdminViewTechnologies from './AdminView-technologies'
 import AdminViewData from './AdminViewData'
 import AdminViewContracts from './AdminView-contracts'
 import AdminViewDeletedUsers from './AdminView-deletedUsers'
@@ -12,7 +12,7 @@ const AdminView = () => {
 	const categories = Object.freeze({
 		users: 'users',
 		projects: 'projects',
-		technologies: 'technologies',
+		// technologies: 'technologies',
 		contracts: 'contracts',
 		deletedUsers: 'deletedUsers',
 		reviews: 'reviews',
@@ -56,7 +56,7 @@ const AdminView = () => {
 								Proyectos
 							</a>
 						</li>
-						<li className="nav-item">
+						{/* <li className="nav-item">
 							<a
 								className={`nav-link ${
 									activeTab === categories.technologies ? 'active' : ''
@@ -68,7 +68,7 @@ const AdminView = () => {
 							>
 								Tecnologías
 							</a>
-						</li>
+						</li> */}
 						<li className="nav-item">
 							<a
 								className={`nav-link ${
@@ -146,9 +146,9 @@ const AdminView = () => {
 						{activeTab === categories.projects && (
 							<AdminViewProjects searchQuery={searchQuery} />
 						)}
-						{activeTab === categories.technologies && (
+						{/* {activeTab === categories.technologies && (
 							<AdminViewTechnologies searchQuery={searchQuery} />
-						)}
+						)} */}
 						{activeTab === categories.contracts && (
 							<AdminViewContracts searchQuery={searchQuery} />
 						)}

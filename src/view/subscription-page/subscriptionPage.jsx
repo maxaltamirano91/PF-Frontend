@@ -6,7 +6,7 @@ import {
 } from '../../redux/actions/subscriptionActions'
 import PaymentButton from '../../components/payment-button/PaymentButton'
 import StripePaymentButton from '../../components/payment-button/StripePaymentButton'
-import styles from './subscriptionPage.module.css'
+// import styles from './subscriptionPage.module.css'
 
 const SubscriptionPage = () => {
 	const dispatch = useDispatch()
