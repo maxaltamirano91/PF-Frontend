@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllContracts, updateContractStatus } from '../../../redux/actions'
+import { createCommission, getAllContracts, updateContractStatus } from '../../../redux/actions'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 
@@ -26,6 +26,7 @@ const ContractView = ({ searchQuery, activeContractTab, categories }) => {
 	const handleAccept = async (contractId) => {
 		if (window.confirm('¿Estás seguro de que deseas aceptar este proyecto?')) {
 			await dispatch(updateContractStatus(contractId, 'accepted', token))
+			dispatch(createCommission(contractId, token))
 			dispatch(getAllContracts(token))
 		}
 	}
