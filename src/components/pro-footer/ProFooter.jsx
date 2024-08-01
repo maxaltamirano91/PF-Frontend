@@ -5,13 +5,20 @@ import { useLocation, Link } from 'react-router-dom'
 
 const ProFooter = ({ loading }) => {
 	const { loggedUser } = useSelector((state) => state.auth)
+	const { theme } = useSelector((state) => state.themes)
 	const { pathname } = useLocation()
 
 	if (loggedUser?.planName !== 'Premium' && loggedUser?.role !== 'admin') {
 		if (pathname === '/home' || pathname === '/explorer/users') {
 			return (
-				<div className={styles.proFooter}>
-					<div>
+				<div className={`${styles.proFooter} ${pathname === '/explorer/users' && styles.addStyle}`}>
+					<div
+						style={
+							theme === 'light'
+								? { backgroundColor: '#e9ecef' }
+								: { backgroundColor: '#343a40' }
+						}
+					>
 						<h3>
 							Obtené tus beneficios <br />
 							Accediendo a ForDevs Premium
@@ -27,7 +34,7 @@ const ProFooter = ({ loading }) => {
 
 	if (pathname === '/explorer/users') {
 		return (
-			<div className='mt-5'>
+			<div className="mt-5">
 				<br />
 				<br />
 				<br />
@@ -61,7 +68,7 @@ const ProFooter = ({ loading }) => {
 
 	if (pathname === '/home') {
 		return (
-			<div className='mt-5'>
+			<div className="mt-5">
 				<br />
 				<br />
 				<br />

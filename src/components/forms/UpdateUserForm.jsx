@@ -21,7 +21,9 @@ const UpdateUserForm = ({ profileData, handleClick, handleCancel }) => {
 		bio: profileData.bio || '',
 		image: profileData.image || '',
 		aboutMe: profileData.aboutMe || '',
-		links: profileData.links || [{ name: '', url: '', userId: profileData.id }],
+		links: profileData.links.length
+			? profileData.links
+			: [{ name: '', url: '', userId: profileData.id }],
 	}
 
 	const fields = [
@@ -72,10 +74,10 @@ const UpdateUserForm = ({ profileData, handleClick, handleCancel }) => {
 			validationSchema={updateUserValidationSchema}
 			onSubmit={handleSubmit}
 			fields={fields}
-			maxWidth="1400px"
+			maxWidth="2000px"
 		>
 			{(formik) => (
-				<div>
+				<div className='w-100'>
 					<div key="aboutMe">
 						<label htmlFor="aboutMe" className="form-label">
 							Sobre mí
@@ -97,20 +99,19 @@ const UpdateUserForm = ({ profileData, handleClick, handleCancel }) => {
 						) : null}
 					</div>
 
+					<label className="mt-3 mb-2">Select Social Platform:</label>
 					{formik?.values?.links?.map((link, index) => (
 						<div key={index}>
-							<div>
-								<label htmlFor={`link-name-${index}`}>
-									Select Social Platform:
-								</label>
+							<div className="w-100 d-flex justify-content-between align-conten-center">
 								<select
 									id={`link-name-${index}`}
 									name={`links[${index}].name`}
 									value={link?.name}
 									onChange={formik.handleChange}
+									className="w-25"
 								>
 									<option value="" disabled>
-										Select a platform
+										Seleccionar plataforma
 									</option>
 									{socialPlatforms.map((platform) => (
 										<option key={platform.value} value={platform.value}>
@@ -118,45 +119,43 @@ const UpdateUserForm = ({ profileData, handleClick, handleCancel }) => {
 										</option>
 									))}
 								</select>
-							</div>
-							<div>
-								<label htmlFor={`link-url-${index}`}>Enter URL:</label>
+
 								<input
 									type="url"
-									className=""
+									className="ml-3 flex-grow-1"
 									id={`link-url-${index}`}
 									name={`links[${index}].url`}
 									value={link.url}
 									onChange={formik.handleChange}
 									placeholder="https://example.com"
 								/>
+								<button
+									type="button"
+									className="btn btn-secondary"
+									onClick={() =>
+										formik.setFieldValue(
+											'links',
+											formik.values?.links?.filter((_, i) => i !== index)
+										)
+									}
+								>
+									x
+								</button>
 							</div>
-							<button
-								type="button"
-								className="btn"
-								onClick={() =>
-									formik.setFieldValue('links', [
-										...formik.values.links,
-										{ name: '', url: '' },
-									])
-								}
-							>
-								Add Link
-							</button>
-							<button
-								type="button"
-								className="btn"
-								onClick={() =>
-									formik.setFieldValue(
-										'links',
-										formik.values?.links?.filter((_, i) => i !== index)
-									)
-								}
-							>
-								Remove
-							</button>
 						</div>
 					))}
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={() =>
+							formik.setFieldValue('links', [
+								...formik.values.links,
+								{ name: '', url: '' },
+							])
+						}
+					>
+						Agregar
+					</button>
 					<div className="form-group">
 						<input
 							type="file"

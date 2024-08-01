@@ -16,7 +16,15 @@ const Card = ({ project, toggleLike }) => {
 					theme === 'light' ? styles.light : ''
 				}`}
 			>
-				<span className={styles.cardTitle}>{project.title}</span>
+				<Link
+					className={`${styles.profileImg} ${
+						theme === 'light' ? 'text-dark' : 'text-light'
+					}`}
+					to={`/users/${project.user.id}`}
+				>
+					<img src={project.user.image} alt={project.user.userName} />
+					<span className={styles.userName}>{project.user.userName}</span>
+				</Link>
 				<img
 					src={project.image}
 					alt={project.title}
@@ -24,21 +32,15 @@ const Card = ({ project, toggleLike }) => {
 				/>
 			</Link>
 			<div className={styles.textContainer}>
-				<Link
-					to={`/users/${project.user.id}`}
-					className={`${styles.profileImg} ${
-						theme === 'light' ? 'text-dark' : 'text-light'
-					}`}
-				>
-					<img src={project.user.image} alt={project.user.userName} />
-					<span className={styles.name}>{project.user.userName}</span>
-				</Link>
+				<div>
+					<span className={styles.title}>{project.title}</span>
+				</div>
 				<div onClick={() => toggleLike(project)} className={styles.likeButton}>
 					<span>{project.likes.length}</span>
 					<ThumbsUp
 						className={theme === 'light' ? 'text-dark' : 'text-light'}
 						fill={
-							project.likes.some(like => like?.userId === loggedUser?.id)
+							project.likes.some((like) => like?.userId === loggedUser?.id)
 								? theme === 'light'
 									? '#343a40'
 									: '#f8f9fa'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Bell } from 'lucide-react'
 import styled from 'styled-components'
 
@@ -21,7 +20,7 @@ const RedDot = styled.span`
 const NotificationIcon = ({ hasUnreadNotifications }) => {
 	return (
 		<NotificationIconWrapper>
-			<Bell size={20} color='red' />
+			<Bell size={18} color='#0d6efd' fill='#0d6efd' />
 			{hasUnreadNotifications && <RedDot />}
 		</NotificationIconWrapper>
 	)

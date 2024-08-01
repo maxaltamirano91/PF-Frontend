@@ -1,11 +1,17 @@
 .proFooter {
     width: 100%;
-    padding: 0 2rem 8rem;
+    padding: 0 2rem 2rem;
+    margin-top: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: .5rem;
+}
+
+.addStyle {
+    margin-top: 4rem;
+    padding-bottom: 5rem;
 }
 
 .proFooter span {
@@ -21,7 +27,6 @@
     padding: 8rem 26rem;
     margin: auto;
     border-radius: 8px;
-    background-color: #e9ecef;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -22,8 +22,8 @@ const ProfileIntro = ({ theme, profileData, isCurrentUser }) => {
 			<h2 className={theme === 'light'}>{profileData?.userName}</h2>
 			<div>
 				<div className={styles.infoContainer}>
-					<p>{profileData?.email}</p>
-					<p>{profileData?.bio}</p>
+					<p className={theme === 'light' ? 'text-secondary' : 'text-light'}>{profileData?.email}</p>
+					<p className={theme === 'light' ? 'text-secondary' : 'text-light'}>{profileData?.bio}</p>
 				</div>
 				{isCurrentUser && (
 					<div className={styles.dataButtons}>

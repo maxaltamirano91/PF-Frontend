@@ -25,45 +25,39 @@
 	transition: opacity 0.3s ease;
 }
 
-.userName {
+.cardTitle {
+	margin: 1rem;
 	color: white;
-	font-weight: 700;
+	font-weight: 800;
 	position: absolute;
-	left: 3rem;
-	bottom: .9rem;
+	left: 0;
+	bottom: 0;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	text-shadow: 0 0 1rem rgba(0,0,0,0.75);
+	z-index: 100;
 }
 
 .textContainer {
 	width: 100%;
-	padding: 0 .5rem;
 	font-size: 0.9rem;
 	display: flex;
 	justify-content: space-between;
 }
 
-.title {
+.name {
 	font-weight: 600;
 }
 
-.title:hover {
+.name:hover {
 	border-bottom: 1px solid;
 }
 
-.profileImg {
-	opacity: 0;
-	transition: opacity 0.3s ease;
-	text-shadow: 0 0 1rem rgba(0, 0, 0, 0.75);
-	z-index: 100;
-}
-
 .profileImg img {
-	width: 1.5rem;
-	height: 1.5rem;
-	position: absolute;
-	bottom: 1rem;
-	left: 1rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin-right: 0.5rem;
 	border-radius: 50%;
-	box-shadow: 0 0 3px rgba(105, 105, 105, 0.29);
 }
 
 .likeButton {
@@ -76,12 +70,12 @@
 
 .tagsContainer {
 	width: 100%;
-	margin: 0 .5rem;
-	font-size: 0.75rem;
+	margin-left: 1.75rem;
+	font-size: .75rem;
 	display: flex;
 	justify-content: flex-start;
 	flex-wrap: wrap;
-	gap: 0.25rem;
+	gap: .25rem;
 	cursor: pointer;
 }
 
@@ -90,7 +84,7 @@
 }
 
 .restore {
-	padding: 0.25rem 1rem;
+	padding: .25rem 1rem;
 	border-radius: 9999px;
 	color: black;
 	background-color: white;
@@ -111,8 +105,6 @@
 	background-color: #f3f4f4;
 }
 
-.cardImgContainer:hover .cardTitle,
-.cardImgContainer:hover .restore,
-.cardImgContainer:hover .profileImg {
+.cardImgContainer:hover .cardTitle, .cardImgContainer:hover .restore {
 	opacity: 1;
 }

@@ -1,12 +1,12 @@
-import styles from "./NavBar.module.css"
-import styled from "styled-components"
+import styles from './NavBar.module.css'
+import styled from 'styled-components'
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 import { Gem } from 'lucide-react'
 import { setDarkMode, setLightMode } from '../../redux/actions'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import NotificationIcon from "./NotificationIcon.jsx"
+import NotificationIcon from './NotificationIcon.jsx'
 
 const NavBarExtended = ({ hasUnreadNotifications }) => {
 	const dispatch = useDispatch()
@@ -137,11 +137,14 @@ const NavBarExtended = ({ hasUnreadNotifications }) => {
 										data-bs-toggle="dropdown"
 										aria-expanded="false"
 									>
-										{loggedUser.receivedContracts?.length > 0 && (
-											<NotificationIcon
-												hasUnreadNotifications={hasUnreadNotifications}
-											/>
-										)}
+										{loggedUser.receivedContracts?.length > 0 &&
+											loggedUser.receivedContracts?.some(
+												(contract) => contract.status === 'pending'
+											) && (
+												<NotificationIcon
+													hasUnreadNotifications={hasUnreadNotifications}
+												/>
+											)}
 										Hola {loggedUser?.userName}
 									</a>
 									<ul className="dropdown-menu">
@@ -152,11 +155,14 @@ const NavBarExtended = ({ hasUnreadNotifications }) => {
 													{loggedUser?.planName === 'Premium' && (
 														<Gem size={20} />
 													)}
-													{loggedUser.receivedContracts?.length > 0 && loggedUser.receivedContracts?.map(contract => contract.status === 'pending') && (
-														<NotificationIcon
-															hasUnreadNotifications={hasUnreadNotifications}
-														/>
-													)}
+													{loggedUser.receivedContracts?.length > 0 &&
+														loggedUser.receivedContracts?.some(
+															(contract) => contract.status === 'pending'
+														) && (
+															<NotificationIcon
+																hasUnreadNotifications={hasUnreadNotifications}
+															/>
+														)}
 												</ProfileLink>
 											</Link>
 										</li>

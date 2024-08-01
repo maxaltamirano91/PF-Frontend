@@ -1,5 +1,5 @@
 import styles from './ProfileProjects.module.css'
-import ProfileCard from '../card/ProfileCard'
+import ProfileCard from '../profile-card/ProfileCard'
 
 const ProfileProjects = ({ profileData, onRestore }) => {
 	return (

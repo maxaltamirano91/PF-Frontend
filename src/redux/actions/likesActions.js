@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { LIKES_ERROR } from '../types'
-import { getAllProjects } from './projectsActions'
+import { getAllProjects, getProjectById } from './projectsActions'
 
 export const toggleProjectLike = (ids, data, token) => async (dispatch) => {
 	try {
@@ -9,6 +9,7 @@ export const toggleProjectLike = (ids, data, token) => async (dispatch) => {
 				Authorization: `Bearer ${token}`,
 			},
 		})
+		dispatch(getProjectById(data))
 		dispatch(getAllProjects(data, token))
 	} catch (error) {
 		dispatch({

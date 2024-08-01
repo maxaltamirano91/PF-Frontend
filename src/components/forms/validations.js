@@ -3,7 +3,6 @@ import * as yup from 'yup';
 export const signupValidationSchema = yup.object().shape({
     userName: yup
         .string()
-        .matches(/^[A-Za-z\s]+$/, 'El nombre debe contener solo letras')
         .min(2, 'El nombre es muy corto')
         .max(50, 'El nombre es muy largo')
         .required('El nombre es requerido'),
@@ -49,7 +48,6 @@ export const updateProjectValidationSchema = yup.object().shape({
 export const updateUserValidationSchema = yup.object().shape({
     userName: yup
         .string()
-        .matches(/^[A-Za-z\s]+$/, "El nombre debe contener solo letras")
         .min(2, 'El nombre es muy corto')
         .max(50, 'El nombre es muy largo'),
     currentPassword: yup
@@ -72,11 +70,10 @@ export const updateUserValidationSchema = yup.object().shape({
         .array()
         .of(
             yup.object().shape({
-                name: yup.string().required('El nombre de la plataforma es requerido'),
+                name: yup.string(),
                 url: yup
                     .string()
                     .url('Debe ser una URL válida')
-                    .required('La URL es requerida'),
             })
         ),
 });

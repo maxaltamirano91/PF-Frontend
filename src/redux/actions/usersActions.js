@@ -45,6 +45,7 @@ export const getUserById = (id) => {
 
 export const updateUser = (userData, token) => async (dispatch) => {
     try {
+		console.log(userData);
         const response = await axios.put('/users/profile', userData, {
             headers: {
                 Authorization: `Bearer ${token}`,

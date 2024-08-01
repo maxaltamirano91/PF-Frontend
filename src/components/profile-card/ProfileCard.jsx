@@ -1,4 +1,4 @@
-import styles from './Card.module.css'
+import styles from './ProfileCard.module.css'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -15,7 +15,10 @@ const ProfileCard = ({ project, onRestore }) => {
 				}`}
 			>
 				{project.deletedAt !== null ? (
-					<span onClick={() => onRestore(project.id)} className={styles.restore}>
+					<span
+						onClick={() => onRestore(project.id)}
+						className={styles.restore}
+					>
 						Restaurar
 					</span>
 				) : null}
