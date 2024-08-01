@@ -42,15 +42,15 @@ const AdminViewProjects = ({ searchQuery }) => {
 		}
 	};
 
-	const filteredProjects = projects.filter(
+	const filteredProjects = projects?.filter(
 		(project) =>
-			project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			project.tags.some((tag) =>
-				tag.tagName.toLowerCase().includes(searchQuery.toLowerCase())
+			project?.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			project?.tags?.some((tag) =>
+				tag?.tagName.toLowerCase().includes(searchQuery.toLowerCase())
 			) ||
-			project.id.toString().includes(searchQuery) ||
-			project.technologies.some((tech) =>
-				tech.name.toLowerCase().includes(searchQuery.toLowerCase())
+			project?.id.toString().includes(searchQuery) ||
+			project?.technologies?.some((tech) =>
+				tech?.name?.toLowerCase().includes(searchQuery.toLowerCase())
 			)
 	);
 
@@ -70,10 +70,10 @@ const AdminViewProjects = ({ searchQuery }) => {
 									aria-controls={`flush-collapse${index}`}
 								>
 									<div className="d-flex justify-content-between w-100 pe-5 flex-wrap">
-										<div className="title">{project.title}</div>
+										<div className="title">{project?.title}</div>
 										<div className="tags">
-											{project.tags
-												.map((tag) => <span key={tag.id}>{tag.tagName}</span>)
+											{project?.tags
+												.map((tag) => <span key={tag.id}>{tag?.tagName}</span>)
 												.reduce((prev, curr) => [prev, ', ', curr])}
 										</div>
 									</div>
@@ -87,12 +87,12 @@ const AdminViewProjects = ({ searchQuery }) => {
 								<div className="card-body accordion-body card my-2">
 									<div className="d-flex justify-content-between">
 										<div className="info">
-											<p><strong>Description:</strong> {project.description}</p>
-											<p><strong>Tags:</strong> {project.tags.map((tag) => tag.tagName).join(', ')}</p>
-											<p><strong>Technologies:</strong> {project.technologies.map((tech) => tech.name).join(', ')}</p>
+											<p><strong>Description:</strong> {project?.description}</p>
+											<p><strong>Tags:</strong> {project?.tags?.map((tag) => tag?.tagName).join(', ')}</p>
+											<p><strong>Technologies:</strong> {project?.technologies.map((tech) => tech?.name).join(', ')}</p>
 										</div>
 										<div className="project-image">
-											<img src={project.image} alt={project.title} style={{ maxWidth: '150px', maxHeight: '150px' }} />
+											<img src={project?.image} alt={project.title} style={{ maxWidth: '150px', maxHeight: '150px' }} />
 										</div>
 									</div>
 									<hr />
@@ -107,7 +107,7 @@ const AdminViewProjects = ({ searchQuery }) => {
 										<button
 											type="button"
 											className="btn btn-outline-danger mb-0"
-											onClick={() => handleDelete(project.id)}
+											onClick={() => handleDelete(project?.id)}
 										>
 											Eliminar
 										</button>
