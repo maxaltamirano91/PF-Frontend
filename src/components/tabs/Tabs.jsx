@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react'
 import styles from './Tabs.module.css'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Reviews from '../reviews/Reviews'
 import PropTypes from 'prop-types'
@@ -14,11 +14,17 @@ const Tabs = ({
 	searchQuery,
 	activeContractTab,
 	handleReviewFormSubmit,
-	handleDelete
+	handleDelete,
+	onClick, // Nueva prop para manejar clics en pestañas
+	activeTab, // Nueva prop para la pestaña activa
 }) => {
 	const { loggedUser } = useSelector((state) => state.auth)
-	const { theme } = useSelector((state) => state.themes)
-	const [activeTab, setActiveTab] = useState('projects')
+	const [archivedProjects, setArchivedProjects] = useState(deletedProjects)
+
+	useEffect(() => {
+		setArchivedProjects(deletedProjects)
+	}, [deletedProjects])
+
 	const categories = Object.freeze({
 		contracts: 'contracts',
 	})
@@ -59,7 +65,7 @@ const Tabs = ({
 		})
 
 		// Agregar la pestaña de archivados solo si el usuario actual es el propietario del perfil
-		const modifiedProfileData = { ...profileData, projects: deletedProjects }
+		const modifiedProfileData = { ...profileData, projects: archivedProjects }
 		tabs.push({
 			key: 'archived',
 			label: 'Archivados',
@@ -80,9 +86,9 @@ const Tabs = ({
 					<li
 						key={tab.key}
 						className={`${styles.tab} ${
-							activeTab === tab.key ? theme === "light" ? 'bg-dark text-light' : styles.exception : ''
+							activeTab === tab.key ? 'bg-dark text-light' : ''
 						}`}
-						onClick={() => setActiveTab(tab.key)}
+						onClick={() => onClick(tab.key)} // Actualiza la URL y el estado de la pestaña activa
 					>
 						<a>{tab.label}</a>
 					</li>
@@ -119,6 +125,12 @@ Tabs.propTypes = {
 	profileData: PropTypes.object.isRequired,
 	onRestore: PropTypes.func,
 	deletedProjects: PropTypes.array,
+	searchQuery: PropTypes.string,
+	activeContractTab: PropTypes.string,
+	handleReviewFormSubmit: PropTypes.func,
+	handleDelete: PropTypes.func,
+	onClick: PropTypes.func.isRequired, // Añadir propTypes para onClick
+	activeTab: PropTypes.string.isRequired, // Añadir propTypes para activeTab
 }
 
 export default Tabs
