@@ -19,14 +19,20 @@ const UpdateUserPag = () => {
 		}
 	}
 
+	const handleCancel = async () => {
+		const confirm = window.confirm(
+			'¿Deseas eliminar tu cuenta? Esta acción no se podrá revertir'
+		)
+		if (confirm) navigate('/myprofile')
+	}
+
 	return (
 		<div className="w-100 h-100 d-flex justify-content-center align-items-center">
-			<UpdateUserForm profileData={loggedUser} />
-			<div className="text-center mt-4">
-				<button className="btn btn-danger" onClick={handleClick}>
-					Eliminar Perfil
-				</button>
-			</div>
+			<UpdateUserForm
+				handleCancel={handleCancel}
+				handleClick={handleClick}
+				profileData={loggedUser}
+			/>
 		</div>
 	)
 }

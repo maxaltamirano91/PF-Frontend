@@ -46,19 +46,6 @@ const AdminView = () => {
 						<li className="nav-item">
 							<a
 								className={`nav-link ${
-									activeTab === categories.deletedUsers ? 'active' : ''
-								}`}
-								aria-current={
-									activeTab === categories.deletedUsers ? 'page' : undefined
-								}
-								onClick={() => handleTabClick(categories.deletedUsers)}
-							>
-								Usuarios eliminados
-							</a>
-						</li>
-						<li className="nav-item">
-							<a
-								className={`nav-link ${
 									activeTab === categories.projects ? 'active' : ''
 								}`}
 								aria-current={
@@ -106,6 +93,19 @@ const AdminView = () => {
 								onClick={() => handleTabClick(categories.reviews)}
 							>
 								Reseñas
+							</a>
+						</li>
+						<li className="nav-item">
+							<a
+								className={`nav-link ${
+									activeTab === categories.deletedUsers ? 'active' : ''
+								}`}
+								aria-current={
+									activeTab === categories.deletedUsers ? 'page' : undefined
+								}
+								onClick={() => handleTabClick(categories.deletedUsers)}
+							>
+								Usuarios eliminados
 							</a>
 						</li>
 						<li className="nav-item">

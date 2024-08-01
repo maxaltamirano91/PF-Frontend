@@ -106,11 +106,11 @@ const UsersPage = () => {
 												? {
 														border: '2px solid #fff',
 														boxShadow: '0 1px 5px rgba(25, 25, 25, 0.15)',
-												  }
+												}
 												: {
 														border: '2px solid #adb5bd',
 														boxShadow: '0 1px 5px rgba(255, 255, 255, 0.15)',
-												  }
+												}
 										}
 									>
 										<div className={styles.userCard}>

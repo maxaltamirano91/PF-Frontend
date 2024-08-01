@@ -5,7 +5,7 @@ import { updateUser, uploadImage } from '../../redux/actions'
 import { updateUserValidationSchema } from './validations'
 import Form from './Form'
 
-const UpdateUserForm = ({ profileData }) => {
+const UpdateUserForm = ({ profileData, handleClick, handleCancel }) => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const { token } = useSelector((state) => state.auth)
@@ -170,7 +170,13 @@ const UpdateUserForm = ({ profileData }) => {
 						)}
 					</div>
 					<button type="submit" className="m-0 btn btn-primary">
-						Update
+						Actualizar datos
+					</button>
+					<button className="btn btn-secondary" onClick={handleCancel}>
+						Cancelar
+					</button>
+					<button className="btn btn-danger" onClick={handleClick}>
+						Eliminar Perfil
 					</button>
 				</div>
 			)}
