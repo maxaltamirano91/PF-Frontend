@@ -46,11 +46,11 @@ const AdminViewReviews = ({ searchQuery }) => {
                                 >
                                     <div className="d-flex flex-column w-100 pe-5">
                                         <div className="Reviewer">
-                                            <strong>Reviewer:</strong> {review.reviewer.userName} (Email: <a href={`mailto:${review.reviewer.email}`}>{review.reviewer.email}</a>)
+                                            <strong>Usuario:</strong> {review.reviewer.userName} (Email: <a href={`mailto:${review.reviewer.email}`}>{review.reviewer.email}</a>)
                                         </div>
                                         
                                         <div className="reviewedUser">
-                                            <strong>Reviewed User:</strong> {review.reviewedUser.userName} (Email: <a href={`mailto:${review.reviewedUser.email}`}>{review.reviewedUser.email}</a>)
+                                            <strong>Usuario comentado:</strong> {review.reviewedUser.userName} (Email: <a href={`mailto:${review.reviewedUser.email}`}>{review.reviewedUser.email}</a>)
                                         </div>
                                     </div>
                                 </button>
@@ -64,7 +64,7 @@ const AdminViewReviews = ({ searchQuery }) => {
                                     <hr />
                                     <div className="review-details">
                                         <div className="rating">
-                                            <strong>Rating:</strong> 
+                                            <strong>Puntuación:</strong> 
                                             {Array.from({ length: 5 }, (_, index) => (
                                                 <Star
                                                     key={index}
@@ -76,7 +76,7 @@ const AdminViewReviews = ({ searchQuery }) => {
                                             ))}
                                         </div>
                                         <div className="review-summary">
-                                            <strong>Comment:</strong> {review.comment}
+                                            <strong>Comentario:</strong> {review.comment}
                                         </div>
                                         <div className="reviewID">
                                             <strong>ID:</strong> {review.id}
