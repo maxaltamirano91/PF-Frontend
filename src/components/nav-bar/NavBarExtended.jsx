@@ -1,4 +1,4 @@
-import styles from "./NavBar.module.css"
+import styles from './NavBar.module.css'
 import LogoutButton from '../logout-button/LogoutButton.jsx'
 import { Gem } from 'lucide-react'
 import { setDarkMode, setLightMode } from '../../redux/actions'
@@ -56,7 +56,11 @@ const NavBarExtended = () => {
 							<li className="nav-item">
 								<div className="dropdown">
 									<a
-										className="btn btn-light dropdown-toggle fw-bold"
+										className={
+											theme === 'light'
+												? 'btn btn-light dropdown-toggle fw-bold'
+												: 'btn btn-dark dropdown-toggle fw-bold'
+										}
 										href="#"
 										role="button"
 										data-bs-toggle="dropdown"
@@ -103,15 +107,13 @@ const NavBarExtended = () => {
 								</li>
 							)}
 
-							{loggedUser ?
-								(<li className="nav-item">
+							{loggedUser ? (
+								<li className="nav-item">
 									<Link to={'/create'}>
 										<span className="nav-link ">Nuevo proyecto</span>
 									</Link>
-								</li>)
-								: null
-							}
-
+								</li>
+							) : null}
 						</ul>
 
 						{loggedUser ? (
@@ -130,7 +132,10 @@ const NavBarExtended = () => {
 										<li>
 											<Link className="dropdown-item p-3" to={`/myprofile`}>
 												<span className="nav-link p-0 d-flex align-content-center gap-2">
-													Perfil{loggedUser?.planName === 'Premium' && <Gem size={20} />}
+													Perfil
+													{loggedUser?.planName === 'Premium' && (
+														<Gem size={20} />
+													)}
 												</span>
 											</Link>
 										</li>

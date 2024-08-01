@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAllProjects, toggleProjectLike } from '../../redux/actions'
 import Filter from '../../components/filter/Filter'
 import Cards from '../../components/cards/Cards'
+import ProFooter from '../../components/pro-footer/ProFooter'
 
 const HomePage = () => {
 	const dispatch = useDispatch()
 	const { allProjects } = useSelector((state) => state.projects)
 	const { loggedUser, token } = useSelector((state) => state.auth)
+	const [loading, setLoading] = useState(true)
 	const [searchParams, setSearchParams] = useState({
 		pagination: 15,
 		title: '',
@@ -21,7 +23,14 @@ const HomePage = () => {
 			Math.ceil(window.innerHeight + window.scrollY) >=
 			document.documentElement.scrollHeight
 		if (bottom) {
-			setSearchParams((prev) => ({...prev, pagination: (prev.pagination + 5)}))
+			setLoading(true)
+			setTimeout(() => {
+				setSearchParams((prev) => ({
+					...prev,
+					pagination: prev.pagination + 5,
+				}))
+				setLoading(false)
+			}, 750)
 		}
 	}
 
@@ -54,10 +63,13 @@ const HomePage = () => {
 	}, [dispatch, searchParams])
 
 	return (
-		<div className="mx-auto">
-			<Filter updateSearchParams={updateSearchParams} />
-			<hr className='m-0' />
-			<Cards projects={allProjects} toggleLike={toggleLike} />
+		<div className='mb-5'>
+			<div className="mx-auto">
+				<Filter updateSearchParams={updateSearchParams} />
+				<hr className="m-0" />
+				<Cards projects={allProjects} toggleLike={toggleLike} />
+			</div>
+			<ProFooter loading={loading}></ProFooter>
 		</div>
 	)
 }
