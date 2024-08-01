@@ -23,7 +23,6 @@ import PaymentSuccessPage from './view/payment-success-page/PaymentSuccessPage'
 import PaymentFailurePage from './view/payment-failure-page/PaymentFailurePage'
 import PaymentPendingPage from './view/payment-pending-page/PaymentPendingPage'
 import DeletedProjectDetailPage from './view/deleted-project-detail-page/DeletedProjectDetailPage'
-import ProFooter from './components/pro-footer/ProFooter'
 
 import LandingPage from './view/landing-page/LandingPage'
 import Dashboard from './view/dashboard-admin/dashboard'
